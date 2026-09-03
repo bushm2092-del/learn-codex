@@ -1,0 +1,16 @@
+[package]
+name = "mini-codex-cli"
+edition.workspace = true
+license.workspace = true
+version.workspace = true
+
+[[bin]]
+name = "mini-codex"
+path = "src/main.rs"
+
+[dependencies]
+anyhow.workspace = true
+mini-codex-core = { path = "../core" }
+mini-codex-protocol = { path = "../protocol" }
+tokio.workspace = true
+
