@@ -1,0 +1,98 @@
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.20",
+  "base_commit_sha": "95f3d759eba89db682bb2c3d22938d9c8ab7b8bf",
+  "prompts": {},
+  "commit_stats": {
+    "git_diff_added_lines": 385,
+    "git_diff_deleted_lines": 11,
+    "ai_additions": 0,
+    "ai_accepted": 0,
+    "BYMC": 385,
+    "mixed_additions": 0,
+    "BYAC": 0,
+    "BYRC": 0,
+    "per_file": {
+      "mini-codex-docs/docs/.vitepress/config.mts": {
+        "BYMC": [
+          "11-12",
+          "24-34",
+          "42"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-docs/docs/.vitepress/theme/index.ts": {
+        "BYMC": [
+          "1-10"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-docs/docs/.vitepress/theme/style.css": {
+        "BYMC": [
+          "1-36"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-docs/docs/components/HarnessFlow.vue": {
+        "BYMC": [
+          "1-51"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-docs/docs/index.md": {
+        "BYMC": [
+          "1-2",
+          "4-14",
+          "16-23",
+          "25",
+          "27",
+          "29-39"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-docs/docs/tutorial/01-workspace.md": {
+        "BYMC": [
+          "1-47"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-docs/docs/tutorial/02-protocol.md": {
+        "BYMC": [
+          "1-48"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-docs/docs/tutorial/03-thread-session.md": {
+        "BYMC": [
+          "1-41"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-docs/docs/tutorial/04-agent-loop.md": {
+        "BYMC": [
+          "1-55"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-docs/docs/tutorial/05-cli-test.md": {
+        "BYMC": [
+          "1-49"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      }
+    }
+  },
+  "commit_timestamp": 1788416846,
+  "requirement_id": ""
+}
