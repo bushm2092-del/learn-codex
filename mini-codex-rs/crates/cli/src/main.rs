@@ -15,11 +15,17 @@ use tokio::io::AsyncBufReadExt;
 
 #[tokio::main]
 async fn main() -> Result<()> {
-    let api_key = env::var("OPENAI_API_KEY").context("必须设置 OPENAI_API_KEY")?;
-    let model = env::var("MINI_CODEX_MODEL").unwrap_or_else(|_| "gpt-5.4".to_string());
+    let api_key = env::var("DEEPSEEK_API_KEY")
+        .or_else(|_| env::var("OPENAI_API_KEY"))
+        .context("必须设置 DEEPSEEK_API_KEY 或 OPENAI_API_KEY")?;
+    let model = env::var("MINI_CODEX_MODEL").unwrap_or_else(|_| "deepseek-v4-flash".to_string());
+    let base_url =
+        env::var("MINI_CODEX_BASE_URL").unwrap_or_else(|_| "https://api.deepseek.com".to_string());
     let catalog = PromptCatalog::new();
     let cwd = env::current_dir()?;
-    let client = Arc::new(OpenAiResponsesClient::new(api_key, model));
+    let client = Arc::new(OpenAiResponsesClient::with_base_url(
+        api_key, model, base_url,
+    ));
     let tools = ToolRouter::default().register(ExecCommandTool);
     let manager = ThreadManager::new(
         client,

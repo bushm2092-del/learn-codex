@@ -8,7 +8,7 @@ hero:
   actions:
     - theme: brand
       text: 开始搭建
-      link: /tutorial/01-workspace
+      link: /tutorial/01-responses-protocol
     - theme: alt
       text: 查看核心循环
       link: /guide/harness-core
@@ -17,7 +17,7 @@ features:
   - title: 真实代码对应
     details: 每章都指向 mini-codex-rs 中可以运行和测试的 Rust 文件，而不是孤立的伪代码。
   - title: 逐层搭建
-    details: 从 Cargo workspace 和协议层开始，逐步连接 Thread、Session、ModelClient 与工具执行。
+    details: 从 Responses 数据和协议层开始，逐步连接 Thread、Session、ModelClient 与工具执行。
   - title: 测试驱动理解
     details: 最终使用脚本化模型验证 function_call、工具输出回灌和第二次模型采样。
 ---

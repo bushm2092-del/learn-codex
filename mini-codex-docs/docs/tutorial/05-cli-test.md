@@ -41,9 +41,13 @@ make rust-test
 
 ```bash
 cd mini-codex-rs
-export OPENAI_API_KEY=你的_key
-export MINI_CODEX_MODEL=gpt-5.4
+export DEEPSEEK_API_KEY=你的_deepseek_key
+export MINI_CODEX_BASE_URL=https://api.deepseek.com
+export MINI_CODEX_MODEL=deepseek-v4-flash
 cargo run -p mini-codex-cli
 ```
+
+`DEEPSEEK_API_KEY` 不会写入源码或 `.env`。DeepSeek 官方 Responses API 的 endpoint 是
+`https://api.deepseek.com/responses`。
 
 完成最小闭环后，建议依次增加：取消与中断、审批和 sandbox、rollout 持久化、上下文压缩、MCP、subagents。每次只增加一个能力，并为它补充端到端测试。

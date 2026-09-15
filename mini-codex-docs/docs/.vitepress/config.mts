@@ -8,7 +8,7 @@ export default defineConfig({
   themeConfig: {
     nav: [
       { text: '首页', link: '/' },
-      { text: '从零搭建', link: '/tutorial/01-workspace' },
+      { text: '从零搭建', link: '/tutorial/01-responses-protocol' },
       { text: '架构导读', link: '/guide/project-structure' },
       { text: '源码仓库', link: 'https://github.com/openai/codex' },
     ],
@@ -25,8 +25,9 @@ export default defineConfig({
         text: '从零搭建 mini-codex',
         collapsed: false,
         items: [
-          { text: '1. 建立 Rust workspace', link: '/tutorial/01-workspace' },
-          { text: '2. 定义协议层', link: '/tutorial/02-protocol' },
+          { text: '课程总纲', link: '/tutorial/' },
+          { text: '1. Harness 的本质：和 AI 玩数据', link: '/tutorial/01-responses-protocol' },
+          { text: '2. 用 Rust 表达协议', link: '/tutorial/02-protocol' },
           { text: '3. Thread 与 Session', link: '/tutorial/03-thread-session' },
           { text: '4. 模型与工具循环', link: '/tutorial/04-agent-loop' },
           { text: '5. CLI 与集成测试', link: '/tutorial/05-cli-test' },

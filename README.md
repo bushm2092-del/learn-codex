@@ -44,10 +44,14 @@ Rust 目录的详细模块说明见 [mini-codex-rs/README.md](mini-codex-rs/READ
 
 ```bash
 cd /Users/hfh/Desktop/github/mini-codex/mini-codex-rs
-export OPENAI_API_KEY=你的_key
-export MINI_CODEX_MODEL=gpt-5.4
+export DEEPSEEK_API_KEY=你的_deepseek_key
+export MINI_CODEX_BASE_URL=https://api.deepseek.com
+export MINI_CODEX_MODEL=deepseek-v4-flash
 cargo run -p mini-codex-cli
 ```
+
+默认使用 DeepSeek Responses API。API Key 优先从 `DEEPSEEK_API_KEY` 读取，也兼容
+`OPENAI_API_KEY`；密钥不会写入仓库。可通过 `MINI_CODEX_BASE_URL` 和 `MINI_CODEX_MODEL` 覆盖默认配置。
 
 输入例如：
 

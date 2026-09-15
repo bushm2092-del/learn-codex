@@ -1,13 +1,12 @@
 # 学习路线
 
-## 第一阶段：看边界
+## 第一阶段：看数据
 
-先阅读 `mini-codex-rs/crates/protocol/src/lib.rs`，理解 Responses API 的请求、事件和工具调用
-数据结构。协议字段保持英文，是为了和真实 API 对齐。
+先阅读 Responses 请求和流式事件，理解 harness 如何组织上下文、工具定义和工具结果。记住：harness 的核心工作是把数据可靠地传给 AI，再把 AI 返回的数据变成下一步输入。
 
-## 第二阶段：看线程生命周期
+## 第二阶段：看 Rust 边界
 
-阅读顺序：
+阅读协议和线程边界：
 
 ```text
 thread_manager.rs
@@ -16,7 +15,7 @@ thread_manager.rs
   -> session/handlers.rs
 ```
 
-重点观察线程如何创建 session，以及输入如何进入 submission loop。
+重点观察 JSON 数据如何被 `Op`、`Submission`、`Event` 和 `EventMsg` 表达。
 
 ## 第三阶段：看一轮模型调用
 
