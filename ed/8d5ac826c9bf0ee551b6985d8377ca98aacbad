@@ -1,0 +1,233 @@
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.20",
+  "base_commit_sha": "ed8d5ac826c9bf0ee551b6985d8377ca98aacbad",
+  "prompts": {},
+  "commit_stats": {
+    "git_diff_added_lines": 2333,
+    "git_diff_deleted_lines": 104,
+    "ai_additions": 0,
+    "ai_accepted": 0,
+    "BYMC": 2330,
+    "mixed_additions": 0,
+    "BYAC": 0,
+    "BYRC": 0,
+    "per_file": {
+      ".codex/skills/gsap-core/SKILL.md": {
+        "BYMC": [
+          "1-254"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      ".codex/skills/gsap-frameworks/SKILL.md": {
+        "BYMC": [
+          "1-266"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      ".codex/skills/gsap-performance/SKILL.md": {
+        "BYMC": [
+          "1-79"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      ".codex/skills/gsap-plugins/SKILL.md": {
+        "BYMC": [
+          "1-433"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      ".codex/skills/gsap-react/SKILL.md": {
+        "BYMC": [
+          "1-136"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      ".codex/skills/gsap-scrolltrigger/SKILL.md": {
+        "BYMC": [
+          "1-296"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      ".codex/skills/gsap-timeline/SKILL.md": {
+        "BYMC": [
+          "1-107"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      ".codex/skills/gsap-utils/SKILL.md": {
+        "BYMC": [
+          "1-284"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      ".codex/skills/llms.txt": {
+        "BYMC": [
+          "1-39"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "README.md": {
+        "BYMC": [
+          "47-49",
+          "53-54"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "README.zh-CN.md": {
+        "BYMC": [
+          "14-17"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-docs/docs/.vitepress/config.mts": {
+        "BYMC": [
+          "11",
+          "28-30"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-docs/docs/.vitepress/theme/index.ts": {
+        "BYMC": [
+          "3",
+          "10"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-docs/docs/components/HarnessFlow.vue": {
+        "BYMC": [
+          "2-3",
+          "6-11",
+          "13-16",
+          "18-37",
+          "41-45",
+          "51"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-docs/docs/components/ResponseTester.vue": {
+        "BYMC": [
+          "1-69"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-docs/docs/guide/learning-path.md": {
+        "BYMC": [
+          "3",
+          "5",
+          "7",
+          "9",
+          "18"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-docs/docs/index.md": {
+        "BYMC": [
+          "11",
+          "20"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-docs/docs/tutorial/01-responses-protocol.md": {
+        "BYMC": [
+          "1-171"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-docs/docs/tutorial/05-cli-test.md": {
+        "BYMC": [
+          "44-46",
+          "50-51"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-docs/docs/tutorial/index.md": {
+        "BYMC": [
+          "1-69"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-docs/package.json": {
+        "BYMC": [
+          "11"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/README.md": {
+        "BYMC": [
+          "41-43",
+          "47-48"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/cli/src/main.rs": {
+        "BYMC": [
+          "18-23",
+          "26-28"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/core/src/client.rs": {
+        "BYMC": [
+          "15-18",
+          "20",
+          "22",
+          "24",
+          "26",
+          "31",
+          "36-38",
+          "50-53",
+          "59-60",
+          "64",
+          "66",
+          "84-85",
+          "91",
+          "96",
+          "98",
+          "100",
+          "109-111",
+          "114",
+          "125",
+          "134",
+          "140-144",
+          "146",
+          "150-151",
+          "154",
+          "156",
+          "158",
+          "160",
+          "169",
+          "177-178"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      }
+    }
+  },
+  "commit_timestamp": 1789481086,
+  "requirement_id": ""
+}
