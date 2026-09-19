@@ -660,18 +660,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "mini-codex-cli"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "mini-codex-app-server",
- "mini-codex-arg0",
- "mini-codex-core",
- "mini-codex-protocol",
- "tokio",
-]
-
-[[package]]
 name = "mini-codex-config"
 version = "0.1.0"
 dependencies = [

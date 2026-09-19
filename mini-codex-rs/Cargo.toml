@@ -3,7 +3,6 @@ members = [
     "crates/app-server",
     "crates/app-server-protocol",
     "crates/arg0",
-    "crates/cli",
     "crates/config",
     "crates/core",
     "crates/model-provider-info",
