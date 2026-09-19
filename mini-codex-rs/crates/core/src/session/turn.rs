@@ -38,7 +38,9 @@ pub(crate) async fn run_turn(
             tools: session.tool_router.model_visible_specs(),
             instructions: session.instructions.clone(),
         };
-        let mut stream = session.model_client.stream(prompt).await?;
+        // 每一步都重新读取模型名，使 `/model` 在回合之间切换后立即生效。
+        let model = session.settings.lock().await.model.clone();
+        let mut stream = session.model_client.stream(prompt, model).await?;
         let mut needs_follow_up = false;
 
         while let Some(event) = stream.next().await {

@@ -1,0 +1,23 @@
+[package]
+name = "mini-codex-app-server"
+edition.workspace = true
+license.workspace = true
+version.workspace = true
+
+[dependencies]
+anyhow.workspace = true
+mini-codex-arg0 = { path = "../arg0" }
+serde.workspace = true
+serde_json.workspace = true
+tokio.workspace = true
+mini-codex-app-server-protocol = { path = "../app-server-protocol" }
+mini-codex-config = { path = "../config" }
+mini-codex-core = { path = "../core" }
+mini-codex-protocol = { path = "../protocol" }
+toml.workspace = true
+toml_edit.workspace = true
+
+[dev-dependencies]
+futures.workspace = true
+pretty_assertions.workspace = true
+tempfile.workspace = true

@@ -7,6 +7,7 @@ use anyhow::Result;
 use mini_codex_protocol::Event;
 use mini_codex_protocol::Op;
 use mini_codex_protocol::Submission;
+use mini_codex_protocol::ThreadSettingsOverrides;
 use tokio::sync::Mutex;
 use tokio::sync::mpsc;
 
@@ -31,6 +32,14 @@ impl CodexThread {
 
     pub async fn start_turn(&self, text: String) -> Result<String> {
         self.submit(Op::UserTurn { text }).await
+    }
+
+    /// 提交会话设置更新；结果通过 `EventMsg::ThreadSettingsApplied` 返回。
+    pub async fn update_thread_settings(
+        &self,
+        thread_settings: ThreadSettingsOverrides,
+    ) -> Result<String> {
+        self.submit(Op::ThreadSettings { thread_settings }).await
     }
 
     pub async fn shutdown(&self) -> Result<()> {

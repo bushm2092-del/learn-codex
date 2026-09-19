@@ -6,6 +6,9 @@
 
 `crates/cli/src/main.rs` 负责读取配置，创建 `ModelClient`、`ToolRouter` 和 `ThreadManager`，提交标准输入并展示事件。它不实现工具循环，否则未来增加 TUI 或 Web 客户端时会复制核心逻辑。
 
+中文欢迎语、工具状态和错误文案直接在 CLI 中展示；system prompt 也在 CLI 中构造，并通过
+`ThreadManager::new` 传入核心。核心只处理操作和事件，不负责界面文案。
+
 ## 为什么需要脚本化模型
 
 集成测试不能依赖网络、API Key 或模型输出的随机性。`ScriptedModelClient` 按顺序返回两组事件：
@@ -40,14 +43,13 @@ make rust-test
 运行真实 CLI：
 
 ```bash
+printf 'DEEPSEEK_API_KEY=你的密钥\n' > ~/.mini-codex/.env
 cd mini-codex-rs
-export DEEPSEEK_API_KEY=你的_deepseek_key
-export MINI_CODEX_BASE_URL=https://api.deepseek.com
-export MINI_CODEX_MODEL=deepseek-v4-flash
 cargo run -p mini-codex-cli
 ```
 
-`DEEPSEEK_API_KEY` 不会写入源码或 `.env`。DeepSeek 官方 Responses API 的 endpoint 是
+provider 与 API key 的环境变量名来自内建的 `deepseek` provider（可在 `~/.mini-codex/config.toml`
+覆盖），CLI 源码不再保存任何密钥或地址；配置格式与加载链见[第七节](./07-config)。DeepSeek 官方 Responses API 的 endpoint 是
 `https://api.deepseek.com/responses`。
 
 完成最小闭环后，建议依次增加：取消与中断、审批和 sandbox、rollout 持久化、上下文压缩、MCP、subagents。每次只增加一个能力，并为它补充端到端测试。

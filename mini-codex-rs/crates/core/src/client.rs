@@ -11,38 +11,51 @@ use crate::client_common::ModelClient;
 use crate::client_common::Prompt;
 use crate::client_common::ResponseEvent;
 use crate::client_common::ResponseStream;
+use crate::config::Config;
 
 /// 基于 OpenAI Responses API 的模型客户端。
 ///
 /// 它只负责传输层工作：把 [`Prompt`] 发送到 `/responses`，并把服务端返回的
-/// SSE 事件转换成 core 层统一使用的 [`ResponseEvent`]。
+/// SSE 事件转换成 core 层统一使用的 [`ResponseEvent`]。模型名由会话在每次
+/// `stream` 时传入，不在客户端中固定。
 pub struct OpenAiResponsesClient {
     /// 可复用的 HTTP 客户端；reqwest 会在内部维护连接池。
     http: reqwest::Client,
     /// 调用 API 时放入 `Authorization: Bearer ...` 的密钥。
     api_key: String,
-    /// API 根地址。允许测试或兼容服务替换默认的 OpenAI 地址。
+    /// API 根地址，来自 provider 的 `base_url`。
     base_url: String,
-    /// 每次请求使用的模型名称。
-    model: String,
 }
 
 impl OpenAiResponsesClient {
-    /// 使用官方 OpenAI API 地址创建客户端。
-    pub fn new(api_key: String, model: String) -> Self {
-        Self::with_base_url(api_key, model, "https://api.openai.com/v1".to_string())
-    }
-
     /// 使用自定义 API 根地址创建客户端。
     ///
     /// 去掉末尾的 `/`，避免拼接 `/responses` 时出现双斜杠。
-    pub fn with_base_url(api_key: String, model: String, base_url: String) -> Self {
+    pub fn with_base_url(api_key: String, base_url: String) -> Self {
         Self {
             http: reqwest::Client::new(),
             api_key,
             base_url: base_url.trim_end_matches('/').to_string(),
-            model,
         }
+    }
+
+    /// 按 `Config` 中选中的 provider 创建客户端。
+    ///
+    /// 对应源项目 `ModelClient::new(config, auth_manager, provider, ...)` 的装配职责：
+    /// API key 由 provider 的 `env_key` 环境变量提供。
+    pub fn from_config(config: &Config) -> Result<Self> {
+        let provider = &config.model_provider;
+        let api_key = provider.api_key()?.with_context(|| {
+            format!(
+                "provider `{}` 未配置 env_key，无法读取 API key",
+                config.model_provider_id
+            )
+        })?;
+        let base_url = provider
+            .base_url
+            .clone()
+            .with_context(|| format!("provider `{}` 未配置 base_url", config.model_provider_id))?;
+        Ok(Self::with_base_url(api_key, base_url))
     }
 }
 
@@ -54,6 +67,7 @@ impl ModelClient for OpenAiResponsesClient {
     fn stream(
         &self,
         prompt: Prompt,
+        model: String,
     ) -> Pin<Box<dyn Future<Output = Result<ResponseStream>> + Send + '_>> {
         Box::pin(async move {
             // Responses API 的流式接口仍然使用普通 HTTP POST 发起请求，
@@ -65,7 +79,7 @@ impl ModelClient for OpenAiResponsesClient {
                 .bearer_auth(&self.api_key)
                 // 将 core 层 Prompt 转换为 Responses API 请求体。
                 .json(&serde_json::json!({
-                    "model": self.model,
+                    "model": model,
                     "instructions": prompt.instructions,
                     "input": prompt.input,
                     "tools": prompt.tools,

@@ -45,7 +45,10 @@ Prompt Engineering 和 Context Engineering 看起来是在写提示词、拼接�
 | 3 | Thread 与 Session | 如何让调用方和后台 Agent 解耦？ |
 | 4 | 模型与工具循环 | 如何把工具结果送回下一轮模型请求？ |
 | 5 | CLI 与集成测试 | 如何验证数据确实穿过完整闭环？ |
-| 6 | 继续扩展 | 如何加入审批、sandbox、持久化、MCP 和 subagents？ |
+| 6 | [App-server 与 Ink TUI](./06-app-server-ink) | 如何让 React 终端界面连接 Rust 内核？ |
+| 7 | [config.toml：模型与 provider](./07-config) | 模型、provider 和密钥来源如何按 Codex 方式配置？ |
+| 8 | [/model：运行中切换模型](./08-model-selection) | 模型为什么是会话设置？如何在不丢注释的前提下写回 config.toml？ |
+| 9 | 继续扩展 | 如何加入审批、sandbox、持久化、MCP 和 subagents？ |
 
 ## 阅读方法
 

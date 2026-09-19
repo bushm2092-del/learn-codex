@@ -11,9 +11,9 @@ cd /Users/hfh/Desktop/github/mini-codex/mini-codex-rs
 cargo test --workspace
 ```
 
-运行时设置 `DEEPSEEK_API_KEY` 使用 DeepSeek；默认 endpoint 是 `https://api.deepseek.com`，
-路由为 `/responses`，模型为 `deepseek-v4-flash`。也可以通过 `MINI_CODEX_BASE_URL` 和
-`MINI_CODEX_MODEL` 覆盖。
+密钥写在 `~/.mini-codex/.env`（`DEEPSEEK_API_KEY=...`，启动时自动加载），模型与 provider 可选地
+在 `~/.mini-codex/config.toml` 中覆盖；目录可用 `MINI_CODEX_HOME` 更换。详见根目录
+[README.md](README.md) 的“配置：config.toml 与模型选择”一节。
 
 启动 VitePress 文档：
 

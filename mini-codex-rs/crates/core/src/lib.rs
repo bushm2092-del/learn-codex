@@ -3,8 +3,8 @@
 mod client;
 mod client_common;
 mod codex_thread;
+pub mod config;
 mod context_manager;
-mod localization;
 mod session;
 mod thread_manager;
 pub mod tools;
@@ -15,7 +15,6 @@ pub use client_common::Prompt;
 pub use client_common::ResponseEvent;
 pub use client_common::ResponseStream;
 pub use codex_thread::CodexThread;
-pub use localization::PromptCatalog;
 pub use thread_manager::ThreadManager;
 pub use tools::ExecCommandTool;
 pub use tools::ToolRouter;

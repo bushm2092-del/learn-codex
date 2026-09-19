@@ -1,0 +1,9 @@
+[package]
+name = "mini-codex-app-server-protocol"
+edition.workspace = true
+license.workspace = true
+version.workspace = true
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true

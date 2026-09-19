@@ -1,0 +1,13 @@
+[package]
+name = "mini-codex-model-provider-info"
+edition.workspace = true
+license.workspace = true
+version.workspace = true
+
+[dependencies]
+mini-codex-protocol = { path = "../protocol" }
+serde.workspace = true
+
+[dev-dependencies]
+pretty_assertions.workspace = true
+toml.workspace = true

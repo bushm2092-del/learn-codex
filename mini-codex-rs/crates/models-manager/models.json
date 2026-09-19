@@ -1,0 +1,28 @@
+{
+  "models": [
+    {
+      "slug": "deepseek-flash",
+      "display_name": "DeepSeek V4.1 Flash",
+      "description": "默认模型：速度快、成本低，支持工具调用与 Responses API。",
+      "visibility": "list",
+      "supported_in_api": true,
+      "priority": 0
+    },
+    {
+      "slug": "deepseek-v4-pro",
+      "display_name": "DeepSeek V4 Pro",
+      "description": "能力更强的旗舰模型，适合复杂任务。",
+      "visibility": "list",
+      "supported_in_api": true,
+      "priority": 1
+    },
+    {
+      "slug": "deepseek-v4-flash",
+      "display_name": "DeepSeek V4 Flash（旧名）",
+      "description": "兼容旧名，请求会被路由到 V4.1 Flash。",
+      "visibility": "hide",
+      "supported_in_api": true,
+      "priority": 2
+    }
+  ]
+}

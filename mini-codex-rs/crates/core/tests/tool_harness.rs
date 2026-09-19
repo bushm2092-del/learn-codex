@@ -5,6 +5,7 @@ use std::sync::Arc;
 use anyhow::Result;
 use futures::Future;
 use futures::stream;
+use mini_codex_config::ConfigToml;
 use mini_codex_core::ExecCommandTool;
 use mini_codex_core::ModelClient;
 use mini_codex_core::Prompt;
@@ -12,6 +13,8 @@ use mini_codex_core::ResponseEvent;
 use mini_codex_core::ResponseStream;
 use mini_codex_core::ThreadManager;
 use mini_codex_core::ToolRouter;
+use mini_codex_core::config::Config;
+use mini_codex_core::config::ConfigOverrides;
 use mini_codex_protocol::EventMsg;
 use pretty_assertions::assert_eq;
 use tokio::sync::Mutex;
@@ -34,6 +37,7 @@ impl ModelClient for ScriptedModelClient {
     fn stream(
         &self,
         prompt: Prompt,
+        _model: String,
     ) -> Pin<Box<dyn Future<Output = Result<ResponseStream>> + Send + '_>> {
         Box::pin(async move {
             self.prompts.lock().await.push(prompt);
@@ -70,12 +74,21 @@ async fn tool_output_is_sent_back_to_the_model() -> Result<()> {
             ResponseEvent::Completed,
         ],
     ]));
+    let temp_dir = std::env::temp_dir();
+    let config = Config::load_from_base_config_with_overrides(
+        ConfigToml::default(),
+        ConfigOverrides {
+            cwd: Some(temp_dir.clone()),
+            ..Default::default()
+        },
+        temp_dir.clone(),
+    )?;
     let manager = ThreadManager::new(
+        config,
         model.clone(),
         ToolRouter::default().register(ExecCommandTool),
         "你是一个测试代理。".to_string(),
     );
-    let temp_dir = std::env::temp_dir();
     let thread = manager.start_thread(temp_dir);
     let turn_id = thread.start_turn("运行这个命令".to_string()).await?;
 

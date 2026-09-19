@@ -1,0 +1,12 @@
+[package]
+name = "mini-codex-models-manager"
+edition.workspace = true
+license.workspace = true
+version.workspace = true
+
+[dependencies]
+mini-codex-protocol = { path = "../protocol" }
+serde_json.workspace = true
+
+[dev-dependencies]
+pretty_assertions.workspace = true

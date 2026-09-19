@@ -1,0 +1,12 @@
+[package]
+name = "mini-codex-utils-home-dir"
+edition.workspace = true
+license.workspace = true
+version.workspace = true
+
+[dependencies]
+dirs.workspace = true
+
+[dev-dependencies]
+pretty_assertions.workspace = true
+tempfile.workspace = true

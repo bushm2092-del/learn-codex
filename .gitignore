@@ -4,3 +4,4 @@ target/
 node_modules/
 mini-codex-docs/docs/.vitepress/cache/
 mini-codex-docs/docs/.vitepress/dist/
+mini-codex-tui/dist/

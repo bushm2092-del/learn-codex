@@ -7,6 +7,7 @@ use mini_codex_protocol::Submission;
 use tokio::sync::mpsc;
 
 use crate::session::Session;
+use crate::session::thread_settings;
 use crate::session::turn::run_turn;
 
 /// 外层 agent 循环。真实 Codex 会在这里处理更多 `Op` 变体。
@@ -26,6 +27,9 @@ pub(crate) async fn submission_loop(
                         })
                         .await;
                 }
+            }
+            Op::ThreadSettings { thread_settings } => {
+                thread_settings::update(&session, submission_id, thread_settings).await;
             }
             Op::Shutdown => {
                 session

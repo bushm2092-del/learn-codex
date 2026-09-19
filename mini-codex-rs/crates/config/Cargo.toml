@@ -1,0 +1,16 @@
+[package]
+name = "mini-codex-config"
+edition.workspace = true
+license.workspace = true
+version.workspace = true
+
+[dependencies]
+mini-codex-model-provider-info = { path = "../model-provider-info" }
+serde.workspace = true
+serde_json.workspace = true
+sha2.workspace = true
+toml.workspace = true
+
+[dev-dependencies]
+pretty_assertions.workspace = true
+tempfile.workspace = true
