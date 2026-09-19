@@ -1,0 +1,1101 @@
+mini-codex-tui/src/app.tsx
+  999ff19baf07c37c 5-8,25-27,36-37,42,78-80,87-111,113-116,132,137,146-148,158-159,164-178,180
+  0ad359b10b10c47f 1-4,9-24,28-35,38-41,43-77,81-86,112,117-131,133-136,138-145,149-157,160-163,179,181-184
+mini-codex-rs/crates/core/src/config/edit_tests.rs
+  999ff19baf07c37c 1-109
+mini-codex-rs/crates/config/Cargo.toml
+  999ff19baf07c37c 1-16
+mini-codex-rs/crates/app-server-protocol/src/protocol/v2/mod.rs
+  999ff19baf07c37c 1-8
+mini-codex-rs/crates/models-manager/src/manager.rs
+  999ff19baf07c37c 1-60
+mini-codex-rs/crates/cli/src/main.rs
+  999ff19baf07c37c 11-12,16-25,29-39,42,95-98
+mini-codex-rs/crates/core/src/session/mod.rs
+  999ff19baf07c37c 3
+mini-codex-tui/src/markdown_render.tsx
+  999ff19baf07c37c 1-153
+mini-codex-rs/crates/app-server/src/request_processors/turn_processor.rs
+  999ff19baf07c37c 1-181
+mini-codex-rs/crates/core/src/session/turn.rs
+  999ff19baf07c37c 41-43
+mini-codex-rs/crates/models-manager/models.json
+  999ff19baf07c37c 1-28
+mini-codex-rs/Cargo.toml
+  999ff19baf07c37c 5,7,9-10,12,23-24,26-29,34
+AGENTS.md
+  999ff19baf07c37c 7-10,17,55,59-62
+mini-codex-tui/README.md
+  999ff19baf07c37c 1-37
+mini-codex-rs/crates/protocol/src/lib.rs
+  999ff19baf07c37c 5-7,14-20,24-36,70-71
+mini-codex-rs/crates/model-provider-info/src/model_provider_info_tests.rs
+  999ff19baf07c37c 1-109
+mini-codex-rs/crates/core/src/client.rs
+  999ff19baf07c37c 14,19-20,26,34,41-59,70,82
+mini-codex-docs/docs/tutorial/07-config.md
+  999ff19baf07c37c 1-123
+mini-codex-rs/crates/app-server/src/lib.rs
+  999ff19baf07c37c 1-55
+mini-codex-rs/crates/cli/Cargo.toml
+  999ff19baf07c37c 14
+mini-codex-rs/crates/core/src/codex_thread.rs
+  999ff19baf07c37c 10,37-42
+mini-codex-rs/crates/config/src/state.rs
+  999ff19baf07c37c 1-48
+mini-codex-rs/crates/config/src/loader/tests.rs
+  999ff19baf07c37c 1-86
+mini-codex-tui/src/bottom_pane/list_selection_view.tsx
+  999ff19baf07c37c 1-44
+mini-codex-rs/crates/core/src/config/config_tests.rs
+  999ff19baf07c37c 1-136
+mini-codex-tui/src/chrome.tsx
+  0ad359b10b10c47f 1-39,41,44-60,62-87
+  999ff19baf07c37c 40,42-43,61
+mini-codex-rs/crates/app-server/tests/common/mod.rs
+  999ff19baf07c37c 1-182
+mini-codex-rs/crates/config/src/overrides.rs
+  999ff19baf07c37c 1-89
+mini-codex-rs/crates/app-server/Cargo.toml
+  999ff19baf07c37c 1-23
+mini-codex-rs/crates/app-server/tests/suite/v2/turn_start.rs
+  999ff19baf07c37c 1-80
+mini-codex-tui/src/protocol.ts
+  999ff19baf07c37c 1-24
+mini-codex-docs/docs/guide/project-structure.md
+  999ff19baf07c37c 10-15,18,44-51
+README.md
+  999ff19baf07c37c 22,24,52,56-65,68-70,72-87,89-91,151-152,154
+mini-codex-rs/crates/app-server/src/message_processor.rs
+  999ff19baf07c37c 1-100
+mini-codex-tui/test/app.test.tsx
+  999ff19baf07c37c 14-22,106-148
+  0ad359b10b10c47f 1-13,23-105,149-168
+mini-codex-rs/crates/utils/home-dir/src/lib.rs
+  999ff19baf07c37c 1-118
+mini-codex-rs/crates/config/src/loader/layer_io.rs
+  999ff19baf07c37c 1-30
+mini-codex-rs/crates/app-server/tests/suite/v2/config_rpc.rs
+  999ff19baf07c37c 1-78
+mini-codex-rs/crates/config/src/merge.rs
+  999ff19baf07c37c 1-27
+mini-codex-rs/crates/core/src/session/thread_settings.rs
+  999ff19baf07c37c 1-36
+mini-codex-rs/crates/app-server/src/request_processors/config_processor.rs
+  999ff19baf07c37c 1-75
+mini-codex-rs/crates/models-manager/src/lib.rs
+  999ff19baf07c37c 1-14
+mini-codex-rs/crates/config/src/loader/mod.rs
+  999ff19baf07c37c 1-56
+mini-codex-tui/src/demo.ts
+  999ff19baf07c37c 1-41
+mini-codex-rs/crates/app-server/tests/suite/v2/model_list.rs
+  999ff19baf07c37c 1-53
+mini-codex-docs/docs/tutorial/06-app-server-ink.md
+  999ff19baf07c37c 61-62,74,90-93,95-105
+mini-codex-rs/crates/model-provider-info/src/lib.rs
+  999ff19baf07c37c 1-129
+mini-codex-rs/crates/app-server/src/config_manager_service_tests.rs
+  999ff19baf07c37c 1-139
+mini-codex-rs/crates/core/src/thread_manager.rs
+  999ff19baf07c37c 4-6,9,14-16,18,21,27,32-35,37,40,45-59,68
+mini-codex-rs/crates/config/src/merge_tests.rs
+  999ff19baf07c37c 1-41
+mini-codex-rs/crates/protocol/src/error.rs
+  999ff19baf07c37c 1-25
+mini-codex-rs/crates/config/src/fingerprint.rs
+  999ff19baf07c37c 1-40
+mini-codex-rs/crates/model-provider-info/Cargo.toml
+  999ff19baf07c37c 1-13
+mini-codex-rs/crates/config/src/config_layer_source.rs
+  999ff19baf07c37c 1-13
+mini-codex-rs/crates/core/src/config/mod.rs
+  999ff19baf07c37c 1-160
+mini-codex-rs/crates/core/src/lib.rs
+  999ff19baf07c37c 6
+mini-codex-rs/crates/models-manager/src/manager_tests.rs
+  999ff19baf07c37c 1-86
+mini-codex-rs/crates/utils/home-dir/Cargo.toml
+  999ff19baf07c37c 1-12
+mini-codex-rs/crates/app-server/src/request_processors/catalog_processor.rs
+  999ff19baf07c37c 1-93
+mini-codex-rs/crates/core/src/session/session.rs
+  999ff19baf07c37c 14-20,25,37,45
+README.zh-CN.md
+  999ff19baf07c37c 14-16
+mini-codex-docs/docs/.vitepress/config.mts
+  999ff19baf07c37c 35-36
+mini-codex-rs/crates/config/src/lib.rs
+  999ff19baf07c37c 1-24
+mini-codex-rs/crates/core/src/session/handlers.rs
+  999ff19baf07c37c 10,31-32
+mini-codex-docs/docs/tutorial/index.md
+  999ff19baf07c37c 49-51
+mini-codex-rs/crates/arg0/src/lib.rs
+  999ff19baf07c37c 1-80
+mini-codex-rs/crates/app-server/src/request_processors/mod.rs
+  999ff19baf07c37c 1-4
+mini-codex-tui/test/client.test.ts
+  999ff19baf07c37c 1-99
+mini-codex-rs/crates/protocol/src/openai_models.rs
+  999ff19baf07c37c 1-81
+mini-codex-tui/test/markdown_render.test.tsx
+  999ff19baf07c37c 1-77
+mini-codex-docs/docs/tutorial/05-cli-test.md
+  999ff19baf07c37c 46,51-52
+mini-codex-rs/crates/core/src/config/edit.rs
+  999ff19baf07c37c 1-247
+mini-codex-rs/crates/app-server/src/main.rs
+  999ff19baf07c37c 1-8
+mini-codex-rs/crates/models-manager/Cargo.toml
+  999ff19baf07c37c 1-12
+mini-codex-rs/README.md
+  999ff19baf07c37c 3-4,14-17,20-27,29-30,32,35,56-62,65,69-95,113-114,125
+mini-codex-tui/src/slash_command.ts
+  999ff19baf07c37c 1-17
+mini-codex-rs/crates/app-server-protocol/src/protocol/v2/thread.rs
+  999ff19baf07c37c 1-22
+mini-codex-rs/crates/config/src/config_toml.rs
+  999ff19baf07c37c 1-23
+mini-codex-rs/crates/app-server/src/config_manager_service.rs
+  999ff19baf07c37c 1-197
+mini-codex-rs/crates/core/src/client_common.rs
+  999ff19baf07c37c 28-29,34
+mini-codex-docs/docs/tutorial/08-model-selection.md
+  999ff19baf07c37c 1-93
+mini-codex-tui/src/codex-icon.tsx
+  0ad359b10b10c47f 1-32
+mini-codex-rs/crates/app-server-protocol/src/protocol/v2/model.rs
+  999ff19baf07c37c 1-36
+mini-codex-rs/crates/app-server/tests/suite/v2/thread_settings_update.rs
+  999ff19baf07c37c 1-67
+mini-codex-rs/crates/app-server-protocol/src/protocol/v2/config.rs
+  999ff19baf07c37c 1-67
+mini-codex-rs/crates/core/Cargo.toml
+  999ff19baf07c37c 11-13,15,21-22,25-26
+mini-codex-rs/crates/arg0/Cargo.toml
+  999ff19baf07c37c 1-13
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.20",
+  "base_commit_sha": "74c767dc01df49cc210dcbdc967fedca44cc0bbe",
+  "prompts": {
+    "0ad359b10b10c47f": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "46efdc98-9088-469a-b810-d4ff47b543dc",
+        "model": "claude-fable-5-1"
+      },
+      "human_author": "hufenghong <19103376390@163.com>",
+      "messages": [],
+      "total_additions": 476,
+      "total_deletions": 104,
+      "accepted_lines": 350,
+      "overriden_lines": 0
+    },
+    "999ff19baf07c37c": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "01502ce3-1185-4981-97c8-e3e48eef5808",
+        "model": "claude-fable-5-1"
+      },
+      "human_author": "hufenghong <19103376390@163.com>",
+      "messages": [],
+      "total_additions": 4849,
+      "total_deletions": 370,
+      "accepted_lines": 4575,
+      "overriden_lines": 0
+    }
+  },
+  "commit_stats": {
+    "git_diff_added_lines": 5604,
+    "git_diff_deleted_lines": 137,
+    "ai_additions": 4916,
+    "ai_accepted": 4916,
+    "BYMC": 681,
+    "mixed_additions": 0,
+    "BYAC": 4916,
+    "BYRC": 0,
+    "per_file": {
+      ".gitignore": {
+        "BYMC": [
+          "7"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "AGENTS.md": {
+        "BYMC": [
+          "1-6",
+          "11-16",
+          "18-54",
+          "56-58",
+          "63-123"
+        ],
+        "BYAC": [
+          "7-10",
+          "17",
+          "55",
+          "59-62"
+        ],
+        "BYRC": []
+      },
+      "Makefile": {
+        "BYMC": [
+          "13",
+          "17",
+          "34-47"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "README.md": {
+        "BYMC": [
+          "25",
+          "39-40",
+          "43-46",
+          "49",
+          "53-55",
+          "66-67",
+          "71",
+          "88",
+          "146-150",
+          "153",
+          "155-160"
+        ],
+        "BYAC": [
+          "22",
+          "24",
+          "52",
+          "56-65",
+          "68-70",
+          "72-87",
+          "89-91",
+          "151-152",
+          "154"
+        ],
+        "BYRC": []
+      },
+      "README.zh-CN.md": {
+        "BYMC": [],
+        "BYAC": [
+          "14-16"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-docs/docs/.vitepress/config.mts": {
+        "BYMC": [
+          "34"
+        ],
+        "BYAC": [
+          "35-36"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-docs/docs/guide/project-structure.md": {
+        "BYMC": [
+          "3",
+          "16-17",
+          "20",
+          "38",
+          "59-60"
+        ],
+        "BYAC": [
+          "10-15",
+          "18",
+          "44-51"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-docs/docs/tutorial/05-cli-test.md": {
+        "BYMC": [
+          "9-11"
+        ],
+        "BYAC": [
+          "46",
+          "51-52"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-docs/docs/tutorial/06-app-server-ink.md": {
+        "BYMC": [
+          "1-60",
+          "63-73",
+          "75-89",
+          "94",
+          "106-139"
+        ],
+        "BYAC": [
+          "61-62",
+          "74",
+          "90-93",
+          "95-105"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-docs/docs/tutorial/07-config.md": {
+        "BYMC": [],
+        "BYAC": [
+          "1-123"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-docs/docs/tutorial/08-model-selection.md": {
+        "BYMC": [],
+        "BYAC": [
+          "1-93"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-docs/docs/tutorial/index.md": {
+        "BYMC": [
+          "48"
+        ],
+        "BYAC": [
+          "49-51"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/Cargo.toml": {
+        "BYMC": [
+          "3-4",
+          "36"
+        ],
+        "BYAC": [
+          "5",
+          "7",
+          "9-10",
+          "12",
+          "23-24",
+          "26-29",
+          "34"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/README.md": {
+        "BYMC": [
+          "13",
+          "18-19",
+          "53-55",
+          "107-112",
+          "115-124",
+          "126-133"
+        ],
+        "BYAC": [
+          "3-4",
+          "14-17",
+          "20-27",
+          "29-30",
+          "32",
+          "35",
+          "56-62",
+          "65",
+          "69-95",
+          "113-114",
+          "125"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/app-server-protocol/Cargo.toml": {
+        "BYMC": [
+          "1-9"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/app-server-protocol/src/lib.rs": {
+        "BYMC": [
+          "1-5"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/app-server-protocol/src/protocol/mod.rs": {
+        "BYMC": [
+          "1-4"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/app-server-protocol/src/protocol/v1.rs": {
+        "BYMC": [
+          "1-13"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/app-server-protocol/src/protocol/v2/config.rs": {
+        "BYMC": [],
+        "BYAC": [
+          "1-67"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/app-server-protocol/src/protocol/v2/mod.rs": {
+        "BYMC": [],
+        "BYAC": [
+          "1-8"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/app-server-protocol/src/protocol/v2/model.rs": {
+        "BYMC": [],
+        "BYAC": [
+          "1-36"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/app-server-protocol/src/protocol/v2/thread.rs": {
+        "BYMC": [],
+        "BYAC": [
+          "1-22"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/app-server-protocol/src/protocol/v2/turn.rs": {
+        "BYMC": [
+          "1-12"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/app-server-protocol/src/rpc.rs": {
+        "BYMC": [
+          "1-18"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/app-server/Cargo.toml": {
+        "BYMC": [],
+        "BYAC": [
+          "1-23"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/app-server/src/config_manager_service.rs": {
+        "BYMC": [],
+        "BYAC": [
+          "1-197"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/app-server/src/config_manager_service_tests.rs": {
+        "BYMC": [],
+        "BYAC": [
+          "1-139"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/app-server/src/lib.rs": {
+        "BYMC": [],
+        "BYAC": [
+          "1-55"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/app-server/src/main.rs": {
+        "BYMC": [],
+        "BYAC": [
+          "1-8"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/app-server/src/message_processor.rs": {
+        "BYMC": [],
+        "BYAC": [
+          "1-100"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/app-server/src/outgoing_message.rs": {
+        "BYMC": [
+          "1-22"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/app-server/src/request_processors/catalog_processor.rs": {
+        "BYMC": [],
+        "BYAC": [
+          "1-93"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/app-server/src/request_processors/config_processor.rs": {
+        "BYMC": [],
+        "BYAC": [
+          "1-75"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/app-server/src/request_processors/mod.rs": {
+        "BYMC": [],
+        "BYAC": [
+          "1-4"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/app-server/src/request_processors/thread_lifecycle.rs": {
+        "BYMC": [
+          "1-56"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/app-server/src/request_processors/turn_processor.rs": {
+        "BYMC": [],
+        "BYAC": [
+          "1-181"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/app-server/src/transport.rs": {
+        "BYMC": [
+          "1-20"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/app-server/tests/all.rs": {
+        "BYMC": [
+          "1-2"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/app-server/tests/common/mod.rs": {
+        "BYMC": [],
+        "BYAC": [
+          "1-182"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/app-server/tests/suite/mod.rs": {
+        "BYMC": [
+          "1"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/app-server/tests/suite/v2/config_rpc.rs": {
+        "BYMC": [],
+        "BYAC": [
+          "1-78"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/app-server/tests/suite/v2/mod.rs": {
+        "BYMC": [
+          "1-4"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/app-server/tests/suite/v2/model_list.rs": {
+        "BYMC": [],
+        "BYAC": [
+          "1-53"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/app-server/tests/suite/v2/thread_settings_update.rs": {
+        "BYMC": [],
+        "BYAC": [
+          "1-67"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/app-server/tests/suite/v2/turn_start.rs": {
+        "BYMC": [],
+        "BYAC": [
+          "1-80"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/arg0/Cargo.toml": {
+        "BYMC": [],
+        "BYAC": [
+          "1-13"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/arg0/src/lib.rs": {
+        "BYMC": [],
+        "BYAC": [
+          "1-80"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/cli/Cargo.toml": {
+        "BYMC": [
+          "12"
+        ],
+        "BYAC": [
+          "14"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/cli/src/main.rs": {
+        "BYMC": [
+          "26-28",
+          "45-48",
+          "51-52",
+          "54",
+          "79",
+          "83-86",
+          "92"
+        ],
+        "BYAC": [
+          "11-12",
+          "16-25",
+          "29-39",
+          "42",
+          "95-98"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/config/Cargo.toml": {
+        "BYMC": [],
+        "BYAC": [
+          "1-16"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/config/src/config_layer_source.rs": {
+        "BYMC": [],
+        "BYAC": [
+          "1-13"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/config/src/config_toml.rs": {
+        "BYMC": [],
+        "BYAC": [
+          "1-23"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/config/src/fingerprint.rs": {
+        "BYMC": [],
+        "BYAC": [
+          "1-40"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/config/src/lib.rs": {
+        "BYMC": [],
+        "BYAC": [
+          "1-24"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/config/src/loader/layer_io.rs": {
+        "BYMC": [],
+        "BYAC": [
+          "1-30"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/config/src/loader/mod.rs": {
+        "BYMC": [],
+        "BYAC": [
+          "1-56"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/config/src/loader/tests.rs": {
+        "BYMC": [],
+        "BYAC": [
+          "1-86"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/config/src/merge.rs": {
+        "BYMC": [],
+        "BYAC": [
+          "1-27"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/config/src/merge_tests.rs": {
+        "BYMC": [],
+        "BYAC": [
+          "1-41"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/config/src/overrides.rs": {
+        "BYMC": [],
+        "BYAC": [
+          "1-89"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/config/src/state.rs": {
+        "BYMC": [],
+        "BYAC": [
+          "1-48"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/core/Cargo.toml": {
+        "BYMC": [],
+        "BYAC": [
+          "11-13",
+          "15",
+          "21-22",
+          "25-26"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/core/src/client.rs": {
+        "BYMC": [],
+        "BYAC": [
+          "14",
+          "19-20",
+          "26",
+          "34",
+          "41-59",
+          "70",
+          "82"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/core/src/client_common.rs": {
+        "BYMC": [],
+        "BYAC": [
+          "28-29",
+          "34"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/core/src/codex_thread.rs": {
+        "BYMC": [],
+        "BYAC": [
+          "10",
+          "37-42"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/core/src/config/config_tests.rs": {
+        "BYMC": [],
+        "BYAC": [
+          "1-136"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/core/src/config/edit.rs": {
+        "BYMC": [],
+        "BYAC": [
+          "1-247"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/core/src/config/edit_tests.rs": {
+        "BYMC": [],
+        "BYAC": [
+          "1-109"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/core/src/config/mod.rs": {
+        "BYMC": [],
+        "BYAC": [
+          "1-160"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/core/src/lib.rs": {
+        "BYMC": [],
+        "BYAC": [
+          "6"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/core/src/session/handlers.rs": {
+        "BYMC": [],
+        "BYAC": [
+          "10",
+          "31-32"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/core/src/session/mod.rs": {
+        "BYMC": [],
+        "BYAC": [
+          "3"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/core/src/session/session.rs": {
+        "BYMC": [],
+        "BYAC": [
+          "14-20",
+          "25",
+          "37",
+          "45"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/core/src/session/thread_settings.rs": {
+        "BYMC": [],
+        "BYAC": [
+          "1-36"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/core/src/session/turn.rs": {
+        "BYMC": [],
+        "BYAC": [
+          "41-43"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/core/src/thread_manager.rs": {
+        "BYMC": [],
+        "BYAC": [
+          "4-6",
+          "9",
+          "14-16",
+          "18",
+          "21",
+          "27",
+          "32-35",
+          "37",
+          "40",
+          "45-59",
+          "68"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/core/tests/tool_harness.rs": {
+        "BYMC": [
+          "8",
+          "16-17",
+          "40",
+          "77-85",
+          "87"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/model-provider-info/Cargo.toml": {
+        "BYMC": [],
+        "BYAC": [
+          "1-13"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/model-provider-info/src/lib.rs": {
+        "BYMC": [],
+        "BYAC": [
+          "1-129"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/model-provider-info/src/model_provider_info_tests.rs": {
+        "BYMC": [],
+        "BYAC": [
+          "1-109"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/models-manager/Cargo.toml": {
+        "BYMC": [],
+        "BYAC": [
+          "1-12"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/models-manager/models.json": {
+        "BYMC": [],
+        "BYAC": [
+          "1-28"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/models-manager/src/lib.rs": {
+        "BYMC": [],
+        "BYAC": [
+          "1-14"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/models-manager/src/manager.rs": {
+        "BYMC": [],
+        "BYAC": [
+          "1-60"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/models-manager/src/manager_tests.rs": {
+        "BYMC": [],
+        "BYAC": [
+          "1-86"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/protocol/src/error.rs": {
+        "BYMC": [],
+        "BYAC": [
+          "1-25"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/protocol/src/lib.rs": {
+        "BYMC": [],
+        "BYAC": [
+          "5-7",
+          "14-20",
+          "24-36",
+          "70-71"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/protocol/src/openai_models.rs": {
+        "BYMC": [],
+        "BYAC": [
+          "1-81"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/utils/home-dir/Cargo.toml": {
+        "BYMC": [],
+        "BYAC": [
+          "1-12"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/utils/home-dir/src/lib.rs": {
+        "BYMC": [],
+        "BYAC": [
+          "1-118"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-tui/README.md": {
+        "BYMC": [],
+        "BYAC": [
+          "1-37"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-tui/package.json": {
+        "BYMC": [
+          "1-31"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-tui/pnpm-workspace.yaml": {
+        "BYMC": [
+          "1-2"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-tui/src/app.tsx": {
+        "BYMC": [],
+        "BYAC": [
+          "1-184"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-tui/src/bottom_pane/list_selection_view.tsx": {
+        "BYMC": [],
+        "BYAC": [
+          "1-44"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-tui/src/chrome.tsx": {
+        "BYMC": [],
+        "BYAC": [
+          "1-87"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-tui/src/client.ts": {
+        "BYMC": [
+          "1-94"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-tui/src/codex-icon.tsx": {
+        "BYMC": [],
+        "BYAC": [
+          "1-32"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-tui/src/demo.ts": {
+        "BYMC": [],
+        "BYAC": [
+          "1-41"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-tui/src/index.tsx": {
+        "BYMC": [
+          "1-26"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-tui/src/markdown_render.tsx": {
+        "BYMC": [],
+        "BYAC": [
+          "1-153"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-tui/src/protocol.ts": {
+        "BYMC": [],
+        "BYAC": [
+          "1-24"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-tui/src/slash_command.ts": {
+        "BYMC": [],
+        "BYAC": [
+          "1-17"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-tui/test/app.test.tsx": {
+        "BYMC": [],
+        "BYAC": [
+          "1-168"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-tui/test/client.test.ts": {
+        "BYMC": [],
+        "BYAC": [
+          "1-99"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-tui/test/markdown_render.test.tsx": {
+        "BYMC": [],
+        "BYAC": [
+          "1-77"
+        ],
+        "BYRC": []
+      },
+      "mini-codex-tui/tsconfig.json": {
+        "BYMC": [
+          "1-8"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      }
+    }
+  },
+  "commit_timestamp": 1789824769,
+  "requirement_id": ""
+}
