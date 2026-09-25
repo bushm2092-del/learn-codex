@@ -2,6 +2,7 @@ target/
 .env
 .DS_Store
 node_modules/
-mini-codex-docs/docs/.vitepress/cache/
-mini-codex-docs/docs/.vitepress/dist/
 mini-codex-tui/dist/
+frontends/Teach/dist/
+*.tsbuildinfo
+.agents/skills/impeccable/scripts/bin/

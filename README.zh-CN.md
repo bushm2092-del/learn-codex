@@ -1,7 +1,7 @@
 # mini-codex 中文说明
 
-Rust 执行代码位于 [mini-codex-rs](mini-codex-rs/README.md)，中文架构导读位于
-[mini-codex-docs](mini-codex-docs/)。
+Rust 执行代码位于 [mini-codex-rs](mini-codex-rs/README.md)，Learn Codex 交互式源码教学站位于
+[frontends/Teach](frontends/Teach/)。
 
 当前仓库固定使用中文用户文案和 system prompt；Rust 标识符、JSON 字段、Responses API 事件名
 和工具名称保持英文，以便与真实 Codex 代码及 API 对应。
@@ -15,20 +15,20 @@ cargo test --workspace
 在 `~/.mini-codex/config.toml` 中覆盖；目录可用 `MINI_CODEX_HOME` 更换。详见根目录
 [README.md](README.md) 的“配置：config.toml 与模型选择”一节。
 
-启动 VitePress 文档：
+启动 React 教学站：
 
 ```bash
-cd /Users/hfh/Desktop/github/mini-codex/mini-codex-docs
+cd /Users/hfh/Desktop/github/mini-codex/frontends/Teach
 pnpm install
-pnpm docs:dev
+pnpm dev
 ```
 
 根目录的 `Makefile` 只负责跨项目编排：
 
 ```bash
 make install
-make docs-dev
-make docs-build
+make teach-dev
+make teach-build
 make rust-test
 make test
 ```

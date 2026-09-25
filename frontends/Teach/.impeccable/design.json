@@ -1,0 +1,562 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-25T10:17:13.209Z",
+  "title": "Design System: Learn Codex",
+  "extensions": {
+    "colorMeta": {
+      "ink": {
+        "role": "primary",
+        "displayName": "Codex Ink",
+        "canonical": "#111113",
+        "tonalRamp": [
+          "#111113",
+          "#29292d",
+          "#414147",
+          "#5a5a61",
+          "#77777f",
+          "#9a9aa1",
+          "#c6c6ca",
+          "#f1f1f2"
+        ]
+      },
+      "ink-strong": {
+        "role": "neutral",
+        "displayName": "Deep Ink",
+        "canonical": "#09090b",
+        "tonalRamp": [
+          "#09090b",
+          "#242427",
+          "#3d3d42",
+          "#57575d",
+          "#74747b",
+          "#98989f",
+          "#c5c5c9",
+          "#f0f0f1"
+        ]
+      },
+      "action": {
+        "role": "primary",
+        "displayName": "Action Black",
+        "canonical": "#18181b",
+        "tonalRamp": [
+          "#18181b",
+          "#303034",
+          "#48484d",
+          "#616167",
+          "#7d7d84",
+          "#9f9fa6",
+          "#cacace",
+          "#f2f2f3"
+        ]
+      },
+      "action-hover": {
+        "role": "primary",
+        "displayName": "Action Hover",
+        "canonical": "#000000",
+        "tonalRamp": [
+          "#000000",
+          "#202020",
+          "#404040",
+          "#606060",
+          "#808080",
+          "#a0a0a0",
+          "#d0d0d0",
+          "#f2f2f2"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted Graphite",
+        "canonical": "#71717a",
+        "tonalRamp": [
+          "#1e1e22",
+          "#36363c",
+          "#4f4f56",
+          "#686870",
+          "#85858d",
+          "#a5a5ac",
+          "#ceced2",
+          "#f3f3f4"
+        ]
+      },
+      "subtle": {
+        "role": "neutral",
+        "displayName": "Quiet Zinc",
+        "canonical": "#a1a1aa",
+        "tonalRamp": [
+          "#202023",
+          "#39393e",
+          "#535359",
+          "#6e6e75",
+          "#8a8a92",
+          "#aaaaB1",
+          "#d1d1d5",
+          "#f4f4f5"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Rule Gray",
+        "canonical": "#e4e4e7",
+        "tonalRamp": [
+          "#242426",
+          "#404043",
+          "#5d5d61",
+          "#7b7b80",
+          "#9b9ba0",
+          "#bcbcc1",
+          "#ddddE0",
+          "#f5f5f6"
+        ]
+      },
+      "line-soft": {
+        "role": "neutral",
+        "displayName": "Soft Rule",
+        "canonical": "#eeeeef",
+        "tonalRamp": [
+          "#262627",
+          "#424244",
+          "#606062",
+          "#7e7e81",
+          "#9e9ea1",
+          "#c0c0c2",
+          "#e1e1e3",
+          "#f7f7f7"
+        ]
+      },
+      "panel": {
+        "role": "neutral",
+        "displayName": "Panel Paper",
+        "canonical": "#fafafa",
+        "tonalRamp": [
+          "#282829",
+          "#454546",
+          "#636364",
+          "#828283",
+          "#a2a2a3",
+          "#c3c3c4",
+          "#e5e5e5",
+          "#fafafa"
+        ]
+      },
+      "canvas": {
+        "role": "neutral",
+        "displayName": "Canvas White",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "#292929",
+          "#464646",
+          "#656565",
+          "#848484",
+          "#a4a4a4",
+          "#c6c6c6",
+          "#e7e7e7",
+          "#ffffff"
+        ]
+      },
+      "signal-blue": {
+        "role": "primary",
+        "displayName": "Signal Blue",
+        "canonical": "#3b82f6",
+        "tonalRamp": [
+          "#08214b",
+          "#0c3877",
+          "#1052aa",
+          "#1f6de0",
+          "#4d8cf7",
+          "#7daaf9",
+          "#b1ccfb",
+          "#eaf2ff"
+        ]
+      },
+      "signal-blue-soft": {
+        "role": "primary",
+        "displayName": "Signal Mist",
+        "canonical": "#e9f1ff",
+        "tonalRamp": [
+          "#102542",
+          "#173d68",
+          "#245991",
+          "#4677b9",
+          "#7098d7",
+          "#9db9eb",
+          "#c9daf8",
+          "#e9f1ff"
+        ]
+      },
+      "signal-blue-ink": {
+        "role": "primary",
+        "displayName": "Signal Blue Ink",
+        "canonical": "#2f5f9b",
+        "tonalRamp": [
+          "#0c2038",
+          "#173653",
+          "#244d70",
+          "#35668e",
+          "#5683aa",
+          "#80a3c4",
+          "#b2c8dd",
+          "#e8f0f7"
+        ]
+      },
+      "signal-line": {
+        "role": "primary",
+        "displayName": "Signal Line",
+        "canonical": "#a7bddb",
+        "tonalRamp": [
+          "#172334",
+          "#293d57",
+          "#405b7b",
+          "#617da0",
+          "#85a0c2",
+          "#adc2dc",
+          "#d1dfef",
+          "#eef4fb"
+        ]
+      },
+      "status-green": {
+        "role": "secondary",
+        "displayName": "Status Green",
+        "canonical": "#22c55e",
+        "tonalRamp": [
+          "#082b16",
+          "#0c5126",
+          "#117a38",
+          "#19a64b",
+          "#35ca69",
+          "#70df94",
+          "#afeec1",
+          "#e8faed"
+        ]
+      },
+      "code-red": {
+        "role": "tertiary",
+        "displayName": "Code Window Red",
+        "canonical": "#ef4444",
+        "tonalRamp": [
+          "#3a0b0b",
+          "#691414",
+          "#992020",
+          "#ca3030",
+          "#ed5555",
+          "#f48585",
+          "#f9baba",
+          "#fdecec"
+        ]
+      },
+      "code-amber": {
+        "role": "tertiary",
+        "displayName": "Code Window Amber",
+        "canonical": "#d7a32b",
+        "tonalRamp": [
+          "#302207",
+          "#59400d",
+          "#835f15",
+          "#ae801f",
+          "#d7a32b",
+          "#e5bd61",
+          "#efd89c",
+          "#faf2dc"
+        ]
+      },
+      "code-green": {
+        "role": "secondary",
+        "displayName": "Code Window Green",
+        "canonical": "#32a852",
+        "tonalRamp": [
+          "#092811",
+          "#104a20",
+          "#196f30",
+          "#249542",
+          "#3db45e",
+          "#74cf8c",
+          "#afe5bb",
+          "#e9f8ec"
+        ]
+      },
+      "code-violet": {
+        "role": "tertiary",
+        "displayName": "Syntax Violet",
+        "canonical": "#c084fc",
+        "tonalRamp": [
+          "#2a1141",
+          "#4b2072",
+          "#6d32a3",
+          "#914bd1",
+          "#b46dec",
+          "#cc98f5",
+          "#e2c5fa",
+          "#f6edfe"
+        ]
+      },
+      "code-blue": {
+        "role": "primary",
+        "displayName": "Syntax Blue",
+        "canonical": "#60a5fa",
+        "tonalRamp": [
+          "#0c2546",
+          "#134679",
+          "#1d68ad",
+          "#328ae0",
+          "#65a8f5",
+          "#91c2f9",
+          "#bddcfc",
+          "#edf6ff"
+        ]
+      },
+      "placeholder": {
+        "role": "neutral",
+        "displayName": "Placeholder Gray",
+        "canonical": "#b3b3ba",
+        "tonalRamp": [
+          "#232326",
+          "#3e3e43",
+          "#5a5a60",
+          "#77777e",
+          "#94949c",
+          "#b3b3ba",
+          "#d6d6da",
+          "#f5f5f6"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Editorial Display",
+        "purpose": "Homepage brand headline only."
+      },
+      "headline": {
+        "displayName": "Lesson Headline",
+        "purpose": "Primary lesson titles."
+      },
+      "title": {
+        "displayName": "Section Title",
+        "purpose": "Lesson content sections."
+      },
+      "body": {
+        "displayName": "Reading Body",
+        "purpose": "Explanations, summaries, and supporting copy."
+      },
+      "label": {
+        "displayName": "System Mono",
+        "purpose": "Code, sequence labels, state, metadata, and controls."
+      },
+      "brand": {
+        "displayName": "Wordmark",
+        "purpose": "Top navigation brand mark."
+      },
+      "section-heading": {
+        "displayName": "Homepage Section",
+        "purpose": "Homepage section headings."
+      },
+      "card-title": {
+        "displayName": "Card Title",
+        "purpose": "Lesson names inside the path grid."
+      },
+      "supporting": {
+        "displayName": "Supporting Lead",
+        "purpose": "Lesson kicker and prominent supporting copy."
+      },
+      "body-small": {
+        "displayName": "Small Body",
+        "purpose": "Compact explanations and summaries."
+      },
+      "placeholder-label": {
+        "displayName": "Placeholder Label",
+        "purpose": "Unavailable chapter descriptions."
+      },
+      "stage-title": {
+        "displayName": "Stage Title",
+        "purpose": "Central animation-stage object."
+      },
+      "mono-small": {
+        "displayName": "Small Mono",
+        "purpose": "Window labels and compact metadata."
+      },
+      "arrow": {
+        "displayName": "Directional Arrow",
+        "purpose": "Lesson-card direction cue."
+      },
+      "hero-note": {
+        "displayName": "Hero Note",
+        "purpose": "Responsive homepage introduction."
+      },
+      "display-mobile": {
+        "displayName": "Mobile Display",
+        "purpose": "Homepage display size below 680px."
+      }
+    },
+    "shadows": [
+      {
+        "name": "action-rest",
+        "value": "0 1px 2px rgba(0, 0, 0, 0.12)",
+        "purpose": "Minimal physical presence for the primary action."
+      },
+      {
+        "name": "stage-card-lift",
+        "value": "0 14px 34px rgba(24, 24, 27, 0.07)",
+        "purpose": "Separates the active teaching object from the stage grid."
+      },
+      {
+        "name": "menu-popover",
+        "value": "0 2px 6px rgba(24, 24, 27, 0.04)",
+        "purpose": "Separates the language chooser from the sticky navigation."
+      },
+      {
+        "name": "code-window-lift",
+        "value": "0 24px 52px rgba(0, 0, 0, 0.13)",
+        "purpose": "Makes the dark code window the focal example."
+      }
+    ],
+    "motion": [
+      {
+        "name": "state-fast",
+        "value": "160ms ease",
+        "purpose": "Navigation, button, and card state transitions."
+      },
+      {
+        "name": "reveal-standard",
+        "value": "0.55s power3.out",
+        "purpose": "Lesson-stage entrance motion."
+      },
+      {
+        "name": "reveal-home",
+        "value": "0.65s power3.out",
+        "purpose": "Staggered homepage reveal."
+      },
+      {
+        "name": "signal-travel",
+        "value": "0.8s power3.inOut",
+        "purpose": "Visualizes a signal moving through the harness."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "0.01ms / immediate GSAP set",
+        "purpose": "Removes nonessential movement when the user requests reduced motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "compact",
+        "value": "680px"
+      },
+      {
+        "name": "single-column",
+        "value": "900px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The single high-contrast action used to begin a lesson.",
+      "html": "<button class=\"ds-primary-button\">开始学习 <span aria-hidden=\"true\">→</span></button>",
+      "css": ".ds-primary-button { min-height:45px; display:inline-flex; align-items:center; gap:18px; padding:0 24px; border:0; border-radius:8px; color:var(--canvas,#fff); background:var(--action,#18181b); box-shadow:0 1px 2px rgba(0,0,0,.12); font:14px ui-sans-serif,system-ui,sans-serif; cursor:pointer; transition:transform 160ms ease,background-color 160ms ease; } .ds-primary-button:hover { transform:translateY(-1px); background:#000; } .ds-primary-button:focus-visible { outline:2px solid var(--signal-blue,#3b82f6); outline-offset:3px; }"
+    },
+    {
+      "name": "Timeline Control",
+      "kind": "button",
+      "refersTo": "button-timeline",
+      "description": "Compact transport control for lesson animations.",
+      "html": "<button class=\"ds-timeline-control\"><span aria-hidden=\"true\">▶</span>播放</button>",
+      "css": ".ds-timeline-control { min-height:32px; display:inline-flex; align-items:center; gap:6px; padding:0 10px; border:1px solid #d8d8dc; border-radius:6px; color:#52525b; background:#fff; font:12px \"SFMono-Regular\",Consolas,monospace; cursor:pointer; transition:border-color 160ms ease,color 160ms ease,background-color 160ms ease; } .ds-timeline-control:hover { border-color:#a1a1aa; color:#09090b; background:#fafafa; } .ds-timeline-control:focus-visible { outline:2px solid #3b82f6; outline-offset:3px; }"
+    },
+    {
+      "name": "Topic Badge",
+      "kind": "chip",
+      "refersTo": "topic-badge",
+      "description": "A quiet blue semantic marker for the current lesson domain.",
+      "html": "<span class=\"ds-topic-badge\">Harness Core</span>",
+      "css": ".ds-topic-badge { display:inline-flex; padding:4px 10px; border-radius:999px; color:#2f5f9b; background:#e9f1ff; font:12px ui-sans-serif,system-ui,sans-serif; }"
+    },
+    {
+      "name": "Lesson Card",
+      "kind": "card",
+      "refersTo": "lesson-card",
+      "description": "One cell in the continuous learning-path grid.",
+      "html": "<a class=\"ds-lesson-card\" href=\"#\"><span class=\"ds-lesson-number\">s01</span><span class=\"ds-lesson-meta\">DRAFT</span><strong>Harness 运行原理</strong><span class=\"ds-lesson-arrow\" aria-hidden=\"true\">→</span></a>",
+      "css": ".ds-lesson-card { min-height:190px; display:grid; grid-template-columns:auto 1fr auto; gap:18px 14px; padding:24px; border:1px solid #e4e4e7; color:#111113; background:#fff; text-decoration:none; transition:background-color 160ms ease; } .ds-lesson-card:hover { background:#fafafa; } .ds-lesson-card:focus-visible { outline:2px solid #3b82f6; outline-offset:3px; } .ds-lesson-number,.ds-lesson-meta { font:600 12px/1 \"SFMono-Regular\",Consolas,monospace; } .ds-lesson-meta { color:#a1a1aa; font-size:11px; } .ds-lesson-card strong { grid-column:1/3; align-self:end; font:700 19px ui-sans-serif,system-ui,sans-serif; letter-spacing:-.02em; } .ds-lesson-arrow { grid-row:1/3; grid-column:3; align-self:center; color:#a1a1aa; font-size:20px; }"
+    },
+    {
+      "name": "Language Menu",
+      "kind": "custom",
+      "refersTo": "language-menu",
+      "description": "A Radix-powered language chooser styled as a compact editorial control.",
+      "html": "<div><button class=\"ds-language-trigger\">中文 <svg viewBox=\"0 0 12 12\"><path d=\"m3 4.5 3 3 3-3\" /></svg></button><div class=\"ds-ui-dropdown\"><div class=\"ds-ds-ui-dropdown__item\" data-state=\"checked\"><span>中文</span><span class=\"ds-ds-ui-dropdown__indicator\"><svg viewBox=\"0 0 16 16\"><path d=\"m3.25 8.25 3 3 6.5-6.5\" /></svg></span></div><div class=\"ds-ds-ui-dropdown__item\"><span>English</span></div></div></div>",
+      "css": ".ds-ui-dropdown {\n  z-index: 50;\n  min-width: 132px;\n  max-width: var(--radix-dropdown-menu-content-available-width);\n  max-height: var(--radix-dropdown-menu-content-available-height);\n  overflow-y: auto;\n  padding: 4px;\n  border: 1px solid var(--line);\n  border-radius: 6px;\n  background: #fff;\n  color: var(--ink);\n  font-family: inherit;\n  box-shadow: 0 2px 6px rgba(24, 24, 27, 0.04);\n}\n\n.ds-ui-dropdown__item {\n  min-height: 36px;\n  display: grid;\n  grid-template-columns: 1fr 14px;\n  align-items: center;\n  gap: 16px;\n  padding: 6px 10px;\n  border-radius: 3px;\n  color: var(--muted);\n  font-size: 14px;\n  line-height: 1.5;\n  cursor: default;\n  user-select: none;\n  outline: none;\n}\n\n.ds-ui-dropdown__item[data-state=\"checked\"] { color: var(--ink); }\n.ds-ui-dropdown__item[data-highlighted] { color: var(--ink); background: var(--panel); }\n.ds-ui-dropdown__item:focus-visible { outline: 2px solid var(--blue); outline-offset: -2px; }\n.ds-ui-dropdown__item[data-disabled] { opacity: 0.45; pointer-events: none; }\n.ds-ui-dropdown__indicator { display: flex; width: 14px; height: 14px; }\n.ds-ui-dropdown__indicator svg { width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }\n\n.ds-language-trigger {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  gap: 6px;\n  min-height: 36px;\n  padding: 0 4px;\n  border: 0;\n  border-radius: 6px;\n  background: transparent;\n  color: #66666e;\n  font-size: 14px;\n  cursor: pointer;\n  transition: color 160ms ease;\n}\n.ds-language-trigger:hover, .ds-language-trigger[data-state=\"open\"] { color: var(--ink); }\n.ds-language-trigger svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 1.5; }\n.ds-language-trigger[data-state=\"open\"] svg { transform: rotate(180deg); }\n"
+    },
+    {
+      "name": "Top Navigation",
+      "kind": "nav",
+      "refersTo": "topbar",
+      "description": "Sticky editorial navigation with restrained translucency.",
+      "html": "<nav class=\"ds-topbar\"><strong>Learn Codex</strong><span class=\"ds-toplinks\"><a href=\"#\">Timeline</a><a href=\"#\">Architecture</a><a href=\"#\">Lessons</a></span></nav>",
+      "css": ".ds-topbar { height:58px; display:flex; align-items:center; justify-content:space-between; padding:0 32px; border-bottom:1px solid #e4e4e7; color:#09090b; background:rgba(255,255,255,.94); backdrop-filter:blur(14px); font-family:ui-sans-serif,system-ui,sans-serif; } .ds-topbar strong { font-size:18px; letter-spacing:-.025em; } .ds-toplinks { display:flex; gap:28px; } .ds-toplinks a { color:#66666e; font-size:14px; text-decoration:none; transition:color 160ms ease; } .ds-toplinks a:hover { color:#09090b; } .ds-toplinks a:focus-visible { outline:2px solid #3b82f6; outline-offset:3px; }"
+    },
+    {
+      "name": "Code Window",
+      "kind": "custom",
+      "refersTo": "code-window",
+      "description": "The dark focal surface for compact source examples.",
+      "html": "<section class=\"ds-code-window\"><header><i></i><i></i><i></i><span>harness.rs</span></header><pre><code><b>loop</b> { run_turn(); }</code></pre></section>",
+      "css": ".ds-code-window { width:min(674px,100%); overflow:hidden; border:1px solid #25252a; border-radius:11px; color:#d4d4d8; background:#09090b; box-shadow:0 24px 52px rgba(0,0,0,.13); } .ds-code-window header { height:38px; display:flex; align-items:center; gap:7px; padding:0 15px; border-bottom:1px solid #28282d; color:#71717a; font:11px \"SFMono-Regular\",Consolas,monospace; } .ds-code-window header i { width:12px; height:12px; border-radius:50%; background:#ef4444; } .ds-code-window header i:nth-child(2) { background:#d7a32b; } .ds-code-window header i:nth-child(3) { background:#32a852; margin-right:8px; } .ds-code-window pre { min-height:120px; margin:0; padding:24px; font:14px/1.8 \"SFMono-Regular\",Consolas,monospace; } .ds-code-window b { color:#c084fc; }"
+    },
+    {
+      "name": "Lesson Stage",
+      "kind": "custom",
+      "refersTo": "lesson-stage",
+      "description": "A bordered lab surface for interactive harness explanations.",
+      "html": "<section class=\"ds-stage\"><header>execution_timeline <span>● Architecture ready</span></header><main><div><b>01</b><strong>Harness Animation Stage</strong><small>turn → events → tool → result</small></div></main><footer>1 / 1</footer></section>",
+      "css": ".ds-stage { overflow:hidden; border:1px solid #d8d8dc; border-radius:9px; color:#111113; background:#fff; font-family:ui-sans-serif,system-ui,sans-serif; } .ds-stage>header,.ds-stage>footer { min-height:48px; display:flex; align-items:center; justify-content:space-between; padding:0 16px; color:#92929a; font:11px \"SFMono-Regular\",Consolas,monospace; } .ds-stage>header { border-bottom:1px solid #eeeeef; } .ds-stage>footer { border-top:1px solid #eeeeef; } .ds-stage main { min-height:250px; display:grid; place-items:center; background-color:#fcfcfc; background-image:linear-gradient(#f1f1f2 1px,transparent 1px),linear-gradient(90deg,#f1f1f2 1px,transparent 1px); background-size:32px 32px; } .ds-stage main div { display:grid; gap:10px; justify-items:center; padding:28px; border:1px solid #d7d7dc; border-radius:9px; background:rgba(255,255,255,.94); box-shadow:0 14px 34px rgba(24,24,27,.07); } .ds-stage main b,.ds-stage main small { font:12px \"SFMono-Regular\",Consolas,monospace; } .ds-stage main small { color:#71717a; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Interactive Source Notebook",
+    "overview": "Learn Codex 是一份可以运行的源码讲义：像技术文档一样克制、清晰、可扫描，又像实验台一样允许用户播放、暂停和重看机制。页面以白纸、黑墨和细分隔线建立编辑式秩序，动画舞台与代码窗口承担主要视觉焦点。系统不追求营销页式的装饰密度，也不使用大面积品牌色制造情绪。视觉表达应优先帮助读者理解调用链、状态和时间顺序；每一个高亮、阴影和动效都必须服务于结构或反馈。",
+    "keyCharacteristics": [
+      "黑白编辑式骨架，靠排版、留白和细边框建立层级。",
+      "蓝色是稀少的教学信号，只标记当前主题、焦点和流程节点。",
+      "系统无衬线负责阅读，等宽字体负责代码、编号、状态和控制标签。",
+      "动画短促、可控、可降级，默认表现为元素进入与信号传播。",
+      "桌面端保留课程导航与实验舞台，移动端把内容压缩为单列学习流。"
+    ],
+    "rules": [
+      {
+        "name": "The Signal, Not Paint Rule",
+        "body": "蓝色只表示焦点、主题或运行信号；单屏蓝色面积应保持很小，不用于装饰性大色块。",
+        "section": "colors"
+      },
+      {
+        "name": "The Paper and Ink Rule",
+        "body": "默认用白、黑和中性灰解决层级，只有在语义不足时才引入颜色。",
+        "section": "colors"
+      },
+      {
+        "name": "The Two Voices Rule",
+        "body": "叙述使用系统无衬线；代码、编号、状态、公式和时间线控制使用等宽字体，不混用职责。",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat-by-Default Rule",
+        "body": "普通卡片、导航和教学容器保持无阴影；只有代码窗口、主行动和舞台内的活动对象可以获得抬升。",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do 用排版、留白和一像素边框先解决信息层级。",
+      "Do 把蓝色留给焦点、章节节点、主题标签和运行信号。",
+      "Do 让课程动画具备播放、暂停、重播和 reduced-motion 降级。",
+      "Do 在代码、编号、公式、事件与状态信息上统一使用等宽字体。",
+      "Do 保持桌面双栏到移动单栏的清晰响应式转变。"
+    ],
+    "donts": [
+      "Don't 添加大面积渐变、霓虹色或无语义的蓝色装饰。",
+      "Don't 给每张卡片都加阴影；结构型容器默认保持平面。",
+      "Don't 使用超大圆角、玻璃卡片堆叠或胶囊形主按钮改变编辑式气质。",
+      "Don't 用持续循环或无法暂停的动画干扰阅读。",
+      "Don't 把营销文案的视觉优先级置于真实源码调用链和教学状态之上。"
+    ]
+  }
+}

@@ -1,7 +1,7 @@
 # mini-codex
 
-这是一个围绕真实 Codex Rust 代码组织方式搭建的教学 monorepo。Rust 执行内核和 VitePress
-静态文档保持平级，便于一边读代码、一边看架构说明。
+这是一个围绕真实 Codex Rust 代码组织方式搭建的教学 monorepo。Rust 执行内核和 React
+交互式教学站保持平级，便于一边读代码、一边观察架构状态如何流转。
 
 核心调用链：
 
@@ -23,16 +23,17 @@ mini-codex/
 │   ├── Cargo.toml
 │   └── crates/             # protocol, config, model-provider-info, utils/home-dir, core, cli, app-server*
 ├── mini-codex-tui/         # React + Ink，独立 Node.js 界面
-├── mini-codex-docs/        # VitePress：中文架构与源码导读
-│   ├── docs/
-│   └── package.json
+├── frontends/Teach/         # Learn Codex：React + GSAP 交互式源码教学站
+│   ├── src/animation/       # timeline 生命周期和播放控制
+│   ├── src/course/          # 课程目录元数据
+│   └── src/lessons/         # 每节课独立的动画场景
 ├── Makefile                 # 跨项目开发命令
 ├── README.md
 └── README.zh-CN.md
 ```
 
-Rust 目录的详细模块说明见 [mini-codex-rs/README.md](mini-codex-rs/README.md)，文档站源码在
-[mini-codex-docs/docs](mini-codex-docs/docs)。
+Rust 目录的详细模块说明见 [mini-codex-rs/README.md](mini-codex-rs/README.md)，教学站源码在
+[frontends/Teach](frontends/Teach)。
 
 ## 中文提示词和注释
 
@@ -49,8 +50,7 @@ Ink 使用 stdio JSONL 连接 Rust 服务，再由服务复用 core 的会话与
 make tui
 ```
 
-需要 Node.js 22+、pnpm 11+ 和 Rust；密钥放在 `~/.mini-codex/.env`，`config.toml` 可选，见上文。自定义工作目录、协议子集、源路径映射与架构偏离见
-[App-server 与 Ink 教程](mini-codex-docs/docs/tutorial/06-app-server-ink.md)。
+需要 Node.js 22+、pnpm 11+ 和 Rust；密钥放在 `~/.mini-codex/.env`，`config.toml` 可选，见上文。
 支持文本输入、流式消息、工具状态和连续对话；尚无审批、取消或恢复会话。
 
 ## 配置：config.toml 与模型选择
@@ -104,20 +104,20 @@ cargo check --workspace
 cargo test --workspace
 ```
 
-## 文档站
+## Learn Codex 交互式教学站
 
 ```bash
-cd /Users/hfh/Desktop/github/mini-codex/mini-codex-docs
+cd /Users/hfh/Desktop/github/mini-codex/frontends/Teach
 pnpm install
-pnpm docs:dev
+pnpm dev
 ```
 
 也可以在仓库根目录使用 Makefile：
 
 ```bash
 make install
-make docs-dev
-make docs-build
+make teach-dev
+make teach-build
 make rust-test
 make test
 ```

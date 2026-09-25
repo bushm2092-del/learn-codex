@@ -1,0 +1,324 @@
+---
+name: Learn Codex
+description: 用交互动画拆解 Codex harness 真实运行机制的源码教学站。
+colors:
+  ink: "#111113"
+  ink-strong: "#09090b"
+  action: "#18181b"
+  action-hover: "#000000"
+  muted: "#71717a"
+  subtle: "#a1a1aa"
+  line: "#e4e4e7"
+  line-soft: "#eeeeef"
+  panel: "#fafafa"
+  canvas: "#ffffff"
+  signal-blue: "#3b82f6"
+  signal-blue-soft: "#e9f1ff"
+  signal-blue-ink: "#2f5f9b"
+  signal-line: "#a7bddb"
+  status-green: "#22c55e"
+  code-red: "#ef4444"
+  code-amber: "#d7a32b"
+  code-green: "#32a852"
+  code-violet: "#c084fc"
+  code-blue: "#60a5fa"
+  placeholder: "#b3b3ba"
+typography:
+  display:
+    fontFamily: 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif'
+    fontSize: "clamp(48px, 5vw, 66px)"
+    fontWeight: 740
+    lineHeight: 1
+    letterSpacing: "-0.055em"
+  headline:
+    fontFamily: 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif'
+    fontSize: "clamp(34px, 4vw, 45px)"
+    fontWeight: 700
+    lineHeight: 1.1
+    letterSpacing: "-0.04em"
+  title:
+    fontFamily: 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif'
+    fontSize: "23px"
+    fontWeight: 700
+    lineHeight: 1.25
+    letterSpacing: "-0.025em"
+  body:
+    fontFamily: 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif'
+    fontSize: "15px"
+    fontWeight: 400
+    lineHeight: 1.6
+  label:
+    fontFamily: '"SFMono-Regular", Consolas, "Liberation Mono", monospace'
+    fontSize: "12px"
+    fontWeight: 600
+    lineHeight: 1
+    letterSpacing: "0.08em"
+  brand:
+    fontFamily: 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif'
+    fontSize: "18px"
+    fontWeight: 720
+    lineHeight: 1
+    letterSpacing: "-0.025em"
+  section-heading:
+    fontFamily: 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif'
+    fontSize: "29px"
+    fontWeight: 710
+    lineHeight: 1.25
+    letterSpacing: "-0.035em"
+  card-title:
+    fontFamily: 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif'
+    fontSize: "19px"
+    fontWeight: 700
+    lineHeight: 1.25
+    letterSpacing: "-0.02em"
+  supporting:
+    fontFamily: 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif'
+    fontSize: "18px"
+    fontWeight: 400
+    lineHeight: 1.5
+  body-small:
+    fontFamily: 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif'
+    fontSize: "14px"
+    fontWeight: 400
+    lineHeight: 1.6
+  placeholder-label:
+    fontFamily: 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif'
+    fontSize: "13px"
+    fontWeight: 400
+    lineHeight: 1.5
+  stage-title:
+    fontFamily: 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif'
+    fontSize: "17px"
+    fontWeight: 700
+    lineHeight: 1.25
+  mono-small:
+    fontFamily: '"SFMono-Regular", Consolas, "Liberation Mono", monospace'
+    fontSize: "11px"
+    fontWeight: 400
+    lineHeight: 1
+  arrow:
+    fontFamily: 'ui-sans-serif, system-ui, sans-serif'
+    fontSize: "20px"
+    fontWeight: 400
+    lineHeight: 1
+  hero-note:
+    fontFamily: 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif'
+    fontSize: "clamp(16px, 1.8vw, 20px)"
+    fontWeight: 400
+    lineHeight: 1.5
+  display-mobile:
+    fontFamily: 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif'
+    fontSize: "46px"
+    fontWeight: 740
+    lineHeight: 1
+    letterSpacing: "-0.055em"
+rounded:
+  menu-item: "3px"
+  control: "6px"
+  index: "7px"
+  action: "8px"
+  surface: "9px"
+  preview: "10px"
+  window: "11px"
+  pill: "999px"
+spacing:
+  xs: "7px"
+  sm: "10px"
+  md: "16px"
+  lg: "24px"
+  xl: "32px"
+  section: "64px"
+components:
+  button-primary:
+    backgroundColor: "{colors.action}"
+    textColor: "{colors.canvas}"
+    rounded: "{rounded.action}"
+    padding: "0 24px"
+    height: "45px"
+  button-timeline:
+    backgroundColor: "{colors.canvas}"
+    textColor: "{colors.muted}"
+    rounded: "{rounded.control}"
+    padding: "0 10px"
+    height: "32px"
+  topbar:
+    backgroundColor: "rgba(255, 255, 255, 0.94)"
+    textColor: "{colors.ink-strong}"
+    height: "58px"
+    padding: "0 32px"
+  lesson-card:
+    backgroundColor: "{colors.canvas}"
+    textColor: "{colors.ink}"
+    rounded: "0"
+    padding: "24px"
+    height: "190px"
+  lesson-stage:
+    backgroundColor: "{colors.canvas}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.surface}"
+  topic-badge:
+    backgroundColor: "{colors.signal-blue-soft}"
+    textColor: "#2f5f9b"
+    rounded: "{rounded.pill}"
+    padding: "4px 10px"
+  language-trigger:
+    backgroundColor: "transparent"
+    textColor: "{colors.muted}"
+    rounded: "{rounded.control}"
+    padding: "0 4px"
+    height: "36px"
+  language-menu:
+    backgroundColor: "{colors.canvas}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.control}"
+    padding: "4px"
+---
+
+# Design System: Learn Codex
+
+## Overview
+
+**Creative North Star: "The Interactive Source Notebook"**
+
+Learn Codex 是一份可以运行的源码讲义：像技术文档一样克制、清晰、可扫描，又像实验台一样允许用户播放、暂停和重看机制。页面以白纸、黑墨和细分隔线建立编辑式秩序，动画舞台与代码窗口承担主要视觉焦点。
+
+系统不追求营销页式的装饰密度，也不使用大面积品牌色制造情绪。视觉表达应优先帮助读者理解调用链、状态和时间顺序；每一个高亮、阴影和动效都必须服务于结构或反馈。
+
+**Key Characteristics:**
+
+- 黑白编辑式骨架，靠排版、留白和细边框建立层级。
+- 蓝色是稀少的教学信号，只标记当前主题、焦点和流程节点。
+- 系统无衬线负责阅读，等宽字体负责代码、编号、状态和控制标签。
+- 动画短促、可控、可降级，默认表现为元素进入与信号传播。
+- 桌面端保留课程导航与实验舞台，移动端把内容压缩为单列学习流。
+
+## Colors
+
+色板接近纸张与墨水：中性灰负责大多数层级，蓝色仅作为稀少且有含义的教学信号。
+
+### Primary
+
+- **Codex Ink** (`#111113`): 正文、标题与主要信息的默认颜色。
+- **Action Black** (`#18181b`): 主行动按钮、进度条和需要最高对比度的交互状态。
+- **Signal Blue** (`#3b82f6`): 键盘焦点、章节节点与机制状态提示；不是大面积背景色。
+- **Status Green** (`#22c55e`): 仅用于“架构就绪”等成功状态点。
+- **Signal Line** (`#a7bddb`): 动画舞台中的低对比度传播轨迹。
+
+### Neutral
+
+- **Deep Ink** (`#09090b`): 代码窗口与最深文字。
+- **Muted Graphite** (`#71717a`): 说明文字、元信息与代码注释。
+- **Quiet Zinc** (`#a1a1aa`): 次要编号、箭头和非活动状态。
+- **Rule Gray** (`#e4e4e7`): 主要边框与内容分隔线。
+- **Soft Rule** (`#eeeeef`): 工具栏、舞台页脚等容器内部的分隔线。
+- **Panel Paper** (`#fafafa`): 轻量 hover、面板与舞台底色。
+- **Canvas White** (`#ffffff`): 页面和主要内容面的基础背景。
+- **Signal Mist** (`#e9f1ff`): 蓝色标签的低对比度背景。
+- **Placeholder Gray** (`#b3b3ba`): 尚未开放章节的占位文字。
+- **Code Syntax Set** (`#ef4444`, `#d7a32b`, `#32a852`, `#c084fc`, `#60a5fa`): 仅限窗口控制点和代码语法着色。
+
+### Named Rules
+
+**The Signal, Not Paint Rule.** 蓝色只表示焦点、主题或运行信号；单屏蓝色面积应保持很小，不用于装饰性大色块。
+
+**The Paper and Ink Rule.** 默认用白、黑和中性灰解决层级，只有在语义不足时才引入颜色。
+
+## Typography
+
+**Display Font:** System UI Sans (`ui-sans-serif`, `system-ui`, `-apple-system`, `BlinkMacSystemFont`, `Segoe UI`, sans-serif)
+**Body Font:** System UI Sans（同上）
+**Label/Mono Font:** `SFMono-Regular`, `Consolas`, `Liberation Mono`, monospace
+
+**Character:** 无衬线字体保持教学内容直接、清楚；紧缩字距的大标题提供编辑感。等宽字体不是装饰，而是“这是代码、状态或序列信息”的语义标记。
+
+### Hierarchy
+
+- **Display** (740, `clamp(48px, 5vw, 66px)`, 1): 仅用于首页品牌主标题，字距 `-0.055em`。
+- **Headline** (700, `clamp(34px, 4vw, 45px)`, 1.1): 课程页主标题，字距 `-0.04em`。
+- **Section Heading** (710, `29px`, 1.25): 首页一级模块标题，字距 `-0.035em`。
+- **Title** (700, `23px`, 1.25): 课程内容分节标题，字距 `-0.025em`。
+- **Body** (400, `14–18px`, 1.5–1.6): 教学说明与摘要；长文建议控制在约 70 字符宽度内。
+- **Label** (600, `11–12px`, 1): 编号、事件名、状态和元信息；章节组标签可用 `0.08em` 字距与大写。
+- **Supporting Scale** (`13 / 14 / 17 / 18 / 19 / 20px`): 分别服务于占位说明、正文小号、舞台标题、引导语、卡片标题与箭头；不可随意增加中间字号。
+
+### Named Rules
+
+**The Two Voices Rule.** 叙述使用系统无衬线；代码、编号、状态、公式和时间线控制使用等宽字体，不混用职责。
+
+## Layout
+
+首页内容容器为 `min(1200px, calc(100% - 64px))`，采用居中的纵向章节流，主要章节使用约 `64px` 的上下留白。代码示例限制为 `674px`，时间线预览限制为 `850px`，通过更窄的内容面形成聚焦。
+
+课程页容器为 `min(1216px, calc(100% - 48px))`，桌面端使用 `255px + 1fr` 双栏网格与 `48px` 间距；侧栏在 `top: 92px` 处吸顶，右侧保留标题、摘要和交互舞台。课程卡片使用连续的三列边框网格，而不是彼此悬浮的卡片岛。
+
+在 `900px` 以下，课程页折叠为单列，侧栏变为横向章节导航，课程卡片降为两列；在 `680px` 以下，顶部导航隐藏文字入口，课程卡片与页面主体均变为单列，内容左右安全边距缩至 `14–16px`。核心间距沿用 `7 / 10 / 16 / 24 / 32 / 64px` 的节奏。
+
+## Elevation & Depth
+
+系统以平面为默认状态，主要依靠边框、背景色差和容器嵌套表达结构。阴影只出现在需要从纸面抬起的两个焦点对象：深色代码窗口与动画舞台中的中心讲解卡。
+
+### Shadow Vocabulary
+
+- **Code Window Lift** (`0 24px 52px rgba(0, 0, 0, 0.13)`): 只用于首页深色代码窗口，使其成为示例焦点。
+- **Stage Card Lift** (`0 14px 34px rgba(24, 24, 27, 0.07)`): 用于实验舞台中心对象，提供轻微空间分离。
+- **Action Rest** (`0 1px 2px rgba(0, 0, 0, 0.12)`): 主按钮的微弱实体感。
+
+### Named Rules
+
+**The Flat-by-Default Rule.** 普通卡片、导航和教学容器保持无阴影；只有代码窗口、主行动和舞台内的活动对象可以获得抬升。
+
+## Shapes
+
+形状语言以小半径矩形和一像素细边框为主。控制项使用 `6px`，主按钮使用 `8px`，教学面与舞台卡使用 `9–11px`；只有标签、状态点与进度轨道使用完全胶囊或圆形。课程目录网格保持直角，以连续边框强调它是一张结构表，而非营销卡片集合。
+
+## Components
+
+### Primary Button
+
+- **Shape:** `8px` 圆角，最小高度 `45px`，水平内边距 `24px`。
+- **Primary:** Action Black 背景、白色文字、`14px` 字号。
+- **Hover / Focus:** hover 上移 `1px` 并变为纯黑；focus 使用 `2px` Signal Blue 外描边与 `3px` offset。
+
+### Timeline Controls
+
+- **Shape:** 白底、`1px #d8d8dc` 边框、`6px` 圆角、`32px` 最小高度。
+- **State:** hover 加深边框与文字并使用 Panel Paper 背景；按钮按“播放 / 暂停 / 重播”成组出现。
+
+### Chips
+
+- **Topic Badge:** Signal Mist 背景、`#2f5f9b` 文字、胶囊轮廓、`4px 10px` 内边距。
+- **Draft Badge:** `#f4f4f5` 背景与 Muted Graphite 文字，只表示内容状态，不充当操作控件。
+
+### Cards / Containers
+
+- **Lesson Card:** 三列或单列连续网格的一格，直角、`24px` 内边距、最小高度 `190px`；hover 只把背景切换为 Panel Paper。
+- **Code Window:** `11px` 圆角、深色背景、深色边框和 Code Window Lift 阴影；顶部保留 38px 文件栏。
+- **Lesson Stage:** `9px` 圆角、细边框、白底；内部工具栏和页脚用 Soft Rule 分隔。
+
+### Navigation
+
+- **Top Bar:** `58px` 高、白色半透明背景、`14px` 毛玻璃和底边框；文字导航由灰转黑，品牌字标保持强对比。
+- **Lesson Sidebar:** 活动项使用浅灰背景、`6px` 圆角和更重字重；桌面端吸顶，窄屏转为横向短导航。
+- **Language Menu:** 使用 `src/ui/DropdownMenu.tsx` 封装 Radix 菜单交互与主题样式，`LanguageMenu.tsx` 只绑定语言状态，`AppShell` 只组装导航。触发器为透明底、14px 文字与小箭头，桌面和移动端均显示“中文 / EN”。菜单最小宽度 132px、白底、1px 细边框、6px 圆角、4px 内边距；每行只显示语言名与勾选标记，选中态不加粗、不铺底，hover 用浅灰。浮层仅使用 `0 2px 6px rgba(24, 24, 27, 0.04)` 微弱阴影。
+
+### Animation Stage
+
+舞台使用 `32px` 方格、径向淡出遮罩与白灰背景，中心内容面保持可读。GSAP 默认时长约 `0.55–0.65s`，使用 `power3.out` 进入与 `power3.inOut` 信号传播；动画优先采用 transform 与 opacity，并完整响应 `prefers-reduced-motion`。
+
+## Do's and Don'ts
+
+### Do:
+
+- **Do** 用排版、留白和一像素边框先解决信息层级。
+- **Do** 把蓝色留给焦点、章节节点、主题标签和运行信号。
+- **Do** 让课程动画具备播放、暂停、重播和 reduced-motion 降级。
+- **Do** 在代码、编号、公式、事件与状态信息上统一使用等宽字体。
+- **Do** 保持桌面双栏到移动单栏的清晰响应式转变。
+
+### Don't:
+
+- **Don't** 添加大面积渐变、霓虹色或无语义的蓝色装饰。
+- **Don't** 给每张卡片都加阴影；结构型容器默认保持平面。
+- **Don't** 使用超大圆角、玻璃卡片堆叠或胶囊形主按钮改变编辑式气质。
+- **Don't** 用持续循环或无法暂停的动画干扰阅读。
+- **Don't** 把营销文案的视觉优先级置于真实源码调用链和教学状态之上。

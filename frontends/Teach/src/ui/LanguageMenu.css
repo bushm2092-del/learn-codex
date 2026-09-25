@@ -1,0 +1,18 @@
+.language-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 0 4px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: #66666e;
+  font-size: 14px;
+  cursor: pointer;
+  transition: color 160ms ease;
+}
+.language-trigger:hover, .language-trigger[data-state="open"] { color: var(--ink); }
+.language-trigger svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 1.5; }
+.language-trigger[data-state="open"] svg { transform: rotate(180deg); }
