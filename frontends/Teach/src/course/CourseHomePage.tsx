@@ -57,6 +57,8 @@ export function CourseHomePage() {
           <h2 id="source-approach-title">{copy.home.sourceTitle}</h2>
           <p>{copy.home.sourceDescription}</p>
           <p>{copy.home.sourceStructure}</p>
+          <p>{copy.home.sourceLanguage}</p>
+          <p>{copy.home.sourceNext}</p>
         </div>
         <DirectoryComparison {...sourceComparison[locale]} />
       </section>

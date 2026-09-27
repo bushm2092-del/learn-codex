@@ -19,4 +19,4 @@ export async function api<T>(path: string, options: RequestInit = {}): Promise<T
 export type User = { id: number; login: string; avatar_url: string };
 export type CheckIn = { chapter_id: string; created_at: string };
 export type Comment = { id: number; user_id: number; body: string; created_at: string };
-export type Ranking = { user_id: number; login: string; chapters: number; rank: number };
+export type Ranking = { user_id: number; login: string; avatar_url: string; chapters: number; rank: number };
