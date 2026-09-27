@@ -5,7 +5,7 @@
 ## 边界
 
 - 只接受单个最多 12 KiB 的 Rust 源文件；标准库及预编译的 reqwest 0.12.28、tokio 1.48.0、serde_json 1.0.145。依赖由管理员通过已提交的 Cargo.lock 构建，任务只运行固定 rustc 命令，不运行 Cargo、不接收 Cargo.toml、build.rs、额外依赖、镜像名、shell 参数或宿主路径。
-- 全局一个 worker，最多 5 个待处理任务；每用户一个未结束任务、30 秒冷却，全局提交间隔 5 秒。队列 2 分钟过期，结果 5 分钟过期，最多保留 128 个任务。取消后等待容器清理再释放执行名额。
+- 全局一个 worker，最多 5 个待处理任务；每用户一个未结束任务，无用户级冷却，全局提交间隔 5 秒。队列 2 分钟过期，结果 5 分钟过期，最多保留 128 个任务。取消后等待容器清理再释放执行名额。
 - 启动前可用内存至少 2 GiB；容器 1 GiB memory/swap 上限（不额外使用 swap）、0.75 CPU、64 PIDs、64 文件描述符、无 core dump。编译 30 秒，运行 15 秒，外部总时限 50 秒。
 - 只读根目录，非 root、drop ALL capabilities、no-new-privileges、禁用 Docker 日志。仅 `/work` 64 MiB、`/tmp` 16 MiB 可写；合计也受容器内存上限约束。
 - `--network=none`。唯一宿主挂载是本任务专用只读 socket 目录；不挂载仓库、数据卷、Docker socket 或其他宿主目录。

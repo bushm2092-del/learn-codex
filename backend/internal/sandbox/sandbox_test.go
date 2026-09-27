@@ -54,6 +54,27 @@ func TestQueueBoundsAndOwnership(t *testing.T) {
 		t.Fatal("source cap")
 	}
 }
+func TestQueueResubmitWithoutUserCooldown(t *testing.T) {
+	q := NewQueue(nil, func() bool { return false })
+	first, err := q.Submit(1, Input{Source: "fn main() {}"})
+	if err != nil {
+		t.Fatal(err)
+	}
+	// 全局间隔结束后，仍拒绝同一用户的重复未完成任务。
+	q.next = time.Time{}
+	if _, err := q.Submit(1, Input{Source: "x"}); !errors.Is(err, ErrBusy) {
+		t.Fatal("active job accepted")
+	}
+	if err := q.Cancel(1, first.ID); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := q.Submit(1, Input{Source: "fn main() {}"}); err != nil {
+		t.Fatalf("unexpected user cooldown: %v", err)
+	}
+	if _, err := q.Submit(2, Input{Source: "x"}); !errors.Is(err, ErrBusy) {
+		t.Fatal("global interval removed")
+	}
+}
 func TestQueueSerialCancellation(t *testing.T) {
 	started := make(chan string, 2)
 	release := make(chan struct{})

@@ -7,6 +7,7 @@ import { rustExample, rustSandbox } from "../../i18n/rustSandbox";
 import "../../ui/RustSandbox.css";
 import { RustEditor } from "../../ui/RustEditor";
 import { HelpPopover } from "../../ui/HelpPopover";
+import { JsonOutput } from "../../ui/JsonOutput";
 
 type Job = {id: string; state: keyof typeof rustSandbox.zh.states; output: string; position: number};
 export function RustSandbox() {
@@ -19,6 +20,8 @@ function SandboxForm({signedIn}: {signedIn:boolean}) {
  const [job,setJob]=useState<Job>(),[busy,setBusy]=useState(false),[error,setError]=useState<"error"|"busy"|"unavailable"|"missing">();
  const [retry,setRetry]=useState(0);
  const active=job?.state==="queued"||job?.state==="running";
+ const loading=busy||active;
+ const progress=active?t.states[job.state]:t.pending;
  function failed(e:unknown){if(e instanceof ApiError&&e.status===404)setJob(undefined);setError(e instanceof ApiError ? e.status===429?"busy":e.status===503?"unavailable":e.status===404?"missing":"error":"error")}
  useEffect(()=>{
   if(!active||!job?.id)return;
@@ -32,7 +35,7 @@ function SandboxForm({signedIn}: {signedIn:boolean}) {
    <div className="rust-sandbox__editor-heading">
     <div className="rust-sandbox__filename"><label htmlFor="rust-source">main.rs</label><HelpPopover label={t.environment}><p>{t.hint}</p><p>{t.relay}</p></HelpPopover></div>
     <div className="rust-sandbox__actions">
-     {signedIn?<button type="submit" disabled={busy||active||!source.trim()}>{busy?t.pending:t.run}</button>:<Link to="/login?next=%2Flessons%2Fmodel-protocols">{t.login}</Link>}
+     {signedIn?<button type="submit" disabled={loading||!source.trim()} aria-busy={loading}>{loading&&<span className="rust-sandbox__spinner" aria-hidden="true" />}{loading?progress:t.run}</button>:<Link to="/login?next=%2Flessons%2Fmodel-protocols">{t.login}</Link>}
      <button type="button" disabled={busy||active} onClick={()=>setSource(rustExample)}>{t.reset}</button>
      {active&&<button type="button" disabled={busy} onClick={async()=>{setBusy(true);try{await api(`/sandbox/jobs/${job!.id}`,{method:"DELETE"});setJob(old=>old&&({...old,state:"cancelled"}));setError(undefined)}catch(e){failed(e)}finally{setBusy(false)}}}>{t.cancel}</button>}
     </div>
@@ -41,8 +44,8 @@ function SandboxForm({signedIn}: {signedIn:boolean}) {
    <p className="rust-sandbox__hint">{t.editorHint}</p>
    <label htmlFor="rust-key">{t.key}</label><input id="rust-key" type="password" autoComplete="off" value={key} onChange={e=>setKey(e.target.value)} maxLength={256} disabled={busy||active} />
    {error&&<p role="alert">{t[error]} {active&&<button type="button" onClick={()=>setRetry(n=>n+1)}>{t.retry}</button>}</p>}
-   <p role="status">{job ? `${t.states[job.state]}${job.state==="queued"?` · ${t.position} ${job.position}`:""}` : t.empty}</p>
-   <pre tabIndex={0} aria-label={t.output}>{job?.output||"—"}</pre>
+   <p role="status" className="rust-sandbox__status">{loading&&<span className="rust-sandbox__spinner" aria-hidden="true" />}{busy&&!active?t.pending:job ? `${t.states[job.state]}${job.state==="queued"?` · ${t.position} ${job.position}`:""}` : t.empty}</p>
+   <JsonOutput output={job?.output ?? ""} label={t.output} />
    <p className="rust-sandbox__hint">{t.privacy}</p>
    <p className="rust-sandbox__hint">{t.openSource} <a href="https://github.com/bushm2092-del/mini-codex" target="_blank" rel="noreferrer">github.com/bushm2092-del/mini-codex</a></p>
    <p className="rust-sandbox__hint">{t.outputPrivacy}</p>

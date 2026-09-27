@@ -1,0 +1,6 @@
+.json-output code { font:inherit; }
+.json-output__key { color:#075db5; }
+.json-output__string { color:#06743b; }
+.json-output__number { color:#b84b00; }
+.json-output__literal { color:#8024df; }
+.json-output::selection, .json-output *::selection { color:currentColor; background:#dce9f8; }

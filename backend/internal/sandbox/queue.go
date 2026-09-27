@@ -37,14 +37,13 @@ type Queue struct {
 	jobs    map[string]*job
 	pending []*job
 	active  *job
-	last    map[int64]time.Time
 	next    time.Time
 	execute Execute
 	ready   func() bool
 }
 
 func NewQueue(execute Execute, ready func() bool) *Queue {
-	return &Queue{jobs: map[string]*job{}, last: map[int64]time.Time{}, execute: execute, ready: ready}
+	return &Queue{jobs: map[string]*job{}, execute: execute, ready: ready}
 }
 func (q *Queue) Submit(owner int64, in Input) (Result, error) {
 	if owner <= 0 || len(in.Source) == 0 || len(in.Source) > 12288 || len(in.Key) > 256 {
@@ -59,7 +58,7 @@ func (q *Queue) Submit(owner int64, in Input) (Result, error) {
 	defer q.mu.Unlock()
 	now := time.Now()
 	q.prune(now)
-	if len(q.pending) >= 5 || len(q.jobs) >= 128 || now.Before(q.next) || now.Sub(q.last[owner]) < 30*time.Second {
+	if len(q.pending) >= 5 || len(q.jobs) >= 128 || now.Before(q.next) {
 		return Result{}, ErrBusy
 	}
 	for _, j := range q.jobs {
@@ -74,7 +73,6 @@ func (q *Queue) Submit(owner int64, in Input) (Result, error) {
 	j := &job{Result: Result{ID: hex.EncodeToString(b[:]), State: "queued"}, owner: owner, input: in, created: now}
 	q.jobs[j.ID] = j
 	q.pending = append(q.pending, j)
-	q.last[owner] = now
 	q.next = now.Add(5 * time.Second)
 	r := j.Result
 	r.Position = len(q.pending)
@@ -135,11 +133,6 @@ func (q *Queue) prune(now time.Time) {
 		}
 	}
 	q.pending = pending
-	for owner, t := range q.last {
-		if now.Sub(t) > time.Minute {
-			delete(q.last, owner)
-		}
-	}
 }
 
 // 唯一 worker 同步等待执行和清理完成；取消不会提前释放并发名额。
