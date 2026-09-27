@@ -26,7 +26,7 @@ export function AppShell() {
           <AccountControl />
           <a
             className="source-link"
-            href="https://github.com/openai/codex"
+            href="https://github.com/bushm2092-del/mini-codex"
             target="_blank"
             rel="noreferrer"
             aria-label={copy.navigation.source}
