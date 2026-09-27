@@ -5,6 +5,7 @@
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   --ink: #111113;
+  --canvas: #fff;
   --ink-strong: #09090b;
   --action: #18181b;
   --muted: #71717a;
