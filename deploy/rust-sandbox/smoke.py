@@ -33,7 +33,10 @@ fixture = r'''
         let mut body = vec![0; length]; reader.read_exact(&mut body).unwrap();
         let body: Value = serde_json::from_slice(&body).unwrap();
         assert_eq!(body["model"], "deepseek-flash");
-        assert_eq!(body["messages"][0]["content"], "Hello!");
+        assert_eq!(body["messages"][0]["content"], "你是谁");
+        assert_eq!(body["messages"][1]["role"], "assistant");
+        assert_eq!(body["messages"][1]["content"], "我是deepseek");
+        assert_eq!(body["messages"][2]["content"], "我的上一句话是什么？");
         let body = r#"{"choices":[{"message":{"content":"rust-http-json-ok"}}]}"#;
         write!(socket, "HTTP/1.1 STATUS\r\nContent-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{}", body.len(), body).unwrap();
     });

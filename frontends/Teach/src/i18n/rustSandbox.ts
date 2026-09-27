@@ -38,7 +38,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let response: Value = request
         .json(&json!({
             "model": "deepseek-flash",
-            "messages": [{"role": "user", "content": "Hello!"}],
+            "messages": [
+                {"role": "user", "content": "你是谁"},
+                {"role": "assistant", "content": "我是deepseek"},
+                {"role": "user", "content": "我的上一句话是什么？"}
+            ],
             "stream": false,
             "max_tokens": 256
         }))
