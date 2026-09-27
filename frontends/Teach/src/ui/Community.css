@@ -15,7 +15,30 @@
 .community-login { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; margin-bottom: 16px; }
 .chapter-community a { color: var(--ink); text-underline-offset: 4px; }
 .chapter-community textarea { display: block; width: 100%; box-sizing: border-box; resize: vertical; min-height: 110px; padding: 12px; border: 1px solid var(--line); border-radius: 6px; background: var(--panel); font: inherit; color: var(--ink); margin-top: 8px; }
-.chapter-community textarea:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+.chapter-community textarea:focus { border-color: var(--ink); outline: 2px solid var(--ink); outline-offset: -2px; }
+.chapter-community textarea { background: var(--canvas); min-height: 144px; padding: 16px; }
+.chapter-community textarea::placeholder { color: var(--muted); }
+.chapter-community label { font-size: 14px; font-weight: 550; }
+.chapter-community .community-button { min-height: 44px; padding: 10px 16px; }
+.community-button:focus-visible, .chapter-community button:focus-visible { outline-color: var(--ink); }
+.comment-actions > span { color: var(--muted); font-variant-numeric: tabular-nums; }
+.account-control__trigger { display: flex; align-items: center; gap: 8px; min-height: 40px; padding: 4px 6px; border: 0; border-radius: 6px; background: transparent; color: var(--ink); cursor: pointer; font: inherit; }
+.account-control__trigger:hover, .account-control__trigger[data-state="open"] { background: var(--panel); }
+.account-control__trigger:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.account-control__chevron { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.5; transition: transform 180ms ease-out; }
+.account-control__trigger[data-state="open"] .account-control__chevron { transform: rotate(180deg); }
+.account-control__menu { min-width: 190px; transform-origin: var(--radix-dropdown-menu-content-transform-origin); }
+.account-control__menu[data-state="open"] { animation: account-reveal 180ms ease-out; }
+.account-control__menu a { text-decoration: none; }
+.account-control__identity { padding: 10px; max-width: 240px; overflow-wrap: anywhere; font-size: 13px; border-bottom: 1px solid var(--line); margin-bottom: 4px; }
+.checkin-control { position: relative; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.checkin-control__done { display: flex; gap: 8px; align-items: center; font-size: 14px; }
+.checkin-control__done svg { width: 20px; height: 20px; fill: none; stroke: var(--ink); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.checkin-burst { position: absolute; left: 10px; top: 50%; width: 0; height: 0; pointer-events: none; }
+.checkin-burst i { position: absolute; width: 3px; height: 7px; border-radius: 2px; background: var(--ink); transform-origin: 0 0; animation: checkin-spark 700ms cubic-bezier(.16,1,.3,1) both; }
+@keyframes account-reveal { from { opacity: .5; transform: translateY(-5px) scale(.98); } to { opacity: 1; transform: none; } }
+@keyframes checkin-spark { from { transform: translateY(-10px); opacity: 1; } to { transform: translateY(-42px); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .account-control__menu[data-state="open"], .checkin-burst i { animation: none; } .account-control__chevron { transition: none; } .checkin-burst { display: none; } }
 .comment-actions { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-top: 10px; font-size: 13px; }
 .comment-list { padding: 0; list-style: none; margin: 24px 0; }
 .comment-list li { padding: 24px 0; border-bottom: 1px solid var(--line); }

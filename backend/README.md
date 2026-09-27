@@ -139,3 +139,7 @@ TEST_DATABASE_URL='postgres://user:password@localhost:5432/test?sslmode=disable'
 - 当前限流是每直连 IP 每秒 2 次、突发 30 次，单实例内存状态。默认不信任代理头；通过网关部署时需配置网关限流和受信任代理，不能直接相信客户端的 X-Forwarded-For。
 - 尚未提供评论审核后台、举报、反刷或验证码；公开社区上线前应补齐运营能力。没有引入 Redis 集群限流或异步分析管道，规模扩大时再增加。
 - 过期会话与 OAuth state 每小时清理。不要记录请求 Cookie、OAuth 回调查询串或认证头；网关日志也要脱敏。
+
+## 取消打卡
+
+`DELETE /api/v1/chapters/:chapter/check-in`：需要登录和合法 Origin，仅取消当前用户的该章节记录，重复取消返回 204。章节不存在返回 404；进度和排行榜按剩余记录实时计算。

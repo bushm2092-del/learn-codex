@@ -89,6 +89,17 @@ func (a *API) progress(c *gin.Context) {
 	}
 	c.JSON(200, gin.H{"items": rows})
 }
+func (a *API) cancelCheckIn(c *gin.Context) {
+	if err := a.svc.Store.Chapter(c.Request.Context(), c.Param("chapter")); err != nil {
+		a.fail(c, err)
+		return
+	}
+	if err := a.svc.Store.CancelCheckIn(c.Request.Context(), userID(c), c.Param("chapter")); err != nil {
+		a.fail(c, err)
+		return
+	}
+	c.Status(204)
+}
 func (a *API) leaderboard(c *gin.Context) {
 	rows, err := a.svc.Store.Leaderboard(c.Request.Context())
 	if err != nil {

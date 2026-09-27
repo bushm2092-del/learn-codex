@@ -17,6 +17,7 @@ function ChapterDiscussion({ chapter }: { chapter: string }) {
   const comments = useResource<{ items: Comment[]; next_cursor: number }>(user ? `/chapters/${chapter}/comments` : null);
   const progress = useResource<{ items: CheckIn[] }>(user ? "/me/check-ins" : null);
   const [body, setBody] = useState(""); const [busy, setBusy] = useState(false);
+  const [celebration, setCelebration] = useState(false);
   const [message, setMessage] = useState<keyof typeof t | null>(null); const [deleting, setDeleting] = useState<number | null>(null);
   const checked = progress.data?.items.some((item) => item.chapter_id === chapter);
   async function perform(action: () => Promise<void>) {
@@ -28,10 +29,15 @@ function ChapterDiscussion({ chapter }: { chapter: string }) {
   }
   return <section className="chapter-community" aria-label={t.comments}>
     <div className="chapter-checkin"><div><h2>{t.checkTitle}</h2><p>{t.checkNote}</p></div>
-      {user && <button className="community-button community-button--primary" disabled={busy || progress.loading || progress.error || checked} onClick={() => void perform(async () => {
-        await api(`/chapters/${chapter}/check-in`, { method: "PUT" });
-        progress.setData((old) => ({ items: [...(old?.items ?? []), { chapter_id: chapter, created_at: new Date().toISOString() }] }));
-      })}>{busy || progress.loading ? t.loading : checked ? t.checked : t.check}</button>}
+      {user && <div className="checkin-control">
+        {checked && <span className="checkin-control__done"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m4 10 4 4 8-8" /></svg>{t.checked}</span>}
+        <button className={`community-button ${checked ? "" : "community-button--primary"}`} disabled={busy || progress.loading || progress.error} onClick={() => void perform(async () => {
+          await api(`/chapters/${chapter}/check-in`, { method: checked ? "DELETE" : "PUT" });
+          progress.setData((old) => ({ items: checked ? (old?.items ?? []).filter(item => item.chapter_id !== chapter) : [...(old?.items ?? []).filter(item => item.chapter_id !== chapter), { chapter_id: chapter, created_at: new Date().toISOString() }] }));
+          setCelebration(!checked); setMessage(checked ? "checkUndone" : "checkSuccess");
+        })}>{busy || progress.loading ? t.loading : checked ? t.undoCheck : t.check}</button>
+        {celebration && <span className="checkin-burst" aria-hidden="true" onAnimationEnd={() => setCelebration(false)}>{Array.from({ length: 8 }, (_, i) => <i key={i} style={{ rotate: `${i * 45}deg` }} />)}</span>}
+      </div>}
     </div>
     {user && progress.error && <p role="alert">{t.progressError} <button onClick={() => void progress.reload()}>{t.retry}</button></p>}
     {!user && <div className="community-login"><p>{t.loginHint}</p><AccountControl /></div>}

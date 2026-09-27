@@ -62,6 +62,7 @@ func New(cfg config.Config, svc *service.Service, provider oauth.Provider) *gin.
 	protected.POST("/chapters/:chapter/comments", a.comment)
 	protected.DELETE("/comments/:id", a.deleteComment)
 	protected.PUT("/chapters/:chapter/check-in", a.checkIn)
+	protected.DELETE("/chapters/:chapter/check-in", a.cancelCheckIn)
 	return r
 }
 func (a *API) boundary() gin.HandlerFunc {

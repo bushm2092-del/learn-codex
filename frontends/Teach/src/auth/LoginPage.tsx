@@ -5,6 +5,7 @@ import { useAuth } from "./context";
 import { useLocale } from "../i18n/useLocale";
 import { community } from "../i18n/community";
 import "../ui/AuthPage.css";
+import { GitHubIcon } from "../ui/GitHubIcon";
 
 export function LoginPage() {
   const { locale } = useLocale();
@@ -59,7 +60,7 @@ export function LoginPage() {
       <button className="auth-page__submit" disabled={busy}>{busy ? t.loading : register ? t.submitRegister : t.submitLogin}<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" /></svg></button>
     </form>
     <div className="auth-page__divider">{t.alternate}</div>
-    <button type="button" className="auth-page__github" disabled={busy} onClick={() => void github()}>{t.login}</button>
+    <button type="button" className="auth-page__github" disabled={busy} onClick={() => void github()}><GitHubIcon />{t.login}</button>
     <p className="auth-page__guest">{t.guestAccess}</p>
     <Link className="auth-page__browse" to="/">{t.browse}</Link>
   </main>;

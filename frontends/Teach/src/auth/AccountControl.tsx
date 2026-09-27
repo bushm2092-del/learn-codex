@@ -5,6 +5,8 @@ import { useAuth } from "./context";
 import { useLocale } from "../i18n/useLocale";
 import { community } from "../i18n/community";
 import "../ui/Community.css";
+import { UserAvatar } from "../ui/UserAvatar";
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "../ui/DropdownMenu";
 export function AccountControl() {
   const { locale } = useLocale(); const t = community[locale]; const { user, status, refresh } = useAuth();
   const [busy, setBusy] = useState(false); const [error, setError] = useState<"offline" | "unconfigured" | null>(null);
@@ -17,8 +19,20 @@ export function AccountControl() {
     } catch { setError("offline"); } finally { setBusy(false); }
   }
   return <div className="account-control">
-    {user && <span className="account-control__name" title={user.login}>{user.login}</span>}
-    <button className="community-button" disabled={busy || status === "loading"} onClick={() => status === "error" ? void refresh() : void act()}>{busy || status === "loading" ? t.loading : status === "error" ? t.retry : user ? t.logout : t.login}</button>
-    {error && <span role="status">{t[error]}</span>}
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <button className="account-control__trigger" aria-label={`${t.accountMenu}: ${user.login}`} disabled={busy}>
+          <UserAvatar name={user.login} src={user.avatar_url} />
+          <span className="account-control__name">{user.login}</span>
+          <svg className="account-control__chevron" viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4" /></svg>
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="account-control__menu">
+        <div className="account-control__identity">{user.login}</div>
+        <DropdownMenuItem asChild><Link to="/leaderboard">{t.leaderboard}</Link></DropdownMenuItem>
+        <DropdownMenuItem disabled={busy || status === "loading"} onSelect={() => void act()}>{busy ? t.loading : t.logout}</DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+    {error && <span className="account-control__error" role="status">{t[error]}</span>}
   </div>;
 }

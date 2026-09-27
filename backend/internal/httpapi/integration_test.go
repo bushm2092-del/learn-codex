@@ -161,6 +161,21 @@ func TestPostgresFlow(t *testing.T) {
 	if err != nil || len(ranks) != 2 || ranks[0].Rank != 1 || ranks[1].Rank != 1 || ranks[0].UserID > ranks[1].UserID {
 		t.Fatal("tie ordering", ranks, err)
 	}
+	// 取消幂等、身份隔离，并实时影响进度和排行榜。
+	requireStatus(request("DELETE", "/api/v1/chapters/agent-loop/check-in", ""), 401)
+	requireStatus(request("DELETE", "/api/v1/chapters/unknown/check-in", "", session), 404)
+	for i := 0; i < 2; i++ {
+		requireStatus(request("DELETE", "/api/v1/chapters/agent-loop/check-in", "", session), 204)
+	}
+	progress, err := store.Progress(context.Background(), user.ID)
+	if err != nil || len(progress) != 1 || progress[0].ChapterID != "context" {
+		t.Fatal("cancel did not update progress", progress, err)
+	}
+	ranks, err = store.Leaderboard(context.Background())
+	if err != nil || len(ranks) != 2 || ranks[0].UserID != other.ID || ranks[0].Chapters != 2 || ranks[1].Chapters != 1 {
+		t.Fatal("cancel affected wrong user or rank", ranks, err)
+	}
+	requireStatus(request("PUT", "/api/v1/chapters/agent-loop/check-in", "", session), 200)
 	view := request("POST", "/api/v1/analytics/views", `{"page":"/lessons/agent-loop"}`)
 	requireStatus(view, 204)
 	visitor := view.Result().Cookies()[0]

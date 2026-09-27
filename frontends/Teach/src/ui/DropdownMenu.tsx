@@ -7,6 +7,9 @@ import "./DropdownMenu.css";
 export const DropdownMenu = Primitive.Root;
 export const DropdownMenuTrigger = Primitive.Trigger;
 export const DropdownMenuRadioGroup = Primitive.RadioGroup;
+export function DropdownMenuItem({ className = "", ...props }: ComponentProps<typeof Primitive.Item>) {
+  return <Primitive.Item {...props} className={`ui-dropdown__item ${className}`} />;
+}
 
 export function DropdownMenuContent({
   className = "",

@@ -17,7 +17,7 @@
 .auth-page__submit:hover { background: #000; }
 .auth-page__divider { display: flex; align-items: center; gap: 16px; margin: 24px 0; color: var(--muted); font-size: 12px; }
 .auth-page__divider::before, .auth-page__divider::after { content: ""; flex: 1; height: 1px; background: var(--line); }
-.auth-page__github { width: 100%; border: 1px solid var(--line); background: var(--canvas); color: var(--ink); }
+.auth-page__github { width: 100%; border: 1px solid var(--line); background: var(--canvas); color: var(--ink); display: flex; align-items: center; justify-content: center; gap: 10px; }
 .auth-page__github:hover { background: var(--panel); }
 .auth-page__guest { margin: 24px 0 12px; font-size: 12px; line-height: 1.7; color: var(--muted); text-align: center; }
 .auth-page__browse { display: block; text-align: center; font-size: 13px; color: var(--ink); text-underline-offset: 4px; }

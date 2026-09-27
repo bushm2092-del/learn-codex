@@ -74,6 +74,11 @@ func (s *Store) Progress(ctx context.Context, user int64) ([]model.CheckIn, erro
 	err := s.DB.WithContext(ctx).Where("user_id = ?", user).Order("created_at").Find(&rows).Error
 	return rows, err
 }
+
+// 删除条件必须同时包含用户与章节，重复取消保持幂等。
+func (s *Store) CancelCheckIn(ctx context.Context, user int64, chapter string) error {
+	return s.DB.WithContext(ctx).Where("user_id = ? AND chapter_id = ?", user, chapter).Delete(&model.CheckIn{}).Error
+}
 func (s *Store) Leaderboard(ctx context.Context) ([]model.Rank, error) {
 	rows := []model.Rank{}
 	err := s.DB.WithContext(ctx).Raw(`SELECT u.id AS user_id,u.login,u.avatar_url,count(*) AS chapters,
