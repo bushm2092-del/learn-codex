@@ -21,6 +21,9 @@
 | `src/course/` | 课程目录、类型、稳定元数据和课程首页 |
 | `src/lessons/<lesson-id>/` | 单课页面、讲解数据、场景与步骤编排 |
 | `src/animation/` | 共享 timeline 生命周期、播放控制与动画基础设施 |
+| `src/api/` | 后台请求、协议类型与错误 |
+| `src/auth/` | 账号状态与 GitHub 登录入口 |
+| `src/community/` | 评论、打卡、排行榜与访问统计 |
 | `src/styles/` | 全局 tokens、基础排版、页面布局与响应式规则 |
 
 - 可封装的界面组件必须放在 `src/ui/`，不在页面或 `AppShell` 内堆积通用组件实现。

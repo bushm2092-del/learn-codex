@@ -21,7 +21,7 @@ export const messages = {
     home: {
       note: "从 0 到 1 理解 Codex harness，每次只看清一个运行机制",
       start: "开始学习",
-      sourceTitle: "对照 Codex 源码，只简化实现",
+      sourceTitle: "1:1 实现",
       sourceDescription: "以 Codex 源码为唯一结构参照，按 1:1 对照原则移植核心逻辑：保留模块边界、调用链与状态流转，只精简当前教学范围之外的实现。",
       sourceStructure: "包、文件、类型、命名与目录层级均保持可追溯的源码对应关系。",
       coreTitle: "核心模式",
@@ -92,7 +92,7 @@ export const messages = {
     home: {
       note: "Understand the Codex harness from first principles, one mechanism at a time.",
       start: "Start learning",
-      sourceTitle: "Follow Codex source. Simplify the implementation.",
+      sourceTitle: "1:1 Implementation",
       sourceDescription: "Codex source is the structural reference. Core logic is ported with a one-to-one correspondence principle, preserving module boundaries, call chains and state transitions while removing implementation outside the teaching scope.",
       sourceStructure: "Packages, files, types, names and directory hierarchies retain traceable source mappings.",
       coreTitle: "The Core Pattern",

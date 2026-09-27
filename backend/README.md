@@ -1,6 +1,6 @@
 # Learn Codex Backend
 
-教学站独立业务后台，与 `frontends/Teach` 对接；不属于 Codex Rust 内核。本期提供 API，不修改教学前端页面。真实 GitHub 登录需要自建 OAuth App。
+教学站独立业务后台，与 `frontends/Teach` 对接；不属于 Codex Rust 内核。教学前端已接入登录、章节评论与打卡、排行榜及 PV/UV。真实 GitHub 登录需要自建 OAuth App。
 
 ## 技术与边界
 
@@ -72,6 +72,7 @@ go run ./cmd/server
 | --- | --- | --- |
 | `GET /healthz` / `GET /readyz` | 进程存活 / 数据库就绪 | 否 |
 | `GET /api/v1/auth/github` | 跳转 GitHub | 否 |
+| `GET /api/v1/auth/config` | 是否已配置 GitHub 登录，不返回密钥 | 否 |
 | `GET /api/v1/auth/github/callback` | OAuth 回调 | 否 |
 | `GET /api/v1/me` | 当前账号公开信息 | 是 |
 | `POST /api/v1/auth/logout` | 注销当前会话 | 是 |

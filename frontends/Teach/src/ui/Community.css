@@ -1,0 +1,35 @@
+.community-button { border: 1px solid var(--line); border-radius: 6px; background: #fff; padding: 7px 12px; font: inherit; font-size: 13px; cursor: pointer; color: var(--ink); }
+.community-button:hover { background: var(--panel); }
+.community-button--primary { background: var(--action); color: #fff; border-color: var(--action); }
+.community-button--primary:hover { background: #000; }
+.community-button:disabled { opacity: .55; cursor: default; }
+.community-button:focus-visible, .chapter-community button:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
+.account-control { position: relative; display: flex; align-items: center; gap: 10px; }
+.account-control__name { max-width: 100px; overflow: hidden; text-overflow: ellipsis; font-size: 13px; }
+.account-control__error { position: absolute; right: 0; top: 100%; width: 230px; background: #fff; border: 1px solid var(--line); padding: 10px; border-radius: 6px; font-size: 13px; z-index: 20; }
+.chapter-community { margin: 64px 0; padding-top: 32px; border-top: 1px solid var(--line); font-size: 15px; line-height: 1.7; }
+.chapter-community h2 { font-size: 23px; margin: 32px 0 16px; }
+.chapter-checkin { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.chapter-checkin h2 { margin-top: 0; }
+.chapter-checkin p, .community-muted { color: var(--muted); }
+.community-login { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; margin-bottom: 16px; }
+.chapter-community a { color: var(--ink); text-underline-offset: 4px; }
+.chapter-community textarea { display: block; width: 100%; box-sizing: border-box; resize: vertical; min-height: 110px; padding: 12px; border: 1px solid var(--line); border-radius: 6px; background: var(--panel); font: inherit; color: var(--ink); margin-top: 8px; }
+.chapter-community textarea:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+.comment-actions { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-top: 10px; font-size: 13px; }
+.comment-list { padding: 0; list-style: none; margin: 24px 0; }
+.comment-list li { padding: 24px 0; border-bottom: 1px solid var(--line); }
+.comment-meta { display: flex; gap: 16px; justify-content: space-between; font-size: 13px; }
+.comment-meta time { color: var(--muted); }
+.comment-list p { white-space: pre-wrap; overflow-wrap: anywhere; }
+.community-page { max-width: 850px; width: calc(100% - 40px); margin: 64px auto; min-height: 55vh; }
+.community-page h1 { font-size: 34px; }
+.community-page > p { color: var(--muted); line-height: 1.7; }
+.ranking-table { width: 100%; border-collapse: collapse; margin-top: 32px; text-align: left; table-layout: fixed; }
+.ranking-table th, .ranking-table td { padding: 16px 8px; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
+.ranking-table th { color: var(--muted); font-size: 13px; font-weight: 500; }
+.ranking-table th:first-child { width: 16%; }
+.ranking-table th:last-child { width: 25%; }
+.site-stats { display: grid; gap: 7px; padding: 32px 20px; text-align: center; color: var(--muted); font-size: 13px; }
+@media (max-width: 1000px) { .topnav > a:nth-child(-n+3) { display: none; } }
+@media (max-width: 680px) { .account-control__name { display: none; } .topnav > .community-nav, .topnav > .source-link { display: none; } .account-control .community-button { font-size: 12px; padding: 7px; } .chapter-checkin { flex-wrap: wrap; } }

@@ -2,12 +2,17 @@ import { Link, NavLink, Outlet } from "react-router-dom";
 
 import { useLocale } from "../i18n/useLocale";
 import { LanguageMenu } from "./LanguageMenu";
+import { AccountControl } from "../auth/AccountControl";
+import { PageViews } from "../community/PageViews";
+import { SiteStats } from "../community/SiteStats";
+import { community } from "../i18n/community";
 
 export function AppShell() {
-  const { copy } = useLocale();
+  const { copy, locale } = useLocale();
 
   return (
     <div className="app-shell">
+      <PageViews />
       <header className="topbar">
         <Link className="wordmark" to="/" aria-label={copy.navigation.home}>
           Learn Codex
@@ -17,6 +22,8 @@ export function AppShell() {
           <Link to="/#core-pattern">{copy.navigation.architecture}</Link>
           <Link to="/#learning-path">{copy.navigation.lessons}</Link>
           <LanguageMenu />
+          <NavLink className="community-nav" to="/leaderboard">{community[locale].leaderboard}</NavLink>
+          <AccountControl />
           <a
             className="source-link"
             href="https://github.com/openai/codex"
@@ -34,6 +41,7 @@ export function AppShell() {
       <div className="app-content" id="content">
         <Outlet />
       </div>
+      <SiteStats />
     </div>
   );
 }

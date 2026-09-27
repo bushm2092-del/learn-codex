@@ -67,8 +67,21 @@ UI 职责：`DropdownMenu.tsx` 封装 Radix 菜单和主题样式，不依赖 i1
 手动复制演示使用 Remotion 自带的帧插值和 spring，不包含视频导出。窗口外壳 `src/ui/DesktopWindow.tsx` 与提示 `src/ui/SceneToast.tsx` 是纯展示组件，课程负责时序。界面不显示步骤标题、阶段条、“看这里”“手动操作”或剪贴板栏；复制与保存通过短暂 toast 提示。减少动态效果时不移动鼠标、镜头或逐字显示文本。状态测试：`node --experimental-strip-types --test tests/manualScene.test.mjs`。
 # 课程代码展示
 
+## 教学站 API 接入
+
+`src/api/` 封装带 Cookie 的请求和错误；`src/auth/` 管登录状态；`src/community/` 管章节评论、打卡、排行榜和访问统计，双语文案在 `src/i18n/community.ts`。通用样式放在 `src/ui/Community.css`。
+
+先按 `backend/README.md` 启动后台，再运行教学站。Vite dev/preview 默认把 `/api` 代理到 `http://localhost:8080`。生产需在反向代理配置同站点 `/api`，或通过 `VITE_API_BASE_URL` 指定 API origin；该变量不得包含密钥。后台 `FRONTEND_ORIGIN` 必须与浏览器 origin 一致，跨 origin 请求仍需同站点 Cookie。
+
+GitHub 登录前检查 `/auth/config`，未配置会留在当前页提示；成功回调后重新读取 `/me`。只有已开放的 Agent Loop 页挂载章节互动，其他章节开放后复用 `ChapterCommunity`。评论作为纯文本渲染，删除需二次确认，打卡以服务端结果为准。排行榜独立路由 `/leaderboard`，手机可通过页脚或课程末尾进入。
+
+PV 仅在首页或已开放章节路径变化时上报一次；不因语言切换、hash 锚点或 StrictMode 重执行重复上报，也不自动重试写请求。页脚展示近 30 日聚合统计，服务不可用时隐藏数字而不是显示假 0。后台故障不影响课程阅读。
+
 首页目录对照图使用 `src/ui/DirectoryComparison`，实际路径与双语职责标签位于 `src/course/sourceComparison.ts`；展示已核对的核心文件与真实顶层路径映射，不代表完整仓库清单。
 
 自动演示由 `LoopDebuggerFilm` 展示调试器式执行过程，`debuggerTrace` 从协议轨迹推导 22 个执行快照。支持查看 prompt、task、tools、history、reply、call、result 及完整请求/响应；地址显示为 `POST https://api.deepseek.com/chat/completions`，不发送请求。变量面板可展开，仅通过上一步、下一步切换快照，不提供播放或时间进度条。
 
 Agent Loop 自动循环动画前提供简短 Rust 伪代码，说明请求模型、记录响应、执行工具、按调用 ID 回传结果与循环结束。示例省略生产级控制分支，不可直接运行。通用展示组件位于 `src/ui/CodeBlock`，使用 Shiki（按需加载 Rust / GitHub Light），双语教学内容位于 `src/i18n/agentLoopCode.ts`。
+# 访问与登录
+
+首页和课程支持未登录阅读，账号服务不可用时不在导航弹出错误。评论、打卡入口及排行榜在未登录时引导到独立的 `/login` 页面；登录配置或网络错误只在该页主动登录后显示。GitHub 授权成功后由后台返回首页。这里是前端访问策略，后台公开读取接口不因此变为私有。
