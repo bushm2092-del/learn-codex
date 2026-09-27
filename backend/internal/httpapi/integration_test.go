@@ -247,7 +247,8 @@ func TestPostgresFlow(t *testing.T) {
 		t.Fatal("session not rotated")
 	}
 	requireStatus(request("GET", "/api/v1/me", "", newSession), 200)
-	requireStatus(request("POST", "/api/v1/auth/login", `{"username":"local_learner","password":"a-long-test-password"}`), 429)
+	// 关闭请求限流后，重复的有效登录仍应成功。
+	requireStatus(request("POST", "/api/v1/auth/login", `{"username":"local_learner","password":"a-long-test-password"}`), 200)
 	var account model.PasswordAccount
 	db.First(&account, "username = ?", "local_learner")
 	if account.PasswordHash == "a-long-test-password" || !strings.HasPrefix(account.PasswordHash, "$2") {
