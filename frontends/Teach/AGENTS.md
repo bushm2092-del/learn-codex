@@ -6,7 +6,7 @@
 
 - 产品名为 **Learn Codex**，用网页交互动画讲解 Codex harness 的运行机制。
 - 以可播放、暂停、重播的教学动画为主要形式。未明确要求时，不增加视频导出或视频制作流程。
-- 第一课是 Agent Loop（执行循环）。课程顺序为 Agent Loop → Responses / Chat → Function Calling → MCP → Skills → Sandbox → Plan Mode → Goal Mode → Subagent → Agent Team。具体讲解步骤以用户提供的过程为输入，再对照真实 Codex 源码完善；未确认的内容保留明确占位，不编造机制、事件顺序或已实现能力。
+- 第一课是 Agent Loop（执行循环）。课程顺序为 Agent Loop → Responses / Chat → Function Calling → Context → Session Storage → MCP → Skills → Sandbox → Plan Mode → Goal Mode → Subagent → Agent Team。具体讲解步骤以用户提供的过程为输入，再对照真实 Codex 源码完善；未确认的内容保留明确占位，不编造机制、事件顺序或已实现能力。
 - 页面框架、语言切换和教学交互属于本项目独有的展示层；涉及 session、turn、model client、tool 调度、history 等原理时，以根规范指定的 Codex 源项目为准。
 
 ## 技术与组件职责

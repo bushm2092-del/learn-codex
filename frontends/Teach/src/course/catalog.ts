@@ -45,8 +45,36 @@ export const lessons: readonly LessonDefinition[] = [
     "status": "planned"
   },
   {
-    "id": "mcp",
+    "id": "context",
     "order": 4,
+    "path": "/lessons/context",
+    "title": {
+      "zh": "Context · 上下文机制",
+      "en": "Context · Context Management"
+    },
+    "description": {
+      "zh": "上下文组成、历史消息、窗口限制与压缩机制。",
+      "en": "Context composition, message history, window limits, and compaction."
+    },
+    "status": "planned"
+  },
+  {
+    "id": "session-storage",
+    "order": 5,
+    "path": "/lessons/session-storage",
+    "title": {
+      "zh": "Session · 会话存储机制",
+      "en": "Session · Session Storage"
+    },
+    "description": {
+      "zh": "会话记录如何持久化，以及如何加载和恢复。",
+      "en": "How session records are persisted, loaded, and resumed."
+    },
+    "status": "planned"
+  },
+  {
+    "id": "mcp",
+    "order": 6,
     "path": "/lessons/mcp",
     "title": {
       "zh": "MCP · 外部工具接入",
@@ -60,7 +88,7 @@ export const lessons: readonly LessonDefinition[] = [
   },
   {
     "id": "skills",
-    "order": 5,
+    "order": 7,
     "path": "/lessons/skills",
     "title": {
       "zh": "Skills · 可复用工作流",
@@ -74,7 +102,7 @@ export const lessons: readonly LessonDefinition[] = [
   },
   {
     "id": "sandbox",
-    "order": 6,
+    "order": 8,
     "path": "/lessons/sandbox",
     "title": {
       "zh": "Sandbox · 沙箱与权限",
@@ -88,7 +116,7 @@ export const lessons: readonly LessonDefinition[] = [
   },
   {
     "id": "plan-mode",
-    "order": 7,
+    "order": 9,
     "path": "/lessons/plan-mode",
     "title": {
       "zh": "Plan Mode · 计划模式",
@@ -102,7 +130,7 @@ export const lessons: readonly LessonDefinition[] = [
   },
   {
     "id": "goal-mode",
-    "order": 8,
+    "order": 10,
     "path": "/lessons/goal-mode",
     "title": {
       "zh": "Goal Mode · 目标模式",
@@ -116,7 +144,7 @@ export const lessons: readonly LessonDefinition[] = [
   },
   {
     "id": "subagent",
-    "order": 9,
+    "order": 11,
     "path": "/lessons/subagent",
     "title": {
       "zh": "Subagent · 子 Agent",
@@ -130,7 +158,7 @@ export const lessons: readonly LessonDefinition[] = [
   },
   {
     "id": "agent-team",
-    "order": 10,
+    "order": 12,
     "path": "/lessons/agent-team",
     "title": {
       "zh": "Agent Team · 多 Agent 协作",

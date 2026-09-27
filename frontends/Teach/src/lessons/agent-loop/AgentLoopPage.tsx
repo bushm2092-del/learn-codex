@@ -29,7 +29,6 @@ export function AgentLoopPage() {
           <div className="lesson-meta">
             <span>{copy.lesson.session}</span>
             <span>{copy.lesson.interactive}</span>
-            <span className="draft-badge">{copy.lesson.draft}</span>
           </div>
           <p className="lesson-summary">
             {copy.lesson.summary}
@@ -56,12 +55,10 @@ export function AgentLoopPage() {
           <ol>{architecture.modules.map((module) => <li key={module.title}><strong>{module.title}</strong><br/>{module.body}</li>)}</ol>
           <p>{architecture.loop}</p>
           <p>{architecture.ending}</p>
-          <p>{architecture.caveat}</p>
         </section>
         <section className="lesson-section agent-loop-intro" aria-labelledby="agent-loop-code-title">
           <h2 id="agent-loop-code-title">{code.title}</h2>
           <p>{code.intro}</p>
-          <p>{functions.note}</p>
           {functions.sections.map((section) => <section key={section.label}>
             <h3>{section.title}</h3>
             <p>{section.body}</p>
@@ -69,7 +66,6 @@ export function AgentLoopPage() {
           </section>)}
           <h3>{functions.title}</h3>
           <CodeBlock code={code.code} label={code.label} />
-          <p>{code.note}</p>
         </section>
         <AutomatedLoopDemo />
       </article>
