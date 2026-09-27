@@ -4,6 +4,7 @@ import { useState } from "react";
 import { lessons } from "../course/catalog";
 import { useLocale } from "../i18n/useLocale";
 import "./CourseSidebar.css";
+import { ChapterTags } from "../community/ChapterTags";
 
 // 课程导航负责目录绑定；每课页面只负责自己的讲解和场景。
 export function CourseSidebar() {
@@ -20,15 +21,15 @@ export function CourseSidebar() {
       </div>
       <nav id="course-sidebar-links" hidden={collapsed}>
         {lessons.map((lesson) =>
-          lesson.status === "planned" ? (
+          lesson.status === "planned" || lesson.available === false ? (
             <div className="lesson-sidebar__planned" key={lesson.id}>
               <span>s{String(lesson.order).padStart(2, "0")}</span>
-              <span>{lesson.title[locale]}<small>{copy.home.planned}</small></span>
+              <span>{lesson.title[locale]}<small>{lesson.status === "draft" ? copy.home.draft : copy.home.planned}</small></span>
             </div>
           ) : (
             <NavLink key={lesson.id} to={lesson.path}>
               <span>s{String(lesson.order).padStart(2, "0")}</span>
-              {lesson.title[locale]}
+              <span className="lesson-sidebar__title">{lesson.title[locale]}<ChapterTags chapter={lesson.id} status={lesson.status} /></span>
             </NavLink>
           ),
         )}

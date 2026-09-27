@@ -28,7 +28,7 @@ func New(cfg config.Config, svc *service.Service, provider oauth.Provider) *gin.
 	r.Use(gin.CustomRecoveryWithWriter(io.Discard, func(c *gin.Context, _ any) {
 		slog.Error("http_panic")
 		c.AbortWithStatusJSON(500, gin.H{"error": "internal_error"})
-	}), a.boundary(), newLimiter())
+	}), a.boundary())
 	r.GET("/healthz", func(c *gin.Context) { c.JSON(200, gin.H{"status": "ok"}) })
 	r.GET("/readyz", func(c *gin.Context) {
 		db, err := svc.Store.DB.DB()
@@ -55,6 +55,7 @@ func New(cfg config.Config, svc *service.Service, provider oauth.Provider) *gin.
 	v.GET("/leaderboard", a.leaderboard)
 	v.POST("/analytics/views", a.view)
 	v.GET("/analytics/stats", a.stats)
+	v.GET("/chapters/:chapter/stats", a.chapterStats)
 	protected := v.Group("")
 	protected.Use(a.authenticate)
 	protected.GET("/me", func(c *gin.Context) { c.JSON(200, c.MustGet("user")) })

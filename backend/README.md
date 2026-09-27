@@ -1,5 +1,7 @@
 # Learn Codex Backend
 
+章节累计访问统计：`GET /api/v1/chapters/:chapter/stats` 返回 `{pv, uv}`，按章节页面隔离。PV 累计访问次数，UV 在全部记录中按匿名访客标识去重，不等于真实人数。沿用现有访问数据，无需迁移。
+
 前后端一体离线发布使用仓库根目录 `make offline-pack VERSION=v1`，服务器启动、迁移、备份流程见 [离线部署说明](../deploy/README.md)。本目录 compose.yaml 继续用于独立后台本地开发。
 
 教学站独立业务后台，与 `frontends/Teach` 对接；不属于 Codex Rust 内核。教学前端已接入登录、章节评论与打卡、排行榜及 PV/UV。真实 GitHub 登录需要自建 OAuth App。
@@ -13,12 +15,12 @@
 - `POST /api/v1/auth/register` 和 `POST /api/v1/auth/login` 接收 `{"username":"learner","password":"your-long-password"}`。注册成功 201，登录成功 200，均签发原有 HttpOnly 会话 Cookie；需要合法 Origin。
 - 用户名为 3–32 位英文字母、数字、下划线，统一小写。密码至少 12 个 Unicode 字符，最多 72 字节，不裁剪、不静默截断。
 - bcrypt cost 12 加盐哈希；凭据不进入用户响应或日志。本地账号和 GitHub 账号独立，不因同名合并。
-- 重复用户名 409；错误密码和不存在的账号统一 401。注册与登录共享每直连 IP 5 次突发额度，每 12 秒恢复一次，进程重启会重置；多副本/生产部署应在网关补充统一防滥用限流。
+- 重复用户名 409；错误密码和不存在的账号统一 401。按当前要求暂时关闭请求限流，包括注册与登录；生产环境应另行配置防暴力尝试措施。
 - 注册自动登录；再次登录轮换会话，退出立即失效。当前没有密码找回、邮箱验证或账号合并功能。
 - 迁移回滚会删除密码凭据但保留用户及学习数据；上线前应备份，生产优先前向迁移。
 
 - Go 1.26、Gin、GORM + PostgreSQL 17、Goose SQL 迁移、`golang.org/x/oauth2`。
-- 标准库 `slog` JSON 日志、HTTP 超时、优雅停机，基于 `x/time/rate` 的进程内限流。
+- 标准库 `slog` JSON 日志、HTTP 超时、优雅停机；进程内限流暂不启用。
 - 模块化单体 + 构造函数依赖注入；不引入暂时不需要的 Redis、消息队列或微服务。
 - Cookie 服务端会话可即时注销；数据库只保存 SHA-256 会话令牌哈希。OAuth 使用 state + PKCE，令牌仅用于获取公开 GitHub 身份，不申请仓库权限、不保存 GitHub access token。
 
@@ -136,7 +138,7 @@ TEST_DATABASE_URL='postgres://user:password@localhost:5432/test?sslmode=disable'
 
 - 入口反向代理终止 HTTPS，设置 `COOKIE_SECURE=true`，限制外部访问健康检查；配置 PostgreSQL 备份与恢复演练、监控和密钥轮换。
 - 容器非 root、只读根文件系统、不暴露数据库端口。容器镜像版本和 Go 依赖锁定在配置中；部署时扫描镜像及依赖。
-- 当前限流是每直连 IP 每秒 2 次、突发 30 次，单实例内存状态。默认不信任代理头；通过网关部署时需配置网关限流和受信任代理，不能直接相信客户端的 X-Forwarded-For。
+- 当前未挂载请求限流中间件。默认不信任代理头；后续重新启用按 IP 限流时需正确配置受信任代理，不能直接相信客户端的 X-Forwarded-For。
 - 尚未提供评论审核后台、举报、反刷或验证码；公开社区上线前应补齐运营能力。没有引入 Redis 集群限流或异步分析管道，规模扩大时再增加。
 - 过期会话与 OAuth state 每小时清理。不要记录请求 Cookie、OAuth 回调查询串或认证头；网关日志也要脱敏。
 

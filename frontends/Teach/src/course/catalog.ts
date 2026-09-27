@@ -14,10 +14,11 @@ export const lessons: readonly LessonDefinition[] = [
       "zh": "输入、模型响应、工具执行与下一轮循环。",
       "en": "Input, model responses, tool execution, and the next iteration."
     },
-    "status": "draft"
+    "status": "ready"
   },
   {
     "id": "model-protocols",
+    "available": true,
     "order": 2,
     "path": "/lessons/model-protocols",
     "title": {
@@ -28,7 +29,7 @@ export const lessons: readonly LessonDefinition[] = [
       "zh": "对比两种协议的消息结构、上下文和流式事件。",
       "en": "Compare message structures, context, and streaming events."
     },
-    "status": "planned"
+    "status": "draft"
   },
   {
     "id": "function-call",

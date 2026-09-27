@@ -206,6 +206,18 @@ func TestPostgresFlow(t *testing.T) {
 	if values.PV != 3 || values.UV != 1 {
 		t.Fatalf("bad stats %+v", values)
 	}
+	chapterStats := request("GET", "/api/v1/chapters/agent-loop/stats", "")
+	requireStatus(chapterStats, 200)
+	_ = json.Unmarshal(chapterStats.Body.Bytes(), &values)
+	if values.PV != 2 || values.UV != 1 {
+		t.Fatalf("bad chapter stats %+v", values)
+	}
+	chapterStats = request("GET", "/api/v1/chapters/model-protocols/stats", "")
+	requireStatus(chapterStats, 200)
+	_ = json.Unmarshal(chapterStats.Body.Bytes(), &values)
+	if values.PV != 0 || values.UV != 0 {
+		t.Fatalf("chapter stats leaked %+v", values)
+	}
 	requireStatus(request("POST", "/api/v1/analytics/views", `{"page":"https://evil.example"}`, visitor), 400)
 	requireStatus(request("DELETE", fmt.Sprintf("/api/v1/comments/%d", c.ID), "", session), 204)
 	requireStatus(request("POST", "/api/v1/auth/logout", "", session), 204)

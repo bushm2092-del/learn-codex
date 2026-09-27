@@ -10,4 +10,5 @@ export interface LessonDefinition {
   };
   description: { zh: string; en: string };
   status: LessonStatus;
+  available?: boolean;
 }

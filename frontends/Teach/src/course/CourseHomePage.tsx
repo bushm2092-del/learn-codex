@@ -7,6 +7,7 @@ import { lessons } from "./catalog";
 import { useLocale } from "../i18n/useLocale";
 import { DirectoryComparison } from "../ui/DirectoryComparison";
 import { sourceComparison } from "./sourceComparison";
+import { ChapterTags } from "../community/ChapterTags";
 
 gsap.registerPlugin(useGSAP);
 
@@ -73,18 +74,18 @@ export function CourseHomePage() {
             const content = (
               <>
               <span className="lesson-card__number">s{String(lesson.order).padStart(2, "0")}</span>
-              <span className="lesson-card__meta">{lesson.status === "planned" ? copy.home.planned : copy.home.draft}</span>
+              <span className="lesson-card__meta"><ChapterTags chapter={lesson.id} status={lesson.status} /></span>
               <span className="lesson-card__body">
                 <strong>{lesson.title[locale]}</strong>
                 <small>
                   {lesson.description[locale]}
                 </small>
               </span>
-              {lesson.status !== "planned" && <span className="lesson-card__arrow" aria-hidden="true">→</span>}
+              {lesson.status !== "planned" && lesson.available !== false && <span className="lesson-card__arrow" aria-hidden="true">→</span>}
               </>
             );
-            return lesson.status === "planned" ? (
-              <div className="lesson-card" key={lesson.id} data-status="planned">{content}</div>
+            return lesson.status === "planned" || lesson.available === false ? (
+              <div className="lesson-card" key={lesson.id} data-status={lesson.status}>{content}</div>
             ) : (
               <Link className="lesson-card" key={lesson.id} to={lesson.path} data-status={lesson.status}>{content}</Link>
             );

@@ -168,3 +168,18 @@ func (a *API) stats(c *gin.Context) {
 	}
 	c.JSON(200, gin.H{"from": from, "to": to, "page": page, "pv": stats.PV, "uv": stats.UV})
 }
+
+// 章节累计统计沿用按页面记录的访问数据，UV 在整个时间范围内去重。
+func (a *API) chapterStats(c *gin.Context) {
+	page := "/lessons/" + c.Param("chapter")
+	if err := a.svc.ValidatePage(c.Request.Context(), page); err != nil {
+		a.fail(c, err)
+		return
+	}
+	stats, err := a.svc.Store.Stats(c.Request.Context(), page, "0001-01-01", "9999-12-31")
+	if err != nil {
+		a.fail(c, err)
+		return
+	}
+	c.JSON(200, stats)
+}
