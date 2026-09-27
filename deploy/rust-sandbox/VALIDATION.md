@@ -17,4 +17,16 @@
 
 Go 单元测试、PostgreSQL 集成测试、sandbox race 测试、go vet、前端 check/build 均通过。浏览器 DOM 已确认密码输入、登录入口、代码编辑器及 320px 宽度无页面横向溢出；页面截图两次超时，视觉验收未完成。官方文档截图已成功抓取并检查。
 
-当前仅安装运行时、镜像与默认禁用的 worker unit；临时测试进程在验收后停止。没有启用网站 compose override、没有开放公网执行接口，没有推送或发布这些代码。上线仍需端到端登录运行验证和用户提供 Key 后的自愿调用验证。
+初次验收仅安装运行时、镜像与默认禁用的 worker unit，临时测试进程随后停止。
+
+## 部署验收
+
+经用户确认提交部署后，代码 `43507ba` 已推送，发布目录为 `/home/admin/learn-codex-releases/learn-codex-rust-sandbox-20260927`。部署前已备份数据库。
+
+- 显式启用 systemd worker 与网站 sandbox override；worker active，前端、API、PostgreSQL 均 healthy。
+- 公网临时账号端到端验证：真实 Rust 编译运行成功；未登录返回 401，错误 Origin 返回 403，重复提交返回 429。
+- 验证后已删除本次创建的临时账号；无残留沙箱容器。
+- 课程页面、文档截图及新前端资源均返回 HTTP 200；验收后可用内存 2831 MiB。
+- 尚未使用真实 API Key 调用付费模型，模型回答链路仍需用户自愿提供 Key 验证。
+
+上述测试覆盖已列出的限制，不代表执行不可信代码不存在风险。
