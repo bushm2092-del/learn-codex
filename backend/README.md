@@ -147,3 +147,9 @@ TEST_DATABASE_URL='postgres://user:password@localhost:5432/test?sslmode=disable'
 `GET /api/v1/chapters/:chapter/learners`：公开已打卡用户的 ID、用户名、头像，返回 `items`（最近 40 位，时间相同按用户 ID）和 `total`。取消打卡后移出名单，不采集或公开浏览记录。
 
 `DELETE /api/v1/chapters/:chapter/check-in`：需要登录和合法 Origin，仅取消当前用户的该章节记录，重复取消返回 204。章节不存在返回 404；进度和排行榜按剩余记录实时计算。
+
+## Rust 执行沙箱
+
+可选接口（均要求登录，写操作仍验证 Origin）：`POST /api/v1/sandbox/jobs` 提交 `{source,key}`，`GET /api/v1/sandbox/jobs/:id` 查询本人任务，`DELETE /api/v1/sandbox/jobs/:id` 取消。没有配置 `RUST_SANDBOX_SOCKET` 时返回 503，默认不开启。执行限流独立于已移除的网站通用限流。
+
+实际编译由独立 `cmd/rust-worker` 在 gVisor 容器执行，API 不拥有 Docker 权限。安装、安全边界及验收见 [沙箱说明](../deploy/rust-sandbox/README.md)。

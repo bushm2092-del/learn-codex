@@ -57,6 +57,8 @@ UI 职责：`DropdownMenu.tsx` 封装 Radix 菜单和主题样式，不依赖 i1
 10. Goal Mode · 目标模式：持续推进目标、进度管理、预算与终止条件。
 11. Subagent · 子 Agent：任务委派、上下文传递、生命周期与结果收集。
 12. Agent Team · 多 Agent 协作：角色分工、并行任务、消息协调与结果整合。
+13. Self-Evolution · 自进化机制：待编写。
+14. Computer Use · 计算机操作：待编写。
 
 第一课包含手动复制流程演示，其余章节为待编写目录。具体机制与支持范围在编写课程时对照 Codex 源码确认；目录不代表 mini-codex 已实现对应能力。旧 `/lessons/harness-overview` 地址重定向到 `/lessons/agent-loop`。
 
@@ -97,3 +99,7 @@ Agent Loop 自动循环动画前提供简短 Rust 伪代码，说明请求模型
 `ui/CompletionCelebration` 提供不阻挡操作的全屏打卡成功动效；`community/ChapterLearners` 展示后台返回的已打卡同学和总人数（最近 40 位头像），不会公开普通浏览记录。
 
 账号菜单使用 `ui/UserAvatar` 展示 GitHub 真实头像，普通账号和加载失败时回退为首字母。`ui/DropdownMenu` 封装菜单交互；章节打卡支持取消，服务端成功后同步进度，评论框采用登录页相同焦点样式。
+
+## Rust 教学实验
+
+第二章提供官方 DeepSeek 文档截图、标准库 Rust 代码编辑器、用户 Key 输入和异步任务结果。真实执行依赖后台独立 gVisor worker；默认执行入口关闭。Key 只放当前表单状态，提交成功后清空；不写浏览器持久化存储。示例的 Unix socket HTTP 转发是本实验环境约束，不是厂商 API 必需的调用方式。

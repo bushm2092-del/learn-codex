@@ -1,0 +1,27 @@
+[Unit]
+Description=Learn Codex bounded Rust sandbox worker
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=simple
+ExecStart=/opt/learn-rust-worker/rust-worker
+# 安装后必须显式改成 true；默认不开执行入口。
+Environment=RUST_SANDBOX_ENABLED=false
+RuntimeDirectory=learn-rust-worker learn-rust-relays
+RuntimeDirectoryMode=0755
+UMask=0077
+Restart=on-failure
+RestartSec=10
+TimeoutStopSec=65
+MemoryMax=128M
+TasksMax=64
+LimitCORE=0
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+ReadWritePaths=/run/learn-rust-worker /run/learn-rust-relays
+
+[Install]
+WantedBy=multi-user.target

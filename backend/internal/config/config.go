@@ -9,6 +9,7 @@ import (
 )
 
 type Config struct {
+	SandboxSocket                                                          string
 	Addr, DatabaseURL, FrontendOrigin, CallbackURL, ClientID, ClientSecret string
 	SecureCookies                                                          bool
 }
@@ -23,6 +24,10 @@ func Load() (Config, error) {
 		return c, fmt.Errorf("DATABASE_URL is required")
 	}
 	c.SecureCookies = secure
+	c.SandboxSocket = os.Getenv("RUST_SANDBOX_SOCKET")
+	if c.SandboxSocket != "" && c.SandboxSocket != "/run/learn-rust-worker/worker.sock" {
+		return c, fmt.Errorf("invalid sandbox socket")
+	}
 	if (c.ClientID == "") != (c.ClientSecret == "") {
 		return c, fmt.Errorf("GITHUB_CLIENT_ID and GITHUB_CLIENT_SECRET must be configured together")
 	}

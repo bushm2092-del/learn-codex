@@ -1,0 +1,15 @@
+.rust-sandbox label { display: block; margin: 20px 0 8px; font-weight: 600; }
+.rust-sandbox textarea, .rust-sandbox input { box-sizing: border-box; width: 100%; padding: 12px; border: 1px solid var(--line); border-radius: 6px; background: var(--canvas); color: var(--ink); }
+.rust-sandbox textarea { font: 14px/1.7 monospace; resize: vertical; tab-size: 4; }
+.rust-sandbox input { font: inherit; }
+.rust-sandbox :is(textarea,input):focus { outline: 2px solid var(--ink); outline-offset: -2px; }
+.rust-sandbox__hint { font-size: 13px; color: var(--muted); }
+.rust-sandbox__actions { display:flex; flex-wrap:wrap; gap:12px; }
+.rust-sandbox button, .rust-sandbox__actions a { border:1px solid var(--line); border-radius:6px; padding:10px 16px; background:var(--canvas); color:var(--ink); font:inherit; cursor:pointer; }
+.rust-sandbox button[type=submit] { background:var(--ink); color:var(--canvas); }
+.rust-sandbox button:disabled { opacity:.5; cursor:not-allowed; }
+.rust-sandbox :is(button,a,pre):focus-visible { outline:2px solid var(--ink); outline-offset:3px; }
+.rust-sandbox pre { max-height:360px; overflow:auto; white-space:pre-wrap; overflow-wrap:anywhere; padding:16px; border:1px solid var(--line); font:14px/1.7 monospace; }
+.protocol-docs { margin:32px 0; }
+.protocol-docs img { width:100%; height:auto; border:1px solid var(--line); }
+.protocol-docs figcaption { margin-top:8px; font-size:13px; color:var(--muted); }

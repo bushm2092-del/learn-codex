@@ -109,3 +109,6 @@ bash deploy.sh stop    # 只停容器，保留数据库
 
 停止后可再次 up；每次都会检查迁移。重复 up 不重复插入初始化数据。
 仅容器健康不代表真实 GitHub OAuth/公网 DNS 可用，上线仍需验证浏览器访问与登录。
+# 可选 Rust 沙箱
+
+默认不开放代码执行。先独立安装并验收 [gVisor worker](rust-sandbox/README.md)，再在离线发布目录运行 `sudo bash deploy.sh sandbox-enable` 和 `sudo bash deploy.sh up`。开关只对当前发布目录有效，新 release 必须重新明确启用；worker socket 缺失时拒绝部署，不回退普通容器。网站 API 只挂载 worker 的 Unix socket，不拥有 Docker 权限。

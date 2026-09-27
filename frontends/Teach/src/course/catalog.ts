@@ -170,5 +170,33 @@ export const lessons: readonly LessonDefinition[] = [
       "en": "Roles, parallel tasks, messaging, and result integration."
     },
     "status": "planned"
+  },
+  {
+    "id": "self-evolution",
+    "order": 13,
+    "path": "/lessons/self-evolution",
+    "title": {
+      "zh": "Self-Evolution · 自进化机制",
+      "en": "Self-Evolution"
+    },
+    "description": {
+      "zh": "自进化机制专题，内容待编写。",
+      "en": "A chapter on self-evolution, with content to come."
+    },
+    "status": "planned"
+  },
+  {
+    "id": "computer-use",
+    "order": 14,
+    "path": "/lessons/computer-use",
+    "title": {
+      "zh": "Computer Use · 计算机操作",
+      "en": "Computer Use"
+    },
+    "description": {
+      "zh": "计算机操作专题，内容待编写。",
+      "en": "A chapter on computer use, with content to come."
+    },
+    "status": "planned"
   }
 ];

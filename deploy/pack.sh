@@ -22,12 +22,13 @@ docker tag postgres:17-alpine "learn-codex-postgres:$tag"
 docker image save --platform "$platform" -o "$bundle/images.tar" "learn-codex-api:$tag" "learn-codex-frontend:$tag" "learn-codex-postgres:$tag"
 cp "$repo/deploy/compose.yaml" "$repo/deploy/deploy.sh" "$repo/deploy/README.md" "$repo/deploy/Makefile" "$bundle/"
 cp "$repo/deploy/.env.example" "$bundle/.env.example"
+cp "$repo/deploy/rust-sandbox/compose.override.yaml" "$bundle/rust-sandbox.override.yaml"
 printf 'RELEASE_TAG=%s\nRELEASE_PLATFORM=%s\n' "$tag" "$platform" > "$bundle/release.env"
 chmod +x "$bundle/deploy.sh"
 (
  cd "$bundle"
- if command -v sha256sum >/dev/null; then sha256sum images.tar compose.yaml deploy.sh Makefile release.env .env.example README.md > SHA256SUMS
- else shasum -a 256 images.tar compose.yaml deploy.sh Makefile release.env .env.example README.md > SHA256SUMS; fi
+ if command -v sha256sum >/dev/null; then sha256sum images.tar compose.yaml rust-sandbox.override.yaml deploy.sh Makefile release.env .env.example README.md > SHA256SUMS
+ else shasum -a 256 images.tar compose.yaml rust-sandbox.override.yaml deploy.sh Makefile release.env .env.example README.md > SHA256SUMS; fi
 )
 COPYFILE_DISABLE=1 tar -czf "$archive" -C "$stage" "learn-codex-$tag"
 if command -v sha256sum >/dev/null; then (cd "$out" && sha256sum "$(basename "$archive")" > "$(basename "$archive").sha256")

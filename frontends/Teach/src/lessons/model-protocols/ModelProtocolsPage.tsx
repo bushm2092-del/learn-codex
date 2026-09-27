@@ -3,6 +3,8 @@ import { CourseSidebar } from "../../ui/CourseSidebar";
 import { lessons } from "../../course/catalog";
 import { useLocale } from "../../i18n/useLocale";
 import { modelProtocols } from "../../i18n/modelProtocols";
+import { rustSandbox } from "../../i18n/rustSandbox";
+import { RustSandbox } from "./RustSandbox";
 
 export function ModelProtocolsPage() {
   const { locale, copy } = useLocale();
@@ -19,8 +21,14 @@ export function ModelProtocolsPage() {
         </div>
         <p className="lesson-kicker">{lesson.description[locale]}</p>
       </header>
+      {t.sections.map((title, index) => <section className="lesson-section" key={title}>
+        <h2>{title}</h2>
+        {t.paragraphs[index].map(paragraph => <p key={paragraph}>{paragraph}</p>)}
+        {index === 0 && <figure className="protocol-docs"><a href="https://api-docs.deepseek.com/zh-cn/" target="_blank" rel="noreferrer"><img src="/deepseek-docs.png" alt={rustSandbox[locale].alt} loading="lazy" width="1280" height="900" /></a><figcaption>{rustSandbox[locale].docs}</figcaption></figure>}
+      </section>)}
+      <RustSandbox />
       <section className="lesson-section">
-        <p>{t.note}</p>
+        <p><a href="https://developers.openai.com/api/reference/resources/chat" target="_blank" rel="noreferrer">{t.reference}</a></p>
         <Link to="/lessons/agent-loop">{t.back}</Link>
       </section>
     </article>

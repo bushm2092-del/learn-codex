@@ -1,0 +1,7 @@
+# 显式追加到网站 compose；不向网站 API 暴露 Docker socket。
+services:
+  api:
+    environment:
+      RUST_SANDBOX_SOCKET: /run/learn-rust-worker/worker.sock
+    volumes:
+      - /run/learn-rust-worker:/run/learn-rust-worker:ro

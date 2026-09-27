@@ -16,6 +16,10 @@ func TestBoundary(t *testing.T) {
 		status               int
 	}{
 		{"GET", "/healthz", "", 200}, {"GET", "/api/v1/me", "", 401},
+		{"POST", "/api/v1/sandbox/jobs", "https://learn.example", 401},
+		{"POST", "/api/v1/sandbox/jobs", "https://evil.example", 403},
+		{"GET", "/api/v1/sandbox/jobs/unknown", "", 401},
+		{"DELETE", "/api/v1/sandbox/jobs/unknown", "https://learn.example", 401},
 		{"POST", "/api/v1/auth/logout", "", 403}, {"POST", "/api/v1/auth/logout", "https://evil.example", 403},
 		{"POST", "/api/v1/auth/logout", "https://learn.example", 401}, {"GET", "/api/v1/auth/github", "", 503},
 		{"GET", "/api/v1/auth/github/callback?state=bad&code=bad", "", 400},

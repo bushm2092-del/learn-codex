@@ -3,7 +3,14 @@ set -euo pipefail
 cd "$(dirname "$0")"
 action="${1:-help}"
 verify() { sha256sum -c SHA256SUMS; }
-compose() { docker compose --env-file release.env --env-file .env -f compose.yaml "$@"; }
+compose() {
+ local extra=()
+ if [[ -f sandbox.enabled ]]; then
+  [[ -S /run/learn-rust-worker/worker.sock ]] || { echo "Sandbox socket unavailable; deployment stopped" >&2; return 1; }
+  extra=(-f rust-sandbox.override.yaml)
+ fi
+ docker compose --env-file release.env --env-file .env -f compose.yaml "${extra[@]}" "$@"
+}
 require_config() {
  [[ -f .env ]] || { echo "Run: bash deploy.sh init, then edit .env" >&2; exit 1; }
  if grep -q '^POSTGRES_PASSWORD=REPLACE_ME$' .env; then echo "Set a database password first" >&2; exit 1; fi
@@ -11,6 +18,11 @@ require_config() {
  compose config --quiet
 }
 case "$action" in
+ sandbox-enable)
+  [[ -S /run/learn-rust-worker/worker.sock ]] || { echo "Start and validate the Rust worker first" >&2; exit 1; }
+  touch sandbox.enabled
+  echo "Sandbox selected for this release. Run deploy.sh up to apply."
+  ;;
  init)
   [[ ! -e .env ]] || { echo ".env already exists; not overwritten"; exit 1; }
   umask 077
