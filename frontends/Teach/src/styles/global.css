@@ -146,6 +146,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--blue); outline-
   transition: background-color 160ms ease;
 }
 .lesson-card:hover { background: #fafafa; }
+.lesson-card[data-status="planned"]:hover { background: #fff; }
 .lesson-card__number { font: 600 12px/1 "SFMono-Regular", Consolas, monospace; }
 .lesson-card__meta { color: var(--subtle); font: 11px/1 "SFMono-Regular", Consolas, monospace; }
 .lesson-card__body { grid-column: 1 / 3; align-self: end; }
@@ -222,7 +223,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--blue); outline-
 
 @media (max-width: 900px) {
   .lesson-layout { grid-template-columns: 1fr; }
-  .lesson-sidebar { position: static; padding-bottom: 22px; border-bottom: 1px solid var(--line); }
+  .lesson-sidebar { position: static; max-height: none; padding-bottom: 22px; border-bottom: 1px solid var(--line); }
   .lesson-sidebar__group--muted, .lesson-sidebar__placeholder { display: none; }
   .lesson-sidebar nav { display: flex; }
   .lesson-sidebar nav a { width: fit-content; }

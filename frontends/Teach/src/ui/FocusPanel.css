@@ -1,0 +1,31 @@
+.focus-panel {
+  position: relative;
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  transform-origin: center top;
+  transition: transform 200ms ease-out, border-color 200ms ease-out;
+}
+.focus-panel[data-active="true"] {
+  border-color: var(--blue);
+  outline: 1px solid var(--blue);
+  transform: scale(1.015);
+  z-index: 1;
+}
+.focus-panel__label {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 12px;
+  min-height: 34px;
+  border-bottom: 1px solid var(--line-soft);
+  color: var(--muted);
+  font-size: 11px;
+}
+.focus-panel__label strong { color: var(--ink); font-weight: 600; }
+.focus-panel[data-active="true"] > .focus-panel__label { background: var(--blue-soft); color: var(--ink); }
+@media (prefers-reduced-motion: reduce) {
+  .focus-panel { transition: none; }
+  .focus-panel[data-active="true"] { transform: none; }
+}

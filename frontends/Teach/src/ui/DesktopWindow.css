@@ -1,0 +1,6 @@
+.desktop-window { position: absolute; display: flex; flex-direction: column; overflow: hidden; border-radius: 11px; background: #fff; box-shadow: 0 20px 45px rgba(24,24,27,.14); }
+.desktop-window__titlebar { position: relative; display: flex; align-items: center; justify-content: center; flex-shrink: 0; height: 34px; background: #fafafa; border-bottom: 1px solid #e4e4e7; color: #71717a; font-size: 12px; }
+.desktop-window__lights { position: absolute; left: 16px; display: flex; gap: 7px; }
+.desktop-window__lights i { width: 9px; height: 9px; border-radius: 50%; background: #ef4444; }
+.desktop-window__lights i:nth-child(2) { background: #d7a32b; }
+.desktop-window__lights i:nth-child(3) { background: #32a852; }

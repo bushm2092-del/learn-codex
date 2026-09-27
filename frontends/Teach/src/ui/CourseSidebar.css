@@ -1,0 +1,10 @@
+.lesson-sidebar { max-height: calc(100dvh - 116px); overflow-y: auto; }
+.lesson-sidebar__planned { display: flex; align-items: baseline; gap: 10px; padding: 8px 10px; color: var(--muted); font-size: 14px; }
+.lesson-sidebar__planned > span:first-child { flex-shrink: 0; font: 11px "SFMono-Regular", Consolas, monospace; }
+.lesson-sidebar__planned small { display: block; margin-top: 4px; font-size: 11px; }
+
+@media (max-width: 900px) {
+  .lesson-sidebar { max-height: none; }
+  .lesson-sidebar nav { overflow-x: auto; gap: 12px; }
+  .lesson-sidebar nav > * { flex: 0 0 auto; max-width: 240px; }
+}

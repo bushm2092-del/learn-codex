@@ -1,0 +1,17 @@
+.agent-loop-intro {
+  margin-bottom: 40px;
+  font-size: 16px;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+}
+
+.agent-loop-intro p,
+.agent-loop-intro ol {
+  max-width: 72ch;
+  margin-block: 18px;
+}
+
+.agent-loop-intro ol { padding-inline-start: 24px; }
+.agent-loop-intro li { padding-inline-start: 6px; }
+.agent-loop-intro li + li { margin-top: 10px; }
+.agent-loop-intro li::marker { color: var(--muted); }

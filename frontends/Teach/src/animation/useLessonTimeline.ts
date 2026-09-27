@@ -28,7 +28,11 @@ export function useLessonTimeline(
       const media = gsap.matchMedia();
 
       media.add(
-        { reduceMotion: "(prefers-reduced-motion: reduce)" },
+        {
+          // matchMedia 至少需要一个条件匹配，普通动态模式也必须创建时间线。
+          all: "(min-width: 0px)",
+          reduceMotion: "(prefers-reduced-motion: reduce)",
+        },
         (context) => {
           const timeline = gsap.timeline({
             paused: true,

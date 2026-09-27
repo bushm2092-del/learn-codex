@@ -1,0 +1,5 @@
+.json-inspector { min-width: 0; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.json-inspector h3 { margin: 0; padding: 12px 16px; font: 600 13px/1.5 system-ui, sans-serif; background: var(--panel); border-bottom: 1px solid var(--line); }
+.json-inspector pre { margin: 0; padding: 16px; max-height: 480px; overflow: auto; font: 12px/1.75 "SFMono-Regular", Consolas, monospace; white-space: pre-wrap; overflow-wrap: anywhere; scrollbar-width: thin; scrollbar-color: #a1a1aa #fafafa; }
+.json-inspector pre:focus-visible { outline: 2px solid var(--blue); outline-offset: -2px; }
+.json-inspector__new { background: #e9f1ff; color: #172f50; }

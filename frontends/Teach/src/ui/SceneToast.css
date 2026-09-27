@@ -1,0 +1,2 @@
+.scene-toast { position: absolute; top: 18px; left: 50%; z-index: 7; display: flex; align-items: center; gap: 10px; padding: 12px 22px; border-radius: 8px; color: #fff; background: #18181b; font-size: 17px; box-shadow: 0 6px 18px #0002; }
+.scene-toast svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.5; }

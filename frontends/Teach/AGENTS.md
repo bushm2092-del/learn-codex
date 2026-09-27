@@ -6,12 +6,12 @@
 
 - 产品名为 **Learn Codex**，用网页交互动画讲解 Codex harness 的运行机制。
 - 以可播放、暂停、重播的教学动画为主要形式。未明确要求时，不增加视频导出或视频制作流程。
-- 第一课是 Harness 运行原理。具体讲解步骤以用户提供的过程为输入，再对照真实 Codex 源码完善；未确认的内容保留明确占位，不编造机制、事件顺序或已实现能力。
+- 第一课是 Agent Loop（执行循环）。课程顺序为 Agent Loop → Responses / Chat → Function Calling → MCP → Skills → Sandbox → Plan Mode → Goal Mode → Subagent → Agent Team。具体讲解步骤以用户提供的过程为输入，再对照真实 Codex 源码完善；未确认的内容保留明确占位，不编造机制、事件顺序或已实现能力。
 - 页面框架、语言切换和教学交互属于本项目独有的展示层；涉及 session、turn、model client、tool 调度、history 等原理时，以根规范指定的 Codex 源项目为准。
 
 ## 技术与组件职责
 
-使用 React、TypeScript、Vite、React Router、GSAP 和 Radix UI Primitives，包管理使用 pnpm。
+使用 React、TypeScript、Vite、React Router、Remotion Player、GSAP 和 Radix UI Primitives，包管理使用 pnpm。
 
 | 目录 | 职责 |
 | --- | --- |
@@ -51,7 +51,8 @@
 
 ## 动画
 
-- 使用 GSAP 与 `@gsap/react`，每课定义自己的步骤和 timeline；共享动画层不包含具体课程讲解。
+- 宣传片式操作演示使用 Remotion Player，以 `useCurrentFrame`、`interpolate`、`spring` 驱动画面，不混用 CSS 动画、独立计时器或 GSAP。现有普通教学 timeline 可继续使用 GSAP 与 `@gsap/react`；共享动画层不包含具体课程讲解。
+- 模拟电脑操作时，不叠加“看这里”“手动操作”等讲解标签或模拟剪贴板栏。用真实界面状态、鼠标拖选、按钮按下及短暂的复制/保存 toast 表达反馈。粘贴与发送必须分开，输入框先显示实际文本，点击发送后才出现消息。
 - 使用作用域、refs 和卸载清理，避免影响其他课程或留下重复 timeline。
 - 支持播放、暂停、重播与 `prefers-reduced-motion`；语言切换不重建演示流程。
 - 动画服务于调用关系、状态变化和执行顺序，避免持续循环的装饰动画。代码示例与流程图必须可读。

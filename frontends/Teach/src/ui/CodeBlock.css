@@ -1,0 +1,6 @@
+.ui-code-block { margin: 24px 0; min-width: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 9px; background: #fff; }
+.ui-code-block figcaption { display: flex; justify-content: space-between; gap: 16px; padding: 10px 16px; border-bottom: 1px solid var(--line); background: var(--panel); color: var(--muted); font-size: 13px; }
+.ui-code-block pre { margin: 0; padding: 24px; overflow-x: auto; color: #24292e; font: 14px/1.8 "SFMono-Regular", Consolas, "Liberation Mono", monospace; tab-size: 4; scrollbar-color: var(--muted) var(--panel); }
+.ui-code-block code { font: inherit; }
+.ui-code-block pre:focus-visible { outline: 2px solid var(--blue); outline-offset: -2px; }
+@media (max-width: 680px) { .ui-code-block pre { padding: 16px; } }

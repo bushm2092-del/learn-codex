@@ -1,4 +1,4 @@
-export type LessonStatus = "draft" | "ready";
+export type LessonStatus = "planned" | "draft" | "ready";
 
 export interface LessonDefinition {
   id: string;
@@ -8,5 +8,6 @@ export interface LessonDefinition {
     zh: string;
     en: string;
   };
+  description: { zh: string; en: string };
   status: LessonStatus;
 }

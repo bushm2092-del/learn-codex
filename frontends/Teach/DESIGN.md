@@ -2,6 +2,8 @@
 name: Learn Codex
 description: 用交互动画拆解 Codex harness 真实运行机制的源码教学站。
 colors:
+  selection-bg: "#cfe1ff"
+  selection-ink: "#172f50"
   ink: "#111113"
   ink-strong: "#09090b"
   action: "#18181b"
@@ -129,6 +131,10 @@ spacing:
   xl: "32px"
   section: "64px"
 components:
+  focus-panel:
+    backgroundColor: "{colors.canvas}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.action}"
   button-primary:
     backgroundColor: "{colors.action}"
     textColor: "{colors.canvas}"
@@ -273,6 +279,10 @@ Learn Codex 是一份可以运行的源码讲义：像技术文档一样克制�
 
 ## Components
 
+### Lesson Code Block
+
+课程伪代码由 `src/ui/CodeBlock` 展示，使用 Shiki 与 GitHub Light 标准语法配色；仅加载 Rust 语法和该主题。白底、细边框、9px 圆角，无阴影；代码为 14px 等宽字体与 1.8 行高。窄屏在代码区内横向滚动并支持键盘聚焦，不撑宽页面。未加载或加载失败时保留原始代码。标题、说明和代码注释同步中英文。
+
 ### Primary Button
 
 - **Shape:** `8px` 圆角，最小高度 `45px`，水平内边距 `24px`。
@@ -302,6 +312,18 @@ Learn Codex 是一份可以运行的源码讲义：像技术文档一样克制�
 - **Language Menu:** 使用 `src/ui/DropdownMenu.tsx` 封装 Radix 菜单交互与主题样式，`LanguageMenu.tsx` 只绑定语言状态，`AppShell` 只组装导航。触发器为透明底、14px 文字与小箭头，桌面和移动端均显示“中文 / EN”。菜单最小宽度 132px、白底、1px 细边框、6px 圆角、4px 内边距；每行只显示语言名与勾选标记，选中态不加粗、不铺底，hover 用浅灰。浮层仅使用 `0 2px 6px rgba(24, 24, 27, 0.04)` 微弱阴影。
 
 ### Animation Stage
+
+Agent Loop 自动演示现在采用固定调试器布局：左侧 Rust 伪代码与当前行箭头，右侧可展开的完整变量和请求/响应 JSON，顶部固定 DeepSeek 请求地址。用行高亮与值变化表示执行，不移动代码窗口；底部保留逐步和播放控制。变量快照区分未赋值、响应入历史和结果入历史，不提前显示未来状态。
+
+自动循环演示采用 Remotion 窗口分镜：请求 JSON、响应 JSON、执行 JSON 与回传 JSON 依次进入前景，前一窗口平移缩小淡出。JSON 直接位于动画中，按用户要求简化字段和历史展示，并标明是字段示意；不再使用四节点流程图或下方完整检查区。提示词、需求和工具定义用紧凑排版同时呈现，调用 ID、工具调用及结果字段用浅蓝高亮。中英文切换保留播放进度。
+
+操作影片第一帧在文件窗口上方显示需求弹窗：半透明中性遮罩、白色居中弹窗、24px 标题“需求”和 23px 需求正文。使用 `src/ui/SceneDialog` 展示外壳，不阻塞网页焦点。保留 2.8 秒开场时段，最后 0.4 秒淡出后进入操作；减少动态效果时直接切换。不再使用整屏文字开场或文件内任务便签。
+
+操作影片使用 60 fps 与不等长动作段：复制、发送和保存短促，输入与生成保留阅读时间。鼠标从上一动作终点连续移动到下一起点，拖选逐字位置平滑插值；toast 可跨段淡出，不在切段时截断。避免每段固定停留造成幻灯片感。
+
+教学演示用阶段条标记当前流程，用 `FocusPanel` 的蓝色细描边和“看这里”文字标记当前操作面板；通用面板允许 1.015 倍轻微缩放。文本选中态使用 `#cfe1ff` 背景和 `#172f50` 前景。高亮必须对应真实演示步骤。
+
+手动复制演示采用真实电脑操作式分镜：不展示大字步骤、阶段条、“看这里”“手动操作”或剪贴板栏。窗口从 0.92 倍推至原尺寸，不倾斜；鼠标拖选与文字选区同步，点击复制/保存后显示黑底白字 toast，粘贴内容必须先出现在输入框，再点击发送。Remotion 以当前帧驱动镜头、鼠标、文本和 toast，暂停与拖动不得产生独立运动。减少动态效果时取消镜头过渡、鼠标和逐字效果，保留完整文本及反馈。此表现仅用于教学舞台，不扩散到导航和普通内容。
 
 舞台使用 `32px` 方格、径向淡出遮罩与白灰背景，中心内容面保持可读。GSAP 默认时长约 `0.55–0.65s`，使用 `power3.out` 进入与 `power3.inOut` 信号传播；动画优先采用 transform 与 opacity，并完整响应 `prefers-reduced-motion`。
 

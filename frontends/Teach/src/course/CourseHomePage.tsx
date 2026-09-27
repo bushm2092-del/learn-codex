@@ -45,7 +45,7 @@ export function CourseHomePage() {
         <p className="course-hero__note" data-home-reveal>
           {copy.home.note}
         </p>
-        <Link className="primary-action" to="/lessons/harness-overview" data-home-reveal>
+        <Link className="primary-action" to="/lessons/agent-loop" data-home-reveal>
           {copy.home.start} <span aria-hidden="true">→</span>
         </Link>
       </section>
@@ -85,21 +85,26 @@ export function CourseHomePage() {
           <p>{copy.home.pathDescription}</p>
         </div>
         <div className="lesson-list" aria-label={copy.home.catalogAria}>
-          {lessons.map((lesson) => (
-            <Link className="lesson-card" key={lesson.id} to={lesson.path}>
+          {lessons.map((lesson) => {
+            const content = (
+              <>
               <span className="lesson-card__number">s{String(lesson.order).padStart(2, "0")}</span>
-              <span className="lesson-card__meta">{copy.home.draft}</span>
+              <span className="lesson-card__meta">{lesson.status === "planned" ? copy.home.planned : copy.home.draft}</span>
               <span className="lesson-card__body">
                 <strong>{lesson.title[locale]}</strong>
                 <small>
-                  {lesson.status === "draft"
-                    ? copy.home.draftDescription
-                    : copy.home.readyDescription}
+                  {lesson.description[locale]}
                 </small>
               </span>
-              <span className="lesson-card__arrow" aria-hidden="true">→</span>
-            </Link>
-          ))}
+              {lesson.status !== "planned" && <span className="lesson-card__arrow" aria-hidden="true">→</span>}
+              </>
+            );
+            return lesson.status === "planned" ? (
+              <div className="lesson-card" key={lesson.id} data-status="planned">{content}</div>
+            ) : (
+              <Link className="lesson-card" key={lesson.id} to={lesson.path} data-status={lesson.status}>{content}</Link>
+            );
+          })}
         </div>
       </section>
     </main>

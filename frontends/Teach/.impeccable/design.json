@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-09-25T10:17:13.209Z",
+  "generatedAt": "2026-09-26T01:54:39.495Z",
   "title": "Design System: Learn Codex",
   "extensions": {
     "colorMeta": {
@@ -318,6 +318,16 @@
           "#d6d6da",
           "#f5f5f6"
         ]
+      },
+      "selection-bg": {
+        "role": "primary",
+        "displayName": "Selected text background",
+        "canonical": "#cfe1ff"
+      },
+      "selection-ink": {
+        "role": "primary",
+        "displayName": "Selected text foreground",
+        "canonical": "#172f50"
       }
     },
     "typographyMeta": {
@@ -433,6 +443,21 @@
         "name": "reduced-motion",
         "value": "0.01ms / immediate GSAP set",
         "purpose": "Removes nonessential movement when the user requests reduced motion."
+      },
+      {
+        "name": "focus-panel",
+        "value": "200ms ease-out; scale(1.015)",
+        "purpose": "Active teaching panel; no transform or transition under reduced motion."
+      },
+      {
+        "name": "automated-loop-signal",
+        "value": "Remotion 60fps; 22 debugger snapshots; fixed code and variable panes",
+        "purpose": "Current-line arrow and highlight track execution. Expand variables and request/response JSON to inspect complete values. The API endpoint remains visible; no camera motion or real requests."
+      },
+      {
+        "name": "manual-loop-camera",
+        "value": "Remotion 60fps; variable-duration actions; continuous pointer paths; scale(0.92–1)",
+        "purpose": "Desktop operation film with selection, composer text, send clicks and copy/save toasts. No instruction labels or clipboard panel. All motion derives from the current frame; reduced motion removes camera and pointer movement."
       }
     ],
     "breakpoints": [
@@ -510,6 +535,14 @@
       "description": "A bordered lab surface for interactive harness explanations.",
       "html": "<section class=\"ds-stage\"><header>execution_timeline <span>● Architecture ready</span></header><main><div><b>01</b><strong>Harness Animation Stage</strong><small>turn → events → tool → result</small></div></main><footer>1 / 1</footer></section>",
       "css": ".ds-stage { overflow:hidden; border:1px solid #d8d8dc; border-radius:9px; color:#111113; background:#fff; font-family:ui-sans-serif,system-ui,sans-serif; } .ds-stage>header,.ds-stage>footer { min-height:48px; display:flex; align-items:center; justify-content:space-between; padding:0 16px; color:#92929a; font:11px \"SFMono-Regular\",Consolas,monospace; } .ds-stage>header { border-bottom:1px solid #eeeeef; } .ds-stage>footer { border-top:1px solid #eeeeef; } .ds-stage main { min-height:250px; display:grid; place-items:center; background-color:#fcfcfc; background-image:linear-gradient(#f1f1f2 1px,transparent 1px),linear-gradient(90deg,#f1f1f2 1px,transparent 1px); background-size:32px 32px; } .ds-stage main div { display:grid; gap:10px; justify-items:center; padding:28px; border:1px solid #d7d7dc; border-radius:9px; background:rgba(255,255,255,.94); box-shadow:0 14px 34px rgba(24,24,27,.07); } .ds-stage main b,.ds-stage main small { font:12px \"SFMono-Regular\",Consolas,monospace; } .ds-stage main small { color:#71717a; }"
+    },
+    {
+      "name": "Focus Panel",
+      "kind": "custom",
+      "refersTo": "focus-panel",
+      "description": "Current teaching operation with a text marker and subtle enlargement.",
+      "html": "<section class=\"ds-focus-panel\" data-active=\"true\"><div class=\"ds-focus-panel__label\"><span>README.md</span><strong>看这里</strong></div><p>当前操作的文件内容</p></section>",
+      "css": ".ds-focus-panel {\n  position: relative;\n  min-width: 0;\n  border: 1px solid var(--line);\n  border-radius: 8px;\n  background: #fff;\n  transform-origin: center top;\n  transition: transform 200ms ease-out, border-color 200ms ease-out;\n}\n.ds-focus-panel[data-active=\"true\"] {\n  border-color: var(--blue);\n  outline: 1px solid var(--blue);\n  transform: scale(1.015);\n  z-index: 1;\n}\n.ds-focus-panel__label {\n  display: flex;\n  justify-content: space-between;\n  gap: 8px;\n  padding: 8px 12px;\n  min-height: 34px;\n  border-bottom: 1px solid var(--line-soft);\n  color: var(--muted);\n  font-size: 11px;\n}\n.ds-focus-panel__label strong { color: var(--ink); font-weight: 600; }\n.ds-focus-panel[data-active=\"true\"] > .ds-focus-panel__label { background: var(--blue-soft); color: var(--ink); }\n@media (prefers-reduced-motion: reduce) {\n  .ds-focus-panel { transition: none; }\n  .ds-focus-panel[data-active=\"true\"] { transform: none; }\n}\n"
     }
   ],
   "narrative": {
@@ -545,6 +578,7 @@
       }
     ],
     "dos": [
+      "课程伪代码使用 Shiki / GitHub Light，白底细边框、9px 圆角、14px 等宽字体与 1.8 行高；窄屏仅代码区横向滚动。",
       "Do 用排版、留白和一像素边框先解决信息层级。",
       "Do 把蓝色留给焦点、章节节点、主题标签和运行信号。",
       "Do 让课程动画具备播放、暂停、重播和 reduced-motion 降级。",

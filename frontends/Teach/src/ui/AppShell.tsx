@@ -13,7 +13,7 @@ export function AppShell() {
           Learn Codex
         </Link>
         <nav className="topnav" aria-label={copy.navigation.mainNav}>
-          <NavLink to="/lessons/harness-overview">{copy.navigation.timeline}</NavLink>
+          <NavLink to="/lessons/agent-loop">{copy.navigation.timeline}</NavLink>
           <Link to="/#core-pattern">{copy.navigation.architecture}</Link>
           <Link to="/#learning-path">{copy.navigation.lessons}</Link>
           <LanguageMenu />
