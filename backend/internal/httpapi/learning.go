@@ -16,6 +16,18 @@ func (a *API) chapters(c *gin.Context) {
 	}
 	c.JSON(200, gin.H{"items": rows})
 }
+func (a *API) chapterLearners(c *gin.Context) {
+	if err := a.svc.Store.Chapter(c.Request.Context(), c.Param("chapter")); err != nil {
+		a.fail(c, err)
+		return
+	}
+	rows, total, err := a.svc.Store.ChapterLearners(c.Request.Context(), c.Param("chapter"))
+	if err != nil {
+		a.fail(c, err)
+		return
+	}
+	c.JSON(200, gin.H{"items": rows, "total": total})
+}
 func (a *API) comments(c *gin.Context) {
 	if err := a.svc.Store.Chapter(c.Request.Context(), c.Param("chapter")); err != nil {
 		a.fail(c, err)

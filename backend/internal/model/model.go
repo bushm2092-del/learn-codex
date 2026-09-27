@@ -39,6 +39,13 @@ type CheckIn struct {
 	ChapterID string    `json:"chapter_id" gorm:"primaryKey"`
 	CreatedAt time.Time `json:"created_at"`
 }
+
+// 公开打卡列表只返回展示身份，不暴露会话、认证信息或浏览记录。
+type ChapterLearner struct {
+	ID        int64  `json:"id"`
+	Login     string `json:"login"`
+	AvatarURL string `json:"avatar_url"`
+}
 type Rank struct {
 	UserID    int64  `json:"user_id"`
 	Login     string `json:"login"`

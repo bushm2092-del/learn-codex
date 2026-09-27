@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Link } from "react-router-dom";
 import { api, ApiError, type CheckIn, type Comment } from "../api/client";
 import { useAuth } from "../auth/context";
@@ -7,6 +7,8 @@ import { useLocale } from "../i18n/useLocale";
 import { community } from "../i18n/community";
 import { useResource } from "./useResource";
 import "../ui/Community.css";
+import { CompletionCelebration } from "../ui/CompletionCelebration";
+import { ChapterLearners, type Learners } from "./ChapterLearners";
 
 export function ChapterCommunity({ chapter }: { chapter: string }) {
   const { user } = useAuth();
@@ -16,8 +18,10 @@ function ChapterDiscussion({ chapter }: { chapter: string }) {
   const { locale } = useLocale(); const t = community[locale]; const { user, status, refresh } = useAuth();
   const comments = useResource<{ items: Comment[]; next_cursor: number }>(user ? `/chapters/${chapter}/comments` : null);
   const progress = useResource<{ items: CheckIn[] }>(user ? "/me/check-ins" : null);
+  const learners = useResource<Learners>(`/chapters/${chapter}/learners`);
   const [body, setBody] = useState(""); const [busy, setBusy] = useState(false);
   const [celebration, setCelebration] = useState(false);
+  const finishCelebration = useCallback(() => setCelebration(false), []);
   const [message, setMessage] = useState<keyof typeof t | null>(null); const [deleting, setDeleting] = useState<number | null>(null);
   const checked = progress.data?.items.some((item) => item.chapter_id === chapter);
   async function perform(action: () => Promise<void>) {
@@ -32,13 +36,15 @@ function ChapterDiscussion({ chapter }: { chapter: string }) {
       {user && <div className="checkin-control">
         {checked && <span className="checkin-control__done"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m4 10 4 4 8-8" /></svg>{t.checked}</span>}
         <button className={`community-button ${checked ? "" : "community-button--primary"}`} disabled={busy || progress.loading || progress.error} onClick={() => void perform(async () => {
-          await api(`/chapters/${chapter}/check-in`, { method: checked ? "DELETE" : "PUT" });
+          const result = await api<{ created: boolean } | undefined>(`/chapters/${chapter}/check-in`, { method: checked ? "DELETE" : "PUT" });
           progress.setData((old) => ({ items: checked ? (old?.items ?? []).filter(item => item.chapter_id !== chapter) : [...(old?.items ?? []).filter(item => item.chapter_id !== chapter), { chapter_id: chapter, created_at: new Date().toISOString() }] }));
-          setCelebration(!checked); setMessage(checked ? "checkUndone" : "checkSuccess");
+          setCelebration(!checked && !!result?.created); setMessage(checked ? "checkUndone" : "checkSuccess");
+          await learners.reload();
         })}>{busy || progress.loading ? t.loading : checked ? t.undoCheck : t.check}</button>
-        {celebration && <span className="checkin-burst" aria-hidden="true" onAnimationEnd={() => setCelebration(false)}>{Array.from({ length: 8 }, (_, i) => <i key={i} style={{ rotate: `${i * 45}deg` }} />)}</span>}
       </div>}
     </div>
+    {celebration && <CompletionCelebration message={t.checkSuccess} onFinish={finishCelebration} />}
+    <ChapterLearners data={learners.data} loading={learners.loading} error={learners.error} onRetry={() => void learners.reload()} />
     {user && progress.error && <p role="alert">{t.progressError} <button onClick={() => void progress.reload()}>{t.retry}</button></p>}
     {!user && <div className="community-login"><p>{t.loginHint}</p><AccountControl /></div>}
     <Link to="/leaderboard">{t.leaderboard}</Link>

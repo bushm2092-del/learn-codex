@@ -51,6 +51,7 @@ func New(cfg config.Config, svc *service.Service, provider oauth.Provider) *gin.
 	v.GET("/auth/github/callback", a.callback)
 	v.GET("/chapters", a.chapters)
 	v.GET("/chapters/:chapter/comments", a.comments)
+	v.GET("/chapters/:chapter/learners", a.chapterLearners)
 	v.GET("/leaderboard", a.leaderboard)
 	v.POST("/analytics/views", a.view)
 	v.GET("/analytics/stats", a.stats)

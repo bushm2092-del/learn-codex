@@ -79,6 +79,16 @@ func (s *Store) Progress(ctx context.Context, user int64) ([]model.CheckIn, erro
 func (s *Store) CancelCheckIn(ctx context.Context, user int64, chapter string) error {
 	return s.DB.WithContext(ctx).Where("user_id = ? AND chapter_id = ?", user, chapter).Delete(&model.CheckIn{}).Error
 }
+func (s *Store) ChapterLearners(ctx context.Context, chapter string) ([]model.ChapterLearner, int64, error) {
+	rows := []model.ChapterLearner{}
+	var total int64
+	if err := s.DB.WithContext(ctx).Model(&model.CheckIn{}).Where("chapter_id = ?", chapter).Count(&total).Error; err != nil {
+		return nil, 0, err
+	}
+	// 限制头像数量，按最近打卡排序；同一时间以用户 ID 保证稳定顺序。
+	err := s.DB.WithContext(ctx).Table("check_ins c").Select("u.id, u.login, u.avatar_url").Joins("JOIN users u ON u.id = c.user_id").Where("c.chapter_id = ?", chapter).Order("c.created_at DESC, c.user_id ASC").Limit(40).Scan(&rows).Error
+	return rows, total, err
+}
 func (s *Store) Leaderboard(ctx context.Context) ([]model.Rank, error) {
 	rows := []model.Rank{}
 	err := s.DB.WithContext(ctx).Raw(`SELECT u.id AS user_id,u.login,u.avatar_url,count(*) AS chapters,

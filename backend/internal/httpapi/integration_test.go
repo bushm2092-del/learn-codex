@@ -162,12 +162,30 @@ func TestPostgresFlow(t *testing.T) {
 		t.Fatal("tie ordering", ranks, err)
 	}
 	// 取消幂等、身份隔离，并实时影响进度和排行榜。
+	requireStatus(request("GET", "/api/v1/chapters/unknown/learners", ""), 404)
+	learners := request("GET", "/api/v1/chapters/agent-loop/learners", "")
+	requireStatus(learners, 200)
+	var roster struct {
+		Items []model.ChapterLearner `json:"items"`
+		Total int64                  `json:"total"`
+	}
+	if err = json.Unmarshal(learners.Body.Bytes(), &roster); err != nil || roster.Total != 2 || len(roster.Items) != 2 {
+		t.Fatal("bad learner list", learners.Body.String(), err)
+	}
+	if strings.Contains(learners.Body.String(), "github_id") || strings.Contains(learners.Body.String(), "token") {
+		t.Fatal("private data exposed")
+	}
 	requireStatus(request("DELETE", "/api/v1/chapters/agent-loop/check-in", ""), 401)
 	requireStatus(request("DELETE", "/api/v1/chapters/unknown/check-in", "", session), 404)
 	for i := 0; i < 2; i++ {
 		requireStatus(request("DELETE", "/api/v1/chapters/agent-loop/check-in", "", session), 204)
 	}
 	progress, err := store.Progress(context.Background(), user.ID)
+	learners = request("GET", "/api/v1/chapters/agent-loop/learners", "")
+	requireStatus(learners, 200)
+	if e := json.Unmarshal(learners.Body.Bytes(), &roster); e != nil || roster.Total != 1 || len(roster.Items) != 1 || roster.Items[0].ID != other.ID {
+		t.Fatal("cancel did not update learners", learners.Body.String(), e)
+	}
 	if err != nil || len(progress) != 1 || progress[0].ChapterID != "context" {
 		t.Fatal("cancel did not update progress", progress, err)
 	}

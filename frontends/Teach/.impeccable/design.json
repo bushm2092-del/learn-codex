@@ -6,7 +6,7 @@
     "communityInteraction": {
       "account": "Real avatar with initial fallback, Radix dropdown and 180ms entrance",
       "commentFocus": "White background with 2px ink inset outline",
-      "checkIn": "Reversible server-backed progress with 700ms monochrome success burst; respects reduced motion"
+      "checkIn": "Reversible progress, 2.6s pointer-transparent fullscreen confetti, reduced-motion static feedback, completed-user avatar row"
     },
     "colorMeta": {
       "ink": {

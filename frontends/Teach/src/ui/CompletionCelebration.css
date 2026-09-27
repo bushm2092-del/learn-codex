@@ -1,0 +1,8 @@
+.completion-celebration { position: fixed; inset: 0; z-index: 100; pointer-events: none; overflow: hidden; }
+.completion-celebration__paper { position: absolute; inset: 0; }
+.completion-celebration__paper i { position: absolute; left: var(--x); top: -20px; width: 7px; height: 12px; background: var(--paper); border-radius: 2px; animation: completion-paper 2100ms var(--delay) cubic-bezier(.2,.5,.7,1) both; }
+.completion-celebration__message { position: absolute; left: 50%; top: 22%; transform: translateX(-50%); display: flex; align-items: center; gap: 12px; width: max-content; max-width: calc(100% - 48px); box-sizing: border-box; padding: 16px 24px; border-radius: 8px; background: var(--ink); color: var(--canvas); font-size: 16px; line-height: 1.5; animation: completion-message 2500ms ease-out both; }
+.completion-celebration__message svg { width: 24px; height: 24px; flex: 0 0 24px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+@keyframes completion-paper { 0% { transform: translate3d(0,0,0) rotate(0); opacity: 0; } 10% { opacity: 1; } 85% { opacity: 1; } 100% { transform: translate3d(var(--drift),105vh,0) rotate(var(--spin)); opacity: 0; } }
+@keyframes completion-message { 0% { opacity: 0; } 12%, 80% { opacity: 1; } 100% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .completion-celebration__paper { display: none; } .completion-celebration__message { animation: none; } }

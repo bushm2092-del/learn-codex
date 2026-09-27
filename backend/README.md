@@ -142,4 +142,6 @@ TEST_DATABASE_URL='postgres://user:password@localhost:5432/test?sslmode=disable'
 
 ## 取消打卡
 
+`GET /api/v1/chapters/:chapter/learners`：公开已打卡用户的 ID、用户名、头像，返回 `items`（最近 40 位，时间相同按用户 ID）和 `total`。取消打卡后移出名单，不采集或公开浏览记录。
+
 `DELETE /api/v1/chapters/:chapter/check-in`：需要登录和合法 Origin，仅取消当前用户的该章节记录，重复取消返回 204。章节不存在返回 404；进度和排行榜按剩余记录实时计算。

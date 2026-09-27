@@ -92,4 +92,6 @@ Agent Loop 自动循环动画前提供简短 Rust 伪代码，说明请求模型
 
 ## 账号与学习交互
 
+`ui/CompletionCelebration` 提供不阻挡操作的全屏打卡成功动效；`community/ChapterLearners` 展示后台返回的已打卡同学和总人数（最近 40 位头像），不会公开普通浏览记录。
+
 账号菜单使用 `ui/UserAvatar` 展示 GitHub 真实头像，普通账号和加载失败时回退为首字母。`ui/DropdownMenu` 封装菜单交互；章节打卡支持取消，服务端成功后同步进度，评论框采用登录页相同焦点样式。

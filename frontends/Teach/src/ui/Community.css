@@ -34,11 +34,17 @@
 .checkin-control { position: relative; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
 .checkin-control__done { display: flex; gap: 8px; align-items: center; font-size: 14px; }
 .checkin-control__done svg { width: 20px; height: 20px; fill: none; stroke: var(--ink); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-.checkin-burst { position: absolute; left: 10px; top: 50%; width: 0; height: 0; pointer-events: none; }
-.checkin-burst i { position: absolute; width: 3px; height: 7px; border-radius: 2px; background: var(--ink); transform-origin: 0 0; animation: checkin-spark 700ms cubic-bezier(.16,1,.3,1) both; }
+.chapter-learners { margin: 20px 0 24px; }
+.chapter-learners__label { color: var(--muted); font-size: 13px; margin: 0 0 10px; }
+.chapter-learners ul { list-style: none; display: flex; flex-wrap: wrap; gap: 6px 0; padding: 0 0 0 4px; margin: 0; }
+.chapter-learners li { position: relative; display: flex; margin-left: -4px; border: 2px solid var(--canvas); border-radius: 50%; }
+.chapter-learners li:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; z-index: 2; }
+.chapter-learners li:hover { z-index: 2; }
+.chapter-learners__name { display: none; position: absolute; bottom: calc(100% + 8px); left: 0; padding: 5px 8px; border-radius: 4px; background: var(--ink); color: var(--canvas); font-size: 12px; max-width: 180px; overflow-wrap: anywhere; width: max-content; pointer-events: none; }
+.chapter-learners li:is(:hover, :focus-visible) .chapter-learners__name { display: block; }
+.chapter-learners__more { align-items: center; padding: 0 8px; font-size: 12px; background: var(--panel); }
 @keyframes account-reveal { from { opacity: .5; transform: translateY(-5px) scale(.98); } to { opacity: 1; transform: none; } }
-@keyframes checkin-spark { from { transform: translateY(-10px); opacity: 1; } to { transform: translateY(-42px); opacity: 0; } }
-@media (prefers-reduced-motion: reduce) { .account-control__menu[data-state="open"], .checkin-burst i { animation: none; } .account-control__chevron { transition: none; } .checkin-burst { display: none; } }
+@media (prefers-reduced-motion: reduce) { .account-control__menu[data-state="open"] { animation: none; } .account-control__chevron { transition: none; } }
 .comment-actions { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-top: 10px; font-size: 13px; }
 .comment-list { padding: 0; list-style: none; margin: 24px 0; }
 .comment-list li { padding: 24px 0; border-bottom: 1px solid var(--line); }
