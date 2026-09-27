@@ -1,5 +1,20 @@
 # mini-codex
 
+## [在线学习 Learn Codex →](https://learn-codex.tech/)
+
+**网站地址：[https://learn-codex.tech](https://learn-codex.tech/)**
+
+从 0 到 1 理解 Codex harness，用交互动画和代码运行模拟，看清模型、工具与上下文如何配合。
+课程内容无需登录，打开即可学习。
+
+**[进入网站](https://learn-codex.tech/) · [从第一课 Agent Loop 开始](https://learn-codex.tech/lessons/agent-loop)**
+
+[![Learn Codex 首页：交互式源码教学与 Codex 目录对照，点击访问网站](docs/images/learn-codex-home.png)](https://learn-codex.tech/)
+
+*点击首页预览图，直接访问在线教程。*
+
+## 关于项目
+
 这是一个围绕真实 Codex Rust 代码组织方式搭建的教学 monorepo。Rust 执行内核和 React
 交互式教学站保持平级，便于一边读代码、一边观察架构状态如何流转。
 
