@@ -1,0 +1,15 @@
+[package]
+name = "sandbox-dependencies"
+version = "0.1.0"
+edition = "2021"
+
+[workspace]
+
+[dependencies]
+reqwest = { version = "=0.12.28", default-features = false, features = ["json", "rustls-tls-native-roots"] }
+tokio = { version = "=1.48.0", features = ["macros", "rt"] }
+serde_json = "=1.0.145"
+
+[profile.dev]
+debug = 0
+incremental = false

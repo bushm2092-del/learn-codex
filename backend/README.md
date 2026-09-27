@@ -153,3 +153,5 @@ TEST_DATABASE_URL='postgres://user:password@localhost:5432/test?sslmode=disable'
 可选接口（均要求登录，写操作仍验证 Origin）：`POST /api/v1/sandbox/jobs` 提交 `{source,key}`，`GET /api/v1/sandbox/jobs/:id` 查询本人任务，`DELETE /api/v1/sandbox/jobs/:id` 取消。没有配置 `RUST_SANDBOX_SOCKET` 时返回 503，默认不开启。执行限流独立于已移除的网站通用限流。
 
 实际编译由独立 `cmd/rust-worker` 在 gVisor 容器执行，API 不拥有 Docker 权限。安装、安全边界及验收见 [沙箱说明](../deploy/rust-sandbox/README.md)。
+
+执行镜像 `learn-rust-sandbox:deps-v2` 预编译锁定的 reqwest、tokio、serde_json；任务继续使用固定 rustc 命令，不允许 Cargo 配置或下载依赖。容器内部受限代理适配标准 HTTPS 示例，不改写源码；真实 Key 仍只由宿主 relay 添加。升级需先导入镜像再替换 worker，网络隔离与 Key 转发边界保持不变。

@@ -13,7 +13,7 @@ import (
 	"time"
 )
 
-const Image = "learn-rust-sandbox:preflight"
+const Image = "learn-rust-sandbox:deps-v2"
 const label = "learn.rust-sandbox=true"
 
 type Runner struct{ stopped atomic.Bool }

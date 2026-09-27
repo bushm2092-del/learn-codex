@@ -102,4 +102,4 @@ Agent Loop 自动循环动画前提供简短 Rust 伪代码，说明请求模型
 
 ## Rust 教学实验
 
-第二章提供官方 DeepSeek 文档截图、标准库 Rust 代码编辑器、用户 Key 输入和异步任务结果。真实执行依赖后台独立 gVisor worker；默认执行入口关闭。Key 只放当前表单状态，提交成功后清空；不写浏览器持久化存储。示例的 Unix socket HTTP 转发是本实验环境约束，不是厂商 API 必需的调用方式。
+第二章在官方 DeepSeek 文档截图下提供 CodeMirror 6 Rust 编辑器（高亮、行号、撤销）、reqwest + tokio + serde_json 示例、用户 Key 输入和异步任务结果。依赖在镜像构建时锁定并预编译，不支持用户添加依赖。真实执行依赖后台独立 gVisor worker；默认执行入口关闭。Key 只放当前表单状态，提交成功后清空；不写浏览器持久化存储。示例只保留普通 HTTPS 调用，由执行镜像内部代理适配；代码不包含 cfg 或 Unix socket。标题旁问号使用 Radix Popover 展示环境限制，支持键盘、Escape 关闭与焦点返回。

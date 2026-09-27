@@ -1,0 +1,6 @@
+.help-popover__trigger[type=button] { display:inline-flex; align-items:center; justify-content:center; width:28px; height:28px; padding:0; border:0; background:transparent; color:var(--muted); cursor:pointer; }
+.help-popover__trigger[type=button]:hover { color:var(--ink); }
+.help-popover__trigger:focus-visible { outline:2px solid var(--ink); outline-offset:2px; }
+.help-popover__content { z-index:60; width:min(340px,calc(100vw - 32px)); max-height:var(--radix-popover-content-available-height); overflow:auto; box-sizing:border-box; padding:16px; background:var(--canvas); color:var(--ink); border:1px solid var(--line); border-radius:6px; font-family:inherit; font-size:13px; line-height:1.6; }
+.help-popover__content p { margin:0; font-size:13px; line-height:1.6; }
+.help-popover__content p + p { margin-top:12px; }

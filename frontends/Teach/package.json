@@ -13,9 +13,16 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@codemirror/lang-rust": "^6.0.2",
+    "@codemirror/language": "^6.12.4",
+    "@codemirror/state": "^6.7.6",
+    "@codemirror/view": "^6.43.13",
     "@gsap/react": "^2.1.2",
+    "@lezer/highlight": "^1.2.4",
     "@radix-ui/react-dropdown-menu": "^2.1.24",
+    "@radix-ui/react-popover": "^1.1.23",
     "@remotion/player": "^4.0.529",
+    "codemirror": "^6.0.2",
     "gsap": "^3.15.0",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",

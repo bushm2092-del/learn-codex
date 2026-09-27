@@ -4,7 +4,7 @@
 
 ## 边界
 
-- 只接受单个最多 12 KiB 的 Rust 源文件；标准库、固定编译命令，不接收 Cargo.toml、build.rs、依赖、镜像名、shell 参数或宿主路径。
+- 只接受单个最多 12 KiB 的 Rust 源文件；标准库及预编译的 reqwest 0.12.28、tokio 1.48.0、serde_json 1.0.145。依赖由管理员通过已提交的 Cargo.lock 构建，任务只运行固定 rustc 命令，不运行 Cargo、不接收 Cargo.toml、build.rs、额外依赖、镜像名、shell 参数或宿主路径。
 - 全局一个 worker，最多 5 个待处理任务；每用户一个未结束任务、30 秒冷却，全局提交间隔 5 秒。队列 2 分钟过期，结果 5 分钟过期，最多保留 128 个任务。取消后等待容器清理再释放执行名额。
 - 启动前可用内存至少 2 GiB；容器 1 GiB memory/swap 上限（不额外使用 swap）、0.75 CPU、64 PIDs、64 文件描述符、无 core dump。编译 30 秒，运行 15 秒，外部总时限 50 秒。
 - 只读根目录，非 root、drop ALL capabilities、no-new-privileges、禁用 Docker 日志。仅 `/work` 64 MiB、`/tmp` 16 MiB 可写；合计也受容器内存上限约束。
@@ -18,13 +18,25 @@
 ## 构建与安装（管理员操作）
 
 1. 按官方 gVisor 文档安装完整发行包并核对 SHA512。注册专用 runtime：`runsc install --runtime=learn-rust -- --host-uds=open`，reload Docker。`host-uds=open` 仅用于显式挂载的本任务转发 socket，不允许扩大挂载范围。
-2. 在开发机器构建 `docker build --platform linux/amd64 -t learn-rust-sandbox:preflight deploy/rust-sandbox`，离线 `docker save/load` 传入服务器。生产应固定审核后的镜像 ID，不允许用户选择镜像或 runtime。
+2. 在开发机器构建 `docker build --platform linux/amd64 -t learn-rust-sandbox:deps-v2 deploy/rust-sandbox`，离线 `docker save/load` 传入服务器。生产应固定审核后的镜像 ID，不允许用户选择镜像或 runtime。必须先导入新镜像，再更新 worker；不得在生产请求中构建依赖。
 3. 在 backend 执行 `CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o rust-worker ./cmd/rust-worker`，管理员安装到 `/opt/learn-rust-worker/rust-worker`。
 4. 安装 `worker.service` 为单实例 systemd 服务。通过隔离测试后才将 `RUST_SANDBOX_ENABLED` 设为 `true`。先不添加网站 compose override，以保持公网执行入口关闭。
 5. `sudo python3 probe.py` 验证真实编译、文件/网络隔离、输出、内存、超时与本地转发（不用真实 Key）。同时检查网站健康和余量。
 6. 通过验收后，将 `enable.conf` 安装到 `/etc/systemd/system/learn-rust-worker.service.d/enable.conf`，daemon-reload 并启动 worker。离线包内执行 `bash deploy.sh sandbox-enable`，再执行 `bash deploy.sh up`。只有 api 挂载 worker socket，前端与用户容器不接触管理 socket。未启用时接口返回 503。后续新 release 需要显式启用，不能只复制 `.env`。
 
 当前普通离线部署脚本不会自动安装 worker 或开启沙箱；不得因网站部署自动开放代码执行。
+
+## 示例与编辑器
+
+页面采用 CodeMirror 6 的 Rust 高亮、行号、编辑和撤销；编辑器在模型协议章节按需加载，不使用外部 CDN。Tab 保留移出编辑器的浏览器行为。
+
+示例使用真正的 reqwest/tokio/serde_json，不改写源码、不注入 cfg。运行环境设置 HTTPS_PROXY 指向容器内部 127.0.0.1:18080 的固定代理，并通过 SSL_CERT_FILE 信任本任务临时证书。代理只允许 api.deepseek.com:443 的 CONNECT，以及 POST /chat/completions，解密后通过唯一 Unix socket 交给宿主 relay。宿主继续执行 URL/参数/预算校验，并建立经过证书校验的外部 HTTPS 连接；不使用跳过 TLS 验证选项。临时证书只属于这个容器，私钥在代理内存中，未对公网开放监听。
+
+容器内 DEEPSEEK_API_KEY 仅为 `provided-by-relay` 占位值；代理移除示例传来的 Authorization，宿主 relay 注入用户真实 Key。普通本地 Cargo 运行则从用户环境读取真实 Key。用户代码可以绕过代理，但容器仍为 network=none，无法获得直接外网访问；代理不是替代 gVisor、资源配额或宿主校验的安全边界。代理进程与编译/运行共享原有容器资源配额。
+
+本地运行可使用 `dependencies/Cargo.toml` 中的三个依赖定义，将示例放到 `src/main.rs`，设置环境变量后 `cargo run`。不要将 Key 写进代码或提交。示例直接打印完整 JSON 响应；编译错误和 HTTP 错误显示为执行失败，不生成模拟回答。
+
+`python3 deploy/rust-sandbox/smoke.py` 默认使用 gVisor，编译页面原始示例并在容器内返回测试 HTTP 响应，覆盖 JSON 请求/回答、401、编译失败和基础隔离；不会使用真实 Key。开发机没有 gVisor 时可显式使用 `--runtime docker` 做功能测试，但该结果不能算作 gVisor 隔离验收。
 
 ## 验证与剩余风险
 
