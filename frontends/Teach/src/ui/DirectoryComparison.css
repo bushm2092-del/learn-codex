@@ -1,0 +1,17 @@
+.directory-comparison { max-width: 960px; margin: 32px auto 0; border: 1px solid var(--line); border-radius: 9px; overflow: hidden; background: #fff; }
+.directory-comparison__scroll { overflow-x: auto; scrollbar-color: var(--muted) var(--panel); }
+.directory-comparison__scroll:focus-visible { outline: 2px solid var(--blue); outline-offset: -2px; }
+.directory-comparison__grid { display: grid; grid-template-columns: minmax(220px, 1fr) 140px minmax(220px, 1fr); min-width: 640px; padding: 24px; gap: 0 16px; }
+.directory-comparison header { display: grid; gap: 7px; padding-bottom: 24px; }
+.directory-comparison header strong { font-size: 19px; }
+.directory-comparison code { font: 14px/1.8 "SFMono-Regular", Consolas, monospace; }
+.directory-comparison header code { color: var(--muted); font-size: 12px; }
+.directory-comparison__ratio { align-self: center; text-align: center; font: 600 23px/1 monospace; color: var(--blue); }
+.directory-comparison__root { padding: 10px 0; border-bottom: 1px solid var(--line); }
+.directory-comparison__row { display: contents; }
+.directory-comparison__row > code { padding: 16px 0 16px 16px; border-bottom: 1px solid var(--line-soft); white-space: nowrap; }
+.directory-comparison__link { display: grid; align-content: center; justify-items: center; color: var(--muted); font-size: 12px; }
+.directory-comparison__link svg { width: 100%; height: 12px; fill: none; stroke: var(--blue); stroke-width: 1; }
+.directory-comparison figcaption { display: grid; gap: 7px; padding: 16px 24px; border-top: 1px solid var(--line); background: var(--panel); font-size: 13px; line-height: 1.6; }
+.directory-comparison figcaption strong { font-weight: 500; }
+.directory-comparison figcaption > span { color: var(--muted); }

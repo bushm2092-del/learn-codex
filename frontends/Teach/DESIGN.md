@@ -279,6 +279,10 @@ Learn Codex 是一份可以运行的源码讲义：像技术文档一样克制�
 
 ## Components
 
+### Source Directory Comparison
+
+首页源码介绍使用 `DirectoryComparison` 并排目录对照图：白底细边框，同名路径按行对齐，中间蓝色细箭头连接，以 1:1 标识强调对应关系。只展示已核对的核心文件，真实列出两个 workspace 根路径。窄屏允许图内横向滚动并提供键盘焦点，不压缩文件名；图注说明是文件节选。
+
 ### Lesson Code Block
 
 课程伪代码由 `src/ui/CodeBlock` 展示，使用 Shiki 与 GitHub Light 标准语法配色；仅加载 Rust 语法和该主题。白底、细边框、9px 圆角，无阴影；代码为 14px 等宽字体与 1.8 行高。窄屏在代码区内横向滚动并支持键盘聚焦，不撑宽页面。未加载或加载失败时保留原始代码。标题、说明和代码注释同步中英文。

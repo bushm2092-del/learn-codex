@@ -67,6 +67,8 @@ UI 职责：`DropdownMenu.tsx` 封装 Radix 菜单和主题样式，不依赖 i1
 手动复制演示使用 Remotion 自带的帧插值和 spring，不包含视频导出。窗口外壳 `src/ui/DesktopWindow.tsx` 与提示 `src/ui/SceneToast.tsx` 是纯展示组件，课程负责时序。界面不显示步骤标题、阶段条、“看这里”“手动操作”或剪贴板栏；复制与保存通过短暂 toast 提示。减少动态效果时不移动鼠标、镜头或逐字显示文本。状态测试：`node --experimental-strip-types --test tests/manualScene.test.mjs`。
 # 课程代码展示
 
+首页目录对照图使用 `src/ui/DirectoryComparison`，实际路径与双语职责标签位于 `src/course/sourceComparison.ts`；展示已核对的核心文件与真实顶层路径映射，不代表完整仓库清单。
+
 自动演示由 `LoopDebuggerFilm` 展示调试器式执行过程，`debuggerTrace` 从协议轨迹推导 22 个执行快照。支持查看 prompt、task、tools、history、reply、call、result 及完整请求/响应；地址显示为 `POST https://api.deepseek.com/chat/completions`，不发送请求。变量面板可展开，仅通过上一步、下一步切换快照，不提供播放或时间进度条。
 
 Agent Loop 自动循环动画前提供简短 Rust 伪代码，说明请求模型、记录响应、执行工具、按调用 ID 回传结果与循环结束。示例省略生产级控制分支，不可直接运行。通用展示组件位于 `src/ui/CodeBlock`，使用 Shiki（按需加载 Rust / GitHub Light），双语教学内容位于 `src/i18n/agentLoopCode.ts`。

@@ -5,6 +5,8 @@ import { useGSAP } from "@gsap/react";
 
 import { lessons } from "./catalog";
 import { useLocale } from "../i18n/useLocale";
+import { DirectoryComparison } from "../ui/DirectoryComparison";
+import { sourceComparison } from "./sourceComparison";
 
 gsap.registerPlugin(useGSAP);
 
@@ -50,33 +52,13 @@ export function CourseHomePage() {
         </Link>
       </section>
 
-      <section className="core-pattern" id="core-pattern" data-home-reveal>
+      <section className="core-pattern" id="core-pattern" aria-labelledby="source-approach-title" data-home-reveal>
         <div className="section-heading">
-          <h2>{copy.home.coreTitle}</h2>
-          <p>{copy.home.coreDescription}</p>
+          <h2 id="source-approach-title">{copy.home.sourceTitle}</h2>
+          <p>{copy.home.sourceDescription}</p>
+          <p>{copy.home.sourceStructure}</p>
         </div>
-        <div className="code-window" aria-label={copy.home.codeAria}>
-          <div className="code-window__bar">
-            <span className="window-dots" aria-hidden="true"><i /><i /><i /></span>
-            <span>harness.rs</span>
-          </div>
-          <pre><code><span className="code-keyword">loop</span> {`{`}{"\n"}
-{"  "}<span className="code-comment">{copy.home.codeComment}</span>{"\n"}
-{"  "}<span className="code-call">run_turn</span>();{"\n"}
-{`}`}</code></pre>
-        </div>
-      </section>
-
-      <section className="timeline-preview" data-home-reveal>
-        <div className="section-heading">
-          <h2>{copy.home.timelineTitle}</h2>
-          <p>{copy.home.timelineDescription}</p>
-        </div>
-        <div className="timeline-shell">
-          <span className="timeline-shell__label">events[]</span>
-          <span className="timeline-shell__count">len=0</span>
-          <div className="timeline-shell__empty">{copy.home.waiting}</div>
-        </div>
+        <DirectoryComparison {...sourceComparison[locale]} />
       </section>
 
       <section className="learning-path" id="learning-path" data-home-reveal>
