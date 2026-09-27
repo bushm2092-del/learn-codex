@@ -21,6 +21,6 @@ export function DirectoryComparison({ caption, mapping, rows }: Props) {
         </div>)}
       </div>
     </div>
-    <figcaption><strong>{mapping}</strong><span>{caption}</span></figcaption>
+    <figcaption><strong>{mapping}</strong></figcaption>
   </figure>;
 }

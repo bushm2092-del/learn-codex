@@ -5,7 +5,7 @@ export const DEBUG_STEPS = 22;
 export const DEBUG_DURATION = DEBUG_STEP * DEBUG_STEPS;
 export const debuggerCode = [
   "let tools = available_tools();",
-  "let mut history = vec![system(prompt), user(task)];",
+  "let mut history = vec![system(system_prompt), user(user_prompt)];",
   "loop {",
   "    let reply = request_llm_api(&history, &tools).await?;",
   "    history.push(reply.as_message());",
@@ -32,8 +32,8 @@ export function debuggerState(step: number, locale: "zh" | "en") {
     round, phase, line: [3, 3, 4, 5, 7, 8][phase]!,
     finished: round === 3 && phase === 3,
     variables: {
-      prompt: item.request.messages[0]!.content,
-      task: item.request.messages[1]!.content,
+      system_prompt: item.request.messages[0]!.content,
+      user_prompt: item.request.messages[1]!.content,
       tools: item.request.tools,
       history,
       reply: phase >= 1 ? { text: message.content, tool_calls: message.tool_calls ?? [] } : undefined,

@@ -60,5 +60,4 @@
 .ranking-table th:first-child { width: 16%; }
 .ranking-table th:last-child { width: 25%; }
 .site-stats { display: grid; gap: 7px; padding: 32px 20px; text-align: center; color: var(--muted); font-size: 13px; }
-@media (max-width: 1000px) { .topnav > a:nth-child(-n+3) { display: none; } }
 @media (max-width: 680px) { .account-control__name { display: none; } .topnav > .community-nav, .topnav > .source-link { display: none; } .account-control .community-button { font-size: 12px; padding: 7px; } .chapter-checkin { flex-wrap: wrap; } }

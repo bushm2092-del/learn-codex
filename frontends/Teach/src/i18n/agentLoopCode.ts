@@ -1,7 +1,7 @@
 const example = (comments: readonly string[]) => `// ${comments[0]}
 let tools = available_tools();
 // ${comments[1]}
-let mut history = vec![system(prompt), user(task)];
+let mut history = vec![system(system_prompt), user(user_prompt)];
 
 // ${comments[2]}
 loop {

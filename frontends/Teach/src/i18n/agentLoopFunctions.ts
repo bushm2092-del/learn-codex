@@ -70,12 +70,12 @@ const runnerCode = `async fn run_tool(name, arguments) {
     }
 }`;
 
-const messagesCode = `fn system(prompt) {
-    json!({ "role": "system", "content": prompt })
+const messagesCode = `fn system(system_prompt) {
+    json!({ "role": "system", "content": system_prompt })
 }
 
-fn user(task) {
-    json!({ "role": "user", "content": task })
+fn user(user_prompt) {
+    json!({ "role": "user", "content": user_prompt })
 }
 
 impl Reply {
@@ -115,8 +115,8 @@ const commentRules = [
   [".output().await", "等待命令结束，收集退出状态、标准输出和错误输出", "Wait for completion and collect status, stdout and stderr"],
   ["Ok(output) => json!({", "进程成功启动不代表命令成功，还要看 exit_code", "A launched process may still fail; inspect exit_code"],
   ['Err(error) => json!({ "error": error.to_string() }),', "启动失败也返回结果，让模型知道发生了什么", "Return launch failures so the model can react"],
-  ["fn system(prompt) {", "系统消息：告诉模型角色、规则和工作方式", "System message: role, rules and working instructions"],
-  ["fn user(task) {", "用户消息：记录这一轮的需求", "User message: the task for this turn"],
+  ["fn system(system_prompt) {", "系统消息：告诉模型角色、规则和工作方式", "System message: role, rules and working instructions"],
+  ["fn user(user_prompt) {", "用户消息：记录这一轮的需求", "User message: the task for this turn"],
   ["self.message.clone()", "保留整条 assistant 消息，不能丢掉 tool_calls", "Preserve the full assistant message, including tool_calls"],
   ["fn tool_result(call_id, result) {", "构造工具消息，主循环会把它追加到 history", "Build the tool message for the loop to append to history"],
   ['"tool_call_id": call_id,', "调用 ID 必须与 assistant 中对应的工具调用一致", "The ID must match the corresponding assistant tool call"],
@@ -137,9 +137,9 @@ const functionCopy = {
     title: "Loop：把各部分串起来",
     note: "下面是分模块的 Rust 风格伪代码，不是实际源码文件。省略类型、导入和 SDK 细节；http、env、parse_json、Command 代表基础库能力。model、shell、thread_cwd 由入口配置。这里用 DeepSeek Chat 协议说明，与内核的 Responses 协议不同。",
     sections: [
-      { title: "模型请求", label: "llm_api.rs · 伪代码", body: "把历史和工具定义发给 API，收到 JSON 后交给 parse_response。请求失败向上返回错误，不伪装成模型回复。", code: requestCode },
-      { title: "响应解析", label: "response.rs · 伪代码", body: "取出 assistant 消息，把工具调用整理为主循环使用的 Reply。arguments 保留为 JSON 字符串，执行时再解析；原始 message 留给上下文记录。", code: responseCode },
-      { title: "工具执行", label: "tools.rs · 伪代码", body: "available_tools 描述工具，run_tool 才真正执行。只分发已注册的工具，检查参数后在 thread 工作目录运行。stdout、stderr 在实际实现中需要解码为文本；执行失败也作为结果回传。这段示意没有沙箱或审批保障，不能直接用于执行不可信命令。", code: toolsCode("在工作目录中运行 shell 命令") + "\n\n" + runnerCode },
+      { title: "模型请求", label: "llm_api.rs · 伪代码", body: "把历史和工具定义发给 API，收到 JSON 后交给 parse_response 解析。", code: requestCode },
+      { title: "响应解析", label: "response.rs · 伪代码", body: "从 AI 返回的消息中，取出工具调用和普通文本消息。", code: responseCode },
+      { title: "工具执行", label: "tools.rs · 伪代码", body: "向模型提供可用工具的说明，根据模型返回的工具名称和参数执行操作，并返回执行结果。", code: toolsCode("在工作目录中运行 shell 命令") + "\n\n" + runnerCode },
       { title: "上下文记录", label: "messages.rs · 伪代码", body: "system 和 user 构造初始消息。as_message 保留完整 assistant 消息，包括 tool_calls；tool_result 用调用 ID 把执行结果与它对应起来。主循环按顺序追加到 history，下一次请求就能看到完整过程。", code: messagesCode },
     ],
   },
@@ -147,9 +147,9 @@ const functionCopy = {
     title: "Loop: connect the parts",
     note: "These are separate Rust-style pseudocode modules, not source files. Types, imports and SDK details are omitted. http, env, parse_json and Command represent library primitives; model, shell and thread_cwd are configured at the entry point. This example uses DeepSeek Chat, not the core’s Responses protocol.",
     sections: [
-      { title: "Model request", label: "llm_api.rs · Pseudocode", body: "Send history and tool definitions to the API, then pass the JSON to parse_response. Request failures propagate as errors.", code: requestCode },
-      { title: "Response parsing", label: "response.rs · Pseudocode", body: "Extract the assistant message and normalize its tool calls into Reply. Keep arguments as a JSON string until execution and preserve the original message for history.", code: responseCode },
-      { title: "Tool execution", label: "tools.rs · Pseudocode", body: "available_tools describes tools; run_tool executes them. Dispatch registered tools after validating arguments. Decode stdout and stderr as text in a real implementation, and return execution failures too. This sketch provides no sandbox or approval protection for untrusted commands.", code: toolsCode("Run a shell command in the working directory") + "\n\n" + runnerCode },
+      { title: "Model request", label: "llm_api.rs · Pseudocode", body: "Send history and tool definitions to the API, then parse the returned JSON with parse_response.", code: requestCode },
+      { title: "Response parsing", label: "response.rs · Pseudocode", body: "Extract tool calls and plain text from the AI’s response.", code: responseCode },
+      { title: "Tool execution", label: "tools.rs · Pseudocode", body: "Describe the available tools to the model, execute the operations using the tool names and arguments it returns, and return the results.", code: toolsCode("Run a shell command in the working directory") + "\n\n" + runnerCode },
       { title: "Context recording", label: "messages.rs · Pseudocode", body: "system and user create initial messages. as_message preserves the full assistant message, including tool_calls. tool_result matches the output to its call ID. The loop appends them to history in order for the next request.", code: messagesCode },
     ],
   },

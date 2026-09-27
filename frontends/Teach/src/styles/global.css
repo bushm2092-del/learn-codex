@@ -234,7 +234,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--blue); outline-
 @media (max-width: 680px) {
   .topbar { height: 54px; padding-inline: 18px; }
   .topnav { gap: 10px; }
-  .topnav > a:not(.source-link) { display: none; }
+  .topnav > a:not(.source-link):not(.course-nav) { display: none; }
   .course-hero { padding: 56px 20px 24px; }
   .course-hero h1 { font-size: 46px; }
   .core-pattern, .timeline-preview, .learning-path { width: min(100% - 32px, 1200px); padding-block: 48px; }

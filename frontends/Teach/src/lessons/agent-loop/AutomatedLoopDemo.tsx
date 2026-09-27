@@ -11,6 +11,16 @@ export function AutomatedLoopDemo() {
   const { locale } = useLocale();
   const t = automatedLoop[locale];
   const player = useRef<PlayerRef>(null);
+  const container = useRef<HTMLDivElement>(null);
+  const [width, setWidth] = useState(720);
+  useEffect(() => {
+    const element = container.current;
+    if (!element) return;
+    // 画布宽度跟随容器，保持 1:1 字号，而不是把整个调试器等比放大。
+    const observer = new ResizeObserver(([entry]) => setWidth(Math.max(1, Math.round(entry.contentRect.width))));
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
   const [step, setStep] = useState(0);
   const [reduced, setReduced] = useState(false);
   useEffect(() => {
@@ -28,8 +38,8 @@ export function AutomatedLoopDemo() {
   return <section className="lesson-section auto-loop" aria-labelledby="automated-loop-title">
     <h2 id="automated-loop-title">{t.title}</h2>
     <p className="auto-loop__note">{t.note}</p>
-    <div className="auto-loop__player">
-      <Player ref={player} component={LoopDebuggerFilm} inputProps={inputProps} compositionWidth={1100} compositionHeight={700} fps={LOOP_FPS} durationInFrames={LOOP_DURATION} style={{ width: "100%" }} controls={false} clickToPlay={false} doubleClickToFullscreen={false} spaceKeyToPlayOrPause={false}/>
+    <div className="auto-loop__player" ref={container}>
+      <Player ref={player} component={LoopDebuggerFilm} inputProps={inputProps} compositionWidth={width} compositionHeight={560} fps={LOOP_FPS} durationInFrames={LOOP_DURATION} style={{ width: "100%" }} controls={false} clickToPlay={false} doubleClickToFullscreen={false} spaceKeyToPlayOrPause={false}/>
       <div className="manual-demo__transport">
         <div className="manual-demo__buttons"><button disabled={step === 0} onClick={() => seek(step - 1)}>{t.previous}</button><button disabled={step === LOOP_STEPS - 1} onClick={() => seek(step + 1)}>{t.next}</button></div>
       </div>

@@ -1,4 +1,14 @@
 .lesson-sidebar { max-height: calc(100dvh - 116px); overflow-y: auto; }
+.lesson-sidebar__heading { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
+.lesson-sidebar__heading .lesson-sidebar__group { margin: 0; }
+.lesson-sidebar__toggle { display: grid; place-items: center; width: 40px; height: 40px; flex-shrink: 0; border: 1px solid var(--line); border-radius: 6px; color: var(--muted); background: var(--canvas); cursor: pointer; }
+.lesson-sidebar__toggle:hover { color: var(--ink); background: var(--panel); }
+.lesson-sidebar__toggle:focus-visible { outline: 2px solid var(--ink); outline-offset: -2px; }
+.lesson-sidebar__toggle svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.lesson-sidebar nav[hidden] { display: none; }
+@media (min-width: 901px) {
+  .lesson-layout:has(.lesson-sidebar[data-collapsed="true"]) { grid-template-columns: 40px minmax(0, 1fr); gap: 24px; }
+}
 .lesson-sidebar__planned { display: flex; align-items: baseline; gap: 10px; padding: 8px 10px; color: var(--muted); font-size: 14px; }
 .lesson-sidebar__planned > span:first-child { flex-shrink: 0; font: 11px "SFMono-Regular", Consolas, monospace; }
 .lesson-sidebar__planned small { display: block; margin-top: 4px; font-size: 11px; }

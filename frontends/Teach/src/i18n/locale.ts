@@ -43,6 +43,8 @@ export const messages = {
     },
     lesson: {
       sidebarAria: "课程章节",
+      expandSidebar: "展开课程目录",
+      collapseSidebar: "收起课程目录",
       coreGroup: "HARNESS 核心",
       comingNext: "后续课程",
       comingPlaceholder: "后续章节等待规划",
@@ -53,7 +55,7 @@ export const messages = {
       interactive: "交互演示",
       draft: "草稿",
       summary: "从手动复制粘贴开始，理解 Agent 如何接管模型与外部环境之间的执行流程。",
-      introTitle: "从手动复制粘贴，到 Agent 自动执行",
+      introTitle: "没有 Agent 时，我们如何通过网页版对话框完成任务？",
       introOpening: "比如，我们用 DeepSeek 网页版给本地文件补一段内容。如果只在对话框里聊天，没有接入文件工具，通常要自己做这几步：",
       manualSteps: [
         "把文件内容复制给它，说清楚要改什么。",
@@ -64,7 +66,7 @@ export const messages = {
       ],
       introComplexity: "简单的修改，一次就够了。任务复杂起来，可能还要看其他文件、跑命令、把报错贴回去。AI 在回答，我们在动手。",
       turnExplanation: "在 Codex 中，Agent 从收到一次输入到完成这一轮响应，叫一个 Turn。中间可以多次调用模型和工具；我们再次发消息，就是下一轮。",
-      introAutomation: "做一个 Agent，就是我们写一套代码，把这些手动操作自动化：调用模型，按模型的要求读写文件、执行命令，再把结果发给模型，让它继续下一步。这套代码和模型一来一回地配合，就形成了 Agent Loop。",
+      introAutomation: "做一个 Agent，就是我们写一套代码，把这些手动操作自动化：调用模型，模型返回要调用的工具名称和参数，程序据此读写文件、执行命令，再把结果发给模型，让它继续下一步。这套代码和模型一来一回地配合，就形成了 Agent Loop。",
       stageTitle: "Agent Loop 动画舞台",
       stageStatus: "架构已就绪",
       stageAria: "待填充的 Agent Loop 动画舞台",
@@ -116,6 +118,8 @@ export const messages = {
     },
     lesson: {
       sidebarAria: "Course chapters",
+      expandSidebar: "Expand course navigation",
+      collapseSidebar: "Collapse course navigation",
       coreGroup: "HARNESS CORE",
       comingNext: "COMING NEXT",
       comingPlaceholder: "More chapters are being planned",
@@ -126,7 +130,7 @@ export const messages = {
       interactive: "INTERACTIVE",
       draft: "DRAFT",
       summary: "Start with manual copying and pasting to understand how an agent takes over the execution flow between a model and its environment.",
-      introTitle: "From Copy and Paste to Agent Execution",
+      introTitle: "Without an Agent, How Do We Complete Tasks Through Web Chat?",
       introOpening: "Say we want to use the DeepSeek web app to add a paragraph to a local file. In a chat without connected file tools, we usually do this ourselves:",
       manualSteps: [
         "Paste the file into the chat and explain what to change.",
@@ -137,7 +141,7 @@ export const messages = {
       ],
       introComplexity: "A small edit might take one pass. Bigger tasks can mean reading other files, running commands, and pasting errors back into the chat. The AI replies; we do the hands-on work.",
       turnExplanation: "In Codex, the agent's response process for one input is called a Turn. It can call the model and tools several times within that turn. A follow-up message starts the next round.",
-      introAutomation: "Building an agent means writing code to automate these manual steps: call the model, read or write files and run commands as it requests, then send the results back so it can take the next step. This back-and-forth between our code and the model forms the Agent Loop.",
+      introAutomation: "Building an agent means writing code to automate these manual steps: call the model, receive the tool names and arguments it returns, use them to read or write files and run commands, then send the results back so it can take the next step. This back-and-forth between our code and the model forms the Agent Loop.",
       stageTitle: "Agent Loop Animation Stage",
       stageStatus: "Architecture ready",
       stageAria: "Agent Loop animation stage awaiting its lesson flow",

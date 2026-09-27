@@ -2,7 +2,7 @@ export const agentLoopArchitecture = {
   zh: {
     title: "把手动操作，写成一个循环",
     opening: "回头看刚才的过程：我们把文件交给 AI，拿到回答后修改文件，再把新内容发回去。要把这件事自动化，就要写一套程序，接手这些来回操作。",
-    tools: "先给模型提供可用工具的说明，比如读取文件、修改文件、执行命令。模型需要某个文件时，不再让我们手动复制，而是返回一条工具调用，告诉程序要调用哪个工具、传什么参数。真正读取或修改文件的，仍然是我们写的程序。",
+    tools: "先给模型提供可用工具的说明，比如读取文件、修改文件、执行命令。模型需要某个文件时，不再由我们手动复制，而是让模型返回一条工具调用，告诉程序要调用哪个工具、传什么参数。真正读取或修改文件的，仍然是我们写的程序。",
     modulesTitle: "这套程序可以按职责拆成什么？",
     modules: [
       { title: "模型请求 · Request LLM API", body: "把用户需求、已有对话和工具说明发给模型，接收它返回的文本与工具调用。" },
@@ -18,7 +18,7 @@ export const agentLoopArchitecture = {
   en: {
     title: "Turn the manual work into a loop",
     opening: "Look back at the demo: we gave the AI a file, used its reply to edit that file, and sent the new contents back. Automating this means writing a program to handle that back-and-forth.",
-    tools: "First, describe the available tools to the model: reading files, editing files, or running commands. Instead of asking us to copy a file, the model can return a tool call with a name and arguments. Our program—not the model itself—performs the operation.",
+    tools: "First, describe the available tools to the model: reading files, editing files, or running commands. When the model needs a file, we ask it to return a tool call with a name and arguments instead of manually copying the file. Our program—not the model itself—performs the operation.",
     modulesTitle: "What responsibilities does the program need?",
     modules: [
       { title: "Model request · Request LLM API", body: "Send the user's request, conversation history, and tool definitions to the model. Receive text and tool calls." },

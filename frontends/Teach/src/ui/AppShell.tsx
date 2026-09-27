@@ -18,9 +18,7 @@ export function AppShell() {
           Learn Codex
         </Link>
         <nav className="topnav" aria-label={copy.navigation.mainNav}>
-          <NavLink to="/lessons/agent-loop">{copy.navigation.timeline}</NavLink>
-          <Link to="/#core-pattern">{copy.navigation.architecture}</Link>
-          <Link to="/#learning-path">{copy.navigation.lessons}</Link>
+          <NavLink className="course-nav" to="/lessons/agent-loop">{copy.navigation.lessons}</NavLink>
           <LanguageMenu />
           <NavLink className="community-nav" to="/leaderboard">{community[locale].leaderboard}</NavLink>
           <AccountControl />
