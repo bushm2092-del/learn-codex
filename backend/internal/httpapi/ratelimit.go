@@ -23,6 +23,10 @@ func newLimiter() gin.HandlerFunc {
 			return
 		}
 		key := c.ClientIP()
+		passwordAuth := c.Request.URL.Path == "/api/v1/auth/login" || c.Request.URL.Path == "/api/v1/auth/register"
+		if passwordAuth {
+			key += ":password"
+		}
 		now := time.Now()
 		mu.Lock()
 		if now.Sub(lastSweep) > time.Minute {
@@ -41,6 +45,9 @@ func newLimiter() gin.HandlerFunc {
 				return
 			}
 			e = &entry{limiter: rate.NewLimiter(2, 30)}
+			if passwordAuth {
+				e.limiter = rate.NewLimiter(rate.Every(12*time.Second), 5)
+			}
 			clients[key] = e
 		}
 		e.seen = now
@@ -48,6 +55,9 @@ func newLimiter() gin.HandlerFunc {
 		mu.Unlock()
 		if !allowed {
 			c.Header("Retry-After", "1")
+			if passwordAuth {
+				c.Header("Retry-After", "12")
+			}
 			c.AbortWithStatusJSON(429, gin.H{"error": "rate_limited"})
 			return
 		}

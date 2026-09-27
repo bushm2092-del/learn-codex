@@ -185,4 +185,32 @@ func TestPostgresFlow(t *testing.T) {
 	if strings.Contains(me.Body.String(), "github_id") {
 		t.Fatal("private provider ID exposed")
 	}
+	// 新路由器隔离限流预算；仍使用真实 PostgreSQL 和完整 HTTP 边界。
+	router = New(cfg, svc, testProvider{})
+	registered := request("POST", "/api/v1/auth/register", `{"username":"Local_Learner","password":"a-long-test-password"}`)
+	requireStatus(registered, 201)
+	localSession := registered.Result().Cookies()[0]
+	requireStatus(request("GET", "/api/v1/me", "", localSession), 200)
+	requireStatus(request("POST", "/api/v1/auth/register", `{"username":"local_learner","password":"a-long-test-password"}`), 409)
+	requireStatus(request("POST", "/api/v1/auth/login", `{"username":"local_learner","password":"wrong-password-long"}`), 401)
+	requireStatus(request("POST", "/api/v1/auth/login", `{"username":"missing_user","password":"wrong-password-long"}`), 401)
+	loggedIn := request("POST", "/api/v1/auth/login", `{"username":"LOCAL_LEARNER","password":"a-long-test-password"}`, localSession)
+	requireStatus(loggedIn, 200)
+	requireStatus(request("GET", "/api/v1/me", "", localSession), 401)
+	newSession := loggedIn.Result().Cookies()[0]
+	if newSession.Value == localSession.Value || !newSession.HttpOnly {
+		t.Fatal("session not rotated")
+	}
+	requireStatus(request("GET", "/api/v1/me", "", newSession), 200)
+	requireStatus(request("POST", "/api/v1/auth/login", `{"username":"local_learner","password":"a-long-test-password"}`), 429)
+	var account model.PasswordAccount
+	db.First(&account, "username = ?", "local_learner")
+	if account.PasswordHash == "a-long-test-password" || !strings.HasPrefix(account.PasswordHash, "$2") {
+		t.Fatal("password not hashed")
+	}
+	if strings.Contains(registered.Body.String(), "password") {
+		t.Fatal("credentials exposed")
+	}
+	requireStatus(request("POST", "/api/v1/auth/logout", "", newSession), 204)
+	requireStatus(request("GET", "/api/v1/me", "", newSession), 401)
 }

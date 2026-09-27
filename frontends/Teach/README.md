@@ -1,5 +1,9 @@
 # Learn Codex
 
+Dockerfile 构建静态前端，由 Nginx 提供 SPA 回退并将 /api/ 转发给后台。部署不使用 Vite preview；前后端离线包见 [部署说明](../../deploy/README.md)。
+
+登录页支持用户名密码注册、登录与 GitHub 登录。注册成功自动登录，密码方式成功后返回允许的 `next` 目标（课程或排行榜）；GitHub 回调仍返回首页。字段与校验文案双语，密码仅随 HTTPS 请求提交，不写入浏览器存储。本地测试需要运行后台并执行最新数据库迁移。
+
 开发前阅读 [AGENTS.md](AGENTS.md) 中的组件职责和交互约定，以及 [DESIGN.md](DESIGN.md) 中的视觉规范。
 
 `Teach` 是品牌为 **Learn Codex** 的交互式源码教学前端。视觉采用白底、细边框、宽留白和代码实验区，当前阶段尚未写入 Harness 教学正文。

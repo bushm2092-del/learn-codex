@@ -46,6 +46,8 @@ func New(cfg config.Config, svc *service.Service, provider oauth.Provider) *gin.
 		c.JSON(200, gin.H{"github_enabled": cfg.ClientID != "" && cfg.ClientSecret != ""})
 	})
 	v.GET("/auth/github", a.login)
+	v.POST("/auth/register", a.passwordAuth(true))
+	v.POST("/auth/login", a.passwordAuth(false))
 	v.GET("/auth/github/callback", a.callback)
 	v.GET("/chapters", a.chapters)
 	v.GET("/chapters/:chapter/comments", a.comments)

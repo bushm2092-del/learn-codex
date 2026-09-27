@@ -1,8 +1,21 @@
 # Learn Codex Backend
 
+前后端一体离线发布使用仓库根目录 `make offline-pack VERSION=v1`，服务器启动、迁移、备份流程见 [离线部署说明](../deploy/README.md)。本目录 compose.yaml 继续用于独立后台本地开发。
+
 教学站独立业务后台，与 `frontends/Teach` 对接；不属于 Codex Rust 内核。教学前端已接入登录、章节评论与打卡、排行榜及 PV/UV。真实 GitHub 登录需要自建 OAuth App。
 
 ## 技术与边界
+
+### 用户名密码账号
+
+先执行迁移 `go run ./cmd/server migrate`（Docker 部署继续由 migrate 服务执行），新增 `password_accounts` 表并允许本地用户没有 GitHub ID。
+
+- `POST /api/v1/auth/register` 和 `POST /api/v1/auth/login` 接收 `{"username":"learner","password":"your-long-password"}`。注册成功 201，登录成功 200，均签发原有 HttpOnly 会话 Cookie；需要合法 Origin。
+- 用户名为 3–32 位英文字母、数字、下划线，统一小写。密码至少 12 个 Unicode 字符，最多 72 字节，不裁剪、不静默截断。
+- bcrypt cost 12 加盐哈希；凭据不进入用户响应或日志。本地账号和 GitHub 账号独立，不因同名合并。
+- 重复用户名 409；错误密码和不存在的账号统一 401。注册与登录共享每直连 IP 5 次突发额度，每 12 秒恢复一次，进程重启会重置；多副本/生产部署应在网关补充统一防滥用限流。
+- 注册自动登录；再次登录轮换会话，退出立即失效。当前没有密码找回、邮箱验证或账号合并功能。
+- 迁移回滚会删除密码凭据但保留用户及学习数据；上线前应备份，生产优先前向迁移。
 
 - Go 1.26、Gin、GORM + PostgreSQL 17、Goose SQL 迁移、`golang.org/x/oauth2`。
 - 标准库 `slog` JSON 日志、HTTP 超时、优雅停机，基于 `x/time/rate` 的进程内限流。

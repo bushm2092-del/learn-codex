@@ -9,7 +9,7 @@ export function AccountControl() {
   const { locale } = useLocale(); const t = community[locale]; const { user, status, refresh } = useAuth();
   const [busy, setBusy] = useState(false); const [error, setError] = useState<"offline" | "unconfigured" | null>(null);
   const location = useLocation();
-  if (!user) return <Link className="community-button" to={`/login?next=${encodeURIComponent(location.pathname)}`}>{t.login}</Link>;
+  if (!user) return <Link className="community-button" to={location.pathname === "/login" ? location.pathname + location.search : `/login?next=${encodeURIComponent(location.pathname)}`}>{t.signIn}</Link>;
   async function act() {
     setBusy(true); setError(null);
     try {

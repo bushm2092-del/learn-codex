@@ -1,5 +1,11 @@
 export const community = {
   zh: {
+    signIn: "登录", register: "注册", welcome: "继续你的学习", createAccount: "创建学习账号",
+    accountNote: "记录每一次进步，把问题留给一起学习的人。", username: "用户名", password: "密码", confirmPassword: "确认密码",
+    usernameHint: "3–32 位字母、数字或下划线，不区分大小写。", passwordHint: "至少 12 个字符，最多 72 字节（中文通常占 3 字节）。",
+    showPassword: "显示密码", hidePassword: "隐藏密码", submitLogin: "登录并继续", submitRegister: "注册并开始学习",
+    alternate: "或使用其他方式", browse: "先看看课程", mismatch: "两次输入的密码不一致。", credentials: "用户名或密码不正确。",
+    usernameTaken: "这个用户名已被使用，请换一个。", invalidAccount: "请检查用户名和密码是否符合要求。",
     guestAccess: "课程内容无需登录。登录后可以参与评论、记录打卡和查看学习排行榜。",
     login: "GitHub 登录", logout: "退出登录", loading: "加载中…", retry: "重试", offline: "暂时无法连接后台，请稍后重试。", unconfigured: "GitHub 登录尚未配置。", loginError: "登录状态加载失败", expired: "登录已过期，请重新登录。", rateLimit: "操作太频繁，请稍后再试。",
     checkTitle: "学完这一章", checkNote: "打卡记录学习进度，每章只计一次。", check: "完成打卡", checked: "已完成打卡", loginHint: "登录后即可记录进度和参与讨论。", progressError: "学习进度加载失败，请重试。",
@@ -7,6 +13,12 @@ export const community = {
     leaderboard: "学习排行榜", rankingNote: "按已打卡的不同章节数排序，同分并列。打卡记录的是学习进度，不代表能力评级。", noRank: "还没有打卡记录，完成第一章后就能上榜。", rank: "名次", learner: "学习者", chapters: "已学章节", home: "返回首页", stats: "近 30 天", visits: "访问 PV", visitors: "访客 UV", privacy: "UV 按匿名浏览器标识去重，不等于真实人数。",
   },
   en: {
+    signIn: "Sign in", register: "Register", welcome: "Continue your learning", createAccount: "Create your account",
+    accountNote: "Keep your progress. Share questions with fellow learners.", username: "Username", password: "Password", confirmPassword: "Confirm password",
+    usernameHint: "3–32 letters, numbers or underscores. Case-insensitive.", passwordHint: "At least 12 characters, up to 72 bytes (some characters use multiple bytes).",
+    showPassword: "Show password", hidePassword: "Hide password", submitLogin: "Sign in and continue", submitRegister: "Create account",
+    alternate: "Or continue with", browse: "Explore the lessons", mismatch: "The passwords do not match.", credentials: "Incorrect username or password.",
+    usernameTaken: "That username is taken. Choose another.", invalidAccount: "Check the username and password requirements.",
     guestAccess: "Read every lesson without signing in. Sign in to comment, record progress, and view the learning leaderboard.",
     login: "GitHub login", logout: "Sign out", loading: "Loading…", retry: "Retry", offline: "The backend is unavailable. Please try again later.", unconfigured: "GitHub login is not configured yet.", loginError: "Could not load account", expired: "Your session expired. Please sign in again.", rateLimit: "Too many requests. Please try again shortly.",
     checkTitle: "Finished this chapter?", checkNote: "Record your progress. Each chapter counts once.", check: "Mark complete", checked: "Completed", loginHint: "Sign in to save progress and join the discussion.", progressError: "Could not load progress. Please retry.",

@@ -1,0 +1,28 @@
+.auth-page { width: min(400px, calc(100% - 40px)); margin: 72px auto 64px; color: var(--ink); }
+.auth-page__heading { margin-bottom: 32px; }
+.auth-page h1 { font-size: clamp(28px, 4vw, 34px); letter-spacing: -.035em; line-height: 1.2; margin: 0 0 12px; }
+.auth-page__heading p { color: var(--muted); line-height: 1.7; font-size: 14px; margin: 0; }
+.auth-page__modes { display: flex; border-bottom: 1px solid var(--line); margin-bottom: 28px; gap: 24px; }
+.auth-page button, .auth-page input { font: inherit; }
+.auth-page__modes button { padding: 10px 0 12px; border: 0; border-bottom: 2px solid transparent; background: transparent; color: var(--muted); cursor: pointer; }
+.auth-page__modes button[aria-pressed="true"] { border-bottom-color: var(--ink); color: var(--ink); font-weight: 600; }
+.auth-page__form { display: flex; flex-direction: column; }
+.auth-page label { font-size: 14px; font-weight: 550; }
+.auth-page input { width: 100%; box-sizing: border-box; height: 46px; border: 1px solid var(--line); border-radius: 6px; background: var(--canvas); color: var(--ink); padding: 10px 12px; margin-top: 8px; }
+.auth-page__hint { font-size: 12px; color: var(--muted); line-height: 1.6; margin: 8px 0 22px; }
+.auth-page__password-label { display: flex; justify-content: space-between; align-items: center; }
+.auth-page__password-label button { border: 0; padding: 0; color: var(--muted); background: transparent; font-size: 12px; cursor: pointer; }
+.auth-page__submit, .auth-page__github { min-height: 46px; border-radius: 6px; cursor: pointer; padding: 12px 16px; }
+.auth-page__submit { margin-top: 16px; display: flex; align-items: center; justify-content: space-between; border: 1px solid var(--action); background: var(--action); color: white; }
+.auth-page__submit:hover { background: #000; }
+.auth-page__divider { display: flex; align-items: center; gap: 16px; margin: 24px 0; color: var(--muted); font-size: 12px; }
+.auth-page__divider::before, .auth-page__divider::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+.auth-page__github { width: 100%; border: 1px solid var(--line); background: var(--canvas); color: var(--ink); }
+.auth-page__github:hover { background: var(--panel); }
+.auth-page__guest { margin: 24px 0 12px; font-size: 12px; line-height: 1.7; color: var(--muted); text-align: center; }
+.auth-page__browse { display: block; text-align: center; font-size: 13px; color: var(--ink); text-underline-offset: 4px; }
+.auth-page__error { color: #a12222; font-size: 13px; line-height: 1.6; }
+.auth-page input:focus { border-color: var(--ink); outline: 2px solid var(--ink); outline-offset: -2px; }
+.auth-page :is(button, a):focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+.auth-page button:disabled { cursor: wait; opacity: .6; }
+@media (max-width: 680px) { .auth-page { margin-top: 40px; } }

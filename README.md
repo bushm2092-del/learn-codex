@@ -17,6 +17,8 @@ ThreadManager
 
 ## 项目结构
 
+教学站前后端支持离线 Docker 部署：`make offline-pack VERSION=v1` 生成包含前端、后台与 PostgreSQL 镜像的 linux/amd64 离线包。上传后运行包内 `bash deploy.sh init`、`bash deploy.sh up`，无需在线拉取镜像。详见 [部署说明](deploy/README.md)，不包含生产密钥或数据库数据。
+
 教学站独立 Go 业务后台位于 `backend/`，使用 Gin、GORM、PostgreSQL，提供 GitHub 登录、PV/UV、章节评论、打卡和学习排行榜，支持 Docker Compose。详见 [后台说明](backend/README.md)。该模块和教学前端一样是明确的项目独有业务，不属于 Codex Rust 内核的 1:1 移植范围。
 
 ```text

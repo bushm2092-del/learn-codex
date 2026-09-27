@@ -1,5 +1,8 @@
 target/
 .env
+.env.*
+!.env.example
+dist-offline/
 .DS_Store
 node_modules/
 mini-codex-tui/dist/

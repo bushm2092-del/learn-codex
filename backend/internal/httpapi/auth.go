@@ -61,19 +61,10 @@ func (a *API) callback(c *gin.Context) {
 		a.fail(c, err)
 		return
 	}
-	token, err := service.Token()
-	if err != nil {
+	if err = a.startSession(c, user.ID); err != nil {
 		a.fail(c, err)
 		return
 	}
-	if err = a.svc.Store.CreateSession(c.Request.Context(), model.Session{TokenHash: service.Hash(token), UserID: user.ID, ExpiresAt: time.Now().Add(7 * 24 * time.Hour)}); err != nil {
-		a.fail(c, err)
-		return
-	}
-	if old, e := c.Cookie("learn_session"); e == nil {
-		_ = a.svc.Store.DeleteSession(c.Request.Context(), service.Hash(old))
-	}
-	a.cookie(c, "learn_session", token, "/", 7*24*3600)
 	c.Redirect(302, a.cfg.FrontendOrigin+"/")
 }
 func (a *API) logout(c *gin.Context) {

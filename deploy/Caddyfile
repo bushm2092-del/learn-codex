@@ -1,0 +1,4 @@
+# 宿主机 Caddy 管理证书与续期；前端 Docker 端口仅绑定回环地址。
+learn-codex.tech {
+    reverse_proxy 127.0.0.1:8088
+}

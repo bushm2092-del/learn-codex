@@ -1,6 +1,11 @@
 .PHONY: help install teach-dev teach-build rust-fmt rust-check rust-test test
 
 SHELL := /bin/bash
+.DEFAULT_GOAL := help
+
+.PHONY: offline-pack
+offline-pack:
+	VERSION="$(VERSION)" PLATFORM="$(or $(PLATFORM),linux/amd64)" bash deploy/pack.sh
 
 .PHONY: backend-check backend-test backend-dev backend-up
 backend-check:
@@ -16,6 +21,7 @@ backend-up:
 	cd backend && docker compose --env-file .env up --build -d
 
 help:
+	@printf '%s\n' '  make offline-pack VERSION=v1  构建前后端与数据库离线部署包（默认 linux/amd64）'
 	@printf '%s\n' '  make backend-check / backend-test  验证 Go 后台' '  make backend-dev / backend-up      启动后台 / Docker 部署'
 	@printf '%s\n' 'mini-codex 可用命令：'
 	@printf '%s\n' '  make install     安装教学站与 Ink TUI 依赖'
