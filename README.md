@@ -17,8 +17,11 @@ ThreadManager
 
 ## 项目结构
 
+教学站独立 Go 业务后台位于 `backend/`，使用 Gin、GORM、PostgreSQL，提供 GitHub 登录、PV/UV、章节评论、打卡和学习排行榜，支持 Docker Compose。详见 [后台说明](backend/README.md)。该模块和教学前端一样是明确的项目独有业务，不属于 Codex Rust 内核的 1:1 移植范围。
+
 ```text
 mini-codex/
+├── backend/                # 教学站 Go API：GitHub 登录、统计、评论、打卡与排行
 ├── mini-codex-rs/          # Rust workspace：协议、配置、核心循环、工具和 CLI
 │   ├── Cargo.toml
 │   └── crates/             # protocol, config, model-provider-info, utils/home-dir, core, cli, app-server*

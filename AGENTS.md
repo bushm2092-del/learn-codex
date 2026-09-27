@@ -10,6 +10,10 @@
 
 ## 源项目与路径映射
 
+### 教学站独立业务例外
+
+`frontends/Teach/` 与 `backend/` 为用户明确授权的独立教学站业务模块，不要求在 Codex 源码中存在对应功能，也不受内核的包名、文件名与目录映射限制。`backend/` 使用 Go、Gin、GORM 和 PostgreSQL，提供 GitHub 登录、访问统计、章节评论、学习打卡与排行榜。教学站可以采用自己的分层结构与 Docker 部署；不得借此改变 Rust 内核的源码对照要求，也不得将网站账号或学习数据混入内核会话。
+
 - 源项目根目录：`/Users/hfh/Desktop/github/codex`
 - 源 Rust workspace：`/Users/hfh/Desktop/github/codex/codex-rs`
 - 本项目 Rust workspace：`mini-codex-rs/`

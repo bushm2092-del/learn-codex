@@ -2,7 +2,21 @@
 
 SHELL := /bin/bash
 
+.PHONY: backend-check backend-test backend-dev backend-up
+backend-check:
+	cd backend && go vet ./... && go build ./...
+
+backend-test:
+	cd backend && go test -race ./...
+
+backend-dev:
+	cd backend && go run ./cmd/server
+
+backend-up:
+	cd backend && docker compose --env-file .env up --build -d
+
 help:
+	@printf '%s\n' '  make backend-check / backend-test  验证 Go 后台' '  make backend-dev / backend-up      启动后台 / Docker 部署'
 	@printf '%s\n' 'mini-codex 可用命令：'
 	@printf '%s\n' '  make install     安装教学站与 Ink TUI 依赖'
 	@printf '%s\n' '  make teach-dev   启动 React 教学站'
