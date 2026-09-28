@@ -3,20 +3,21 @@ use std::pin::Pin;
 
 use anyhow::Result;
 use futures::Stream;
-use mini_codex_protocol::ToolSpec;
-use serde_json::Value;
+use mini_codex_protocol::models::ResponseItem;
+use mini_codex_tools::ToolSpec;
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct Prompt {
-    pub input: Vec<Value>,
+    pub input: Vec<ResponseItem>,
     pub tools: Vec<ToolSpec>,
+    pub parallel_tool_calls: bool,
     pub instructions: String,
 }
 
 #[derive(Clone, Debug, PartialEq)]
 pub enum ResponseEvent {
     OutputTextDelta(String),
-    OutputItemDone(Value),
+    OutputItemDone(ResponseItem),
     Completed,
 }
 

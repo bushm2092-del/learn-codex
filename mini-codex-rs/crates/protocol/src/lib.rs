@@ -3,11 +3,14 @@
 //! 对应真实仓库的 `codex-rs/protocol`：本 crate 不承载业务逻辑。
 
 pub mod error;
+pub mod models;
 pub mod openai_models;
+mod tool_name;
 
-use serde::Deserialize;
-use serde::Serialize;
 use serde_json::Value;
+
+pub use tool_name::ToolName;
+pub const DEFAULT_FUNCTION_NAMESPACE: &str = "functions";
 
 #[derive(Clone, Debug, PartialEq)]
 pub enum Op {
@@ -71,23 +74,4 @@ pub enum EventMsg {
     ThreadSettingsApplied(ThreadSettingsSnapshot),
     Error(String),
     ShutdownComplete,
-}
-
-/// Responses API 的函数工具定义。
-#[derive(Clone, Debug, PartialEq, Serialize)]
-pub struct ToolSpec {
-    #[serde(rename = "type")]
-    pub kind: &'static str,
-    pub name: String,
-    pub description: String,
-    pub parameters: Value,
-    pub strict: bool,
-}
-
-/// Harness 所需的 Responses API 函数调用字段。
-#[derive(Clone, Debug, PartialEq, Deserialize)]
-pub struct FunctionCall {
-    pub call_id: String,
-    pub name: String,
-    pub arguments: String,
 }

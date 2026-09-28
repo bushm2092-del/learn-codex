@@ -683,6 +683,7 @@ dependencies = [
  "mini-codex-model-provider-info",
  "mini-codex-models-manager",
  "mini-codex-protocol",
+ "mini-codex-tools",
  "mini-codex-utils-home-dir",
  "pretty_assertions",
  "reqwest",
@@ -720,6 +721,16 @@ version = "0.1.0"
 dependencies = [
  "serde",
  "serde_json",
+]
+
+[[package]]
+name = "mini-codex-tools"
+version = "0.1.0"
+dependencies = [
+ "mini-codex-protocol",
+ "serde",
+ "serde_json",
+ "thiserror",
 ]
 
 [[package]]

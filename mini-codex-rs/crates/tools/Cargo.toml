@@ -1,0 +1,11 @@
+[package]
+name = "mini-codex-tools"
+edition.workspace = true
+license.workspace = true
+version.workspace = true
+
+[dependencies]
+mini-codex-protocol = { path = "../protocol" }
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true

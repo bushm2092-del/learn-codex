@@ -4,6 +4,7 @@ use anyhow::Context;
 use anyhow::Result;
 use eventsource_stream::Eventsource;
 use futures::StreamExt;
+use mini_codex_protocol::models::ResponseItem;
 use serde::Deserialize;
 use serde_json::Value;
 
@@ -84,7 +85,7 @@ impl ModelClient for OpenAiResponsesClient {
                     "input": prompt.input,
                     "tools": prompt.tools,
                     "tool_choice": "auto",
-                    "parallel_tool_calls": false,
+                    "parallel_tool_calls": prompt.parallel_tool_calls,
                     "include": ["reasoning.encrypted_content"],
                     "store": false,
                     "stream": true
@@ -131,7 +132,7 @@ struct WireEvent {
     #[serde(default)]
     delta: Option<String>,
     #[serde(default)]
-    item: Option<Value>,
+    item: Option<ResponseItem>,
     #[serde(default)]
     response: Option<WireResponse>,
 }

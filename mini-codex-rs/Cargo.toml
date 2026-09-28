@@ -8,6 +8,7 @@ members = [
     "crates/model-provider-info",
     "crates/models-manager",
     "crates/protocol",
+    "crates/tools",
     "crates/utils/home-dir",
 ]
 resolver = "2"

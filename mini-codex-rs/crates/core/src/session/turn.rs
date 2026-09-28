@@ -3,18 +3,22 @@ use std::sync::Arc;
 use anyhow::Context;
 use anyhow::Result;
 use futures::StreamExt;
+use futures::stream::FuturesOrdered;
 use mini_codex_protocol::Event;
 use mini_codex_protocol::EventMsg;
-use mini_codex_protocol::FunctionCall;
-use serde_json::Value;
+use mini_codex_protocol::models::ContentItem;
+use mini_codex_protocol::models::ResponseInputItem;
+use mini_codex_protocol::models::ResponseItem;
 
 use crate::Prompt;
 use crate::ResponseEvent;
 use crate::session::Session;
+use crate::tools::parallel::ToolCallRuntime;
+use crate::tools::router::ToolRouter;
 
-const MAX_SAMPLING_STEPS: usize = 32;
+type InFlightFuture = futures::future::BoxFuture<'static, Result<ResponseInputItem>>;
 
-/// 中层 agent 循环：采样、执行模型请求的工具、追加输出，然后重复。
+/// 中层 agent 循环：采样、收集工具 future、记录结果，再决定是否继续。
 pub(crate) async fn run_turn(
     session: Arc<Session>,
     submission_id: &str,
@@ -26,22 +30,27 @@ pub(crate) async fn run_turn(
             msg: EventMsg::TurnStarted,
         })
         .await;
-    session.history.lock().await.record(serde_json::json!({
-        "role": "user",
-        "content": [{"type": "input_text", "text": user_text}]
-    }));
+    session.history.lock().await.record(ResponseItem::Message {
+        id: None,
+        role: "user".to_string(),
+        content: vec![ContentItem::InputText { text: user_text }],
+        phase: None,
+    });
 
     let mut last_agent_message = None;
-    for _step in 0..MAX_SAMPLING_STEPS {
+    loop {
         let prompt = Prompt {
             input: session.history.lock().await.for_prompt(),
-            tools: session.tool_router.model_visible_specs(),
+            tools: session.tool_router.model_visible_specs().to_vec(),
+            parallel_tool_calls: true,
             instructions: session.instructions.clone(),
         };
-        // 每一步都重新读取模型名，使 `/model` 在回合之间切换后立即生效。
         let model = session.settings.lock().await.model.clone();
         let mut stream = session.model_client.stream(prompt, model).await?;
+        let tool_runtime = ToolCallRuntime::new(Arc::clone(&session), submission_id.to_string());
+        let mut in_flight = FuturesOrdered::<InFlightFuture>::new();
         let mut needs_follow_up = false;
+        let mut response_completed = false;
 
         while let Some(event) = stream.next().await {
             match event? {
@@ -55,49 +64,15 @@ pub(crate) async fn run_turn(
                 }
                 ResponseEvent::OutputItemDone(item) => {
                     session.history.lock().await.record(item.clone());
-                    match item.get("type").and_then(Value::as_str) {
-                        Some("function_call") => {
-                            let call: FunctionCall =
-                                serde_json::from_value(item).context("function_call 响应项无效")?;
-                            let call_id = call.call_id.clone();
-                            let name = call.name.clone();
-                            let arguments: Value = serde_json::from_str(&call.arguments)
-                                .context("工具参数不是有效的 JSON")?;
-                            session
-                                .send_event(Event {
-                                    submission_id: submission_id.to_string(),
-                                    msg: EventMsg::ToolCallStarted {
-                                        call_id: call_id.clone(),
-                                        name: name.clone(),
-                                        arguments: arguments.clone(),
-                                    },
-                                })
-                                .await;
-                            let result = session
-                                .tool_router
-                                .dispatch(&name, arguments, &session.cwd)
-                                .await;
-                            let output = result.output;
-                            let success = result.success;
-                            session.history.lock().await.record(serde_json::json!({
-                                "type": "function_call_output",
-                                "call_id": call_id,
-                                "output": output
+                    match ToolRouter::build_tool_call(item.clone()) {
+                        Ok(Some(call)) => {
+                            let runtime = tool_runtime.clone();
+                            in_flight.push_back(Box::pin(async move {
+                                runtime.handle_tool_call(call).await.map_err(Into::into)
                             }));
-                            session
-                                .send_event(Event {
-                                    submission_id: submission_id.to_string(),
-                                    msg: EventMsg::ToolCallCompleted {
-                                        call_id,
-                                        name,
-                                        output,
-                                        success,
-                                    },
-                                })
-                                .await;
                             needs_follow_up = true;
                         }
-                        Some("message") => {
+                        Ok(None) => {
                             if let Some(text) = output_text(&item) {
                                 last_agent_message = Some(text.clone());
                                 session
@@ -108,11 +83,27 @@ pub(crate) async fn run_turn(
                                     .await;
                             }
                         }
-                        _ => {}
+                        Err(error) => return Err(error.into()),
                     }
                 }
-                ResponseEvent::Completed => break,
+                ResponseEvent::Completed => {
+                    response_completed = true;
+                    break;
+                }
             }
+        }
+
+        if !response_completed {
+            anyhow::bail!("stream closed before response.completed");
+        }
+
+        while let Some(result) = in_flight.next().await {
+            let response = result.context("in-flight tool future failed during drain")?;
+            session
+                .history
+                .lock()
+                .await
+                .record(ResponseItem::from(response));
         }
 
         if !needs_follow_up {
@@ -125,16 +116,18 @@ pub(crate) async fn run_turn(
             return Ok(());
         }
     }
-
-    anyhow::bail!("本轮超过 {MAX_SAMPLING_STEPS} 次模型采样上限")
 }
 
-fn output_text(item: &Value) -> Option<String> {
-    let content = item.get("content")?.as_array()?;
+fn output_text(item: &ResponseItem) -> Option<String> {
+    let ResponseItem::Message { content, .. } = item else {
+        return None;
+    };
     let text = content
         .iter()
-        .filter(|part| part.get("type").and_then(Value::as_str) == Some("output_text"))
-        .filter_map(|part| part.get("text").and_then(Value::as_str))
+        .map(|part| match part {
+            ContentItem::OutputText { text } => text.as_str(),
+            ContentItem::InputText { .. } => "",
+        })
         .collect::<String>();
     (!text.is_empty()).then_some(text)
 }

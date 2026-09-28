@@ -1,7 +1,7 @@
 # mini-codex Rust 内核
 
 这是 Rust 执行内核，使用 Cargo workspace 管理 `protocol`、`config`、`model-provider-info`、
-`models-manager`、`utils/home-dir`、`arg0`、`core`、`cli`、`app-server` 和 `app-server-protocol` 十个 crate。
+`models-manager`、`utils/home-dir`、`arg0`、`tools`、`core`、`app-server` 和 `app-server-protocol` 十个 crate。
 
 ## 源码结构
 
@@ -19,6 +19,8 @@ mini-codex-rs/
     ├── app-server-protocol/src/protocol/{mod,v1}.rs
     ├── app-server-protocol/src/protocol/v2/{mod,thread,turn,model,config}.rs
     ├── protocol/src/{lib,error,openai_models}.rs  # Op/Event、EnvVarError、ModelInfo/ModelPreset
+    ├── tools/src/{function_call_error,tool_executor,tool_output,tool_payload,tool_spec}.rs
+    │                                               # 源 codex-rs/tools 的受支持子集
     ├── utils/home-dir/src/lib.rs                  # find_codex_home
     ├── arg0/src/lib.rs                            # load_dotenv：启动时读 $MINI_CODEX_HOME/.env
     ├── model-provider-info/src/lib.rs             # ModelProviderInfo、内建 deepseek provider
@@ -33,7 +35,8 @@ mini-codex-rs/
     │   ├── client.rs
     │   ├── context_manager.rs
     │   ├── session/{session.rs,handlers.rs,thread_settings.rs,turn.rs}
-    │   └── tools/{registry.rs,router.rs,handlers/exec_command.rs}
+    │   └── tools/{context.rs,parallel.rs,registry.rs,router.rs}
+    │       └── handlers/{mod.rs,unified_exec.rs,unified_exec/exec_command.rs}
     ├── core/tests/tool_harness.rs
     └── cli/src/main.rs
 ```
@@ -46,9 +49,17 @@ ThreadManager
   -> Session / submission_loop
   -> run_turn
   -> ModelClient
-  -> ToolRouter
+  -> ToolRouter::build_tool_call
+  -> ToolCallRuntime
+  -> ToolRegistry / ToolInvocation
   -> history
 ```
+
+Function call 主链使用与源项目一致的 `ResponseItem`、`ResponseInputItem`、`ToolCall`、
+`ToolPayload`、`ToolInvocation`、`FunctionCallError` 和 `ToolOutput`。模型参数解析失败和未知工具
+会转换为失败的 `function_call_output` 返回模型；同一 response 中的多个调用先进入
+`FuturesOrdered`，按模型调用顺序写回历史，并按 handler 的 `supports_parallel_tool_calls`
+通过读写锁控制并行。SSE 在 `response.completed` 前关闭会判定为失败，不再误报 turn 完成。
 
 中文界面文案和 system prompt 由 `crates/cli/src/main.rs` 定义，system prompt 在创建
 `ThreadManager` 时传入核心。
@@ -102,7 +113,7 @@ cargo check --workspace
 cargo test --workspace
 ```
 
-当前 `exec_command` 仍然直接执行 shell，尚未实现生产 Codex 的 sandbox、审批、取消、rollout
+当前 `exec_command` 仍然直接执行 shell，尚未实现生产 Codex 的 sandbox、审批、turn 取消、rollout
 恢复、context compaction、MCP 和 subagents。不要在不可信 prompt 或敏感目录中运行。
 
 # 规范

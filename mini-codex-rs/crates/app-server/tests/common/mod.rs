@@ -3,9 +3,7 @@
 use anyhow::Result;
 use mini_codex_config::ConfigToml;
 use mini_codex_core::config::{Config, ConfigOverrides};
-use mini_codex_core::{
-    ExecCommandTool, ModelClient, Prompt, ResponseEvent, ResponseStream, ThreadManager, ToolRouter,
-};
+use mini_codex_core::{ModelClient, Prompt, ResponseEvent, ResponseStream, ThreadManager};
 use serde_json::{Value, json};
 use std::{
     future::Future,
@@ -44,7 +42,7 @@ pub fn text_reply(text: &str) -> Vec<ResponseEvent> {
     vec![
         ResponseEvent::OutputTextDelta(text.into()),
         ResponseEvent::OutputItemDone(
-            json!({"type": "message", "content": [{"type": "output_text", "text": text}]}),
+            serde_json::from_value(json!({"type": "message", "role": "assistant", "content": [{"type": "output_text", "text": text}]})).unwrap(),
         ),
         ResponseEvent::Completed,
     ]
@@ -98,12 +96,7 @@ impl TestServer {
             std::fs::write(codex_home.path().join("config.toml"), config_toml)?;
         }
         let config = test_config(codex_home.path(), config_toml)?;
-        let manager = ThreadManager::new(
-            config,
-            model,
-            ToolRouter::default().register(ExecCommandTool),
-            "test".into(),
-        );
+        let manager = ThreadManager::new(config, model, "test".into());
         let (client, server) = tokio::io::duplex(65536);
         let (reader, writer) = tokio::io::split(server);
         let server = tokio::spawn(mini_codex_app_server::run(reader, writer, manager));

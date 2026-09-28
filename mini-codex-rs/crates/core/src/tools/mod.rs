@@ -1,9 +1,9 @@
+mod context;
 mod handlers;
+pub(crate) mod parallel;
 mod registry;
-mod router;
+pub(crate) mod router;
 
-pub use handlers::ExecCommandTool;
-pub use registry::Tool;
-pub use registry::ToolFuture;
-pub use registry::ToolResult;
-pub use router::ToolRouter;
+pub(crate) use handlers::ExecCommandHandler;
+pub(crate) use registry::ToolRegistry;
+pub(crate) use router::ToolRouter;

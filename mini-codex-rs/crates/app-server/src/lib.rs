@@ -35,8 +35,8 @@ where
 
 /// 从 `config.toml` 组装真实模型服务；CLI 子命令与独立二进制共用入口。
 pub async fn run_main() -> anyhow::Result<()> {
+    use mini_codex_core::OpenAiResponsesClient;
     use mini_codex_core::config::{Config, ConfigOverrides};
-    use mini_codex_core::{ExecCommandTool, OpenAiResponsesClient, ToolRouter};
     use std::sync::Arc;
     // 与 CLI 相同的装配点：模型与 provider 来自 `$MINI_CODEX_HOME/config.toml`，
     // API key 来自 provider 的 `env_key` 环境变量。
@@ -48,7 +48,6 @@ pub async fn run_main() -> anyhow::Result<()> {
     let manager = ThreadManager::new(
         config,
         client,
-        ToolRouter::default().register(ExecCommandTool),
         "你是一个小型编程代理。请在工具指定的工作目录中工作；需要时使用工具，最后用简洁的中文解释结果。".into(),
     );
     run(tokio::io::stdin(), tokio::io::stdout(), manager).await

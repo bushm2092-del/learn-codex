@@ -1,20 +1,70 @@
-use std::future::Future;
-use std::path::Path;
-use std::pin::Pin;
+use std::collections::BTreeMap;
+use std::sync::Arc;
 
-use mini_codex_protocol::ToolSpec;
-use serde_json::Value;
+use mini_codex_tools::ToolExecutor;
+use mini_codex_tools::ToolName;
 
-#[derive(Clone, Debug, PartialEq)]
-pub struct ToolResult {
-    pub output: String,
-    pub success: bool,
+use crate::function_tool::FunctionCallError;
+use crate::tools::context::ToolInvocation;
+use crate::tools::context::ToolOutput;
+use crate::tools::context::ToolPayload;
+
+pub(crate) trait CoreToolRuntime: ToolExecutor<ToolInvocation> {}
+
+impl<T> CoreToolRuntime for T where T: ToolExecutor<ToolInvocation> {}
+
+pub(crate) struct AnyToolResult {
+    pub(crate) call_id: String,
+    pub(crate) payload: ToolPayload,
+    pub(crate) result: Box<dyn ToolOutput>,
 }
 
-pub type ToolFuture<'a> = Pin<Box<dyn Future<Output = ToolResult> + Send + 'a>>;
+#[derive(Default)]
+pub(crate) struct ToolRegistry {
+    tools: BTreeMap<ToolName, Arc<dyn CoreToolRuntime>>,
+}
 
-/// 模型可见工具定义中真正负责执行的部分。
-pub trait Tool: Send + Sync {
-    fn spec(&self) -> ToolSpec;
-    fn execute<'a>(&'a self, arguments: Value, cwd: &'a Path) -> ToolFuture<'a>;
+impl ToolRegistry {
+    pub(crate) fn add<T>(&mut self, handler: T)
+    where
+        T: CoreToolRuntime + 'static,
+    {
+        self.register_trusted(Arc::new(handler));
+    }
+
+    pub(crate) fn register_trusted(&mut self, runtime: Arc<dyn CoreToolRuntime>) {
+        let tool_name = runtime.tool_name().with_default_namespace();
+        assert!(
+            self.tools.insert(tool_name.clone(), runtime).is_none(),
+            "tool {tool_name} already registered"
+        );
+    }
+
+    pub(crate) fn tool(&self, name: &ToolName) -> Option<Arc<dyn CoreToolRuntime>> {
+        self.tools
+            .get(&name.clone().with_default_namespace())
+            .map(Arc::clone)
+    }
+
+    pub(crate) fn supports_parallel_tool_calls(&self, name: &ToolName) -> Option<bool> {
+        self.tool(name)
+            .map(|tool| tool.supports_parallel_tool_calls())
+    }
+
+    pub(crate) async fn dispatch_any_with_state(
+        &self,
+        invocation: ToolInvocation,
+    ) -> Result<AnyToolResult, FunctionCallError> {
+        let tool = self.tool(&invocation.tool_name).ok_or_else(|| {
+            FunctionCallError::RespondToModel(format!("unsupported call: {}", invocation.tool_name))
+        })?;
+        let call_id = invocation.call_id.clone();
+        let payload = invocation.payload.clone();
+        let result = tool.handle(invocation).await?;
+        Ok(AnyToolResult {
+            call_id,
+            payload,
+            result,
+        })
+    }
 }

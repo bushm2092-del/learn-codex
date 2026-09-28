@@ -9,6 +9,7 @@ mini-codex 是对 Codex Rust 核心进行简化的教学项目。**核心源码�
 | 目录 | 主要职责 |
 | --- | --- |
 | [`mini-codex-rs/crates/protocol/`](mini-codex-rs/crates/protocol/) | 跨层传递的操作、事件和协议类型。 |
+| [`mini-codex-rs/crates/tools/`](mini-codex-rs/crates/tools/) | 与源 `codex-rs/tools` 对齐的工具协议、执行契约和 Responses API 工具定义。 |
 | [`mini-codex-rs/crates/core/`](mini-codex-rs/crates/core/) | 会话与 turn 循环、模型客户端、上下文和工具调度；主要执行逻辑在这里。 |
 | [`mini-codex-rs/crates/config/`](mini-codex-rs/crates/config/) | 配置文件的读取与合并。 |
 | [`mini-codex-rs/crates/model-provider-info/`](mini-codex-rs/crates/model-provider-info/) | 模型服务商信息。 |
@@ -32,6 +33,7 @@ mini-codex is a teaching project that simplifies the Codex Rust core. **The core
 | Directory | Purpose |
 | --- | --- |
 | [`mini-codex-rs/crates/protocol/`](mini-codex-rs/crates/protocol/) | Operations, events, and protocol types shared across layers. |
+| [`mini-codex-rs/crates/tools/`](mini-codex-rs/crates/tools/) | Tool primitives, execution contracts, and Responses API tool definitions mapped from upstream `codex-rs/tools`. |
 | [`mini-codex-rs/crates/core/`](mini-codex-rs/crates/core/) | Sessions, the turn loop, model client, context, and tool routing; the main execution logic. |
 | [`mini-codex-rs/crates/config/`](mini-codex-rs/crates/config/) | Loading and merging configuration. |
 | [`mini-codex-rs/crates/model-provider-info/`](mini-codex-rs/crates/model-provider-info/) | Model provider definitions. |

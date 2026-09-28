@@ -10,9 +10,9 @@ fn script(index: usize) -> Result<Vec<ResponseEvent>> {
     }
     if index == 1 {
         return Ok(vec![
-            ResponseEvent::OutputItemDone(
+            ResponseEvent::OutputItemDone(serde_json::from_value(
                 json!({"type": "function_call", "call_id": "call-1", "name": "exec_command", "arguments": "{\"cmd\":\"printf tool-ok\"}"}),
-            ),
+            )?),
             ResponseEvent::Completed,
         ]);
     }
@@ -70,7 +70,10 @@ async fn turn_start_streams_tools_and_recovers_after_failure() -> Result<()> {
         assert_eq!(server.recv().await?, json!({"id": 5, "error": {"code": -32602, "message": "Thread not found"}}));
         server.shutdown().await?;
         let prompts = model.prompts.lock().unwrap();
-        assert!(prompts[1].input.iter().any(|item| item["type"] == "function_call_output" && item["call_id"] == "call-1"));
+        assert!(prompts[1].input.iter().any(|item| {
+            let item = serde_json::to_value(item).unwrap();
+            item["type"] == "function_call_output" && item["call_id"] == "call-1"
+        }));
         assert!(prompts[3].input.len() > prompts[1].input.len());
         // 未配置 model 时使用目录默认模型。
         assert_eq!(model.models.lock().unwrap()[0], "deepseek-flash");
