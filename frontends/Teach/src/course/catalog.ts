@@ -1,6 +1,6 @@
 import type { LessonDefinition } from "./types";
 
-// planned 章节只展示目录，不开放尚未实现的路由。
+// 尚未开放的章节只展示目录，不开放尚未实现的路由。
 export const lessons: readonly LessonDefinition[] = [
   {
     "id": "agent-loop",
@@ -26,13 +26,14 @@ export const lessons: readonly LessonDefinition[] = [
       "en": "Responses / Chat Protocols"
     },
     "description": {
-      "zh": "对比两种协议的消息结构、上下文和流式事件。",
-      "en": "Compare message structures, context, and streaming events."
+      "zh": "一切基于 HTTP 请求：Agent 能有什么能力，完全取决于请求参数提供了什么。",
+      "en": "Everything runs through HTTP requests: what an agent can do depends entirely on what the request parameters provide."
     },
-    "status": "draft"
+    "status": "ready"
   },
   {
     "id": "function-call",
+    "available": false,
     "order": 3,
     "path": "/lessons/function-call",
     "title": {
@@ -43,7 +44,7 @@ export const lessons: readonly LessonDefinition[] = [
       "zh": "工具定义、参数生成、调用调度和结果回传。",
       "en": "Tool definitions, arguments, dispatch, and result delivery."
     },
-    "status": "planned"
+    "status": "draft"
   },
   {
     "id": "context",

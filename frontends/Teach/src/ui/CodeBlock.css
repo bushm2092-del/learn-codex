@@ -3,4 +3,11 @@
 .ui-code-block pre { margin: 0; padding: 24px; overflow-x: auto; color: #24292e; font: 14px/1.8 "SFMono-Regular", Consolas, "Liberation Mono", monospace; tab-size: 4; scrollbar-color: var(--muted) var(--panel); }
 .ui-code-block code { font: inherit; }
 .ui-code-block pre:focus-visible { outline: 2px solid var(--blue); outline-offset: -2px; }
+.ui-code-block__preview { max-height: 350px; overflow: hidden; }
+.ui-code-block__toggle { display: flex; align-items: center; justify-content: center; gap: 9px; width: 100%; min-height: 42px; border: 0; border-top: 1px solid var(--line); background: var(--panel); color: var(--ink); font: inherit; font-size: 13px; line-height: 1.4; cursor: pointer; }
+.ui-code-block__toggle:hover { background: #f1f1f3; }
+.ui-code-block__toggle:focus-visible { outline: 2px solid var(--blue); outline-offset: -3px; }
+.ui-code-block__chevron { width: 7px; height: 7px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: translateY(-2px) rotate(45deg); }
+.ui-code-block__toggle[aria-expanded="true"] .ui-code-block__chevron { transform: translateY(2px) rotate(225deg); }
 @media (max-width: 680px) { .ui-code-block pre { padding: 16px; } }
+@media (max-width: 680px) { .ui-code-block__preview { max-height: 334px; } }

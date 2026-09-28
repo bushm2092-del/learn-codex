@@ -4,9 +4,9 @@ import { useLocale } from "../i18n/useLocale";
 import type { LessonStatus } from "../course/types";
 import "../ui/ChapterTags.css";
 
-export function ChapterTags({ chapter, status }: { chapter: string; status: LessonStatus }) {
+export function ChapterTags({ chapter, status, available = true }: { chapter: string; status: LessonStatus; available?: boolean }) {
   const { copy, locale } = useLocale();
-  const { data, error, reload } = useResource<{ pv: number; uv: number }>(status === "planned" ? null : `/chapters/${chapter}/stats`);
+  const { data, error, reload } = useResource<{ pv: number; uv: number }>(status === "planned" || !available ? null : `/chapters/${chapter}/stats`);
   useEffect(() => {
     const update = () => { void reload(); };
     window.addEventListener("learn-view-recorded", update);

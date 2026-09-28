@@ -1,6 +1,6 @@
 # Learn Codex
 
-首页课程卡和侧边章节目录通过 `ChapterTags` 展示正式／草稿状态与章节累计 PV（阅读次数）；UV 由后台统计但不展示为学习人数。统计失败不伪造为零。s02 提供可访问的模型协议草稿页。
+首页课程卡和侧边章节目录通过 `ChapterTags` 展示正式／草稿状态与已开放章节的累计 PV（阅读次数）；UV 由后台统计但不展示为学习人数。统计失败不伪造为零。s02 模型协议为正式文章；s03 工具调用标为草稿，页面尚未开放。
 
 Dockerfile 构建静态前端，由 Nginx 提供 SPA 回退并将 /api/ 转发给后台。部署不使用 Vite preview；前后端离线包见 [部署说明](../../deploy/README.md)。
 
@@ -60,7 +60,7 @@ UI 职责：`DropdownMenu.tsx` 封装 Radix 菜单和主题样式，不依赖 i1
 13. Self-Evolution · 自进化机制：待编写。
 14. Computer Use · 计算机操作：待编写。
 
-第一课包含手动复制流程演示，其余章节为待编写目录。具体机制与支持范围在编写课程时对照 Codex 源码确认；目录不代表 mini-codex 已实现对应能力。旧 `/lessons/harness-overview` 地址重定向到 `/lessons/agent-loop`。
+第一课包含手动复制流程演示，第二课已开放模型协议文章；第三课标记为未开放的草稿，其余章节为待编写目录。具体机制与支持范围在编写课程时对照 Codex 源码确认；目录不代表 mini-codex 已实现对应能力。旧 `/lessons/harness-overview` 地址重定向到 `/lessons/agent-loop`。
 
 自动循环演示位于 `src/lessons/agent-loop/AutomatedLoopDemo.tsx`，`automatedTrace.ts` 保存四轮完整请求/响应与工具结果的独立快照。`CinematicLoopFilm.tsx` 在动画窗口中呈现请求、响应、工具执行和记录回传的简化 JSON，前后分镜平移缩放交接。按用户要求移除外围检查区和四节点流程图；历史在数据中完整保留，画面只展开最新结果，并明确标为简化字段示意。使用 DeepSeek Chat Completions 非思考模式的协议示意（官方参考：https://api-docs.deepseek.com/guides/tool_calls/），不是当前 Rust 客户端 `/responses` 请求的逐字复刻。工具使用项目已有 `exec_command` 职责，命令与结果均为静态模拟，不执行 shell、不访问文件、不发送 API 请求。此展示层协议差异不改变内核实现。
 
@@ -81,7 +81,7 @@ UI 职责：`DropdownMenu.tsx` 封装 Radix 菜单和主题样式，不依赖 i1
 
 先按 `backend/README.md` 启动后台，再运行教学站。Vite dev/preview 默认把 `/api` 代理到 `http://localhost:8080`。生产需在反向代理配置同站点 `/api`，或通过 `VITE_API_BASE_URL` 指定 API origin；该变量不得包含密钥。后台 `FRONTEND_ORIGIN` 必须与浏览器 origin 一致，跨 origin 请求仍需同站点 Cookie。
 
-GitHub 登录前检查 `/auth/config`，未配置会留在当前页提示；成功回调后重新读取 `/me`。只有已开放的 Agent Loop 页挂载章节互动，其他章节开放后复用 `ChapterCommunity`。评论作为纯文本渲染，删除需二次确认，打卡以服务端结果为准。排行榜独立路由 `/leaderboard`，手机可通过页脚或课程末尾进入。
+GitHub 登录前检查 `/auth/config`，未配置会留在当前页提示；成功回调后重新读取 `/me`。已开放的 Agent Loop 和模型协议页均挂载 `ChapterCommunity`，评论和打卡按章节 ID 隔离；后续章节开放时复用该组件。评论作为纯文本渲染，删除需二次确认，打卡以服务端结果为准。排行榜独立路由 `/leaderboard`，手机可通过页脚或课程末尾进入。
 
 PV 仅在首页或已开放章节路径变化时上报一次；不因语言切换、hash 锚点或 StrictMode 重执行重复上报，也不自动重试写请求。页脚展示近 30 日聚合统计，服务不可用时隐藏数字而不是显示假 0。后台故障不影响课程阅读。
 
@@ -96,10 +96,10 @@ Agent Loop 自动循环动画前提供简短 Rust 伪代码，说明请求模型
 
 ## 账号与学习交互
 
-`ui/CompletionCelebration` 提供不阻挡操作的全屏打卡成功动效；`community/ChapterLearners` 展示后台返回的已打卡同学和总人数（最近 40 位头像），不会公开普通浏览记录。
+`ui/CompletionCelebration` 提供不阻挡操作的全屏打卡成功动效；`community/ChapterLearners` 展示后台返回的打卡人数和最近 40 位打卡用户的头像，不会公开普通浏览记录。
 
 账号菜单使用 `ui/UserAvatar` 展示 GitHub 真实头像，普通账号和加载失败时回退为首字母。`ui/DropdownMenu` 封装菜单交互；章节打卡支持取消，服务端成功后同步进度，评论框采用登录页相同焦点样式。
 
 ## Rust 教学实验
 
-第二章在官方 DeepSeek 文档截图下提供 CodeMirror 6 Rust 编辑器（高亮、行号、撤销）、reqwest + tokio + serde_json 示例、用户 Key 输入和异步任务结果。依赖在镜像构建时锁定并预编译，不支持用户添加依赖。真实执行依赖后台独立 gVisor worker；默认执行入口关闭。Key 只放当前表单状态，提交成功后清空；不写浏览器持久化存储。示例只保留普通 HTTPS 调用，由执行镜像内部代理适配；代码不包含 cfg 或 Unix socket。标题旁问号使用 Radix Popover 展示环境限制，支持键盘、Escape 关闭与焦点返回。
+第二章在官方 DeepSeek 文档截图下提供 CodeMirror 6 Rust 编辑器（高亮、行号、撤销）、reqwest + tokio + serde_json 示例、用户 Key 输入和异步任务结果。文档截图由 `src/ui/ImageZoom` 承载：点击图片用原生 `<dialog>` 原位放大，Escape、遮罩或关闭按钮退出并归还焦点；原文链接位于截图下方图注，图片本身不跳转。依赖在镜像构建时锁定并预编译，不支持用户添加依赖。真实执行依赖后台独立 gVisor worker；默认执行入口关闭。Key 只放当前表单状态，提交成功后清空；不写浏览器持久化存储。示例只保留普通 HTTPS 调用，由执行镜像内部代理适配；代码不包含 cfg 或 Unix socket。标题旁问号使用 Radix Popover 展示环境限制，支持键盘、Escape 关闭与焦点返回。

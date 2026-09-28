@@ -7,7 +7,7 @@ export type Learners = { items: User[]; total: number };
 export function ChapterLearners({ data, loading, error, onRetry }: { data?: Learners; loading: boolean; error: boolean; onRetry: () => void }) {
   const { locale } = useLocale(); const t = community[locale];
   return <div className="chapter-learners">
-    <p className="chapter-learners__label">{t.learners}{data && !error ? ` · ${data.total}` : ""}</p>
+    <p className="chapter-learners__label">{t.learners}{data && !error ? `${locale === "zh" ? "：" : ": "}${data.total}` : ""}</p>
     {error ? <p>{t.learnersError} <button className="community-button" onClick={onRetry}>{t.retry}</button></p>
       : !data && loading ? <p role="status">{t.loading}</p>
       : !data?.total ? <p className="community-muted">{t.noLearners}</p>

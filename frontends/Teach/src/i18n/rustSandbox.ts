@@ -9,7 +9,7 @@ export const rustSandbox = {
   privacy: "API Key 仅在服务器内存中用于本次模型调用，不写入数据库、日志或浏览器存储，不注入运行代码，也不回传给前端。请求会消耗你的 DeepSeek 额度，请勿在代码中填写 Key。",
   outputPrivacy: "提交的代码和运行结果仅短暂保留，不持久化存储。服务器会返回编译信息和运行输出；页面将其作为纯文本展示，不作为 HTML 或 JavaScript 执行。开源不代表零风险，建议使用可随时撤销、额度受限的 Key。",
   relay: "沙箱不能直接联网。运行环境通过受限代理转发 HTTPS 请求，真实 Key 由服务器添加；代码读取到的环境变量只是占位值。每次运行最多调用一次 deepseek-flash，输出上限 256 tokens。",
-  docs: "DeepSeek 官方文档：首次调用 API（点击查看原文）", alt: "DeepSeek 官方文档截图，展示 API 地址和模型参数", error: "请求失败，请稍后重试。", busy: "队列已满、已有任务或提交过快，请稍后重试。", unavailable: "执行环境暂未开放或不可用，你仍可阅读和编辑代码。", missing: "任务已过期，请重新运行。",
+  docs: "DeepSeek 官方文档：首次调用 API（点击查看原文）", alt: "DeepSeek 官方文档截图，展示 API 地址和模型参数", zoom: "放大查看 DeepSeek 官方文档截图", zoomHint: "放大", close: "关闭放大视图", error: "请求失败，请稍后重试。", busy: "队列已满、已有任务或提交过快，请稍后重试。", unavailable: "执行环境暂未开放或不可用，你仍可阅读和编辑代码。", missing: "任务已过期，请重新运行。",
   states: {queued:"排队中",running:"编译 / 运行中",succeeded:"执行完成",failed:"执行失败或超出限制",cancelled:"已取消",expired:"排队超时"}, position:"队列位置",
  },
  en: {
@@ -22,7 +22,7 @@ export const rustSandbox = {
   privacy: "Your API key is held in server memory for this model call only. It is not written to the database, logs or browser storage, injected into running code, or returned to the frontend. Requests use your DeepSeek credits. Do not put keys in source code.",
   outputPrivacy: "Submitted code and results are held temporarily, not persisted. The server returns compiler messages and execution output, which the page displays as plain text, never as HTML or JavaScript. Open source does not mean risk-free; use a revocable key with a limited spending allowance.",
   relay: "The sandbox has no direct network access. A restricted runtime proxy relays HTTPS requests; the server adds the real key. The environment variable in code is only a placeholder. One deepseek-flash request per run, capped at 256 output tokens.",
-  docs: "DeepSeek official documentation: Your first API call (open original)", alt: "DeepSeek documentation showing the API endpoint and model parameters", error: "Request failed. Please try again.", busy: "Queue full, job already active, or submitting too quickly. Try again later.", unavailable: "Execution is disabled or unavailable. You can still read and edit the code.", missing: "This job expired. Run it again.",
+  docs: "DeepSeek official documentation: Your first API call (open original)", alt: "DeepSeek documentation showing the API endpoint and model parameters", zoom: "Enlarge the DeepSeek documentation screenshot", zoomHint: "Enlarge", close: "Close enlarged view", error: "Request failed. Please try again.", busy: "Queue full, job already active, or submitting too quickly. Try again later.", unavailable: "Execution is disabled or unavailable. You can still read and edit the code.", missing: "This job expired. Run it again.",
   states: {queued:"Queued",running:"Compiling / running",succeeded:"Completed",failed:"Failed or limit exceeded",cancelled:"Cancelled",expired:"Queue timeout"}, position:"Queue position",
  },
 } as const;

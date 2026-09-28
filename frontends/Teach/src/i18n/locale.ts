@@ -80,6 +80,11 @@ export const messages = {
       pause: "暂停",
       restart: "重播",
     },
+    lessonFooter: {
+      support: "如果您觉得这篇文章写得还不错，欢迎点个 Star 支持。",
+      updates: "文章动态和代码会优先在 GitHub 仓库更新。",
+      repository: "前往 GitHub 仓库",
+    },
   },
   en: {
     navigation: {
@@ -155,6 +160,11 @@ export const messages = {
       play: "Play",
       pause: "Pause",
       restart: "Replay",
+    },
+    lessonFooter: {
+      support: "If you found this lesson helpful, a Star would mean a lot.",
+      updates: "Lesson updates and code are published to the GitHub repository first.",
+      repository: "Visit the GitHub repository",
     },
   },
 } as const;

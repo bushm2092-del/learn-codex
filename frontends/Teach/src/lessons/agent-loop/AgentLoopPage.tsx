@@ -8,6 +8,7 @@ import { CodeBlock } from "../../ui/CodeBlock";
 import { agentLoopCode } from "../../i18n/agentLoopCode";
 import { agentLoopFunctions } from "../../i18n/agentLoopFunctions";
 import { ChapterCommunity } from "../../community/ChapterCommunity";
+import { LessonRepositoryNote } from "../../ui/LessonRepositoryNote";
 
 export function AgentLoopPage() {
   const { copy, locale } = useLocale();
@@ -69,6 +70,7 @@ export function AgentLoopPage() {
           <CodeBlock code={code.code} label={code.label} />
         </section>
         <AutomatedLoopDemo />
+        <LessonRepositoryNote />
         <ChapterCommunity chapter="agent-loop" />
       </article>
     </main>

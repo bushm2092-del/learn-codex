@@ -15,8 +15,9 @@
 .rust-sandbox :is(button,a,pre):focus-visible { outline:2px solid var(--ink); outline-offset:3px; }
 .rust-sandbox pre { max-height:360px; overflow:auto; white-space:pre-wrap; overflow-wrap:anywhere; padding:16px; border:1px solid var(--line); font:14px/1.7 monospace; }
 .protocol-docs { margin:32px 0; }
-.protocol-docs img { width:100%; height:auto; border:1px solid var(--line); }
 .protocol-docs figcaption { margin-top:8px; font-size:13px; color:var(--muted); }
+.protocol-docs figcaption a { text-underline-offset:2px; }
+.protocol-docs figcaption a:hover { color:var(--ink); }
 .rust-editor { min-width:0; border:1px solid var(--line); border-radius:0; overflow:hidden; }
 .rust-editor .cm-editor { background:var(--canvas); color:var(--ink); }
 .rust-editor .cm-editor.cm-focused { outline:none; }

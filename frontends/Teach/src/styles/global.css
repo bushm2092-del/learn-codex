@@ -195,7 +195,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--blue); outline-
 .topic-badge { padding: 4px 10px; border-radius: 999px; color: #2f5f9b; background: var(--blue-soft); font-size: 12px; }
 .lesson-kicker { margin: 16px 0 0; color: #6d6d75; font-size: 18px; }
 .lesson-meta { margin-top: 17px; display: flex; align-items: center; gap: 16px; color: #71717a; font: 12px/1 "SFMono-Regular", Consolas, monospace; }
-.draft-badge { padding: 4px 9px; border-radius: 999px; color: #71717a; background: #f4f4f5; }
+.lesson-status-badge { padding: 4px 9px; border-radius: 999px; color: #71717a; background: #f4f4f5; }
 .lesson-summary { margin: 18px 0 0; padding-left: 16px; border-left: 4px solid #e4e4e7; color: #777780; font-size: 14px; font-style: italic; line-height: 1.6; }
 .lesson-section { margin-top: 16px; }
 .lesson-section > h2 { margin: 0; font-size: 23px; letter-spacing: -0.025em; }

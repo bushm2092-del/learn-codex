@@ -1,0 +1,26 @@
+.lesson-repository-note {
+  margin-top: 56px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.lesson-repository-note p {
+  margin: 0 0 14px;
+  color: var(--muted);
+}
+
+.lesson-repository-note a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  color: var(--ink);
+  font-weight: 600;
+  text-underline-offset: 4px;
+}
+
+.lesson-repository-note a:hover { color: var(--action-hover); }
+.lesson-repository-note a:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 3px; }
+.lesson-repository-note__external { width: 16px; height: 16px; }

@@ -1,7 +1,7 @@
 export const community = {
   zh: {
     yourRank: "当前排名", notRanked: "完成章节打卡，记录你的学习进度。", continueLearning: "继续学习", rankingList: "学习进度榜",
-    learners: "已打卡的同学", noLearners: "还没有人打卡，成为第一位吧。", learnersError: "打卡名单加载失败。",
+    learners: "打卡人数", noLearners: "还没有人打卡，成为第一位吧。", learnersError: "打卡名单加载失败。",
     accountMenu: "账号菜单", undoCheck: "取消打卡", checkSuccess: "打卡成功，又学完一章！", checkUndone: "已取消打卡，学习进度已更新。",
     signIn: "登录", register: "注册", welcome: "继续你的学习", createAccount: "创建学习账号",
     accountNote: "记录每一次进步，把问题留给一起学习的人。", username: "用户名", password: "密码", confirmPassword: "确认密码",
@@ -17,7 +17,7 @@ export const community = {
   },
   en: {
     yourRank: "Your rank", notRanked: "Complete a chapter to record your progress.", continueLearning: "Continue learning", rankingList: "Learning progress",
-    learners: "Completed by", noLearners: "No check-ins yet. Be the first.", learnersError: "Could not load learners.",
+    learners: "Check-ins", noLearners: "No check-ins yet. Be the first.", learnersError: "Could not load learners.",
     accountMenu: "Account menu", undoCheck: "Undo check-in", checkSuccess: "Chapter complete. Nicely done!", checkUndone: "Check-in removed. Progress updated.",
     signIn: "Sign in", register: "Register", welcome: "Continue your learning", createAccount: "Create your account",
     accountNote: "Keep your progress. Share questions with fellow learners.", username: "Username", password: "Password", confirmPassword: "Confirm password",

@@ -74,7 +74,7 @@ export function CourseHomePage() {
             const content = (
               <>
               <span className="lesson-card__number">s{String(lesson.order).padStart(2, "0")}</span>
-              <span className="lesson-card__meta"><ChapterTags chapter={lesson.id} status={lesson.status} /></span>
+              <span className="lesson-card__meta"><ChapterTags chapter={lesson.id} status={lesson.status} available={lesson.available !== false} /></span>
               <span className="lesson-card__body">
                 <strong>{lesson.title[locale]}</strong>
                 <small>
