@@ -1,20 +1,44 @@
-.lesson-sidebar { max-height: calc(100dvh - 116px); overflow-y: auto; }
+.lesson-sidebar {
+  max-height: calc(100dvh - 116px);
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  overflow: hidden;
+}
 .lesson-sidebar__heading { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
 .lesson-sidebar__heading .lesson-sidebar__group { margin: 0; }
-.lesson-sidebar__toggle { display: grid; place-items: center; width: 40px; height: 40px; flex-shrink: 0; border: 1px solid var(--line); border-radius: 6px; color: var(--muted); background: var(--canvas); cursor: pointer; }
-.lesson-sidebar__toggle:hover { color: var(--ink); background: var(--panel); }
+.lesson-sidebar__toggle { display: grid; place-items: center; width: 36px; height: 36px; flex-shrink: 0; border: 1px solid var(--line); border-radius: 6px; color: var(--muted); background: var(--canvas); cursor: pointer; transition: color 160ms ease, border-color 160ms ease, background-color 160ms ease; }
+.lesson-sidebar__toggle:hover { border-color: var(--subtle); color: var(--ink); background: var(--panel); }
 .lesson-sidebar__toggle:focus-visible { outline: 2px solid var(--ink); outline-offset: -2px; }
-.lesson-sidebar__toggle svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.lesson-sidebar__toggle svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.lesson-sidebar nav { min-height: 0; grid-auto-rows: max-content; align-content: start; overflow-y: auto; padding-right: 6px; }
+.lesson-sidebar nav a {
+  min-height: 0;
+  align-items: flex-start;
+  padding: 8px 10px;
+}
+.lesson-sidebar nav a,
+.lesson-sidebar__planned { transition: color 160ms ease, background-color 160ms ease; }
+.lesson-sidebar nav a:hover { color: var(--ink); background: var(--panel); }
+.lesson-sidebar nav a > span:first-child,
+.lesson-sidebar__planned > span:first-child { width: 26px; flex: 0 0 26px; padding-top: 3px; color: var(--subtle); }
+.lesson-sidebar nav a.active > span:first-child { color: var(--ink); }
+.lesson-sidebar nav a .lesson-sidebar__title { min-width: 0; font: 14px/1.35 ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; overflow-wrap: anywhere; }
 .lesson-sidebar nav[hidden] { display: none; }
 @media (min-width: 901px) {
-  .lesson-layout:has(.lesson-sidebar[data-collapsed="true"]) { grid-template-columns: 40px minmax(0, 1fr); gap: 24px; }
+  .lesson-layout:has(.lesson-sidebar[data-collapsed="true"]) { grid-template-columns: 36px minmax(0, 1fr); gap: 28px; }
+  .lesson-sidebar[data-collapsed="true"] .lesson-sidebar__heading { margin: 0; }
+  .lesson-sidebar[data-collapsed="true"] .lesson-sidebar__group { display: none; }
 }
 .lesson-sidebar__planned { display: flex; align-items: baseline; gap: 10px; padding: 8px 10px; color: var(--muted); font-size: 14px; }
-.lesson-sidebar__planned > span:first-child { flex-shrink: 0; font: 11px "SFMono-Regular", Consolas, monospace; }
+.lesson-sidebar__planned > span:first-child { font: 11px "SFMono-Regular", Consolas, monospace; }
 .lesson-sidebar__planned small { display: block; margin-top: 4px; font-size: 11px; }
 
 @media (max-width: 900px) {
-  .lesson-sidebar { max-height: none; }
-  .lesson-sidebar nav { overflow-x: auto; gap: 12px; }
+  .lesson-layout { gap: 28px; }
+  .lesson-sidebar { max-height: none; display: block; padding-bottom: 16px; }
+  .lesson-sidebar__heading { margin-bottom: 12px; }
+  .lesson-sidebar[data-collapsed="true"] { padding-bottom: 12px; }
+  .lesson-sidebar[data-collapsed="true"] .lesson-sidebar__heading { margin-bottom: 0; }
+  .lesson-sidebar nav { overflow-x: auto; overflow-y: hidden; gap: 8px; padding: 0 0 4px; }
   .lesson-sidebar nav > * { flex: 0 0 auto; max-width: 240px; }
 }
