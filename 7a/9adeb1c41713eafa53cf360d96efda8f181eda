@@ -1,0 +1,791 @@
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.20",
+  "base_commit_sha": "7a9adeb1c41713eafa53cf360d96efda8f181eda",
+  "prompts": {},
+  "commit_stats": {
+    "git_diff_added_lines": 3929,
+    "git_diff_deleted_lines": 210,
+    "ai_additions": 0,
+    "ai_accepted": 0,
+    "BYMC": 3909,
+    "mixed_additions": 0,
+    "BYAC": 0,
+    "BYRC": 0,
+    "per_file": {
+      "README.md": {
+        "BYMC": [
+          "15-17",
+          "31-32",
+          "44-46",
+          "59-60"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "backend/README.md": {
+        "BYMC": [
+          "157"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "backend/internal/sandbox/queue.go": {
+        "BYMC": [
+          "163"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "backend/internal/sandbox/relay.go": {
+        "BYMC": [
+          "20-21",
+          "57",
+          "59",
+          "63",
+          "67-71",
+          "75-83",
+          "87-89",
+          "92-98",
+          "106",
+          "136-138"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "backend/internal/sandbox/sandbox_test.go": {
+        "BYMC": [
+          "147",
+          "151",
+          "166-169",
+          "171-175",
+          "177-181",
+          "185-201"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "backend/migrations/003_function_call_source.sql": {
+        "BYMC": [
+          "1-11"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "deploy/FUNCTION_CALL_RELEASE.md": {
+        "BYMC": [
+          "1-28"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "deploy/rust-sandbox/README.md": {
+        "BYMC": [
+          "9",
+          "12-13",
+          "29-30",
+          "35"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "deploy/rust-sandbox/VALIDATION.md": {
+        "BYMC": [
+          "47",
+          "54-69"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "deploy/rust-sandbox/bridge/main.go": {
+        "BYMC": [
+          "77",
+          "82",
+          "93",
+          "97",
+          "106-107",
+          "129"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "deploy/rust-sandbox/entrypoint.sh": {
+        "BYMC": [
+          "31"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "deploy/rust-sandbox/probe.py": {
+        "BYMC": [
+          "51-57"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "deploy/rust-sandbox/smoke.py": {
+        "BYMC": [
+          "24",
+          "36-40",
+          "74"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "deploy/rust-sandbox/worker.service": {
+        "BYMC": [
+          "13-14"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "frontends/Teach/DESIGN.md": {
+        "BYMC": [
+          "256-259",
+          "312-317",
+          "324",
+          "328",
+          "344-345"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "frontends/Teach/README.md": {
+        "BYMC": [
+          "3",
+          "63",
+          "105-111"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "frontends/Teach/package.json": {
+        "BYMC": [
+          "24"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "frontends/Teach/src/app/router.tsx": {
+        "BYMC": [
+          "16-17"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "frontends/Teach/src/community/ChapterTags.tsx": {
+        "BYMC": [
+          "16"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "frontends/Teach/src/course/catalog.ts": {
+        "BYMC": [
+          "36",
+          "44-45",
+          "47-55",
+          "60",
+          "74",
+          "88",
+          "102",
+          "116",
+          "130",
+          "144",
+          "158",
+          "172",
+          "186",
+          "200"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "frontends/Teach/src/i18n/functionCallSource.ts": {
+        "BYMC": [
+          "1-40"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "frontends/Teach/src/i18n/functionCalling.ts": {
+        "BYMC": [
+          "1-401"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "frontends/Teach/src/i18n/rustSandbox.ts": {
+        "BYMC": [
+          "1-5",
+          "8-13",
+          "17-18",
+          "20",
+          "22",
+          "27-32",
+          "36-37",
+          "39",
+          "41",
+          "52",
+          "58",
+          "64"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "frontends/Teach/src/i18n/toolArchitecture.ts": {
+        "BYMC": [
+          "1-100"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "frontends/Teach/src/lessons/function-call-source/FunctionCallSourcePage.css": {
+        "BYMC": [
+          "1"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "frontends/Teach/src/lessons/function-call-source/FunctionCallSourcePage.tsx": {
+        "BYMC": [
+          "1-49"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "frontends/Teach/src/lessons/function-call/FunctionCallingPage.css": {
+        "BYMC": [
+          "1-25"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "frontends/Teach/src/lessons/function-call/FunctionCallingPage.tsx": {
+        "BYMC": [
+          "1-96"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "frontends/Teach/src/lessons/function-call/ToolExecutionFlow.tsx": {
+        "BYMC": [
+          "1-20"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "frontends/Teach/src/lessons/model-protocols/ModelProtocolsPage.tsx": {
+        "BYMC": [
+          "27"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "frontends/Teach/src/lessons/model-protocols/RustSandbox.tsx": {
+        "BYMC": [
+          "1",
+          "6",
+          "11-12",
+          "15-24",
+          "26",
+          "28",
+          "30-31",
+          "45-64",
+          "66-70",
+          "72-73"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "frontends/Teach/src/styles/global.css": {
+        "BYMC": [
+          "16-21",
+          "204-206"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "frontends/Teach/src/ui/CodeWorkspace.css": {
+        "BYMC": [
+          "1-40"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "frontends/Teach/src/ui/CodeWorkspace.tsx": {
+        "BYMC": [
+          "1-118"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "frontends/Teach/src/ui/CourseSidebar.css": {
+        "BYMC": [
+          "28-29"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "frontends/Teach/src/ui/HelpPopover.css": {
+        "BYMC": [
+          "7"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "frontends/Teach/src/ui/ResizableTerminal.tsx": {
+        "BYMC": [
+          "1-45"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "frontends/Teach/src/ui/RustEditor.css": {
+        "BYMC": [
+          "1-26"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "frontends/Teach/src/ui/RustEditor.tsx": {
+        "BYMC": [
+          "8",
+          "20",
+          "22",
+          "49",
+          "51",
+          "53"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "frontends/Teach/src/ui/RustSandbox.css": {
+        "BYMC": [
+          "24",
+          "36-37",
+          "40-43",
+          "45-69"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "frontends/Teach/src/ui/Select.css": {
+        "BYMC": [
+          "1-15"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "frontends/Teach/src/ui/Select.tsx": {
+        "BYMC": [
+          "1-38"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-docs/docs/tutorial/07-unified-exec.md": {
+        "BYMC": [
+          "1-88"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/Cargo.toml": {
+        "BYMC": [
+          "8",
+          "12",
+          "15",
+          "34-36",
+          "43"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/README.md": {
+        "BYMC": [
+          "3-5",
+          "25-26",
+          "28",
+          "41-43",
+          "46",
+          "71-85",
+          "91",
+          "93-95",
+          "104-107",
+          "146-152"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/config/Cargo.toml": {
+        "BYMC": [
+          "8"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/config/src/config_toml.rs": {
+        "BYMC": [
+          "3",
+          "12",
+          "21-23"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/core/Cargo.toml": {
+        "BYMC": [
+          "12",
+          "16",
+          "19",
+          "21"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/core/src/config/config_tests.rs": {
+        "BYMC": [
+          "2-4",
+          "44",
+          "83",
+          "95",
+          "121",
+          "126-142"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/core/src/config/mod.rs": {
+        "BYMC": [
+          "12",
+          "47-49",
+          "103",
+          "130"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/core/src/context/mod.rs": {
+        "BYMC": [
+          "1"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/core/src/context/world_state/environment.rs": {
+        "BYMC": [
+          "1-60"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/core/src/context/world_state/mod.rs": {
+        "BYMC": [
+          "1"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/core/src/context_manager.rs": {
+        "BYMC": [
+          "9-12"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/core/src/lib.rs": {
+        "BYMC": [
+          "7",
+          "11",
+          "14"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/core/src/session/mod.rs": {
+        "BYMC": [
+          "5"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/core/src/session/session.rs": {
+        "BYMC": [
+          "12-14",
+          "16",
+          "33-34",
+          "47-48",
+          "52",
+          "57-58",
+          "68-70"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/core/src/session/world_state.rs": {
+        "BYMC": [
+          "1-11"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/core/src/shell.rs": {
+        "BYMC": [
+          "1-68"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/core/src/shell_tests.rs": {
+        "BYMC": [
+          "1-46"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/core/src/thread_manager.rs": {
+        "BYMC": [
+          "4",
+          "14",
+          "17",
+          "38-55",
+          "93-96"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/core/src/thread_manager_tests.rs": {
+        "BYMC": [
+          "1-62"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/core/src/tools/context.rs": {
+        "BYMC": [
+          "2",
+          "11",
+          "24-122"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/core/src/tools/handlers/mod.rs": {
+        "BYMC": [
+          "1",
+          "5-6"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/core/src/tools/handlers/shell_spec.rs": {
+        "BYMC": [
+          "1-133"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/core/src/tools/handlers/shell_spec_tests.rs": {
+        "BYMC": [
+          "1-32"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/core/src/tools/handlers/unified_exec.rs": {
+        "BYMC": [
+          "1-3",
+          "6-9",
+          "11",
+          "14-15",
+          "20-33",
+          "35-37",
+          "39-81"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/core/src/tools/handlers/unified_exec/exec_command.rs": {
+        "BYMC": [
+          "1",
+          "11",
+          "15-17",
+          "19",
+          "21-66",
+          "74-89",
+          "110-114",
+          "116-129",
+          "132-145",
+          "147-214"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/core/src/tools/handlers/unified_exec/write_stdin.rs": {
+        "BYMC": [
+          "1-71"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/core/src/tools/handlers/unified_exec_tests.rs": {
+        "BYMC": [
+          "1-41"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/core/src/tools/mod.rs": {
+        "BYMC": [
+          "1",
+          "8-9"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/core/src/unified_exec/errors.rs": {
+        "BYMC": [
+          "1-29"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/core/src/unified_exec/head_tail_buffer.rs": {
+        "BYMC": [
+          "1-82"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/core/src/unified_exec/head_tail_buffer_tests.rs": {
+        "BYMC": [
+          "1-15"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/core/src/unified_exec/mod.rs": {
+        "BYMC": [
+          "1-170"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/core/src/unified_exec/mod_tests.rs": {
+        "BYMC": [
+          "1-104"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/core/src/unified_exec/oneshot.rs": {
+        "BYMC": [
+          "1-16"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/core/src/unified_exec/process.rs": {
+        "BYMC": [
+          "1-343"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/core/src/unified_exec/process_manager.rs": {
+        "BYMC": [
+          "1-202"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/core/tests/tool_harness.rs": {
+        "BYMC": [
+          "119-125"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/features/Cargo.toml": {
+        "BYMC": [
+          "1-8"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/features/src/lib.rs": {
+        "BYMC": [
+          "1-65"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/shell-command/Cargo.toml": {
+        "BYMC": [
+          "1-15"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/shell-command/src/lib.rs": {
+        "BYMC": [
+          "1-4"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/shell-command/src/powershell.rs": {
+        "BYMC": [
+          "1-67"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/shell-command/src/shell_detect.rs": {
+        "BYMC": [
+          "1-267"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/tools/src/tool_spec.rs": {
+        "BYMC": [
+          "12-14"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/utils/pty/Cargo.toml": {
+        "BYMC": [
+          "1-11"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/utils/pty/src/lib.rs": {
+        "BYMC": [
+          "1-11"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/utils/pty/src/windows_input.rs": {
+        "BYMC": [
+          "1-28"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/crates/utils/pty/src/windows_input_tests.rs": {
+        "BYMC": [
+          "1-16"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      }
+    }
+  },
+  "commit_timestamp": 1790666274,
+  "requirement_id": ""
+}
