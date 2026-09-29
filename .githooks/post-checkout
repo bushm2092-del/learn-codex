@@ -1,0 +1,4 @@
+#!/bin/sh
+# 第三个参数为 1 表示切换分支；检出单个文件时不刷新。
+[ "$3" = "1" ] || exit 0
+exec "$(dirname "$0")/refresh-source-snapshots"

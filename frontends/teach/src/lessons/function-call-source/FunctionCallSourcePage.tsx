@@ -5,6 +5,7 @@ import { functionCallSource } from "../../i18n/functionCallSource";
 import { toolArchitecture, toolTypeExcerpts } from "../../i18n/toolArchitecture";
 import { CodeBlock } from "../../ui/CodeBlock";
 import { CourseSidebar } from "../../ui/CourseSidebar";
+import { LessonSourceButton } from "../../ui/LessonSourceButton";
 import { LessonRepositoryNote } from "../../ui/LessonRepositoryNote";
 import { ChapterCommunity } from "../../community/ChapterCommunity";
 import "./FunctionCallSourcePage.css";
@@ -18,7 +19,7 @@ export function FunctionCallSourcePage() {
     <CourseSidebar />
     <article className="lesson-page source-walkthrough">
       <header className="lesson-heading">
-        <div className="lesson-title-row"><span className="lesson-index">s04</span><h1>{lesson.title[locale]}</h1><span className="lesson-status-badge" data-status={lesson.status}>{copy.home.draft}</span></div>
+        <div className="lesson-title-row"><span className="lesson-index">s04</span><h1>{lesson.title[locale]}</h1><span className="lesson-status-badge" data-status={lesson.status}>{copy.home.draft}</span><LessonSourceButton lesson={lesson.id} /></div>
         <p className="lesson-kicker">{lesson.description[locale]}</p>
         <p className="lesson-summary">{content.overview}</p>
       </header>

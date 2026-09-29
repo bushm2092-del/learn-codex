@@ -5,6 +5,7 @@ import { lessons } from "../../course/catalog";
 import { functionCalling, functionCallingRustExample, functionCallItem, functionCallResponse, functionCallResult, toolDispatchRustExample, weatherToolsDefinition } from "../../i18n/functionCalling";
 import { useLocale } from "../../i18n/useLocale";
 import { CourseSidebar } from "../../ui/CourseSidebar";
+import { LessonSourceButton } from "../../ui/LessonSourceButton";
 import { JsonCodeBlock } from "../../ui/JsonOutput";
 import { LessonRepositoryNote } from "../../ui/LessonRepositoryNote";
 import { RustSandbox } from "../model-protocols/RustSandbox";
@@ -33,6 +34,7 @@ export function FunctionCallingPage() {
             <span className="lesson-index">s03</span>
             <h1>{lesson.title[locale]}</h1>
             <span className="lesson-status-badge" data-status={lesson.status}>{copy.home.ready}</span>
+            <LessonSourceButton lesson={lesson.id} />
           </div>
           <p className="lesson-kicker">{lesson.description[locale]}</p>
           <p className="lesson-summary">{content.overview}</p>

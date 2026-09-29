@@ -1,0 +1,38 @@
+export const sourceExplorer = {
+  zh: {
+    view: "查看源码",
+    title: "本章源码",
+    close: "关闭源码",
+    files: "源码文件",
+    code: "源码内容",
+    loading: "加载中…",
+    error: "源码加载失败，请重试。",
+    retry: "重试",
+    binary: "二进制文件，快照未收录内容。",
+    tooLarge: "文件超过 512 KB，快照未收录内容。",
+    lines: "行",
+    github: "在 GitHub 查看",
+    githubTree: "在 GitHub 打开本章源码",
+    resizePanel: "拖动调整源码面板宽度",
+    resizeTree: "拖动调整文件树宽度",
+  },
+  en: {
+    view: "View source",
+    title: "Chapter source",
+    close: "Close source",
+    files: "Source files",
+    code: "Source code",
+    loading: "Loading…",
+    error: "Couldn't load the source. Try again.",
+    retry: "Retry",
+    binary: "Binary file. Its contents aren't included in the snapshot.",
+    tooLarge: "File exceeds 512 KB. Its contents aren't included in the snapshot.",
+    lines: "lines",
+    github: "View on GitHub",
+    githubTree: "Open this chapter's source on GitHub",
+    resizePanel: "Drag to resize the source panel",
+    resizeTree: "Drag to resize the file tree",
+  },
+};
+
+export type SourceExplorerLabels = (typeof sourceExplorer)["zh"];

@@ -53,10 +53,13 @@ UI 职责：`DropdownMenu.tsx` 封装 Radix 菜单和主题样式，不依赖 i1
 public/source/
 ├── index.json               # 已有快照：lesson、branch、commit
 ├── snapshots/<lesson>.json  # 文件树：相对 mini-codex-rs 的路径、blob sha、字节数
-└── blobs/<blob-sha>.txt     # 文件内容，按 blob sha 去重
+├── blobs/<blob-sha>.txt     # 文件内容，按 blob sha 去重
+└── icons/<name>.svg         # 文件树用到的 Material Icon Theme 图标
 ```
 
-二进制文件和超过 512 KB 的文件只保留在文件树中，`blob` 为 `null` 并用 `skipped` 说明原因。仓库根目录的 `make teach-dev`、`make teach-build` 与 `make offline-pack` 会先生成快照；直接执行 `pnpm dev` 或 `pnpm build` 不会刷新，分支更新后需手动执行 `pnpm snapshots`。Docker 构建上下文没有 `.git`，镜像内的 `pnpm build` 使用构建前已生成的 `public/source/`。
+文件树图标在生成快照时按 `material-icon-theme` 的名称映射解析（与 VS Code 插件一致），写入快照的 `icon` 与 `dirs` 字段，只复制用到的 SVG；映射表约 450 KB，不进入浏览器包。未安装依赖时快照照常生成，只是不带图标。
+
+页面侧由 `course/sourceSnapshot.ts` 读取快照：章节标题行的 `ui/LessonSourceButton` 在对应快照存在时显示“查看源码”，打开 `ui/SourceExplorer` 浏览文件树与只读源码，文件内容按需加载。二进制文件和超过 512 KB 的文件只保留在文件树中，`blob` 为 `null` 并用 `skipped` 说明原因。仓库根目录的 `make teach-dev`、`make teach-build` 与 `make offline-pack` 会先生成快照。执行过 `make hooks`（`make install` 已包含）后，在 `lesson/*` 分支上提交、合并、`--amend`/rebase 或切换、新建该分支时，`.githooks/` 会自动刷新快照，开发服务器刷新页面即可看到。`git branch -f`、`git update-ref` 等不经过这些 hook 的操作仍需手动执行 `pnpm snapshots`。Docker 构建上下文没有 `.git`，镜像内的 `pnpm build` 使用构建前已生成的 `public/source/`。
 
 ## 章节安排
 

@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { CourseSidebar } from "../../ui/CourseSidebar";
+import { LessonSourceButton } from "../../ui/LessonSourceButton";
 import { lessons } from "../../course/catalog";
 import { useLocale } from "../../i18n/useLocale";
 import { modelProtocols, curlExample, chatRequest, chatResponse, chatToolRequest, chatToolResponse, chatToolFollowup, responsesProtocol, responsesRequest, responsesResponse, responsesToolRequest, responsesToolResponse, responsesToolFollowup } from "../../i18n/modelProtocols";
@@ -25,6 +26,7 @@ export function ModelProtocolsPage() {
           <span className="lesson-index">s02</span>
           <h1>{lesson.title[locale]}</h1>
           <span className="lesson-status-badge" data-status={lesson.status}>{lesson.status === "ready" ? copy.home.ready : copy.home.draft}</span>
+          <LessonSourceButton lesson={lesson.id} />
         </div>
         <p className="lesson-kicker">{lesson.description[locale]}</p>
         <p className="lesson-summary">{t.overview}</p>

@@ -1,0 +1,17 @@
+#!/bin/sh
+# 在 lesson/* 分支上的提交、合并、改写或新建分支后，刷新教学站源码快照。
+# post-* hook 无法阻止 git 操作，任何失败只打印提示，退出码始终为 0。
+branch=$(git symbolic-ref --quiet --short HEAD) || exit 0
+case "$branch" in
+  lesson/*) ;;
+  *) exit 0 ;;
+esac
+
+script="$(git rev-parse --show-toplevel)/frontends/teach/scripts/source-snapshots.mjs"
+[ -f "$script" ] || exit 0
+if ! command -v node >/dev/null 2>&1; then
+  echo "source snapshots: node not found, skipped" >&2
+  exit 0
+fi
+node "$script" || echo "source snapshots: refresh failed, run 'pnpm snapshots' in frontends/teach" >&2
+exit 0

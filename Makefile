@@ -24,7 +24,8 @@ help:
 	@printf '%s\n' '  make offline-pack VERSION=v1  构建前后端与数据库离线部署包（默认 linux/amd64）'
 	@printf '%s\n' '  make backend-check / backend-test  验证 Go 后台' '  make backend-dev / backend-up      启动后台 / Docker 部署'
 	@printf '%s\n' 'mini-codex 可用命令：'
-	@printf '%s\n' '  make install     安装教学站与 Ink TUI 依赖'
+	@printf '%s\n' '  make install     启用 git hooks，安装教学站与 Ink TUI 依赖'
+	@printf '%s\n' '  make hooks       启用 .githooks（lesson/* 分支提交后刷新源码快照）'
 	@printf '%s\n' '  make teach-dev   启动 React 教学站'
 	@printf '%s\n' '  make teach-build 检查并构建 React 教学站'
 	@printf '%s\n' '  make rust-fmt    检查 Rust 格式'
@@ -32,7 +33,11 @@ help:
 	@printf '%s\n' '  make rust-test   运行 Rust workspace 测试'
 	@printf '%s\n' '  make tui         构建服务并启动 Ink TUI' '  make test        验证 Rust、Ink 与教学站'
 
-install:
+.PHONY: hooks
+hooks:
+	git config core.hooksPath .githooks
+
+install: hooks
 	cd frontends/teach && pnpm install
 	cd mini-codex-tui && pnpm install
 

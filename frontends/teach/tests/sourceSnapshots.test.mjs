@@ -46,7 +46,7 @@ test("snapshots each local lesson branch and shares unchanged blobs", async () =
     const libV2 = git("rev-parse", "HEAD:mini-codex-rs/crates/core/src/lib.rs");
     await put("mini-codex-rs/crates/core/src/lib.rs", "uncommitted\n");
 
-    const result = await buildSourceSnapshots({ repoRoot: git("rev-parse", "--show-toplevel"), outDir: out });
+    const result = await buildSourceSnapshots({ repoRoot: git("rev-parse", "--show-toplevel"), outDir: out, iconTheme: null });
 
     assert.equal(result.blobs, 3);
     assert.deepEqual((await readJson(join(out, "index.json"))).snapshots, [
@@ -75,6 +75,48 @@ test("rejects lesson branches that are not lesson ids", async () => {
     git("add", "-A");
     git("commit", "-qm", "v1");
     git("branch", "lesson/Bad_Name");
-    await assert.rejects(buildSourceSnapshots({ repoRoot: git("rev-parse", "--show-toplevel"), outDir: out }), /Invalid lesson branch: lesson\/Bad_Name/);
+    await assert.rejects(buildSourceSnapshots({ repoRoot: git("rev-parse", "--show-toplevel"), outDir: out, iconTheme: null }), /Invalid lesson branch: lesson\/Bad_Name/);
+  });
+});
+
+test("maps icons by file name, extension and folder name and copies only used icons", async () => {
+  await withRepo(async ({ dir, git, put, out }) => {
+    await put("mini-codex-rs/README.md", "# readme\n");
+    await put("mini-codex-rs/crates/core/src/lib.rs", "pub fn f() {}\n");
+    await put("mini-codex-rs/crates/core/data.unknown", "?\n");
+    git("add", "-A");
+    git("commit", "-qm", "v1");
+    git("branch", "lesson/icons");
+    const themeDir = join(dir, "theme");
+    const names = ["readme", "markdown", "rust", "rust-light", "file", "folder", "folder-open", "folder-src", "folder-src-open", "unused"];
+    for (const name of names) await put(`theme/icons/${name}.svg`, `<svg id="${name}"/>`);
+    const manifest = {
+      iconDefinitions: Object.fromEntries(names.map(name => [name, { iconPath: `./icons/${name}.svg` }])),
+      fileNames: { "readme.md": "readme" },
+      fileExtensions: { md: "markdown", rs: "rust" },
+      folderNames: { src: "folder-src" },
+      folderNamesExpanded: { src: "folder-src-open" },
+      light: { fileExtensions: { rs: "rust-light" } },
+      file: "file",
+      folder: "folder",
+      folderExpanded: "folder-open",
+    };
+
+    const result = await buildSourceSnapshots({ repoRoot: git("rev-parse", "--show-toplevel"), outDir: out, iconTheme: { manifest, dir: themeDir } });
+
+    const snapshot = await readJson(join(out, "snapshots", "icons.json"));
+    assert.deepEqual(snapshot.files.map(file => [file.path, file.icon]), [
+      ["README.md", "readme"],
+      ["crates/core/data.unknown", "file"],
+      ["crates/core/src/lib.rs", "rust-light"],
+    ]);
+    assert.deepEqual(snapshot.dirs, {
+      crates: ["folder", "folder-open"],
+      "crates/core": ["folder", "folder-open"],
+      "crates/core/src": ["folder-src", "folder-src-open"],
+    });
+    assert.equal(result.icons, 7);
+    assert.deepEqual((await readdir(join(out, "icons"))).sort(), ["file.svg", "folder-open.svg", "folder-src-open.svg", "folder-src.svg", "folder.svg", "readme.svg", "rust-light.svg"]);
+    assert.equal(await readFile(join(out, "icons", "rust-light.svg"), "utf8"), '<svg id="rust-light"/>');
   });
 });

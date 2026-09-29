@@ -1,0 +1,4 @@
+#!/bin/sh
+# --amend 已由 post-commit 刷新；这里只处理 rebase（其间 HEAD 分离，post-commit 会跳过）。
+[ "$1" = "rebase" ] || exit 0
+exec "$(dirname "$0")/refresh-source-snapshots"

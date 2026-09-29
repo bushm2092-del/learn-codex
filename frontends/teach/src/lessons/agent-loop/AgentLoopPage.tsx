@@ -1,4 +1,5 @@
 import { CourseSidebar } from "../../ui/CourseSidebar";
+import { LessonSourceButton } from "../../ui/LessonSourceButton";
 import { useLocale } from "../../i18n/useLocale";
 import "./AgentLoopPage.css";
 import { ManualCopyDemo } from "./ManualCopyDemo";
@@ -26,6 +27,7 @@ export function AgentLoopPage() {
             <span className="lesson-index">s01</span>
             <h1>{copy.lesson.title}</h1>
             <span className="topic-badge">{copy.lesson.topic}</span>
+            <LessonSourceButton lesson="agent-loop" />
           </div>
           <p className="lesson-kicker">{copy.lesson.kicker}</p>
           <div className="lesson-meta">

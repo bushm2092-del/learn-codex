@@ -1,0 +1,78 @@
+.source-explorer { position: fixed; z-index: 25; inset: 58px 0 0 0; display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr); overflow: hidden; overscroll-behavior: contain; background: var(--canvas); }
+.source-explorer__header { display: flex; align-items: center; gap: 12px; min-height: 48px; padding: 0 8px 0 16px; border-bottom: 1px solid var(--line); background: var(--panel); }
+.source-explorer__header h2 { flex-shrink: 0; margin: 0; font-size: 14px; font-weight: 590; letter-spacing: 0; white-space: nowrap; }
+.source-explorer__version { display: inline-flex; align-items: center; gap: 6px; min-width: 0; padding: 4px 8px; border: 1px solid var(--line); border-radius: 6px; color: var(--muted); background: var(--canvas); font: 12px "SFMono-Regular", Consolas, monospace; text-decoration: none; transition: color 160ms ease, border-color 160ms ease; }
+.source-explorer__version span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.source-explorer__version > svg:first-child { width: 14px; height: 14px; flex: 0 0 14px; color: var(--ink); }
+.source-explorer__version:hover { border-color: var(--subtle); color: var(--ink); }
+.source-explorer__version:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+.source-explorer__external { width: 11px; height: 11px; flex: 0 0 11px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.source-explorer__close { display: grid; place-items: center; width: 32px; height: 32px; margin-left: auto; flex-shrink: 0; padding: 0; border: 0; border-radius: 6px; color: var(--muted); background: transparent; cursor: pointer; }
+.source-explorer__close:hover { color: var(--ink); background: var(--line); }
+.source-explorer__close:focus-visible { outline: 2px solid var(--blue); outline-offset: -2px; }
+.source-explorer__close svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; }
+
+.source-explorer__body { position: relative; display: grid; grid-template-columns: var(--source-tree, 260px) minmax(0, 1fr); min-height: 0; }
+.source-explorer__icon { width: 16px; height: 16px; flex: 0 0 16px; }
+.source-explorer__resizer,
+.source-explorer__tree-resizer { width: 11px; cursor: col-resize; touch-action: none; }
+.source-explorer__resizer { display: none; }
+.source-explorer__tree-resizer { position: absolute; z-index: 2; top: 0; bottom: 0; left: calc(var(--source-tree, 260px) - 6px); }
+.source-explorer__resizer::after,
+.source-explorer__tree-resizer::after { content: ""; position: absolute; left: 4px; top: 0; bottom: 0; width: 3px; }
+.source-explorer__resizer:hover::after, .source-explorer__resizer:focus-visible::after,
+.source-explorer__tree-resizer:hover::after, .source-explorer__tree-resizer:focus-visible::after { background: var(--blue); }
+.source-explorer__resizer:focus-visible,
+.source-explorer__tree-resizer:focus-visible { outline: none; }
+.source-explorer__tree { min-height: 0; overflow: auto; padding: 8px 6px 24px; border-right: 1px solid var(--line); }
+.source-explorer__tree ul { margin: 0; padding: 0; list-style: none; }
+.source-explorer__dir,
+.source-explorer__file { display: flex; align-items: center; gap: 6px; min-width: 100%; min-height: 28px; padding: 3px 10px; border: 0; border-radius: 6px; color: #52525b; background: transparent; text-align: left; font: 13px/1.4 "SFMono-Regular", Consolas, monospace; white-space: nowrap; cursor: pointer; }
+/* 文件名不折行，层级较深时文件树整体横向滚动。 */
+.source-explorer__tree > ul { width: max-content; min-width: 100%; }
+.source-explorer__dir:hover,
+.source-explorer__file:hover { color: var(--ink); background: var(--panel); }
+.source-explorer__dir:focus-visible,
+.source-explorer__file:focus-visible { outline: 2px solid var(--blue); outline-offset: -2px; }
+.source-explorer__file[aria-current="true"] { color: var(--ink); background: #f1f1f2; font-weight: 590; }
+.source-explorer__chevron { width: 6px; height: 6px; flex: 0 0 6px; margin: 0 2px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: rotate(-45deg); transition: transform 160ms ease; }
+.source-explorer__dir[aria-expanded="true"] .source-explorer__chevron { transform: rotate(45deg); }
+
+.source-explorer__view { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+.source-explorer__path { display: flex; justify-content: space-between; gap: 16px; padding: 9px 16px; border-bottom: 1px solid var(--line); color: var(--muted); font: 12px "SFMono-Regular", Consolas, monospace; }
+.source-explorer__path span:first-child { flex: 1; min-width: 0; color: var(--ink); overflow-wrap: anywhere; }
+.source-explorer__path span + span { flex-shrink: 0; }
+.source-explorer__path a { display: inline-flex; align-items: center; gap: 4px; flex-shrink: 0; color: var(--muted); font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; text-decoration: none; white-space: nowrap; }
+.source-explorer__path a:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+.source-explorer__path a:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; border-radius: 3px; }
+.source-explorer__path a svg { width: 11px; height: 11px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.source-explorer__code { flex: 1; min-height: 0; margin: 0; padding: 12px 0 32px; overflow: auto; color: #24292e; font: 13px/1.75 "SFMono-Regular", Consolas, "Liberation Mono", monospace; tab-size: 4; scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track); }
+.source-explorer__code code { font: inherit; }
+.source-explorer__code:focus-visible { outline: 2px solid var(--blue); outline-offset: -2px; }
+.source-explorer__line { position: relative; display: block; padding: 0 24px 0 64px; }
+/* 行号放在伪元素中，复制代码时不会带上。 */
+.source-explorer__line::before { content: attr(data-line); position: absolute; left: 0; width: 44px; color: var(--subtle); text-align: right; user-select: none; }
+.source-explorer__message { display: grid; place-content: center; justify-items: center; gap: 12px; padding: 32px; color: var(--muted); font-size: 14px; text-align: center; }
+.source-explorer__message p { margin: 0; }
+.source-explorer__message button { min-height: 32px; padding: 0 14px; border: 1px solid var(--line); border-radius: 6px; color: var(--ink); background: var(--canvas); font: inherit; font-size: 13px; cursor: pointer; }
+.source-explorer__message button:hover { background: var(--panel); }
+
+@media (min-width: 1100px) {
+  .source-explorer { left: var(--source-split, 45%); border-left: 1px solid var(--line); }
+  .source-explorer__resizer { position: fixed; z-index: 26; display: block; top: 58px; bottom: 0; left: calc(var(--source-split, 45%) - 5px); }
+  :root[data-source-explorer="open"] .lesson-layout { width: calc(var(--source-split, 45%) - 48px); margin-left: 24px; margin-right: 0; grid-template-columns: minmax(0, 1fr); }
+  :root[data-source-explorer="open"] .lesson-layout > aside { display: none; }
+  /* 分屏后正文列变窄，标题独占一行，编号、状态与源码按钮在上方一行。 */
+  :root[data-source-explorer="open"] .lesson-title-row { align-items: center; flex-wrap: wrap; }
+  :root[data-source-explorer="open"] .lesson-title-row h1 { order: 3; flex-basis: 100%; }
+}
+
+@media (max-width: 680px) { .source-explorer { top: 54px; } }
+
+@media (max-width: 760px) {
+  .source-explorer__body { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 38%) minmax(0, 1fr); }
+  .source-explorer__tree-resizer { display: none; }
+  .source-explorer__tree { border-right: 0; border-bottom: 1px solid var(--line); }
+  .source-explorer__line { padding: 0 16px 0 52px; }
+  .source-explorer__line::before { width: 36px; }
+}
