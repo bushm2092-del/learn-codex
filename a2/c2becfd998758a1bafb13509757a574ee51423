@@ -1,0 +1,56 @@
+frontends/teach/src/ui/SourceExplorer.css
+  ef95a437a859cdf5 15-16,21,43-44,66
+frontends/teach/DESIGN.md
+  ef95a437a859cdf5 314
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.20",
+  "base_commit_sha": "a2c2becfd998758a1bafb13509757a574ee51423",
+  "prompts": {
+    "ef95a437a859cdf5": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "f5dc41b6-63a2-478a-b313-eecf9de80e0c",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "hufenghong <19103376390@163.com>",
+      "messages": [],
+      "total_additions": 7,
+      "total_deletions": 5,
+      "accepted_lines": 7,
+      "overriden_lines": 0
+    }
+  },
+  "commit_stats": {
+    "git_diff_added_lines": 7,
+    "git_diff_deleted_lines": 5,
+    "ai_additions": 7,
+    "ai_accepted": 7,
+    "BYMC": 0,
+    "mixed_additions": 0,
+    "BYAC": 7,
+    "BYRC": 0,
+    "per_file": {
+      "frontends/teach/DESIGN.md": {
+        "BYMC": [],
+        "BYAC": [
+          "314"
+        ],
+        "BYRC": []
+      },
+      "frontends/teach/src/ui/SourceExplorer.css": {
+        "BYMC": [],
+        "BYAC": [
+          "15-16",
+          "21",
+          "43-44",
+          "66"
+        ],
+        "BYRC": []
+      }
+    }
+  },
+  "commit_timestamp": 1790676364,
+  "requirement_id": ""
+}
