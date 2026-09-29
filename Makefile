@@ -33,14 +33,14 @@ help:
 	@printf '%s\n' '  make tui         构建服务并启动 Ink TUI' '  make test        验证 Rust、Ink 与教学站'
 
 install:
-	cd frontends/Teach && pnpm install
+	cd frontends/teach && pnpm install
 	cd mini-codex-tui && pnpm install
 
 teach-dev:
-	cd frontends/Teach && pnpm dev
+	cd frontends/teach && pnpm dev
 
 teach-build:
-	cd frontends/Teach && pnpm check && pnpm build
+	cd frontends/teach && pnpm check && pnpm build
 
 rust-fmt:
 	cd mini-codex-rs && cargo fmt --all -- --check

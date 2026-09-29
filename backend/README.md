@@ -4,7 +4,7 @@
 
 前后端一体离线发布使用仓库根目录 `make offline-pack VERSION=v1`，服务器启动、迁移、备份流程见 [离线部署说明](../deploy/README.md)。本目录 compose.yaml 继续用于独立后台本地开发。
 
-教学站独立业务后台，与 `frontends/Teach` 对接；不属于 Codex Rust 内核。教学前端已接入登录、章节评论与打卡、排行榜及 PV/UV。真实 GitHub 登录需要自建 OAuth App。
+教学站独立业务后台，与 `frontends/teach` 对接；不属于 Codex Rust 内核。教学前端已接入登录、章节评论与打卡、排行榜及 PV/UV。真实 GitHub 登录需要自建 OAuth App。
 
 ## 技术与边界
 

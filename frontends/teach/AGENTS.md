@@ -1,6 +1,6 @@
 # Learn Codex 开发约定
 
-本文件适用于 `frontends/Teach/` 下所有开发。开始修改前阅读本文件与 `DESIGN.md`，再检查现有组件；仓库根规范中的 Codex 源码真实性要求继续适用。
+本文件适用于 `frontends/teach/` 下所有开发。开始修改前阅读本文件与 `DESIGN.md`，再检查现有组件；仓库根规范中的 Codex 源码真实性要求继续适用。
 
 ## 产品与内容
 

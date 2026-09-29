@@ -11,7 +11,7 @@ parser.add_argument('--runtime', default='learn-rust',
                     help='默认 gVisor；仅本地功能测试可显式选 docker（不是隔离验收）')
 args = parser.parse_args()
 root = pathlib.Path(__file__).resolve().parents[2]
-text = (root / 'frontends/Teach/src/i18n/rustSandbox.ts').read_text()
+text = (root / 'frontends/teach/src/i18n/rustSandbox.ts').read_text()
 example = re.search(r'export const rustExample = `(.*?)`;', text, re.S).group(1)
 fixture = r'''
     let listener = std::os::unix::net::UnixListener::bind("/relay/http.sock")?;

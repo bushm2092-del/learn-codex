@@ -16,7 +16,7 @@ trap 'rm -rf -- "$stage"' EXIT
 bundle="$stage/learn-codex-$tag"
 mkdir "$bundle"
 docker buildx build --platform "$platform" --load -t "learn-codex-api:$tag" "$repo/backend"
-docker buildx build --platform "$platform" --load -t "learn-codex-frontend:$tag" "$repo/frontends/Teach"
+docker buildx build --platform "$platform" --load -t "learn-codex-frontend:$tag" "$repo/frontends/teach"
 docker pull --platform "$platform" postgres:17-alpine
 docker tag postgres:17-alpine "learn-codex-postgres:$tag"
 docker image save --platform "$platform" -o "$bundle/images.tar" "learn-codex-api:$tag" "learn-codex-frontend:$tag" "learn-codex-postgres:$tag"

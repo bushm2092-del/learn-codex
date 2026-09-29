@@ -6,6 +6,6 @@ dist-offline/
 .DS_Store
 node_modules/
 mini-codex-tui/dist/
-frontends/Teach/dist/
+frontends/teach/dist/
 *.tsbuildinfo
 .agents/skills/impeccable/scripts/bin/
