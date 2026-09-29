@@ -1,0 +1,269 @@
+frontends/teach/DESIGN.md
+  ef95a437a859cdf5 308-315
+frontends/teach/src/lessons/function-call-source/FunctionCallSourcePage.tsx
+  ef95a437a859cdf5 8,22
+frontends/teach/src/lessons/agent-loop/AgentLoopPage.tsx
+  ef95a437a859cdf5 2,30
+frontends/teach/src/ui/CourseSidebar.css
+  ef95a437a859cdf5 28-29
+.githooks/post-merge
+  ef95a437a859cdf5 1-2
+.githooks/refresh-source-snapshots
+  ef95a437a859cdf5 1-17
+frontends/teach/README.md
+  ef95a437a859cdf5 56-57,60,62
+.githooks/post-rewrite
+  ef95a437a859cdf5 1-4
+frontends/teach/src/i18n/sourceExplorer.ts
+  ef95a437a859cdf5 1-38
+frontends/teach/src/ui/LessonSourceButton.css
+  ef95a437a859cdf5 1-14
+frontends/teach/src/ui/LessonSourceButton.tsx
+  ef95a437a859cdf5 1-71
+frontends/teach/scripts/source-snapshots.mjs
+  ef95a437a859cdf5 4-6,41-69,79,87,91,93,101,103-108,110-114,117,123-124
+frontends/teach/public/favicon.svg
+  ef95a437a859cdf5 1-5
+frontends/teach/tests/sourceSnapshots.test.mjs
+  ef95a437a859cdf5 49,78-120
+frontends/teach/src/ui/SourceExplorer.tsx
+  ef95a437a859cdf5 1-258
+frontends/teach/src/lessons/function-call/FunctionCallingPage.tsx
+  ef95a437a859cdf5 8,37
+.githooks/post-commit
+  ef95a437a859cdf5 1-2
+Makefile
+  ef95a437a859cdf5 27-28,36-40
+.githooks/post-checkout
+  ef95a437a859cdf5 1-4
+frontends/teach/src/course/sourceSnapshot.ts
+  ef95a437a859cdf5 1-70
+frontends/teach/index.html
+  ef95a437a859cdf5 7-9
+frontends/teach/src/lessons/model-protocols/ModelProtocolsPage.tsx
+  ef95a437a859cdf5 3,29
+frontends/teach/src/ui/SourceExplorer.css
+  ef95a437a859cdf5 1-78
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.20",
+  "base_commit_sha": "d1ce1c91efda309e6389f06904544e9341e4e5a6",
+  "prompts": {
+    "ef95a437a859cdf5": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "f5dc41b6-63a2-478a-b313-eecf9de80e0c",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "hufenghong <19103376390@163.com>",
+      "messages": [],
+      "total_additions": 929,
+      "total_deletions": 154,
+      "accepted_lines": 766,
+      "overriden_lines": 0
+    }
+  },
+  "commit_stats": {
+    "git_diff_added_lines": 693,
+    "git_diff_deleted_lines": 18,
+    "ai_additions": 690,
+    "ai_accepted": 690,
+    "BYMC": 2,
+    "mixed_additions": 0,
+    "BYAC": 690,
+    "BYRC": 0,
+    "per_file": {
+      ".githooks/post-checkout": {
+        "BYMC": [],
+        "BYAC": [
+          "1-4"
+        ],
+        "BYRC": []
+      },
+      ".githooks/post-commit": {
+        "BYMC": [],
+        "BYAC": [
+          "1-2"
+        ],
+        "BYRC": []
+      },
+      ".githooks/post-merge": {
+        "BYMC": [],
+        "BYAC": [
+          "1-2"
+        ],
+        "BYRC": []
+      },
+      ".githooks/post-rewrite": {
+        "BYMC": [],
+        "BYAC": [
+          "1-4"
+        ],
+        "BYRC": []
+      },
+      ".githooks/refresh-source-snapshots": {
+        "BYMC": [],
+        "BYAC": [
+          "1-17"
+        ],
+        "BYRC": []
+      },
+      "Makefile": {
+        "BYMC": [],
+        "BYAC": [
+          "27-28",
+          "36-40"
+        ],
+        "BYRC": []
+      },
+      "frontends/teach/DESIGN.md": {
+        "BYMC": [],
+        "BYAC": [
+          "308-315"
+        ],
+        "BYRC": []
+      },
+      "frontends/teach/README.md": {
+        "BYMC": [
+          "61"
+        ],
+        "BYAC": [
+          "56-57",
+          "60",
+          "62"
+        ],
+        "BYRC": []
+      },
+      "frontends/teach/index.html": {
+        "BYMC": [],
+        "BYAC": [
+          "7-9"
+        ],
+        "BYRC": []
+      },
+      "frontends/teach/package.json": {
+        "BYMC": [
+          "39"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "frontends/teach/public/favicon.svg": {
+        "BYMC": [],
+        "BYAC": [
+          "1-5"
+        ],
+        "BYRC": []
+      },
+      "frontends/teach/scripts/source-snapshots.mjs": {
+        "BYMC": [],
+        "BYAC": [
+          "4-6",
+          "41-69",
+          "79",
+          "87",
+          "91",
+          "93",
+          "101",
+          "103-108",
+          "110-114",
+          "117",
+          "123-124"
+        ],
+        "BYRC": []
+      },
+      "frontends/teach/src/course/sourceSnapshot.ts": {
+        "BYMC": [],
+        "BYAC": [
+          "1-70"
+        ],
+        "BYRC": []
+      },
+      "frontends/teach/src/i18n/sourceExplorer.ts": {
+        "BYMC": [],
+        "BYAC": [
+          "1-38"
+        ],
+        "BYRC": []
+      },
+      "frontends/teach/src/lessons/agent-loop/AgentLoopPage.tsx": {
+        "BYMC": [],
+        "BYAC": [
+          "2",
+          "30"
+        ],
+        "BYRC": []
+      },
+      "frontends/teach/src/lessons/function-call-source/FunctionCallSourcePage.tsx": {
+        "BYMC": [],
+        "BYAC": [
+          "8",
+          "22"
+        ],
+        "BYRC": []
+      },
+      "frontends/teach/src/lessons/function-call/FunctionCallingPage.tsx": {
+        "BYMC": [],
+        "BYAC": [
+          "8",
+          "37"
+        ],
+        "BYRC": []
+      },
+      "frontends/teach/src/lessons/model-protocols/ModelProtocolsPage.tsx": {
+        "BYMC": [],
+        "BYAC": [
+          "3",
+          "29"
+        ],
+        "BYRC": []
+      },
+      "frontends/teach/src/ui/CourseSidebar.css": {
+        "BYMC": [],
+        "BYAC": [
+          "28-29"
+        ],
+        "BYRC": []
+      },
+      "frontends/teach/src/ui/LessonSourceButton.css": {
+        "BYMC": [],
+        "BYAC": [
+          "1-14"
+        ],
+        "BYRC": []
+      },
+      "frontends/teach/src/ui/LessonSourceButton.tsx": {
+        "BYMC": [],
+        "BYAC": [
+          "1-71"
+        ],
+        "BYRC": []
+      },
+      "frontends/teach/src/ui/SourceExplorer.css": {
+        "BYMC": [],
+        "BYAC": [
+          "1-78"
+        ],
+        "BYRC": []
+      },
+      "frontends/teach/src/ui/SourceExplorer.tsx": {
+        "BYMC": [],
+        "BYAC": [
+          "1-258"
+        ],
+        "BYRC": []
+      },
+      "frontends/teach/tests/sourceSnapshots.test.mjs": {
+        "BYMC": [],
+        "BYAC": [
+          "49",
+          "78-120"
+        ],
+        "BYRC": []
+      }
+    }
+  },
+  "commit_timestamp": 1790676155,
+  "requirement_id": ""
+}
