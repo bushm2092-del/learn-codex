@@ -7,6 +7,12 @@ use serde::Serializer;
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type", rename_all = "snake_case")]
 pub enum ResponseInputItem {
+    ToolSearchOutput {
+        call_id: String,
+        status: String,
+        execution: String,
+        tools: Vec<serde_json::Value>,
+    },
     Message {
         role: String,
         content: Vec<ContentItem>,
@@ -30,6 +36,23 @@ pub enum ContentItem {
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type", rename_all = "snake_case")]
 pub enum ResponseItem {
+    ToolSearchCall {
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        id: Option<String>,
+        call_id: Option<String>,
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        status: Option<String>,
+        execution: String,
+        arguments: serde_json::Value,
+    },
+    ToolSearchOutput {
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        id: Option<String>,
+        call_id: Option<String>,
+        status: String,
+        execution: String,
+        tools: Vec<serde_json::Value>,
+    },
     Message {
         #[serde(default, skip_serializing_if = "Option::is_none")]
         id: Option<String>,
@@ -77,6 +100,18 @@ pub enum ResponseItem {
 impl From<ResponseInputItem> for ResponseItem {
     fn from(item: ResponseInputItem) -> Self {
         match item {
+            ResponseInputItem::ToolSearchOutput {
+                call_id,
+                status,
+                execution,
+                tools,
+            } => Self::ToolSearchOutput {
+                id: None,
+                call_id: Some(call_id),
+                status,
+                execution,
+                tools,
+            },
             ResponseInputItem::Message {
                 role,
                 content,
@@ -103,6 +138,13 @@ impl From<ResponseInputItem> for ResponseItem {
 pub enum MessagePhase {
     Commentary,
     FinalAnswer,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
+pub struct SearchToolCallParams {
+    pub query: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub limit: Option<usize>,
 }
 
 #[derive(Debug, Default, Clone, PartialEq)]

@@ -36,6 +36,9 @@ impl ToolCallRuntime {
     ) -> Result<ResponseInputItem, FunctionCallError> {
         let supports_parallel = self.session.tool_router.tool_supports_parallel(&call);
         let arguments = match &call.payload {
+            ToolPayload::ToolSearch { arguments } => {
+                serde_json::to_value(arguments).expect("search arguments serialize")
+            }
             ToolPayload::Function { arguments } => {
                 serde_json::from_str(arguments).unwrap_or_else(|_| Value::String(arguments.clone()))
             }
@@ -105,6 +108,14 @@ impl ToolCallRuntime {
     }
 
     fn failure_response(call: &ToolCall, message: String) -> ResponseInputItem {
+        if matches!(call.payload, ToolPayload::ToolSearch { .. }) {
+            return ResponseInputItem::ToolSearchOutput {
+                call_id: call.call_id.clone(),
+                status: "completed".to_string(),
+                execution: "client".to_string(),
+                tools: Vec::new(),
+            };
+        }
         ResponseInputItem::FunctionCallOutput {
             call_id: call.call_id.clone(),
             output: FunctionCallOutputPayload {

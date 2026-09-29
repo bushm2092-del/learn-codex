@@ -1,4 +1,6 @@
 mod shell_spec;
+pub(crate) mod tool_search;
+pub(crate) mod tool_search_spec;
 mod unified_exec;
 
 pub use unified_exec::ExecCommandHandler;

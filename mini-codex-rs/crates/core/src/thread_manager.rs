@@ -4,7 +4,6 @@ use std::sync::Arc;
 use mini_codex_features::Feature;
 use mini_codex_models_manager::ModelsManager;
 use mini_codex_protocol::openai_models::ModelPreset;
-use mini_codex_tools::ToolExecutor;
 
 use crate::CodexThread;
 use crate::ModelClient;
@@ -40,20 +39,33 @@ impl ThreadManager {
             allow_tty: config.features.enabled(Feature::UnifiedExecTty),
             include_windows_shell_guidance: cfg!(windows),
         };
-        let mut model_visible_specs = Vec::new();
         if config.features.enabled(Feature::UnifiedExec) {
             let exec_command_handler = ExecCommandHandler::new(exec_options);
             let write_stdin_handler = WriteStdinHandler;
-            model_visible_specs.push(exec_command_handler.spec());
-            model_visible_specs.push(write_stdin_handler.spec());
             tool_registry.add(exec_command_handler);
             tool_registry.add(write_stdin_handler);
         } else {
             let exec_command_handler = ExecCommandHandler::one_shot(exec_options);
-            model_visible_specs.push(exec_command_handler.spec());
             tool_registry.add(exec_command_handler);
         }
-        let tool_router = ToolRouter::from_parts(tool_registry, model_visible_specs);
+        // 当前静态 DeepSeek 目录未声明原生搜索能力，provider 也不假定支持 namespace。
+        // 工具方案按已注册 runtime 的 exposure 统一生成，避免规格与注册表各维护一份。
+        let catalog = mini_codex_models_manager::bundled_models_response()
+            .expect("bundled models.json must be valid");
+        let model = config.model.as_deref().unwrap_or("deepseek-flash");
+        let model_info = catalog
+            .models
+            .iter()
+            .find(|info| info.slug == model)
+            .unwrap_or(&catalog.models[0]);
+        let tool_router = crate::tools::spec_plan::finalize_tool_router(
+            model_info,
+            &mini_codex_model_provider::ProviderCapabilities {
+                namespace_tools: false,
+            },
+            tool_registry,
+            &crate::tools::handlers::tool_search::ToolSearchHandlerCache::default(),
+        );
         Self {
             config: Arc::new(config),
             model_client,

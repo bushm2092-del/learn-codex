@@ -1,8 +1,9 @@
 pub(crate) mod context;
-mod handlers;
+pub(crate) mod handlers;
 pub(crate) mod parallel;
 mod registry;
 pub(crate) mod router;
+pub(crate) mod spec_plan;
 
 pub(crate) use handlers::ExecCommandHandler;
 pub(crate) use handlers::ExecCommandHandlerOptions;

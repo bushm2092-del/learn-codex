@@ -1,8 +1,26 @@
 # mini-codex Rust 内核
 
+## 工具曝光与延迟发现
+
+新增 `model-provider` crate 中的 `ProviderCapabilities` 子集，以及 `tools` 的
+`ToolExposure`、`ToolSearchInfo`、namespace/可加载规格。`core/src/tools/spec_plan.rs`
+从注册表生成模型可见列表，仅包含 Direct；当模型 `supports_search_tool` 与 provider
+`namespace_tools` 均为 true，且存在可搜索的 Deferred 工具时，注册原生 `tool_search`。
+Hidden 不进入初始列表和搜索索引，但不是禁止调用的权限策略。
+
+`handlers/tool_search.rs` 使用上游相同的 BM25 2.3.2 英文索引与排序流程，结果通过
+`ToolSearchOutput` → `tool_search_output` 进入历史，不追加成普通 function 的字符串结果，
+也不建立会话外的永久解锁名单。`ToolRegistry` 改用上游同类的 IndexMap 保留注册顺序。
+
+默认入口的工具依然是直接暴露的 exec_command / write_stdin。当前所有内建 DeepSeek
+目录项的 supports_search_tool 默认 false；ThreadManager 的 provider 能力保守设为
+namespace_tools=false，没有新增 TOML 开关或伪造模型兼容性。新链路通过 mock 模型完整验证，
+尚未验证真实 DeepSeek 原生搜索支持。配置层、模型切换后的逐步骤工具方案重建等未在本次移植。
+详细源码映射、显式偏离与测试见[第八章](../mini-codex-docs/docs/tutorial/08-tool-discovery.md)。
+
 这是 Rust 执行内核，使用 Cargo workspace 管理 `protocol`、`config`、`features`、
-`model-provider-info`、`models-manager`、`shell-command`、`utils/home-dir`、`utils/pty`、
-`arg0`、`tools`、`core`、`app-server` 和 `app-server-protocol` 十三个 crate。
+`model-provider-info`、`model-provider`、`models-manager`、`shell-command`、`utils/home-dir`、`utils/pty`、
+`arg0`、`tools`、`core`、`app-server` 和 `app-server-protocol` 十四个 crate。
 
 ## 源码结构
 

@@ -10,7 +10,9 @@ fn exec_command_schema_matches_interactive_shape() {
     let ToolSpec::Function(tool) = create_exec_command_tool(CommandToolOptions {
         allow_login_shell: false,
         include_windows_shell_guidance: false,
-    });
+    }) else {
+        panic!("expected function")
+    };
     assert_eq!(tool.name, "exec_command");
     assert_eq!(tool.strict, false);
     assert_eq!(tool.parameters["required"], serde_json::json!(["cmd"]));
@@ -24,7 +26,9 @@ fn exec_command_schema_matches_interactive_shape() {
 
 #[test]
 fn write_stdin_schema_requires_session_id() {
-    let ToolSpec::Function(tool) = create_write_stdin_tool();
+    let ToolSpec::Function(tool) = create_write_stdin_tool() else {
+        panic!("expected function")
+    };
     assert_eq!(
         tool.parameters["required"],
         serde_json::json!(["session_id"])

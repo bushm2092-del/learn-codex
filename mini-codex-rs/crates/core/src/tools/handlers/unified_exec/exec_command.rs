@@ -80,7 +80,9 @@ impl ToolExecutor<ToolInvocation> for ExecCommandHandler {
             ExecCommandLifetime::OneShot => one_shot_exec_command_spec(spec),
         };
         if !self.options.allow_tty {
-            let ToolSpec::Function(tool) = &mut spec;
+            let ToolSpec::Function(tool) = &mut spec else {
+                unreachable!("exec_command has a function spec")
+            };
             tool.parameters["properties"]
                 .as_object_mut()
                 .expect("exec_command properties must be an object")
@@ -106,7 +108,11 @@ impl ExecCommandHandler {
         &self,
         invocation: ToolInvocation,
     ) -> Result<Box<dyn mini_codex_tools::ToolOutput>, FunctionCallError> {
-        let ToolPayload::Function { arguments } = invocation.payload;
+        let ToolPayload::Function { arguments } = invocation.payload else {
+            return Err(FunctionCallError::Fatal(
+                "exec_command handler received unsupported payload".to_string(),
+            ));
+        };
         let mut args: ExecCommandArgs = parse_arguments(&arguments)?;
         if args.tty && !self.options.allow_tty {
             return Err(FunctionCallError::RespondToModel(
@@ -164,7 +170,9 @@ fn resolve_workdir(session_cwd: &std::path::Path, workdir: Option<String>) -> Pa
 }
 
 fn one_shot_exec_command_spec(spec: ToolSpec) -> ToolSpec {
-    let ToolSpec::Function(mut spec) = spec;
+    let ToolSpec::Function(mut spec) = spec else {
+        unreachable!("exec_command has a function spec")
+    };
     spec.description = spec.description.replacen(
         "Runs a command in a PTY, returning output or a session ID for ongoing interaction.",
         "Runs a command to completion and returns its output. The process is terminated on timeout or cancellation and cannot be resumed.",
@@ -204,7 +212,9 @@ mod tests {
             allow_tty: true,
             include_windows_shell_guidance: false,
         });
-        let ToolSpec::Function(spec) = handler.spec();
+        let ToolSpec::Function(spec) = handler.spec() else {
+            panic!("expected function")
+        };
         assert!(spec.parameters["properties"].get("tty").is_none());
         assert!(spec.parameters["properties"].get("yield_time_ms").is_none());
         assert!(spec.parameters["properties"].get("timeout_ms").is_some());

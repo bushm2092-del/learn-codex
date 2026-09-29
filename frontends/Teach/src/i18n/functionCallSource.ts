@@ -1,6 +1,6 @@
 export const functionCallSource = {
   zh: {
-    overview: "上一章用一个 while 循环实现工具闭环。这一章沿着真实 Codex 的模块边界，找出这个循环在源码中的对应位置。",
+    overview: "上一章用一个 while 循环实现工具闭环。这一章沿着Codex的源码，实现一个和 Codex 一样的工具调用，不开玩笑，实现版本绝对和Codex源码保真，每行代码都能在Codex源码中找到出处。",
     version: "源码基准：本地 Codex 检出版本 53446f90a5。下列路径均相对于 codex-rs/；本文先聚焦普通 function_call 路径，不把 code mode、MCP 和其他调用分支混在一起。",
     title: "先抓住一条主线",
     intro: "阅读时始终带着三个问题：工具定义在哪里进入请求？模型返回的调用由谁执行？执行结果如何成为下一轮上下文？不要从某个具体工具的内部实现开始，先把协议对象的流向连起来。",

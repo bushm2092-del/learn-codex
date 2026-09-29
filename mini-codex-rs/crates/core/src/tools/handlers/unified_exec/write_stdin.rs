@@ -51,7 +51,11 @@ impl WriteStdinHandler {
         &self,
         invocation: ToolInvocation,
     ) -> Result<Box<dyn mini_codex_tools::ToolOutput>, FunctionCallError> {
-        let ToolPayload::Function { arguments } = invocation.payload;
+        let ToolPayload::Function { arguments } = invocation.payload else {
+            return Err(FunctionCallError::Fatal(
+                "write_stdin handler received unsupported payload".to_string(),
+            ));
+        };
         let args: WriteStdinArgs = parse_arguments(&arguments)?;
         let response = invocation
             .session

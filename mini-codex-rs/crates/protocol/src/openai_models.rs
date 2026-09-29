@@ -21,6 +21,8 @@ pub enum ModelVisibility {
 /// 目录中一条模型的元数据（`models.json` 的单个条目）。
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct ModelInfo {
+    #[serde(default)]
+    pub supports_search_tool: bool,
     pub slug: String,
     pub display_name: String,
     pub description: Option<String>,

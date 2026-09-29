@@ -56,7 +56,9 @@ fn disabled_unified_exec_registers_one_shot_only() {
     let specs = manager.tool_router.model_visible_specs();
     assert_eq!(specs.len(), 1);
     assert_eq!(specs[0].name(), "exec_command");
-    let mini_codex_tools::ToolSpec::Function(tool) = &specs[0];
+    let mini_codex_tools::ToolSpec::Function(tool) = &specs[0] else {
+        panic!("expected function")
+    };
     assert!(tool.parameters["properties"].get("timeout_ms").is_some());
     assert!(tool.parameters["properties"].get("yield_time_ms").is_none());
 }

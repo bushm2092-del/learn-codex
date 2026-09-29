@@ -45,6 +45,25 @@ impl ToolRouter {
         item: ResponseItem,
     ) -> Result<Option<ToolCall>, FunctionCallError> {
         match item {
+            ResponseItem::ToolSearchCall {
+                call_id: Some(call_id),
+                execution,
+                arguments,
+                ..
+            } if execution == "client" => {
+                let arguments = serde_json::from_value(arguments).map_err(|err| {
+                    FunctionCallError::RespondToModel(format!(
+                        "failed to parse tool_search arguments: {err}"
+                    ))
+                })?;
+                Ok(Some(ToolCall {
+                    tool_name: ToolName::plain("tool_search"),
+                    call_id,
+                    payload: ToolPayload::ToolSearch { arguments },
+                    encrypted_function_args: None,
+                }))
+            }
+            ResponseItem::ToolSearchCall { .. } => Ok(None),
             ResponseItem::FunctionCall {
                 name,
                 namespace,

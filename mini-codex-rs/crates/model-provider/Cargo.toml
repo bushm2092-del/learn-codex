@@ -1,0 +1,5 @@
+[package]
+name = "mini-codex-model-provider"
+edition.workspace = true
+license.workspace = true
+version.workspace = true

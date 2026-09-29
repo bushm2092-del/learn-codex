@@ -6,6 +6,9 @@ version.workspace = true
 
 [dependencies]
 anyhow.workspace = true
+bm25.workspace = true
+indexmap.workspace = true
+mini-codex-model-provider = { path = "../model-provider" }
 eventsource-stream.workspace = true
 futures.workspace = true
 mini-codex-config = { path = "../config" }

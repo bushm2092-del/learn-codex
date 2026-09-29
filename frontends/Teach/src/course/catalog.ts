@@ -51,8 +51,8 @@ export const lessons: readonly LessonDefinition[] = [
     "available": true,
     "order": 4,
     "path": "/lessons/function-call-source",
-    "title": { "zh": "Codex Function Calling · 源码解析", "en": "Codex Function Calling · Source Walkthrough" },
-    "description": { "zh": "沿着真实 Codex 源码，追踪工具定义、调用分发、执行与结果回传。", "en": "Trace tool definitions, dispatch, execution, and results through real Codex source." },
+    "title": { "zh": "实现源码级别的 Codex Function Calling ", "en": "Codex Function Calling · Source Walkthrough" },
+    "description": { "zh": "实现 Codex Function Calling 的源码，理解其工作原理。", "en": "Implement the source code of Codex Function Calling and understand its working principle." },
     "status": "draft"
   },
   {

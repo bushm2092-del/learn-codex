@@ -5,8 +5,55 @@ use mini_codex_tools::ToolName;
 
 use crate::session::Session;
 
+use mini_codex_protocol::models::ResponseInputItem;
+use mini_codex_tools::LoadableToolSpec;
 pub use mini_codex_tools::ToolOutput;
 pub use mini_codex_tools::ToolPayload;
+use serde_json::Value as JsonValue;
+
+pub(crate) fn boxed_tool_output<T: ToolOutput + 'static>(output: T) -> Box<dyn ToolOutput> {
+    Box::new(output)
+}
+
+pub struct ToolSearchOutput {
+    pub tools: Vec<LoadableToolSpec>,
+}
+
+impl ToolOutput for ToolSearchOutput {
+    fn log_output(&self) -> String {
+        let tools = self
+            .tools
+            .iter()
+            .map(|tool| {
+                serde_json::to_value(tool).unwrap_or_else(|err| {
+                    JsonValue::String(format!("failed to serialize tool_search output: {err}"))
+                })
+            })
+            .collect();
+        JsonValue::Array(tools).to_string()
+    }
+
+    fn success_for_logging(&self) -> bool {
+        true
+    }
+
+    fn to_response_item(&self, call_id: &str, _payload: &ToolPayload) -> ResponseInputItem {
+        ResponseInputItem::ToolSearchOutput {
+            call_id: call_id.to_string(),
+            status: "completed".to_string(),
+            execution: "client".to_string(),
+            tools: self
+                .tools
+                .iter()
+                .map(|tool| {
+                    serde_json::to_value(tool).unwrap_or_else(|err| {
+                        JsonValue::String(format!("failed to serialize tool_search output: {err}"))
+                    })
+                })
+                .collect(),
+        }
+    }
+}
 
 use std::num::NonZeroUsize;
 

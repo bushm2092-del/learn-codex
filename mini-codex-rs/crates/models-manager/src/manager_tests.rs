@@ -35,6 +35,7 @@ fn list_models_sorts_by_priority_and_drops_unavailable_entries() {
     let manager = ModelsManager::new(ModelsResponse {
         models: vec![
             ModelInfo {
+                supports_search_tool: false,
                 slug: "second".into(),
                 display_name: "Second".into(),
                 description: None,
@@ -43,6 +44,7 @@ fn list_models_sorts_by_priority_and_drops_unavailable_entries() {
                 priority: 2,
             },
             ModelInfo {
+                supports_search_tool: false,
                 slug: "gone".into(),
                 display_name: "Gone".into(),
                 description: None,
@@ -51,6 +53,7 @@ fn list_models_sorts_by_priority_and_drops_unavailable_entries() {
                 priority: 0,
             },
             ModelInfo {
+                supports_search_tool: false,
                 slug: "first".into(),
                 display_name: "First".into(),
                 description: Some("best".into()),
