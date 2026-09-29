@@ -5,6 +5,7 @@ import { Compartment, EditorState } from "@codemirror/state";
 import { EditorView } from "@codemirror/view";
 import { HighlightStyle, syntaxHighlighting } from "@codemirror/language";
 import { tags } from "@lezer/highlight";
+import "./RustEditor.css";
 
 const sourceHighlight = HighlightStyle.define([
   { tag: tags.comment, color: "#666666" },
@@ -16,9 +17,9 @@ const sourceHighlight = HighlightStyle.define([
   { tag: [tags.punctuation, tags.operator], color: "#666666" },
 ]);
 
-type Props = { value: string; onChange: (value: string) => void; disabled: boolean; label: string };
+type Props = { id: string; value: string; onChange: (value: string) => void; disabled: boolean; label: string; phrases?: Record<string, string> };
 
-export function RustEditor({ value, onChange, disabled, label }: Props) {
+export function RustEditor({ id, value, onChange, disabled, label, phrases }: Props) {
   const host = useRef<HTMLDivElement>(null);
   const view = useRef<EditorView | null>(null);
   const onChangeRef = useRef(onChange);
@@ -45,10 +46,11 @@ export function RustEditor({ value, onChange, disabled, label }: Props) {
   useEffect(() => {
     view.current?.dispatch({ effects: configuration.current.reconfigure([
       EditorState.readOnly.of(disabled),
+      EditorState.phrases.of(phrases ?? {}),
       EditorView.editable.of(!disabled),
-      EditorView.contentAttributes.of({ "aria-label": label, "aria-readonly": String(disabled), tabindex: "0", id: "rust-source" }),
+      EditorView.contentAttributes.of({ "aria-label": label, "aria-readonly": String(disabled), tabindex: "0", id }),
     ]) });
-  }, [disabled, label]);
+  }, [disabled, id, label, phrases]);
 
   useEffect(() => {
     const editor = view.current;

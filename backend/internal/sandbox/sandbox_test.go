@@ -144,11 +144,11 @@ func TestRelayRestrictsAndRedacts(t *testing.T) {
 	calls := 0
 	client := &http.Client{Transport: roundTrip(func(r *http.Request) (*http.Response, error) {
 		calls++
-		if r.URL.String() != "https://api.deepseek.com/chat/completions" || r.Header.Get("Authorization") != "Bearer test-secret" {
+		if r.URL.String() != "https://api.deepseek.com/responses" || r.Header.Get("Authorization") != "Bearer test-secret" {
 			t.Fatal("wrong upstream")
 		}
 		b, _ := io.ReadAll(r.Body)
-		if !strings.Contains(string(b), `"max_tokens":256`) {
+		if !strings.Contains(string(b), `"max_output_tokens":256`) {
 			t.Fatal("token cap")
 		}
 		return &http.Response{StatusCode: 200, Body: io.NopCloser(strings.NewReader(`{"answer":"test-secret"}`)), Header: http.Header{}}, nil
@@ -163,12 +163,41 @@ func TestRelayRestrictsAndRedacts(t *testing.T) {
 	if send("http://169.254.169.254/latest/meta-data", `{}`).Code != 403 {
 		t.Fatal("arbitrary destination")
 	}
-	body := `{"model":"deepseek-flash","messages":[{"role":"user","content":"hello"}],"max_tokens":9999}`
-	w := send("http://api.deepseek.com/chat/completions", body)
-	if w.Code != 200 || strings.Contains(w.Body.String(), "test-secret") {
-		t.Fatal(w.Body.String())
+	bodies := []string{
+		`{"model":"deepseek-flash","input":"hello","max_output_tokens":9999}`,
+		`{"model":"deepseek-flash","input":[{"role":"user","content":"杭州现在多少度？"},{"type":"function_call","call_id":"call_1","name":"get_weather","arguments":"{\"location\":\"杭州\"}"},{"type":"function_call_output","call_id":"call_1","output":"{\"temperature_c\":24}"}],"max_output_tokens":9999}`,
+		`{"model":"deepseek-flash","input":"continue","max_output_tokens":9999}`,
 	}
-	if send("http://api.deepseek.com/chat/completions", body).Code != 429 || calls != 1 {
+	for _, body := range bodies {
+		w := send("http://api.deepseek.com/responses", body)
+		if w.Code != 200 || strings.Contains(w.Body.String(), "test-secret") {
+			t.Fatal(w.Body.String())
+		}
+	}
+	overBudgetBody := strings.NewReader(bodies[0])
+	overBudgetRequest := httptest.NewRequest("POST", "http://api.deepseek.com/responses", overBudgetBody)
+	overBudgetResponse := httptest.NewRecorder()
+	h.ServeHTTP(overBudgetResponse, overBudgetRequest)
+	if overBudgetResponse.Code != 429 || overBudgetBody.Len() != 0 || calls != int(maxModelRequestsPerRun) {
 		t.Fatal("request budget")
+	}
+}
+
+func TestRelayForwardsProtocolFieldsWithoutAWhitelist(t *testing.T) {
+	client := &http.Client{Transport: roundTrip(func(r *http.Request) (*http.Response, error) {
+		body, _ := io.ReadAll(r.Body)
+		for _, field := range []string{`"name":"get_weather"`, `"required":["location"]`, `"temperature":0.2`, `"tool_choice":"auto"`} {
+			if !strings.Contains(string(body), field) {
+				t.Fatalf("protocol field %s was not forwarded: %s", field, body)
+			}
+		}
+		return &http.Response{StatusCode: 200, Body: io.NopCloser(strings.NewReader(`{"choices":[]}`)), Header: http.Header{}}, nil
+	})}
+	h := relayHandler("test-secret", client)
+	body := `{"model":"deepseek-flash","input":"weather","tools":[{"type":"function","name":"get_weather","description":"Get weather","parameters":{"type":"object","properties":{"location":{"type":"string","description":"City"}},"required":["location"]}}],"tool_choice":"auto","temperature":0.2,"max_output_tokens":256}`
+	w := httptest.NewRecorder()
+	h.ServeHTTP(w, httptest.NewRequest("POST", "http://api.deepseek.com/responses", strings.NewReader(body)))
+	if w.Code != http.StatusOK {
+		t.Fatal(w.Body.String())
 	}
 }

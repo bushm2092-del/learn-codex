@@ -24,7 +24,7 @@ export function ModelProtocolsPage() {
         <div className="lesson-title-row">
           <span className="lesson-index">s02</span>
           <h1>{lesson.title[locale]}</h1>
-          <span className="lesson-status-badge">{lesson.status === "ready" ? copy.home.ready : copy.home.draft}</span>
+          <span className="lesson-status-badge" data-status={lesson.status}>{lesson.status === "ready" ? copy.home.ready : copy.home.draft}</span>
         </div>
         <p className="lesson-kicker">{lesson.description[locale]}</p>
         <p className="lesson-summary">{t.overview}</p>

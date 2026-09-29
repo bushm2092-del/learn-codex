@@ -10,6 +10,8 @@ ExecStart=/opt/learn-rust-worker/rust-worker
 Environment=RUST_SANDBOX_ENABLED=false
 RuntimeDirectory=learn-rust-worker learn-rust-relays
 RuntimeDirectoryMode=0755
+# API 容器 bind mount 运行目录；重启 worker 时必须保留目录 inode。
+RuntimeDirectoryPreserve=yes
 UMask=0077
 Restart=on-failure
 RestartSec=10

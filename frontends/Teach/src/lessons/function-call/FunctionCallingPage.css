@@ -1,0 +1,25 @@
+.tool-field-guide { margin: 16px 0 32px; border-top: 1px solid var(--line); }
+.tool-field-guide > div { display: grid; grid-template-columns: minmax(150px, .55fr) minmax(0, 1.45fr); gap: 24px; padding: 13px 0; border-bottom: 1px solid var(--line); }
+.tool-field-guide dt, .tool-field-guide dd { margin: 0; }
+.tool-field-guide dt code { color: var(--ink); font: 12px/1.6 "SFMono-Regular", Consolas, monospace; overflow-wrap: anywhere; }
+.tool-field-guide dd { color: var(--muted); font-size: 14px; line-height: 1.65; }
+.tool-execution-flow { margin: 24px 0 32px; border: 1px solid var(--line); background: var(--canvas); }
+.tool-execution-flow ol { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; margin: 0; padding: 0; list-style: none; background: var(--line-soft); }
+.tool-execution-flow li { display: grid; grid-template-columns: 24px minmax(0, 1fr); gap: 12px; padding: 20px; background: var(--canvas); }
+.tool-execution-flow__index { color: var(--blue); font: 600 11px/1.5 "SFMono-Regular", Consolas, monospace; }
+.tool-execution-flow strong { display: block; margin-bottom: 7px; font-size: 15px; line-height: 1.35; }
+.tool-execution-flow p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.65; overflow-wrap: anywhere; }
+.tool-execution-flow figcaption { padding: 9px 16px; border-top: 1px solid var(--line); color: var(--muted); font: 12px/1.5 "SFMono-Regular", Consolas, monospace; }
+.tool-source-path { margin: 24px 0 32px; padding: 0; border-top: 1px solid var(--line); list-style: none; }
+.tool-source-path li { display: grid; grid-template-columns: minmax(250px, .9fr) minmax(0, 1.4fr); gap: 24px; padding: 16px 0; border-bottom: 1px solid var(--line); }
+.tool-source-path code { color: var(--ink); font: 12px/1.6 "SFMono-Regular", Consolas, monospace; overflow-wrap: anywhere; }
+.tool-source-path p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.65; }
+.tool-boundaries { margin: 16px 0 24px; }
+.tool-reference { font-size: 14px; }
+.tool-reference a { text-underline-offset: 3px; }
+@media (max-width: 760px) {
+  .tool-field-guide > div { grid-template-columns: 1fr; gap: 5px; }
+  .tool-execution-flow ol { grid-template-columns: 1fr; }
+  .tool-execution-flow li { padding: 16px; }
+  .tool-source-path li { grid-template-columns: 1fr; gap: 7px; }
+}

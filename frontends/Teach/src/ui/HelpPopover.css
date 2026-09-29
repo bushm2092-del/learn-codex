@@ -4,3 +4,4 @@
 .help-popover__content { z-index:60; width:min(340px,calc(100vw - 32px)); max-height:var(--radix-popover-content-available-height); overflow:auto; box-sizing:border-box; padding:16px; background:var(--canvas); color:var(--ink); border:1px solid var(--line); border-radius:6px; font-family:inherit; font-size:13px; line-height:1.6; }
 .help-popover__content p { margin:0; font-size:13px; line-height:1.6; }
 .help-popover__content p + p { margin-top:12px; }
+.help-popover__content a { overflow-wrap:anywhere; text-underline-offset:3px; }

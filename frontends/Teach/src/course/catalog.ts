@@ -33,7 +33,7 @@ export const lessons: readonly LessonDefinition[] = [
   },
   {
     "id": "function-call",
-    "available": false,
+    "available": true,
     "order": 3,
     "path": "/lessons/function-call",
     "title": {
@@ -41,14 +41,23 @@ export const lessons: readonly LessonDefinition[] = [
       "en": "Function Calling"
     },
     "description": {
-      "zh": "工具定义、参数生成、调用调度和结果回传。",
-      "en": "Tool definitions, arguments, dispatch, and result delivery."
+      "zh": "工具定义、参数生成、工具执行和结果回传。",
+      "en": "Tool definitions, arguments, execution, and result delivery."
     },
+    "status": "ready"
+  },
+  {
+    "id": "function-call-source",
+    "available": true,
+    "order": 4,
+    "path": "/lessons/function-call-source",
+    "title": { "zh": "Codex Function Calling · 源码解析", "en": "Codex Function Calling · Source Walkthrough" },
+    "description": { "zh": "沿着真实 Codex 源码，追踪工具定义、调用分发、执行与结果回传。", "en": "Trace tool definitions, dispatch, execution, and results through real Codex source." },
     "status": "draft"
   },
   {
     "id": "context",
-    "order": 4,
+    "order": 5,
     "path": "/lessons/context",
     "title": {
       "zh": "Context · 上下文机制",
@@ -62,7 +71,7 @@ export const lessons: readonly LessonDefinition[] = [
   },
   {
     "id": "session-storage",
-    "order": 5,
+    "order": 6,
     "path": "/lessons/session-storage",
     "title": {
       "zh": "Session · 会话存储机制",
@@ -76,7 +85,7 @@ export const lessons: readonly LessonDefinition[] = [
   },
   {
     "id": "mcp",
-    "order": 6,
+    "order": 7,
     "path": "/lessons/mcp",
     "title": {
       "zh": "MCP · 外部工具接入",
@@ -90,7 +99,7 @@ export const lessons: readonly LessonDefinition[] = [
   },
   {
     "id": "skills",
-    "order": 7,
+    "order": 8,
     "path": "/lessons/skills",
     "title": {
       "zh": "Skills · 可复用工作流",
@@ -104,7 +113,7 @@ export const lessons: readonly LessonDefinition[] = [
   },
   {
     "id": "sandbox",
-    "order": 8,
+    "order": 9,
     "path": "/lessons/sandbox",
     "title": {
       "zh": "Sandbox · 沙箱与权限",
@@ -118,7 +127,7 @@ export const lessons: readonly LessonDefinition[] = [
   },
   {
     "id": "plan-mode",
-    "order": 9,
+    "order": 10,
     "path": "/lessons/plan-mode",
     "title": {
       "zh": "Plan Mode · 计划模式",
@@ -132,7 +141,7 @@ export const lessons: readonly LessonDefinition[] = [
   },
   {
     "id": "goal-mode",
-    "order": 10,
+    "order": 11,
     "path": "/lessons/goal-mode",
     "title": {
       "zh": "Goal Mode · 目标模式",
@@ -146,7 +155,7 @@ export const lessons: readonly LessonDefinition[] = [
   },
   {
     "id": "subagent",
-    "order": 11,
+    "order": 12,
     "path": "/lessons/subagent",
     "title": {
       "zh": "Subagent · 子 Agent",
@@ -160,7 +169,7 @@ export const lessons: readonly LessonDefinition[] = [
   },
   {
     "id": "agent-team",
-    "order": 12,
+    "order": 13,
     "path": "/lessons/agent-team",
     "title": {
       "zh": "Agent Team · 多 Agent 协作",
@@ -174,7 +183,7 @@ export const lessons: readonly LessonDefinition[] = [
   },
   {
     "id": "self-evolution",
-    "order": 13,
+    "order": 14,
     "path": "/lessons/self-evolution",
     "title": {
       "zh": "Self-Evolution · 自进化机制",
@@ -188,7 +197,7 @@ export const lessons: readonly LessonDefinition[] = [
   },
   {
     "id": "computer-use",
-    "order": 14,
+    "order": 15,
     "path": "/lessons/computer-use",
     "title": {
       "zh": "Computer Use · 计算机操作",

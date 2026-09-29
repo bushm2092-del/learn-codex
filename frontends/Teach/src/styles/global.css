@@ -13,6 +13,12 @@
   --line: #e4e4e7;
   --line-soft: #eeeeef;
   --panel: #fafafa;
+  --status-ready-ink: #166534;
+  --status-ready-bg: #f0fdf4;
+  --status-ready-line: #bbf7d0;
+  --status-draft-ink: #92400e;
+  --status-draft-bg: #fffbeb;
+  --status-draft-line: #fde68a;
   --blue: #3b82f6;
   --blue-soft: #e9f1ff;
   --scrollbar-thumb: #c7c7ce;
@@ -195,7 +201,9 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--blue); outline-
 .topic-badge { padding: 4px 10px; border-radius: 999px; color: #2f5f9b; background: var(--blue-soft); font-size: 12px; }
 .lesson-kicker { margin: 16px 0 0; color: #6d6d75; font-size: 18px; }
 .lesson-meta { margin-top: 17px; display: flex; align-items: center; gap: 16px; color: #71717a; font: 12px/1 "SFMono-Regular", Consolas, monospace; }
-.lesson-status-badge { padding: 4px 9px; border-radius: 999px; color: #71717a; background: #f4f4f5; }
+.lesson-status-badge { padding: 4px 9px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); background: var(--panel); white-space: nowrap; }
+.lesson-status-badge[data-status="ready"], .chapter-tags > .chapter-status[data-status="ready"] { color: var(--status-ready-ink); background: var(--status-ready-bg); border-color: var(--status-ready-line); }
+.lesson-status-badge[data-status="draft"], .chapter-tags > .chapter-status[data-status="draft"] { color: var(--status-draft-ink); background: var(--status-draft-bg); border-color: var(--status-draft-line); }
 .lesson-summary { margin: 18px 0 0; padding-left: 16px; border-left: 4px solid #e4e4e7; color: #777780; font-size: 14px; font-style: italic; line-height: 1.6; }
 .lesson-section { margin-top: 16px; }
 .lesson-section > h2 { margin: 0; font-size: 23px; letter-spacing: -0.025em; }

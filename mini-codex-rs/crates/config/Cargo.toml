@@ -5,6 +5,7 @@ license.workspace = true
 version.workspace = true
 
 [dependencies]
+mini-codex-features = { path = "../features" }
 mini-codex-model-provider-info = { path = "../model-provider-info" }
 serde.workspace = true
 serde_json.workspace = true

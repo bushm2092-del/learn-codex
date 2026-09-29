@@ -9,6 +9,7 @@ pub mod edit;
 
 use mini_codex_config::ConfigToml;
 use mini_codex_config::loader::load_config_layers_state;
+use mini_codex_features::Features;
 use mini_codex_model_provider_info::DEEPSEEK_PROVIDER_ID;
 use mini_codex_model_provider_info::ModelProviderInfo;
 use mini_codex_model_provider_info::built_in_model_providers;
@@ -43,6 +44,9 @@ pub struct Config {
 
     /// 合并后的 provider 表（内建加用户定义）。
     pub model_providers: HashMap<String, ModelProviderInfo>,
+
+    /// 源项目 feature registry 的当前受支持子集。
+    pub features: Features,
 }
 
 /// 用户配置的可选覆盖项（例如来自 CLI 参数或 app-server 请求）。
@@ -96,6 +100,7 @@ impl Config {
             }
         };
 
+        let features = Features::from_config_toml(cfg.features.as_ref());
         let model_providers =
             merge_configured_model_providers(built_in_model_providers(), cfg.model_providers)
                 .map_err(|message| std::io::Error::new(std::io::ErrorKind::InvalidData, message))?;
@@ -122,6 +127,7 @@ impl Config {
             cwd: resolved_cwd,
             codex_home,
             model_providers,
+            features,
         })
     }
 }

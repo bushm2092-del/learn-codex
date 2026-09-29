@@ -17,6 +17,8 @@ import (
 	"time"
 )
 
+const maxModelRequestsPerRun int32 = 3
+
 // 禁止环境代理、重定向和任意目标；解析后直接拨已校验的公网 IP，TLS 仍验证原域名。
 func publicDial(ctx context.Context, network, address string) (net.Conn, error) {
 	host, port, err := net.SplitHostPort(address)
@@ -52,49 +54,56 @@ func publicIP(ip netip.Addr) bool {
 	}
 	return true
 }
+
 func relayHandler(key string, client *http.Client) http.Handler {
-	var used atomic.Bool
+	var requests atomic.Int32
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.Header().Set("Connection", "close")
-		if r.Method != "POST" || r.URL.Path != "/chat/completions" || r.URL.RawQuery != "" || r.Host != "api.deepseek.com" {
+		if r.Method != "POST" || r.URL.Path != "/responses" || r.URL.RawQuery != "" || r.Host != "api.deepseek.com" {
 			http.Error(w, "request rejected", 403)
 			return
 		}
-		if !used.CompareAndSwap(false, true) {
-			http.Error(w, "one model request per run", 429)
+		// 请求字段随模型协议演进，不在 relay 重复维护白名单；这里只校验沙箱的
+		// 固定目标、模型、非流式请求和预算，其余 JSON 原样转发给 DeepSeek。
+		var input map[string]json.RawMessage
+		dec := json.NewDecoder(http.MaxBytesReader(w, r.Body, 8192))
+		if dec.Decode(&input) != nil || dec.Decode(new(any)) != io.EOF {
+			http.Error(w, "invalid request", 400)
+			return
+		}
+		var model string
+		var stream bool
+		var inputText string
+		var inputItems []json.RawMessage
+		inputIsText := json.Unmarshal(input["input"], &inputText) == nil && inputText != ""
+		inputIsItems := json.Unmarshal(input["input"], &inputItems) == nil && len(inputItems) > 0 && len(inputItems) <= 16
+		if json.Unmarshal(input["model"], &model) != nil || model != "deepseek-flash" ||
+			(input["stream"] != nil && json.Unmarshal(input["stream"], &stream) != nil) || stream ||
+			(!inputIsText && !inputIsItems) {
+			http.Error(w, "invalid request", 400)
+			return
+		}
+		var maxTokens int
+		if input["max_output_tokens"] != nil && json.Unmarshal(input["max_output_tokens"], &maxTokens) != nil {
+			http.Error(w, "invalid max_output_tokens", 400)
+			return
+		}
+		if maxTokens <= 0 || maxTokens > 256 {
+			input["max_output_tokens"] = json.RawMessage("256")
+		}
+		// 先有界读取完整请求体，再返回预算或鉴权错误，避免 bridge 仍在写请求体时
+		// Unix socket 被提前关闭并把 429/401 错误转换成 502 broken pipe。
+		if requests.Add(1) > maxModelRequestsPerRun {
+			http.Error(w, "model request budget exceeded", 429)
 			return
 		}
 		if key == "" {
 			http.Error(w, "API key required", 401)
 			return
 		}
-		var input struct {
-			Model    string `json:"model"`
-			Messages []struct {
-				Role    string `json:"role"`
-				Content string `json:"content"`
-			} `json:"messages"`
-			Stream    bool `json:"stream"`
-			MaxTokens int  `json:"max_tokens"`
-		}
-		dec := json.NewDecoder(http.MaxBytesReader(w, r.Body, 8192))
-		dec.DisallowUnknownFields()
-		if dec.Decode(&input) != nil || dec.Decode(new(any)) != io.EOF || input.Stream || input.Model != "deepseek-flash" || len(input.Messages) == 0 || len(input.Messages) > 16 {
-			http.Error(w, "invalid request", 400)
-			return
-		}
-		for _, m := range input.Messages {
-			if m.Role != "user" && m.Role != "assistant" && m.Role != "system" {
-				http.Error(w, "invalid role", 400)
-				return
-			}
-		}
-		if input.MaxTokens <= 0 || input.MaxTokens > 256 {
-			input.MaxTokens = 256
-		}
 		body, _ := json.Marshal(input)
-		req, _ := http.NewRequestWithContext(r.Context(), "POST", "https://api.deepseek.com/chat/completions", bytes.NewReader(body))
+		req, _ := http.NewRequestWithContext(r.Context(), "POST", "https://api.deepseek.com/responses", bytes.NewReader(body))
 		req.Header.Set("Content-Type", "application/json")
 		req.Header.Set("Authorization", "Bearer "+key)
 		res, err := client.Do(req)
@@ -124,9 +133,9 @@ func startRelay(ctx context.Context, dir, key string) (func(), error) {
 		l.Close()
 		return nil, err
 	}
-	transport := &http.Transport{DialContext: publicDial, TLSHandshakeTimeout: 5 * time.Second, ResponseHeaderTimeout: 12 * time.Second, MaxResponseHeaderBytes: 8192, DisableKeepAlives: true}
-	client := &http.Client{Transport: transport, Timeout: 12 * time.Second, CheckRedirect: func(*http.Request, []*http.Request) error { return http.ErrUseLastResponse }}
-	server := &http.Server{Handler: relayHandler(key, client), ReadHeaderTimeout: 2 * time.Second, ReadTimeout: 3 * time.Second, WriteTimeout: 14 * time.Second, MaxHeaderBytes: 4096, BaseContext: func(net.Listener) context.Context { return ctx }}
+	transport := &http.Transport{DialContext: publicDial, TLSHandshakeTimeout: 5 * time.Second, ResponseHeaderTimeout: 23 * time.Second, MaxResponseHeaderBytes: 8192, DisableKeepAlives: true}
+	client := &http.Client{Transport: transport, Timeout: 25 * time.Second, CheckRedirect: func(*http.Request, []*http.Request) error { return http.ErrUseLastResponse }}
+	server := &http.Server{Handler: relayHandler(key, client), ReadHeaderTimeout: 2 * time.Second, ReadTimeout: 3 * time.Second, WriteTimeout: 27 * time.Second, MaxHeaderBytes: 4096, BaseContext: func(net.Listener) context.Context { return ctx }}
 	go server.Serve(netutil.LimitListener(l, 8))
 	return func() { server.Close(); transport.CloseIdleConnections() }, nil
 }

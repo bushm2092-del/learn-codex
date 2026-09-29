@@ -154,4 +154,4 @@ TEST_DATABASE_URL='postgres://user:password@localhost:5432/test?sslmode=disable'
 
 实际编译由独立 `cmd/rust-worker` 在 gVisor 容器执行，API 不拥有 Docker 权限。安装、安全边界及验收见 [沙箱说明](../deploy/rust-sandbox/README.md)。
 
-执行镜像 `learn-rust-sandbox:deps-v2` 预编译锁定的 reqwest、tokio、serde_json；任务继续使用固定 rustc 命令，不允许 Cargo 配置或下载依赖。容器内部受限代理适配标准 HTTPS 示例，不改写源码；真实 Key 仍只由宿主 relay 添加。升级需先导入镜像再替换 worker，网络隔离与 Key 转发边界保持不变。
+执行镜像 `learn-rust-sandbox:deps-v2` 预编译锁定的 reqwest、tokio、serde_json；任务继续使用固定 rustc 命令，不允许 Cargo 配置或下载依赖。容器内部受限代理适配标准 HTTPS 示例，不改写源码；真实 Key 仍只由宿主 relay 添加。relay 只接受 DeepSeek Responses API 的 `POST /responses`，不维护模型协议字段白名单，会透传 `tools` 等请求字段；每个任务最多允许 3 次 `deepseek-flash` 非流式请求，以支持一次有界的工具调用闭环，并对每次请求继续强制请求大小、输入项数量和输出 token 预算。工具仍由沙箱中的用户程序执行，不由 relay 执行。升级需先导入镜像再替换 worker，网络隔离与 Key 转发边界保持不变。

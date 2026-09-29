@@ -9,6 +9,9 @@ pub struct ResponsesApiTool {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub defer_loading: Option<bool>,
     pub parameters: Value,
+    /// 仅供宿主和 code mode 描述工具结果；不会序列化进 Responses API 请求。
+    #[serde(skip)]
+    pub output_schema: Option<Value>,
 }
 
 #[derive(Debug, Clone, Serialize, PartialEq)]

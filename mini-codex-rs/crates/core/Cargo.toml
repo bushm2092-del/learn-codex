@@ -9,12 +9,16 @@ anyhow.workspace = true
 eventsource-stream.workspace = true
 futures.workspace = true
 mini-codex-config = { path = "../config" }
+mini-codex-features = { path = "../features" }
 mini-codex-model-provider-info = { path = "../model-provider-info" }
 mini-codex-models-manager = { path = "../models-manager" }
 mini-codex-protocol = { path = "../protocol" }
+mini-codex-shell-command = { path = "../shell-command" }
 mini-codex-tools = { path = "../tools" }
 mini-codex-utils-home-dir = { path = "../utils/home-dir" }
+mini-codex-utils-pty = { path = "../utils/pty" }
 reqwest.workspace = true
+rand.workspace = true
 serde.workspace = true
 serde_json.workspace = true
 thiserror.workspace = true

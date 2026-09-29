@@ -6,6 +6,10 @@ pub(crate) struct ContextManager {
 }
 
 impl ContextManager {
+    pub(crate) fn with_items(items: Vec<ResponseItem>) -> Self {
+        Self { items }
+    }
+
     pub(crate) fn record(&mut self, item: ResponseItem) {
         self.items.push(item);
     }

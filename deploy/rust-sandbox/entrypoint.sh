@@ -28,4 +28,4 @@ export HTTPS_PROXY=http://127.0.0.1:18080
 export SSL_CERT_FILE=/tmp/sandbox-ca.pem
 # 此值只是示例占位符；真实 Key 永不进入容器，宿主转发时才添加。
 export DEEPSEEK_API_KEY=provided-by-relay
-timeout -s KILL 15 /work/program
+timeout -s KILL 55 /work/program

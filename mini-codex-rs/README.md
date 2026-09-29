@@ -1,7 +1,8 @@
 # mini-codex Rust 内核
 
-这是 Rust 执行内核，使用 Cargo workspace 管理 `protocol`、`config`、`model-provider-info`、
-`models-manager`、`utils/home-dir`、`arg0`、`tools`、`core`、`app-server` 和 `app-server-protocol` 十个 crate。
+这是 Rust 执行内核，使用 Cargo workspace 管理 `protocol`、`config`、`features`、
+`model-provider-info`、`models-manager`、`shell-command`、`utils/home-dir`、`utils/pty`、
+`arg0`、`tools`、`core`、`app-server` 和 `app-server-protocol` 十三个 crate。
 
 ## 源码结构
 
@@ -21,7 +22,10 @@ mini-codex-rs/
     ├── protocol/src/{lib,error,openai_models}.rs  # Op/Event、EnvVarError、ModelInfo/ModelPreset
     ├── tools/src/{function_call_error,tool_executor,tool_output,tool_payload,tool_spec}.rs
     │                                               # 源 codex-rs/tools 的受支持子集
+    ├── features/src/lib.rs                        # UnifiedExec / UnifiedExecTty feature gate
+    ├── shell-command/src/{lib,shell_detect,powershell}.rs
     ├── utils/home-dir/src/lib.rs                  # find_codex_home
+    ├── utils/pty/src/{lib,windows_input}.rs        # PTY 边界与 ConPTY 输入归一化
     ├── arg0/src/lib.rs                            # load_dotenv：启动时读 $MINI_CODEX_HOME/.env
     ├── model-provider-info/src/lib.rs             # ModelProviderInfo、内建 deepseek provider
     ├── models-manager/{models.json,src/{lib,manager}.rs}  # 内置模型目录与默认模型
@@ -34,9 +38,12 @@ mini-codex-rs/
     │   ├── client_common.rs                       # ModelClient::stream(prompt, model)
     │   ├── client.rs
     │   ├── context_manager.rs
+    │   ├── context/world_state/environment.rs     # 模型可见的 cwd / shell
+    │   ├── shell.rs                               # shell 类型到 argv 的转换
+    │   ├── unified_exec/                          # 长进程、输出缓冲、会话续写
     │   ├── session/{session.rs,handlers.rs,thread_settings.rs,turn.rs}
     │   └── tools/{context.rs,parallel.rs,registry.rs,router.rs}
-    │       └── handlers/{mod.rs,unified_exec.rs,unified_exec/exec_command.rs}
+    │       └── handlers/{mod.rs,shell_spec.rs,unified_exec.rs,unified_exec/{exec_command,write_stdin}.rs}
     ├── core/tests/tool_harness.rs
     └── cli/src/main.rs
 ```
@@ -61,20 +68,43 @@ Function call 主链使用与源项目一致的 `ResponseItem`、`ResponseInputI
 `FuturesOrdered`，按模型调用顺序写回历史，并按 handler 的 `supports_parallel_tool_calls`
 通过读写锁控制并行。SSE 在 `response.completed` 前关闭会判定为失败，不再误报 turn 完成。
 
+Shell 工具的支持链对照源项目 `core/src/tools/spec_plan.rs`、`tools/handlers/shell_spec.rs`、
+`tools/handlers/unified_exec*`、`core/src/unified_exec/`、`core/src/shell.rs`、
+`shell-command/src/shell_detect.rs` 和 `utils/pty/src/windows_input.rs`。默认启用 Unified Exec：
+短命令直接返回退出码；长命令先返回 `session_id`，后续 `write_stdin` 可输入字符或空轮询；
+TTY 开启时保留 stdin，普通管道模式关闭 stdin。每次调用只返回从上次读取后新增的输出，收集层保留
+头尾并限制为 1 MiB，模型层再按 `max_output_tokens` 做中间截断。进程表最多保留 64 项，达到软上限时
+保护最近使用的 8 项，并优先淘汰已退出的最久未使用项。
+
+会话创建时按平台选择用户 shell：macOS 为用户 shell → zsh → bash → sh，Linux 为用户 shell
+→ bash → zsh → sh，Windows 为 PowerShell → cmd。模型传入的 `shell` 只选择受支持的 shell 类型，
+不直接信任该路径作为可执行文件。POSIX、PowerShell 和 cmd 分别生成 `-c/-lc`、
+`-NoProfile -Command` 和 `/c` argv；PowerShell 脚本会加 UTF-8 输出前缀，Windows PTY 会把 Enter、
+Backspace 和跨调用 CRLF 归一化为 ConPTY 需要的字节。检测结果随 `<environment_context>` 的
+`cwd` 和 `shell` 一起进入首次模型输入，因此模型选择 PowerShell 或 POSIX shell 不是靠猜测宿主系统。
+
 中文界面文案和 system prompt 由 `crates/cli/src/main.rs` 定义，system prompt 在创建
 `ThreadManager` 时传入核心。
 
 ## 配置与运行
 
-配置来自 `$MINI_CODEX_HOME/config.toml`（默认 `~/.mini-codex/config.toml`，可选），字段与真实 Codex 一致：
+配置来自 `$MINI_CODEX_HOME/config.toml`（默认 `~/.mini-codex/config.toml`，可选），当前字段与真实 Codex 对应：
 `model`、`model_provider`、`[model_providers.<id>]`（`name`、`base_url`、`env_key`、
-`env_key_instructions`、`wire_api`）。API key 由 provider 的 `env_key` 环境变量提供，
+`env_key_instructions`、`wire_api`）以及 `[features]` 下的 `unified_exec`、`unified_exec_tty`。
+两个 feature 默认均为 `true`；关闭 `unified_exec` 后只注册不可恢复、超时即终止的 OneShot
+`exec_command`，不会向模型暴露 `write_stdin`。API key 由 provider 的 `env_key` 环境变量提供，
 源码和配置文件中都不保存密钥。内建 provider 只有 `deepseek`；内建模型目录在
 `crates/models-manager/models.json`，`model` 缺省时使用目录默认模型 `deepseek-flash`。
 
 ```bash
 printf 'DEEPSEEK_API_KEY=你的密钥\n' > ~/.mini-codex/.env
 cargo run -p mini-codex-cli
+```
+
+```toml
+[features]
+unified_exec = true
+unified_exec_tty = true
 ```
 
 两个二进制的 `main` 都先调用 `mini_codex_arg0::load_dotenv()`（对应源项目 `arg0_dispatch_or_else`
@@ -113,8 +143,13 @@ cargo check --workspace
 cargo test --workspace
 ```
 
-当前 `exec_command` 仍然直接执行 shell，尚未实现生产 Codex 的 sandbox、审批、turn 取消、rollout
-恢复、context compaction、MCP 和 subagents。不要在不可信 prompt 或敏感目录中运行。
+当前 `exec_command` 仍然直接执行本机 shell。生产 Codex 中由 sandbox、审批与附加权限、远程
+environment、network proxy、hook/telemetry、shell snapshot/zsh-fork、turn cancellation 和 rollout
+恢复承担的分支尚未移植，因此 schema 也不暴露 `sandbox_permissions`、`additional_permissions`、
+`justification`、`prefix_rule` 或 `environment_id`。`utils/pty` 当前以 `portable-pty` 保留相同的平台
+边界，没有移植源项目完整的进程组、Linux spawn helper 和 Windows Job Object。不要把这些删减描述为
+已有安全保障，也不要在不可信 prompt 或敏感目录中运行。详细对照见
+[Unified Exec 教程](../mini-codex-docs/docs/tutorial/07-unified-exec.md)。
 
 # 规范
 提交注释提示等全部中文书写

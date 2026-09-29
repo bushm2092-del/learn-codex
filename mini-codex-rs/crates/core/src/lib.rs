@@ -4,11 +4,14 @@ mod client;
 mod client_common;
 mod codex_thread;
 pub mod config;
+mod context;
 mod context_manager;
 mod function_tool;
 mod session;
+mod shell;
 mod thread_manager;
 pub mod tools;
+mod unified_exec;
 
 pub use client::OpenAiResponsesClient;
 pub use client_common::ModelClient;

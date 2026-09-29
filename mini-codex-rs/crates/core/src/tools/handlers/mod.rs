@@ -1,6 +1,9 @@
+mod shell_spec;
 mod unified_exec;
 
 pub use unified_exec::ExecCommandHandler;
+pub(crate) use unified_exec::ExecCommandHandlerOptions;
+pub use unified_exec::WriteStdinHandler;
 
 use serde::Deserialize;
 

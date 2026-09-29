@@ -160,7 +160,7 @@ func (q *Queue) Run(ctx context.Context) {
 		q.pending = q.pending[1:]
 		j.State = "running"
 		q.active = j
-		runCtx, cancel := context.WithTimeout(ctx, 50*time.Second)
+		runCtx, cancel := context.WithTimeout(ctx, 95*time.Second)
 		j.cancel = cancel
 		in := j.input
 		j.input = Input{}

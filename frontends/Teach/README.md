@@ -1,6 +1,6 @@
 # Learn Codex
 
-首页课程卡和侧边章节目录通过 `ChapterTags` 展示正式／草稿状态与已开放章节的累计 PV（阅读次数）；UV 由后台统计但不展示为学习人数。统计失败不伪造为零。s02 模型协议为正式文章；s03 工具调用标为草稿，页面尚未开放。
+首页课程卡和侧边章节目录通过 `ChapterTags` 展示正式／草稿状态与已开放章节的累计 PV（阅读次数）；UV 由后台统计但不展示为学习人数。统计失败不伪造为零。s02 模型协议为正式文章；s03 工具调用以可访问的草稿形式开放。
 
 Dockerfile 构建静态前端，由 Nginx 提供 SPA 回退并将 /api/ 转发给后台。部署不使用 Vite preview；前后端离线包见 [部署说明](../../deploy/README.md)。
 
@@ -60,7 +60,7 @@ UI 职责：`DropdownMenu.tsx` 封装 Radix 菜单和主题样式，不依赖 i1
 13. Self-Evolution · 自进化机制：待编写。
 14. Computer Use · 计算机操作：待编写。
 
-第一课包含手动复制流程演示，第二课已开放模型协议文章；第三课标记为未开放的草稿，其余章节为待编写目录。具体机制与支持范围在编写课程时对照 Codex 源码确认；目录不代表 mini-codex 已实现对应能力。旧 `/lessons/harness-overview` 地址重定向到 `/lessons/agent-loop`。
+第一课包含手动复制流程演示，第二课已开放模型协议文章；第三课 Function Calling 已正式发布。第四课 `/lessons/function-call-source` 以草稿形式开放，对照 Codex `53446f90a5` 梳理请求组装、调用转换、执行调度、工具结果与历史记录；后续章节顺延。具体机制与支持范围在编写课程时对照 Codex 源码确认；目录不代表 mini-codex 已实现对应能力。旧 `/lessons/harness-overview` 地址重定向到 `/lessons/agent-loop`。
 
 自动循环演示位于 `src/lessons/agent-loop/AutomatedLoopDemo.tsx`，`automatedTrace.ts` 保存四轮完整请求/响应与工具结果的独立快照。`CinematicLoopFilm.tsx` 在动画窗口中呈现请求、响应、工具执行和记录回传的简化 JSON，前后分镜平移缩放交接。按用户要求移除外围检查区和四节点流程图；历史在数据中完整保留，画面只展开最新结果，并明确标为简化字段示意。使用 DeepSeek Chat Completions 非思考模式的协议示意（官方参考：https://api-docs.deepseek.com/guides/tool_calls/），不是当前 Rust 客户端 `/responses` 请求的逐字复刻。工具使用项目已有 `exec_command` 职责，命令与结果均为静态模拟，不执行 shell、不访问文件、不发送 API 请求。此展示层协议差异不改变内核实现。
 
@@ -102,4 +102,10 @@ Agent Loop 自动循环动画前提供简短 Rust 伪代码，说明请求模型
 
 ## Rust 教学实验
 
-第二章在官方 DeepSeek 文档截图下提供 CodeMirror 6 Rust 编辑器（高亮、行号、撤销）、reqwest + tokio + serde_json 示例、用户 Key 输入和异步任务结果。文档截图由 `src/ui/ImageZoom` 承载：点击图片用原生 `<dialog>` 原位放大，Escape、遮罩或关闭按钮退出并归还焦点；原文链接位于截图下方图注，图片本身不跳转。依赖在镜像构建时锁定并预编译，不支持用户添加依赖。真实执行依赖后台独立 gVisor worker；默认执行入口关闭。Key 只放当前表单状态，提交成功后清空；不写浏览器持久化存储。示例只保留普通 HTTPS 调用，由执行镜像内部代理适配；代码不包含 cfg 或 Unix socket。标题旁问号使用 Radix Popover 展示环境限制，支持键盘、Escape 关闭与焦点返回。
+编辑器底部的操作提示、Key 隐私、输出隐私和源码链接统一收进 main.rs 旁的“使用说明与隐私”问号浮层，按需查看，不常驻占用高度。
+
+`ui/CodeWorkspace` 为实验区提供双屏切换：桌面左侧阅读文档、右侧全高编辑运行，支持拖动分隔线（方向键微调、双击还原）、全屏代码、退出按钮、Escape 与小屏自动回退。第三章通过 `examples` 和 `exampleId` 提供“本文代码”目录，在 Rust 实验和完整只读 JSON 之间切换；示例内容复用正文数据。通过原位 CSS 布局保留 RustSandbox 和 CodeMirror 实例，不复制源码或 API Key，也不重复创建运行任务。
+
+`ui/Select` 封装 Radix Select，接收 `value`、`options`、`onValueChange`、无障碍 `label` 及可选禁用/占位参数。Portal 菜单统一白底细边框，支持长标题换行、选中标记和键盘操作，不读取业务或语言状态。
+
+第二章和第三章复用 CodeMirror 6 Rust 编辑器（高亮、行号、撤销）、reqwest + tokio + serde_json 示例和异步任务结果。调用模型的示例在表头显示用户 Key 输入，并请求 DeepSeek Responses API 的 `POST /responses`；第三章的第一个示例发送 `tools` 定义并展示模型返回的 `function_call`。模型响应之前单独展示 `tools` 请求片段，并用双列字段指南解释工具类型、名称、描述及 JSON Schema 参数结构。响应讲解下方提供完整可运行的工具闭环：`while` 最多执行 3 轮真实模型请求，解析 `function_call`、按 `name` 调用沙箱内的工具实现、追加同 `call_id` 的 `function_call_output`，再请求模型直到得到最终回答；`get_weather` 使用固定教学数据，模型请求和回传链路是真实的。第三章继续用六步连续轨迹讲解 `function_call → ToolCall → ToolRouter → handler → function_call_output → 再次采样`，并逐项对应 Codex 的 `stream_events_utils.rs`、`tools/parallel.rs`、`tools/router.rs`、`tools/registry.rs`、`tools/context.rs` 与 `session/turn.rs`；协议示例按 DeepSeek 无状态 Responses 行为重放完整输入，不使用其不支持的 `previous_response_id`。文档截图由 `src/ui/ImageZoom` 承载：点击图片用原生 `<dialog>` 原位放大，Escape、遮罩或关闭按钮退出并归还焦点；原文链接位于截图下方图注，图片本身不跳转。依赖在镜像构建时锁定并预编译，不支持用户添加依赖。真实执行依赖后台独立 gVisor worker；默认执行入口关闭。Key 只放当前页面状态，提交后不自动清空，也不写浏览器持久化存储。运行输出使用默认收起的深色终端面板。网络示例只保留普通 HTTPS 调用，由执行镜像内部代理适配；代码不包含 cfg 或 Unix socket。标题旁问号使用 Radix Popover 展示环境限制，支持键盘、Escape 关闭与焦点返回。

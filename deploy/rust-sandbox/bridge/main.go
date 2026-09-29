@@ -74,12 +74,12 @@ func handler(cert tls.Certificate) http.Handler {
 			return
 		}
 		defer conn.Close()
-		_ = conn.SetDeadline(time.Now().Add(15 * time.Second))
+		_ = conn.SetDeadline(time.Now().Add(28 * time.Second))
 		if _, err = io.WriteString(conn, "HTTP/1.1 200 Connection Established\r\n\r\n"); err != nil {
 			return
 		}
 		secure := tls.Server(conn, &tls.Config{Certificates: []tls.Certificate{cert}, MinVersion: tls.VersionTLS12, NextProtos: []string{"http/1.1"}})
-		ctx, cancel := context.WithTimeout(context.Background(), 14*time.Second)
+		ctx, cancel := context.WithTimeout(context.Background(), 27*time.Second)
 		defer cancel()
 		if secure.HandshakeContext(ctx) != nil {
 			return
@@ -90,11 +90,11 @@ func handler(cert tls.Certificate) http.Handler {
 			return
 		}
 		defer request.Body.Close()
-		if request.Method != "POST" || request.Host != "api.deepseek.com" || request.URL.Path != "/chat/completions" || request.URL.RawQuery != "" {
+		if request.Method != "POST" || request.Host != "api.deepseek.com" || request.URL.Path != "/responses" || request.URL.RawQuery != "" {
 			_, _ = io.WriteString(secure, "HTTP/1.1 403 Forbidden\r\nContent-Length: 0\r\nConnection: close\r\n\r\n")
 			return
 		}
-		request.URL = &url.URL{Scheme: "http", Host: "api.deepseek.com", Path: "/chat/completions"}
+		request.URL = &url.URL{Scheme: "http", Host: "api.deepseek.com", Path: "/responses"}
 		request.RequestURI = ""
 		request.Header.Del("Authorization")
 		transport := &http.Transport{DialContext: func(ctx context.Context, _, _ string) (net.Conn, error) {
@@ -103,7 +103,8 @@ func handler(cert tls.Certificate) http.Handler {
 		defer transport.CloseIdleConnections()
 		response, err := transport.RoundTrip(request.WithContext(ctx))
 		if err != nil {
-			_, _ = io.WriteString(secure, "HTTP/1.1 502 Bad Gateway\r\nContent-Length: 0\r\nConnection: close\r\n\r\n")
+			const message = "sandbox relay unavailable\n"
+			_, _ = fmt.Fprintf(secure, "HTTP/1.1 502 Bad Gateway\r\nContent-Type: text/plain; charset=utf-8\r\nContent-Length: %d\r\nConnection: close\r\n\r\n%s", len(message), message)
 			return
 		}
 		defer response.Body.Close()
@@ -125,7 +126,7 @@ func main() {
 	if os.WriteFile("/tmp/sandbox-ca.pem", root, 0600) != nil {
 		panic("local trust setup failed")
 	}
-	server := &http.Server{Handler: handler(cert), ReadHeaderTimeout: 2 * time.Second, ReadTimeout: 3 * time.Second, WriteTimeout: 15 * time.Second, MaxHeaderBytes: 4096}
+	server := &http.Server{Handler: handler(cert), ReadHeaderTimeout: 2 * time.Second, ReadTimeout: 3 * time.Second, WriteTimeout: 28 * time.Second, MaxHeaderBytes: 4096}
 	if err = server.Serve(listener); err != nil {
 		fmt.Fprintln(os.Stderr, "local proxy stopped")
 		os.Exit(1)

@@ -6,11 +6,11 @@
 
 - 只接受单个最多 12 KiB 的 Rust 源文件；标准库及预编译的 reqwest 0.12.28、tokio 1.48.0、serde_json 1.0.145。依赖由管理员通过已提交的 Cargo.lock 构建，任务只运行固定 rustc 命令，不运行 Cargo、不接收 Cargo.toml、build.rs、额外依赖、镜像名、shell 参数或宿主路径。
 - 全局一个 worker，最多 5 个待处理任务；每用户一个未结束任务，无用户级冷却，全局提交间隔 5 秒。队列 2 分钟过期，结果 5 分钟过期，最多保留 128 个任务。取消后等待容器清理再释放执行名额。
-- 启动前可用内存至少 2 GiB；容器 1 GiB memory/swap 上限（不额外使用 swap）、0.75 CPU、64 PIDs、64 文件描述符、无 core dump。编译 30 秒，运行 15 秒，外部总时限 50 秒。
+- 启动前可用内存至少 2 GiB；容器 1 GiB memory/swap 上限（不额外使用 swap）、0.75 CPU、64 PIDs、64 文件描述符、无 core dump。编译 30 秒，运行 55 秒，外部总时限 95 秒。
 - 只读根目录，非 root、drop ALL capabilities、no-new-privileges、禁用 Docker 日志。仅 `/work` 64 MiB、`/tmp` 16 MiB 可写；合计也受容器内存上限约束。
 - `--network=none`。唯一宿主挂载是本任务专用只读 socket 目录；不挂载仓库、数据卷、Docker socket 或其他宿主目录。
-- 每任务 socket 转发器仅接受 `POST /chat/completions`，固定 HTTPS 主机 `api.deepseek.com`；禁代理和重定向，DNS 地址校验后直接连接公网 IP，拒绝私网、回环、链路本地和元数据地址。
-- 每任务最多一次请求，仅 deepseek-flash、非流式、16 条文本消息、8 KiB 请求、最多 256 输出 tokens、32 KiB 响应。模型服务有单独的 12 秒超时。
+- 每任务 socket 转发器仅接受 `POST /responses`，固定 HTTPS 主机 `api.deepseek.com`；禁代理和重定向，DNS 地址校验后直接连接公网 IP，拒绝私网、回环、链路本地和元数据地址。
+- 每任务最多 3 次请求，仅 deepseek-flash、非流式、每次最多 16 条输入项、8 KiB 请求、256 输出 tokens 和 32 KiB 响应。请求 JSON 不维护模型协议字段白名单，以便透传 `tools` 等 DeepSeek 支持的字段；固定目标、模型、流式开关和资源预算仍由 relay 强制校验。每次模型请求有单独的 25 秒超时。
 - 用户 Key 不落库、不写日志、不存浏览器、不放容器环境变量，由转发器保存在内存中并注入 Authorization。源码和输出也是短期内存数据；不要将秘密写入源码。Go 字符串无法保证内存物理擦除；宿主管理员仍属于信任边界。
 - 输出上限 32 KiB，超限取消；输出按文本显示。清理失败会锁止后续任务。启动时清理带本服务专用标签的孤儿容器。
 - worker 本身拥有 Docker 权限，是高信任组件；Unix socket 仅 root 和网站 API 的组 10001 可访问，不能暴露为公网 HTTP 服务。
@@ -26,11 +26,13 @@
 
 当前普通离线部署脚本不会自动安装 worker 或开启沙箱；不得因网站部署自动开放代码执行。
 
+`worker.service` 使用 `RuntimeDirectoryPreserve=yes` 保留 `/run/learn-rust-worker` 的目录 inode。API 容器以 bind mount 访问该目录；若生产机器仍使用旧 unit，重启 worker 后必须重建 API 容器，否则 API 会继续挂载已删除的旧目录并返回 `sandbox_unavailable`。
+
 ## 示例与编辑器
 
 页面采用 CodeMirror 6 的 Rust 高亮、行号、编辑和撤销；编辑器在模型协议章节按需加载，不使用外部 CDN。Tab 保留移出编辑器的浏览器行为。
 
-示例使用真正的 reqwest/tokio/serde_json，不改写源码、不注入 cfg。运行环境设置 HTTPS_PROXY 指向容器内部 127.0.0.1:18080 的固定代理，并通过 SSL_CERT_FILE 信任本任务临时证书。代理只允许 api.deepseek.com:443 的 CONNECT，以及 POST /chat/completions，解密后通过唯一 Unix socket 交给宿主 relay。宿主继续执行 URL/参数/预算校验，并建立经过证书校验的外部 HTTPS 连接；不使用跳过 TLS 验证选项。临时证书只属于这个容器，私钥在代理内存中，未对公网开放监听。
+示例使用真正的 reqwest/tokio/serde_json，不改写源码、不注入 cfg。运行环境设置 HTTPS_PROXY 指向容器内部 127.0.0.1:18080 的固定代理，并通过 SSL_CERT_FILE 信任本任务临时证书。代理只允许 api.deepseek.com:443 的 CONNECT，以及 POST /responses，解密后通过唯一 Unix socket 交给宿主 relay。宿主继续执行 URL/参数/预算校验，并建立经过证书校验的外部 HTTPS 连接；不使用跳过 TLS 验证选项。临时证书只属于这个容器，私钥在代理内存中，未对公网开放监听。
 
 容器内 DEEPSEEK_API_KEY 仅为 `provided-by-relay` 占位值；代理移除示例传来的 Authorization，宿主 relay 注入用户真实 Key。普通本地 Cargo 运行则从用户环境读取真实 Key。用户代码可以绕过代理，但容器仍为 network=none，无法获得直接外网访问；代理不是替代 gVisor、资源配额或宿主校验的安全边界。代理进程与编译/运行共享原有容器资源配额。
 

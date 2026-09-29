@@ -1,4 +1,7 @@
 use super::*;
+use mini_codex_features::Feature;
+use mini_codex_features::Features;
+use mini_codex_features::FeaturesToml;
 use mini_codex_model_provider_info::WireApi;
 use pretty_assertions::assert_eq;
 use std::io::ErrorKind;
@@ -38,6 +41,7 @@ env_key = "PROXY_API_KEY"
         ConfigToml {
             model: Some("deepseek-v4-pro".into()),
             model_provider: Some("proxy".into()),
+            features: None,
             model_providers: HashMap::from([("proxy".to_string(), proxy_provider())]),
         }
     );
@@ -76,6 +80,7 @@ fn defaults_to_deepseek_provider_and_resolves_cwd() {
             cwd: cwd.path().to_path_buf(),
             codex_home: codex_home.path().to_path_buf(),
             model_providers: built_in_model_providers(),
+            features: Features::default(),
         }
     );
 }
@@ -87,6 +92,7 @@ fn overrides_take_precedence_over_config_toml() {
     let cfg = ConfigToml {
         model: Some("from-toml".into()),
         model_provider: Some("deepseek".into()),
+        features: None,
         model_providers: HashMap::from([("proxy".to_string(), proxy_provider())]),
     };
 
@@ -112,8 +118,28 @@ fn overrides_take_precedence_over_config_toml() {
             cwd: cwd.path().to_path_buf(),
             codex_home: codex_home.path().to_path_buf(),
             model_providers: expected_providers,
+            features: Features::default(),
         }
     );
+}
+
+#[test]
+fn loads_unified_exec_feature_flags() {
+    let codex_home = TempDir::new().expect("temp home");
+    let config = Config::load_from_base_config_with_overrides(
+        ConfigToml {
+            features: Some(FeaturesToml {
+                unified_exec: Some(false),
+                unified_exec_tty: Some(false),
+            }),
+            ..Default::default()
+        },
+        ConfigOverrides::default(),
+        codex_home.path().to_path_buf(),
+    )
+    .expect("config");
+    assert!(!config.features.enabled(Feature::UnifiedExec));
+    assert!(!config.features.enabled(Feature::UnifiedExecTty));
 }
 
 #[test]

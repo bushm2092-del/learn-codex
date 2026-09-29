@@ -1,6 +1,7 @@
 use std::path::PathBuf;
 use std::sync::Arc;
 
+use mini_codex_features::Feature;
 use mini_codex_models_manager::ModelsManager;
 use mini_codex_protocol::openai_models::ModelPreset;
 use mini_codex_tools::ToolExecutor;
@@ -10,8 +11,10 @@ use crate::ModelClient;
 use crate::config::Config;
 use crate::session::Session;
 use crate::tools::ExecCommandHandler;
+use crate::tools::ExecCommandHandlerOptions;
 use crate::tools::ToolRegistry;
 use crate::tools::ToolRouter;
+use crate::tools::WriteStdinHandler;
 
 /// 创建并持有新 Codex thread 共享的依赖。
 ///
@@ -32,9 +35,24 @@ impl ThreadManager {
                 .expect("bundled models.json must be valid"),
         );
         let mut tool_registry = ToolRegistry::default();
-        let exec_command_handler = ExecCommandHandler;
-        let model_visible_specs = vec![exec_command_handler.spec()];
-        tool_registry.add(exec_command_handler);
+        let exec_options = ExecCommandHandlerOptions {
+            allow_login_shell: false,
+            allow_tty: config.features.enabled(Feature::UnifiedExecTty),
+            include_windows_shell_guidance: cfg!(windows),
+        };
+        let mut model_visible_specs = Vec::new();
+        if config.features.enabled(Feature::UnifiedExec) {
+            let exec_command_handler = ExecCommandHandler::new(exec_options);
+            let write_stdin_handler = WriteStdinHandler;
+            model_visible_specs.push(exec_command_handler.spec());
+            model_visible_specs.push(write_stdin_handler.spec());
+            tool_registry.add(exec_command_handler);
+            tool_registry.add(write_stdin_handler);
+        } else {
+            let exec_command_handler = ExecCommandHandler::one_shot(exec_options);
+            model_visible_specs.push(exec_command_handler.spec());
+            tool_registry.add(exec_command_handler);
+        }
         let tool_router = ToolRouter::from_parts(tool_registry, model_visible_specs);
         Self {
             config: Arc::new(config),
@@ -72,3 +90,7 @@ impl ThreadManager {
         )
     }
 }
+
+#[cfg(test)]
+#[path = "thread_manager_tests.rs"]
+mod tests;

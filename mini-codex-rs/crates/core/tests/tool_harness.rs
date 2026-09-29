@@ -116,6 +116,13 @@ async fn tool_output_is_sent_back_to_the_model() -> Result<()> {
 
     let prompts = model.prompts.lock().await;
     assert_eq!(prompts.len(), 2);
+    let environment_context = serde_json::to_value(&prompts[0].input[0]).unwrap();
+    assert!(
+        environment_context["content"][0]["text"]
+            .as_str()
+            .unwrap()
+            .contains("<shell>")
+    );
     let tool_output = prompts[1]
         .input
         .iter()

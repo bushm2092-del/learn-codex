@@ -25,7 +25,8 @@
 .lesson-sidebar nav a .lesson-sidebar__title { min-width: 0; font: 14px/1.35 ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; overflow-wrap: anywhere; }
 .lesson-sidebar nav[hidden] { display: none; }
 @media (min-width: 901px) {
-  .lesson-layout:has(.lesson-sidebar[data-collapsed="true"]) { grid-template-columns: 36px minmax(0, 1fr); gap: 28px; }
+  /* 双屏隐藏目录并独占文档列，不能沿用收起目录的 36px 网格。 */
+  .lesson-layout:has(.lesson-sidebar[data-collapsed="true"]):not(:has(.code-workspace--split)) { grid-template-columns: 36px minmax(0, 1fr); gap: 28px; }
   .lesson-sidebar[data-collapsed="true"] .lesson-sidebar__heading { margin: 0; }
   .lesson-sidebar[data-collapsed="true"] .lesson-sidebar__group { display: none; }
 }

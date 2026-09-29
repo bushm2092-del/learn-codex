@@ -21,7 +21,7 @@
 .rust-editor { min-width:0; border:1px solid var(--line); border-radius:0; overflow:hidden; }
 .rust-editor .cm-editor { background:var(--canvas); color:var(--ink); }
 .rust-editor .cm-editor.cm-focused { outline:none; }
-.rust-editor:focus-within { border-color:var(--muted); }
+.rust-editor:focus-within { border-color:var(--line); }
 .rust-editor .cm-scroller { max-height:640px; overflow:auto; font:13px/1.75 "SFMono-Regular",Consolas,"Liberation Mono",monospace; }
 .rust-editor .cm-content { padding:12px 0; caret-color:var(--ink); }
 .rust-editor .cm-gutters { background:var(--canvas); color:#666666; border:0; }
@@ -33,8 +33,37 @@
 .rust-editor .cm-content::selection, .rust-editor .cm-content *::selection { color:currentColor; background:#dce9f8 !important; }
 .rust-editor .cm-cursor { border-left-color:var(--ink); }
 .rust-editor .cm-matchingBracket { background:#e8e8e8; outline:1px solid #b8b8b8; }
-.rust-sandbox__editor-heading { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; margin:20px 0 0; padding:8px 12px; border:1px solid var(--line); border-bottom:0; background:var(--panel); }
+.rust-sandbox__workspace { margin-top:20px; }
+.rust-sandbox__editor-heading { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; margin:0; padding:8px 12px; border:1px solid var(--line); border-bottom:0; background:var(--panel); }
 .rust-sandbox__filename { display:flex; align-items:center; gap:4px; font:13px/1.5 "SFMono-Regular",Consolas,monospace; }
 .rust-sandbox__editor-heading label { margin:0; }
-.rust-sandbox__editor-heading .rust-sandbox__actions { margin-left:auto; gap:8px; }
+.rust-sandbox__header-key { display:grid; grid-template-columns:auto minmax(180px,260px); align-items:center; gap:8px; margin-left:auto; }
+.rust-sandbox__header-key label { white-space:nowrap; color:var(--muted); font-size:12px; font-weight:500; }
+.rust-sandbox__header-key input { min-width:0; height:32px; padding:6px 8px; border-radius:6px; background:var(--canvas); font-size:13px; }
+.rust-sandbox__editor-heading .rust-sandbox__actions { margin-left:0; gap:8px; }
 .rust-sandbox__editor-heading .rust-sandbox__actions :is(button,a) { padding:6px 10px; font-size:13px; text-decoration:none; }
+.rust-sandbox__workspace > .rust-editor { border-top:0; }
+.rust-sandbox__error { margin:0; padding:10px 12px; border:1px solid var(--line); border-top:0; color:var(--ink); background:var(--panel); }
+.rust-sandbox__error button { margin-left:8px; padding:5px 8px; font-size:13px; }
+.rust-sandbox__terminal-shell { position:relative; flex-shrink:0; }
+.rust-sandbox__terminal-resizer { position:absolute; z-index:3; top:-5px; left:0; right:0; height:10px; cursor:row-resize; touch-action:none; }
+.rust-sandbox__terminal-resizer::after { content:""; position:absolute; top:4px; left:calc(50% - 18px); width:36px; height:2px; background:var(--muted); }
+.rust-sandbox__terminal-resizer:hover::after, .rust-sandbox__terminal-resizer:focus-visible::after { left:0; width:100%; background:var(--blue); }
+.rust-sandbox__terminal-resizer:focus-visible { outline:none; }
+.rust-sandbox__terminal { border:1px solid var(--line); border-top:0; background:var(--panel); color:var(--ink); }
+.rust-sandbox__terminal-heading { display:grid; grid-template-columns:8px auto minmax(0,1fr); align-items:center; gap:10px; min-height:42px; padding:0 12px; list-style:none; cursor:pointer; background:var(--panel); font:600 12px/1.4 "SFMono-Regular",Consolas,monospace; }
+.rust-sandbox__terminal-heading::-webkit-details-marker { display:none; }
+.rust-sandbox__terminal-heading::before { width:6px; height:6px; border-right:1px solid var(--subtle); border-bottom:1px solid var(--subtle); content:""; transform:rotate(-45deg); transition:transform 140ms ease; }
+.rust-sandbox__terminal[open] .rust-sandbox__terminal-heading::before { transform:rotate(45deg); }
+.rust-sandbox__terminal-heading:hover { background:var(--line); }
+.rust-sandbox__terminal-heading:focus-visible { outline:2px solid var(--blue); outline-offset:-3px; }
+.rust-sandbox__terminal-heading .rust-sandbox__status { justify-content:flex-end; min-width:0; color:var(--muted); font:400 12px/1.4 ui-sans-serif,system-ui,sans-serif; text-align:right; }
+.rust-sandbox__terminal-body { border-top:1px solid var(--line); background:var(--panel); }
+.rust-sandbox__terminal .json-output { min-height:96px; height:var(--terminal-height, auto); max-height:60dvh; margin:0; border:0; color:var(--ink); background:var(--panel); white-space:pre; overflow:auto; }
+@media (max-width:680px) {
+ .rust-sandbox__header-key { order:3; grid-template-columns:1fr; flex-basis:100%; gap:6px; margin-left:0; }
+ .rust-sandbox__header-key input { width:100%; }
+ .rust-sandbox__editor-heading .rust-sandbox__actions { margin-left:auto; }
+ .rust-sandbox__terminal-heading { grid-template-columns:8px minmax(0,1fr); gap:6px 10px; padding:8px 12px; }
+ .rust-sandbox__terminal-heading .rust-sandbox__status { grid-column:2; justify-content:flex-start; text-align:left; }
+}

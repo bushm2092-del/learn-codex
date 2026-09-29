@@ -13,7 +13,7 @@ export function ChapterTags({ chapter, status, available = true }: { chapter: st
     return () => window.removeEventListener("learn-view-recorded", update);
   }, [reload]);
   return <span className="chapter-tags">
-    <span>{status === "ready" ? copy.home.ready : status === "draft" ? copy.home.draft : copy.home.planned}</span>
+    <span className="chapter-status" data-status={status}>{status === "ready" ? copy.home.ready : status === "draft" ? copy.home.draft : copy.home.planned}</span>
     {data && !error && <span>{locale === "zh" ? `阅读 ${data.pv.toLocaleString()} 次` : `${data.pv.toLocaleString()} views`}</span>}
   </span>;
 }

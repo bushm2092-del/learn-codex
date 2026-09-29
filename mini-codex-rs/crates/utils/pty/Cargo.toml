@@ -1,0 +1,11 @@
+[package]
+name = "mini-codex-utils-pty"
+edition.workspace = true
+license.workspace = true
+version.workspace = true
+
+[dependencies]
+portable-pty.workspace = true
+
+[dev-dependencies]
+pretty_assertions.workspace = true

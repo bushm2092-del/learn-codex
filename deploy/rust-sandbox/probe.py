@@ -48,7 +48,13 @@ fn main(){
     ('memory', 'fn main(){let mut v=Vec::new();loop{v.push(vec![42u8;16*1024*1024]);std::hint::black_box(&v);}}', 'failed', ''),
     ('timeout', 'fn main(){loop{std::hint::black_box(1);}}', 'failed', ''),
     ('relay', '''use std::io::{Read,Write};use std::os::unix::net::UnixStream;
-fn main(){let mut s=UnixStream::connect("/relay/http.sock").unwrap();s.write_all(b"POST /chat/completions HTTP/1.1\\r\\nHost: api.deepseek.com\\r\\nContent-Length: 2\\r\\nConnection: close\\r\\n\\r\\n{}").unwrap();let mut b=String::new();s.read_to_string(&mut b).unwrap();assert!(b.contains("401"));println!("relay-ok");}''', 'succeeded', 'relay-ok'),
+fn main(){let mut s=UnixStream::connect("/relay/http.sock").unwrap();s.write_all(b"POST /responses HTTP/1.1\\r\\nHost: api.deepseek.com\\r\\nContent-Length: 2\\r\\nConnection: close\\r\\n\\r\\n{}").unwrap();let mut b=String::new();s.read_to_string(&mut b).unwrap();assert!(b.contains("401"));println!("relay-ok");}''', 'succeeded', 'relay-ok'),
+    ('relay-budget', '''use std::io::{Read,Write};use std::os::unix::net::UnixStream;
+fn send()->String{let mut s=UnixStream::connect("/relay/http.sock").unwrap();s.write_all(b"POST /responses HTTP/1.1\\r\\nHost: api.deepseek.com\\r\\nContent-Length: 2\\r\\nConnection: close\\r\\n\\r\\n{}").unwrap();let mut b=String::new();s.read_to_string(&mut b).unwrap();b}
+fn main(){for _ in 0..3{assert!(send().contains("401"));}assert!(send().contains("429"));println!("relay-budget-ok");}''', 'succeeded', 'relay-budget-ok'),
+    ('bridge-budget', '''use serde_json::json;
+#[tokio::main(flavor="current_thread")]
+async fn main(){let c=reqwest::Client::new();for expected in [401,401,401,429]{let r=c.post("https://api.deepseek.com/responses").bearer_auth(std::env::var("DEEPSEEK_API_KEY").unwrap()).json(&json!({"model":"deepseek-flash","input":"probe","stream":false,"max_output_tokens":1})).send().await.unwrap();assert_eq!(r.status().as_u16(),expected);}println!("bridge-budget-ok");}''', 'succeeded', 'bridge-budget-ok'),
 ]
 
 for name, source, expected, text in cases:

@@ -21,7 +21,7 @@ fixture = r'''
         let mut reader = std::io::BufReader::new(&socket);
         let mut line = String::new();
         reader.read_line(&mut line).unwrap();
-        assert!(line.starts_with("POST /chat/completions HTTP/1.1"));
+        assert!(line.starts_with("POST /responses HTTP/1.1"));
         let mut length = 0;
         loop {
             line.clear(); reader.read_line(&mut line).unwrap();
@@ -33,11 +33,11 @@ fixture = r'''
         let mut body = vec![0; length]; reader.read_exact(&mut body).unwrap();
         let body: Value = serde_json::from_slice(&body).unwrap();
         assert_eq!(body["model"], "deepseek-flash");
-        assert_eq!(body["messages"][0]["content"], "你是谁");
-        assert_eq!(body["messages"][1]["role"], "assistant");
-        assert_eq!(body["messages"][1]["content"], "我是deepseek");
-        assert_eq!(body["messages"][2]["content"], "我的上一句话是什么？");
-        let body = r#"{"choices":[{"message":{"content":"rust-http-json-ok"}}]}"#;
+        assert_eq!(body["input"][0]["content"], "你是谁");
+        assert_eq!(body["input"][1]["role"], "assistant");
+        assert_eq!(body["input"][1]["content"], "我是deepseek");
+        assert_eq!(body["input"][2]["content"], "我的上一句话是什么？");
+        let body = r#"{"object":"response","output":[{"type":"message","content":[{"type":"output_text","text":"rust-http-json-ok"}]}]}"#;
         write!(socket, "HTTP/1.1 STATUS\r\nContent-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{}", body.len(), body).unwrap();
     });
 '''
@@ -71,7 +71,7 @@ for status, success, expected in [('200 OK', True, 'rust-http-json-ok'), ('401 U
     run('reqwest-' + status.split()[0], source, success, expected)
 run('compile-error', 'fn main() { this is not Rust; }', False, 'error')
 run('proxy-host-denied', example.replace('api.deepseek.com', 'example.com'), False, 'TunnelUnsuccessful')
-run('proxy-path-denied', example.replace('/chat/completions', '/forbidden'), False, '403')
+run('proxy-path-denied', example.replace('/responses', '/forbidden'), False, '403')
 run('isolation', '''fn main() {
 assert!(std::fs::write("/etc/sandbox-test", "x").is_err());
 assert!(std::fs::metadata("/var/run/docker.sock").is_err());
