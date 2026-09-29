@@ -7,5 +7,6 @@ dist-offline/
 node_modules/
 mini-codex-tui/dist/
 frontends/teach/dist/
+frontends/teach/public/source/
 *.tsbuildinfo
 .agents/skills/impeccable/scripts/bin/

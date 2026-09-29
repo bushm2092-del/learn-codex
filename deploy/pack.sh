@@ -16,6 +16,8 @@ trap 'rm -rf -- "$stage"' EXIT
 bundle="$stage/learn-codex-$tag"
 mkdir "$bundle"
 docker buildx build --platform "$platform" --load -t "learn-codex-api:$tag" "$repo/backend"
+# 镜像构建上下文没有 .git，源码快照必须在宿主机上按本地 lesson/* 分支预先生成。
+node "$repo/frontends/teach/scripts/source-snapshots.mjs"
 docker buildx build --platform "$platform" --load -t "learn-codex-frontend:$tag" "$repo/frontends/teach"
 docker pull --platform "$platform" postgres:17-alpine
 docker tag postgres:17-alpine "learn-codex-postgres:$tag"

@@ -43,6 +43,21 @@ pnpm build
 
 UI 职责：`DropdownMenu.tsx` 封装 Radix 菜单和主题样式，不依赖 i18n；`LanguageMenu.tsx` 绑定语言选项；`AppShell.tsx` 只组装布局。语言持久化由 `i18n/LocaleProvider.tsx` 负责。
 
+## 源码快照
+
+章节可展示对应版本的 `mini-codex-rs` 源码。每章一个分支 `lesson/<章节 id>`（章节 id 与 `course/catalog.ts` 一致），例如 `lesson/function-call-source`；章节发布后的修正直接提交到该分支，并按需同步到后续章节。
+
+执行 `pnpm snapshots` 会从本地所有 `lesson/*` 分支导出被 git 跟踪的源码，生成到 `public/source/`（不进 git）。快照取决于执行构建的机器上这些分支的状态，远程分支不会被读取；换机器构建前需先在本地建好或拉取对应分支。
+
+```text
+public/source/
+├── index.json               # 已有快照：lesson、branch、commit
+├── snapshots/<lesson>.json  # 文件树：相对 mini-codex-rs 的路径、blob sha、字节数
+└── blobs/<blob-sha>.txt     # 文件内容，按 blob sha 去重
+```
+
+二进制文件和超过 512 KB 的文件只保留在文件树中，`blob` 为 `null` 并用 `skipped` 说明原因。仓库根目录的 `make teach-dev`、`make teach-build` 与 `make offline-pack` 会先生成快照；直接执行 `pnpm dev` 或 `pnpm build` 不会刷新，分支更新后需手动执行 `pnpm snapshots`。Docker 构建上下文没有 `.git`，镜像内的 `pnpm build` 使用构建前已生成的 `public/source/`。
+
 ## 章节安排
 
 01. Agent Loop · 执行循环：输入、模型响应、工具执行与下一轮循环。

@@ -1,7 +1,7 @@
 # 前后端离线部署
 
 本包包含 React 静态站点 + Nginx、Go API（兼任迁移入口）、PostgreSQL 17 的完整镜像。
-构建机需要联网、Docker Buildx；目标服务器只需 Docker Engine 28+ 和支持 `--wait` 的 Compose v2+、Bash、tar、sha256sum。目标机无需 Node、Go、源码或镜像仓库。GitHub 登录本身仍需服务器能访问 GitHub，这不属于部署依赖。
+构建机需要联网、Docker Buildx、Node 22+，以及教学站源码快照依赖的本地 `lesson/*` 分支；目标服务器只需 Docker Engine 28+ 和支持 `--wait` 的 Compose v2+、Bash、tar、sha256sum。目标机无需 Node、Go、源码或镜像仓库。GitHub 登录本身仍需服务器能访问 GitHub，这不属于部署依赖。
 
 ## 本地打包
 
@@ -15,7 +15,7 @@ make offline-pack VERSION=v1
 
 产物：`dist-offline/learn-codex-v1-amd64.tar.gz` 及其 `.sha256` 校验文件。
 包内不含 .env、生产凭据或数据库数据；`release.env` 只有镜像版本和架构。
-构建使用当前工作区（包含未提交代码），正式发布前请确认版本与工作区。每次使用新版本号，脚本拒绝覆盖已有包。
+构建使用当前工作区（包含未提交代码），正式发布前请确认版本与工作区。章节源码快照例外：它只读取本地 `lesson/*` 分支上已提交的内容，打包前会自动重新生成。每次使用新版本号，脚本拒绝覆盖已有包。
 
 ## 上传与首次启动
 

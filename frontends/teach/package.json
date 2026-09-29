@@ -10,7 +10,8 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "check": "tsc -b --pretty false",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "snapshots": "node scripts/source-snapshots.mjs"
   },
   "dependencies": {
     "@codemirror/lang-rust": "^6.0.2",

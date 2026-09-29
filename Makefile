@@ -37,10 +37,10 @@ install:
 	cd mini-codex-tui && pnpm install
 
 teach-dev:
-	cd frontends/teach && pnpm dev
+	cd frontends/teach && pnpm snapshots && pnpm dev
 
 teach-build:
-	cd frontends/teach && pnpm check && pnpm build
+	cd frontends/teach && pnpm snapshots && pnpm check && pnpm build
 
 rust-fmt:
 	cd mini-codex-rs && cargo fmt --all -- --check
