@@ -1,0 +1,118 @@
+frontends/teach/README.md
+  ef95a437a859cdf5 46-60
+deploy/README.md
+  ef95a437a859cdf5 4,18
+frontends/teach/package.json
+  ef95a437a859cdf5 13-14
+.gitignore
+  ef95a437a859cdf5 10
+Makefile
+  ef95a437a859cdf5 40,43
+frontends/teach/scripts/source-snapshots.mjs
+  ef95a437a859cdf5 1-82
+frontends/teach/tests/sourceSnapshots.test.mjs
+  ef95a437a859cdf5 1-80
+deploy/pack.sh
+  ef95a437a859cdf5 19-20
+frontends/teach/nginx.conf
+  ef95a437a859cdf5 24-33
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.20",
+  "base_commit_sha": "5ca60545dc3b90dd8b4285b70e2e276e032ad22e",
+  "prompts": {
+    "ef95a437a859cdf5": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "f5dc41b6-63a2-478a-b313-eecf9de80e0c",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "hufenghong <19103376390@163.com>",
+      "messages": [],
+      "total_additions": 257,
+      "total_deletions": 66,
+      "accepted_lines": 196,
+      "overriden_lines": 0
+    }
+  },
+  "commit_stats": {
+    "git_diff_added_lines": 196,
+    "git_diff_deleted_lines": 5,
+    "ai_additions": 196,
+    "ai_accepted": 196,
+    "BYMC": 0,
+    "mixed_additions": 0,
+    "BYAC": 196,
+    "BYRC": 0,
+    "per_file": {
+      ".gitignore": {
+        "BYMC": [],
+        "BYAC": [
+          "10"
+        ],
+        "BYRC": []
+      },
+      "Makefile": {
+        "BYMC": [],
+        "BYAC": [
+          "40",
+          "43"
+        ],
+        "BYRC": []
+      },
+      "deploy/README.md": {
+        "BYMC": [],
+        "BYAC": [
+          "4",
+          "18"
+        ],
+        "BYRC": []
+      },
+      "deploy/pack.sh": {
+        "BYMC": [],
+        "BYAC": [
+          "19-20"
+        ],
+        "BYRC": []
+      },
+      "frontends/teach/README.md": {
+        "BYMC": [],
+        "BYAC": [
+          "46-60"
+        ],
+        "BYRC": []
+      },
+      "frontends/teach/nginx.conf": {
+        "BYMC": [],
+        "BYAC": [
+          "24-33"
+        ],
+        "BYRC": []
+      },
+      "frontends/teach/package.json": {
+        "BYMC": [],
+        "BYAC": [
+          "13-14"
+        ],
+        "BYRC": []
+      },
+      "frontends/teach/scripts/source-snapshots.mjs": {
+        "BYMC": [],
+        "BYAC": [
+          "1-82"
+        ],
+        "BYRC": []
+      },
+      "frontends/teach/tests/sourceSnapshots.test.mjs": {
+        "BYMC": [],
+        "BYAC": [
+          "1-80"
+        ],
+        "BYRC": []
+      }
+    }
+  },
+  "commit_timestamp": 1790672046,
+  "requirement_id": ""
+}
