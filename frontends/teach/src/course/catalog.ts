@@ -51,12 +51,13 @@ export const lessons: readonly LessonDefinition[] = [
     "available": true,
     "order": 4,
     "path": "/lessons/function-call-source",
-    "title": { "zh": "实现源码级别的 Codex Function Calling ", "en": "Codex Function Calling · Source Walkthrough" },
+    "title": { "zh": "实现源码级别的 Codex Function Calling", "en": "Codex Function Calling · Source Walkthrough" },
     "description": { "zh": "实现 Codex Function Calling 的源码，理解其工作原理。", "en": "Implement the source code of Codex Function Calling and understand its working principle." },
-    "status": "draft"
+    "status": "ready"
   },
   {
     "id": "context",
+    "available": true,
     "order": 5,
     "path": "/lessons/context",
     "title": {
@@ -67,7 +68,7 @@ export const lessons: readonly LessonDefinition[] = [
       "zh": "上下文组成、历史消息、窗口限制与压缩机制。",
       "en": "Context composition, message history, window limits, and compaction."
     },
-    "status": "planned"
+    "status": "draft"
   },
   {
     "id": "session-storage",

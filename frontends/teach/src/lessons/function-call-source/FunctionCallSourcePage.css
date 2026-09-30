@@ -1,2 +1,9 @@
 .source-walkthrough code { overflow-wrap: anywhere; }
+.source-walkthrough__tags { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+.source-walkthrough__tags .lesson-status-badge { display: inline-flex; align-items: center; min-height: 30px; font-size: 13px; }
+.source-walkthrough__debug { display: inline-flex; align-items: center; flex-wrap: wrap; gap: 6px; min-height: 30px; max-width: 100%; padding: 5px 11px; border: 1px solid var(--line); border-radius: 999px; color: var(--ink); background: var(--canvas); font-size: 13px; line-height: 1.4; text-decoration: none; }
+.source-walkthrough__debug:hover { border-color: var(--subtle); background: var(--panel); }
+.source-walkthrough__debug:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+.source-walkthrough__debug-platform { color: var(--muted); }
+.source-walkthrough__debug svg { width: 14px; height: 14px; flex-shrink: 0; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
 .lesson-article__back { margin-top: 28px; }

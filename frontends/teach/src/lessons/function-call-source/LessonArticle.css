@@ -4,6 +4,7 @@
 .lesson-article h3 { margin: 32px 0 10px; font-size: 18px; }
 .lesson-article h4 { margin: 26px 0 8px; font-size: 16px; }
 .lesson-article h5 { margin: 20px 0 8px; font-size: 15px; }
+.lesson-heading + .lesson-article > :first-child { margin-top: 16px; }
 .lesson-article p { margin: 10px 0; }
 .lesson-article ul { margin: 10px 0 14px; padding-left: 1.25em; }
 .lesson-article li + li { margin-top: 6px; }

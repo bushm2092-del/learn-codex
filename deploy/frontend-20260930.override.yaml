@@ -1,0 +1,3 @@
+services:
+  frontend:
+    image: learn-codex-frontend:s04-ready-s05-draft-20260930

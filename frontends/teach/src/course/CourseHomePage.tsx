@@ -8,6 +8,9 @@ import { useLocale } from "../i18n/useLocale";
 import { DirectoryComparison } from "../ui/DirectoryComparison";
 import { sourceComparison } from "./sourceComparison";
 import { ChapterTags } from "../community/ChapterTags";
+import { ImageZoom } from "../ui/ImageZoom";
+import resultImage from "./assets/mini-codex-preview.png";
+import "./CourseHomePage.css";
 
 gsap.registerPlugin(useGSAP);
 
@@ -43,7 +46,8 @@ export function CourseHomePage() {
 
   return (
     <main className="course-home" ref={pageRef}>
-      <section className="course-hero" aria-labelledby="course-title">
+      <section className="course-hero course-hero--preview" aria-labelledby="course-title">
+        <div className="course-hero__copy">
         <h1 id="course-title" data-home-reveal>Learn Codex</h1>
         <p className="course-hero__note" data-home-reveal>
           {copy.home.note}
@@ -51,6 +55,12 @@ export function CourseHomePage() {
         <Link className="primary-action" to="/lessons/agent-loop" data-home-reveal>
           {copy.home.start} <span aria-hidden="true">→</span>
         </Link>
+        </div>
+        <figure className="course-result__figure" data-home-reveal>
+          <ImageZoom src={resultImage} alt={copy.home.resultAlt} width={1536} height={1024}
+            zoomLabel={copy.home.resultZoom} zoomHint={copy.home.resultZoomHint} closeLabel={copy.home.resultClose} />
+          <figcaption><span>{copy.home.resultTitle}</span><span>{copy.home.resultCaption}</span></figcaption>
+        </figure>
       </section>
 
       <section className="core-pattern" id="core-pattern" aria-labelledby="source-approach-title" data-home-reveal>

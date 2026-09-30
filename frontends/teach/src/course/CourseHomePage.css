@@ -1,0 +1,9 @@
+.course-home .course-hero--preview { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); gap: 48px; width: min(1200px, calc(100% - 64px)); margin: 0 auto; padding: 64px 0 32px; text-align: left; }
+.course-hero__copy { min-width: 0; }
+.course-hero--preview .course-hero__note { max-width: 30ch; line-height: 1.65; }
+.course-result__figure { min-width: 0; margin: 0; }
+.course-result__figure .ui-image-zoom__trigger img { border: 0; }
+.course-result__figure figcaption { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 7px 16px; margin-top: 10px; color: var(--muted); font-size: 13px; line-height: 1.6; }
+.course-result__figure figcaption > :first-child { color: var(--ink); }
+@media (max-width: 900px) { .course-home .course-hero--preview { grid-template-columns: 1fr; gap: 32px; max-width: 674px; text-align: center; } .course-hero--preview .course-hero__note { margin-inline: auto; max-width: 42ch; } }
+@media (max-width: 680px) { .course-home .course-hero--preview { width: calc(100% - 32px); padding: 40px 0 24px; } .course-result__figure figcaption { justify-content: center; } }

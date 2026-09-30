@@ -1,5 +1,7 @@
 export const functionCallSource = {
   zh: {
+    debugSource: "建议亲自调试一次源码",
+    opensNewTab: "（在新标签页打开）",
     overview: "上一章用一个 while 循环实现工具闭环。这一章沿着Codex的源码，实现一个和 Codex 一样的工具调用，不开玩笑，实现版本绝对和Codex源码保真，每行代码都能在Codex源码中找到出处。",
     version: "源码基准：本地 Codex 检出版本 53446f90a5。下列路径均相对于 codex-rs/；本文先聚焦普通 function_call 路径，不把 code mode、MCP 和其他调用分支混在一起。",
     title: "先抓住一条主线",
@@ -19,6 +21,8 @@ export const functionCallSource = {
     back: "回顾上一章：Function Calling · 工具调用",
   },
   en: {
+    debugSource: "Try debugging the source yourself",
+    opensNewTab: " (opens in a new tab)",
     overview: "The previous chapter implemented the tool loop with a while loop. This chapter locates the corresponding responsibilities in real Codex modules.",
     version: "Source baseline: local Codex checkout 53446f90a5. Paths are relative to codex-rs/. This draft focuses on ordinary function_call items, keeping code mode, MCP, and other branches separate.",
     title: "Follow one execution path",

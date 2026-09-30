@@ -1,6 +1,6 @@
 # 实现源码级别的 Codex Function Calling
 
-草稿**查看源码**
+正式**查看源码**
 
 实现 Codex Function Calling 的源码，理解其工作原理。
 
@@ -46,8 +46,6 @@ LLM 一次可能返回好几个工具调用，互不影响的调用应该同时�
 
 参数写错、命令执行失败这类错误，要作为结果回传给 LLM，让它调整后重试，对话继续进行。只有程序自身出了故障，才终止这一轮。
 
----
-
 ## 基于上诉需求codex是怎么设计这个系统的
 
 ### 1. 总体分层
@@ -78,7 +76,7 @@ pub enum ToolSpec {
     ToolSearch {
         execution: String,   // 执行方，mini-codex 固定为 "client"
         description: String, // 搜索工具的说明
-        parameters: Value,   // 搜索参数的 JSON Schema
+        parameters: Value,   // 描述搜索参数结构的 JSON 模式
     },
 }
 
@@ -107,10 +105,10 @@ pub struct ResponsesApiTool {
     // 是否延迟加载；这个工具不必一开始就把完整定义放进模型上下文，等模型通过 tool_search 搜到它时再加载。
     #[serde(skip_serializing_if = "Option::is_none")]
     pub defer_loading: Option<bool>,
-    pub parameters: serde_json::Value, // 参数的 JSON Schema
-    /// 宿主元数据，不进入模型请求；延迟发现的规格会移除此字段。
+    pub parameters: serde_json::Value, // 描述参数结构的 JSON 模式
+    // 工具执行结果类型，不发送给模型，程序自己用的
     #[serde(skip)]
-    pub output_schema: Option<serde_json::Value>, // 工具执行结果类型，不发送给模型，程序自己用的
+    pub output_schema: Option<serde_json::Value>,
 }
 
 // 把多个函数工具归到一个命名空间下
@@ -130,19 +128,14 @@ pub enum ResponsesApiNamespaceTool {
 }
 ```
 
-两个 serde 标注决定了哪些字段会出现在请求里：
-
-- `defer_loading` 上的 `skip_serializing_if = "Option::is_none"`：值为 `None` 时整个字段不输出，只有按需加载的工具才会带上 `"defer_loading": true`。
-- `output_schema` 上的 `#[serde(skip)]`：永远不输出。它描述工具的输出结构，只供宿主使用，LLM 不需要看到。
-
-**例子：codex中的**`exec_command` **就是执行cmd命令的工具**
+**例子：codex中的**`exec_command` **就是执行bash的工具**
 
 `exec_command` 的说明在 `crates/core/src/tools/handlers/shell_spec.rs` 的 `create_exec_command_tool` 中构造
 
 ```rust
 ToolSpec::Function(ResponsesApiTool {
     name: "exec_command".to_string(),
-    description: "Runs a command in a PTY, returning output or a session ID for ongoing interaction."
+    description: "在伪终端（PTY）中运行命令，返回输出或供后续交互使用的会话 ID。"
         .to_string(),
     strict: false,
     defer_loading: None,
@@ -151,9 +144,9 @@ ToolSpec::Function(ResponsesApiTool {
         "type": "object",
         "properties": {
             // 要执行的 shell 命令
-            "cmd": { "type": "string", "description": "Shell command to execute." },
+            "cmd": { "type": "string", "description": "要执行的 shell 命令。" },
             // 命令的工作目录，默认为当前轮次的工作目录
-            "workdir": { "type": "string", "description": "Working directory for the command. Defaults to the turn cwd." },
+            "workdir": { "type": "string", "description": "命令的工作目录，默认为当前轮次的工作目录。" },
             // ...
         },
         "required": ["cmd"],
@@ -163,30 +156,30 @@ ToolSpec::Function(ResponsesApiTool {
 })
 ```
 
-它在请求的 `tools` 中是这样的（`description` 保留实际发送的英文原文，注释为中文翻译）：
+它在请求的 `tools` 中是这样的（示例中的工具说明和错误文案已翻译成中文，字段名与代码标识符保持源码原样）：
 
 ```jsonc
 {
   "type": "function",
   "name": "exec_command",
   // 在 PTY 中运行命令，返回输出；命令仍在运行时返回会话 ID，供后续交互
-  "description": "Runs a command in a PTY, returning output or a session ID for ongoing interaction.",
+  "description": "在伪终端（PTY）中运行命令，返回输出或供后续交互使用的会话 ID。",
   "strict": false,
   "parameters": {
     "type": "object",
     "properties": {
       // 要执行的 shell 命令
-      "cmd": { "type": "string", "description": "Shell command to execute." },
+      "cmd": { "type": "string", "description": "要执行的 shell 命令。" },
       // 命令的工作目录，默认为当前轮次的工作目录
-      "workdir": { "type": "string", "description": "Working directory for the command. Defaults to the turn cwd." },
+      "workdir": { "type": "string", "description": "命令的工作目录，默认为当前轮次的工作目录。" },
       // 要启动的 shell 程序，默认为用户的默认 shell
-      "shell": { "type": "string", "description": "Shell binary to launch. Defaults to the user's default shell." },
+      "shell": { "type": "string", "description": "要启动的 shell 程序，默认为用户的默认 shell。" },
       // 为 true 时为命令分配 PTY；为 false 或不传时使用普通管道
-      "tty": { "type": "boolean", "description": "True allocates a PTY for the command; false or omitted uses plain pipes." },
+      "tty": { "type": "boolean", "description": "为 true 时为命令分配伪终端（PTY）；为 false 或不传时使用普通管道。" },
       // 等待多久后返回输出，默认 10000 毫秒，有效范围 250–30000 毫秒
-      "yield_time_ms": { "type": "number", "description": "Wait before yielding output. Defaults to 10000 ms; effective range is 250-30000 ms." },
+      "yield_time_ms": { "type": "number", "description": "等待多久后返回输出，默认 10000 毫秒，有效范围为 250–30000 毫秒。" },
       // 输出的 token 上限，默认 10000；更大的值可能被策略限制
-      "max_output_tokens": { "type": "number", "description": "Output token budget. Defaults to 10000 tokens; larger requests may be capped by policy." }
+      "max_output_tokens": { "type": "number", "description": "输出的 token 上限，默认 10000；更大的值可能受策略限制。" }
     },
     "required": ["cmd"],
     "additionalProperties": false
@@ -194,26 +187,27 @@ ToolSpec::Function(ResponsesApiTool {
 }
 ```
 
-**例子：命名空间最终发送给模型的结构：GitHub 工具组**
+**命名空间类型tools**
 
+最终发送给模型的结构：
 下面是一个示意例子 github 的一组工具
 
 ```jsonc
 {
   "type": "namespace",
   "name": "github",
-  "description": "查询 GitHub 仓库、issue 和 pull request 的工具",
+  "description": "查询 GitHub 仓库、议题和拉取请求的工具",
   "tools": [
     {
       "type": "function",
       "name": "get_issue",
-      "description": "按仓库和编号获取一个 issue",
+      "description": "按仓库和编号获取一个议题",
       "strict": false,
       "parameters": {
         "type": "object",
         "properties": {
           "repo": { "type": "string", "description": "仓库，格式为 owner/name" },
-          "number": { "type": "number", "description": "issue 编号" }
+          "number": { "type": "number", "description": "议题编号" }
         },
         "required": ["repo", "number"],
         "additionalProperties": false
@@ -222,7 +216,7 @@ ToolSpec::Function(ResponsesApiTool {
     {
       "type": "function",
       "name": "list_pull_requests",
-      "description": "列出仓库的 pull request",
+      "description": "列出仓库的拉取请求",
       "strict": false,
       "defer_loading": true, // 延迟加载：需要时通过工具搜索加载
       "parameters": {
@@ -317,9 +311,7 @@ pub trait ToolExecutor<Invocation>: Send + Sync {
 
 实现一个工具需要`tool_name`、`spec`、`handle` 三个方法，其余方法都有默认值。
 
-泛型参数 `Invocation` 让这一层不必知道“会话”是什么：执行时需要的会话等对象，由第二层把 `Invocation` 填成具体类型后提供。`handle` 返回的是装箱的异步结果，因此不同工具可以返回不同的 `ToolOutput` 实现，都能放进同一个注册表里统一调用。
-
-**例子：`exec_command` 的实现**（`crates/core/src/tools/handlers/unified_exec/exec_command.rs`）
+**例子：`exec_command` 的实现**`crates/core/src/tools/handlers/unified_exec/exec_command.rs`
 
 ```rust
 impl ToolExecutor<ToolInvocation> for ExecCommandHandler {
@@ -409,7 +401,7 @@ pub enum FunctionCallError {
     #[error("{0}")]
     RespondToModel(String),
     // 宿主自身故障，终止这一轮
-    #[error("Fatal error: {0}")]
+    #[error("致命错误：{0}")]
     Fatal(String),
 }
 ```
@@ -421,12 +413,13 @@ pub enum FunctionCallError {
   {
     "type": "function_call_output",
     "call_id": "call_abc123",
-    "output": "failed to parse function arguments: key must be a string at line 1 column 2"
+    "output": "解析函数参数失败：第 1 行第 2 列的键必须是字符串"
   }
   ```
   LLM 看到错误后可以修正参数重新调用。
 
 #### 第二层：具体实现 `crates/core/src/tools/`
+前面类型定义都OK了，现在就是具体实现层
 
 各文件职责：
 
@@ -484,7 +477,7 @@ impl ToolRegistry {
             self.tools
                 .insert(tool_name.clone(), RegisteredTool { runtime, exposure })
                 .is_none(),
-            "tool {tool_name} already registered"
+            "工具 {tool_name} 已注册"
         );
     }
 
@@ -539,7 +532,7 @@ impl ToolRouter {
 }
 ```
 
-`ToolRouter` 由 `spec_plan.rs` 的 `finalize_tool_router` 创建，工具列表也在这里算好：
+`ToolRouter` 由 `crates/core/src/tools/spec_plan.rs` 的 `finalize_tool_router` 创建，工具列表也在这里算好：
 
 ```rust
 pub(crate) fn finalize_tool_router(
@@ -585,7 +578,25 @@ fn build_model_visible_specs(
 }
 ```
 
-工具列表只在创建 `ToolRouter` 时计算一次，保存在 `Arc<[ToolSpec]>` 里。之后每次请求 LLM，`turn.rs` 都直接取用：
+**`finalize_tool_router` 在哪里调用？**
+
+在当前 mini-codex 中，它由 `crates/core/src/thread_manager.rs` 的 `ThreadManager::new()` 调用。初始化时先创建 `ToolRegistry`，根据配置注册 `ExecCommandHandler` 和配套的 `WriteStdinHandler`（关闭交互执行时只注册一次性执行的 `ExecCommandHandler`），再取出模型能力，调用 `finalize_tool_router`：
+
+```rust
+// crates/core/src/thread_manager.rs（节选）
+let tool_router = crate::tools::spec_plan::finalize_tool_router(
+    model_info, // 模型能力
+    &mini_codex_model_provider::ProviderCapabilities {
+        namespace_tools: false, // 当前 DeepSeek 服务商不假定支持命名空间
+    },
+    tool_registry, // 前面已注册好执行实现的工具注册表
+    &crate::tools::handlers::tool_search::ToolSearchHandlerCache::default(),
+);
+```
+
+`finalize` 表示完成最后组装：按模型和服务商能力决定是否注册 `tool_search`，生成模型可见的工具定义，再将定义和注册表一起放进 `ToolRouter`。返回的路由器以 `Arc<ToolRouter>` 保存在 `ThreadManager` 中，随后供会话使用。
+
+工具列表只在创建 `ToolRouter` 时计算一次，保存在 `Arc<[ToolSpec]>` 里。之后每次请求 LLM，`crates/core/src/session/turn.rs` 都直接取用：
 
 ```rust
 // crates/core/src/session/turn.rs（节选）
@@ -627,7 +638,7 @@ impl ToolRouter {
                 // 搜索参数解析失败时，把错误告诉 LLM
                 let arguments = serde_json::from_value(arguments).map_err(|err| {
                     FunctionCallError::RespondToModel(format!(
-                        "failed to parse tool_search arguments: {err}"
+                        "解析 tool_search 参数失败：{err}"
                     ))
                 })?;
                 Ok(Some(ToolCall {
@@ -783,7 +794,7 @@ impl ToolRegistry {
     ) -> Result<AnyToolResult, FunctionCallError> {
         // 按工具名查找实现；找不到时把错误告诉 LLM
         let tool = self.tool(&invocation.tool_name).ok_or_else(|| {
-            FunctionCallError::RespondToModel(format!("unsupported call: {}", invocation.tool_name))
+            FunctionCallError::RespondToModel(format!("不支持的工具调用：{}", invocation.tool_name))
         })?;
         // handle 会拿走 invocation，先把 call_id 和 payload 复制出来
         let call_id = invocation.call_id.clone();
@@ -802,13 +813,13 @@ impl ToolRegistry {
 
 **例子：LLM 调用了不存在的工具**
 
-如果 LLM 调用了一个没有注册的工具，比如 `read_file`，注册表找不到实现，返回 `RespondToModel("unsupported call: read_file")`。`ToolCallRuntime` 用 `failure_response` 把它转换成工具结果交给 LLM：
+如果 LLM 调用了一个没有注册的工具，比如 `read_file`，注册表找不到实现，返回 `RespondToModel("不支持的工具调用：read_file")`。`ToolCallRuntime` 用 `failure_response` 把它转换成工具结果交给 LLM：
 
 ```json
 {
   "type": "function_call_output",
   "call_id": "call_def456",
-  "output": "unsupported call: read_file"
+  "output": "不支持的工具调用：read_file"
 }
 ```
 
@@ -965,7 +976,7 @@ while let Some(event) = stream.next().await {
 
 ```rust
 while let Some(result) = in_flight.next().await {
-    let response = result.context("in-flight tool future failed during drain")?;
+    let response = result.context("收集正在执行的工具任务结果时失败")?;
     session.history.lock().await.record(ResponseItem::from(response));
 }
 ```
@@ -1003,8 +1014,3 @@ if !needs_follow_up {
 模型这次只返回文本，没有 `function_call`。`needs_follow_up` 保持 `false`，发出 `TurnCompleted`，这一轮结束。
 
 模型如果继续调用工具，`loop` 会再走一遍，直到某次响应里没有工具调用。
-
-#### 当前的执行边界
-
-`exec_command` 在会话工作目录里直接启动 shell。`crates/core/src/unified_exec/` 负责创建进程、等待输出、超时和截断输出。这一层没有 sandbox，执行前也不做审批，用户取消也不会接到正在运行的命令上。命令内容来自模型给出的 `cmd`。
-

@@ -1,6 +1,6 @@
 # Learn Codex
 
-首页课程卡和侧边章节目录通过 `ChapterTags` 展示正式／草稿状态与已开放章节的累计 PV（阅读次数）；UV 由后台统计但不展示为学习人数。统计失败不伪造为零。s02 模型协议为正式文章；s03 工具调用以可访问的草稿形式开放。
+首页课程卡和侧边章节目录通过 `ChapterTags` 展示正式／草稿状态与已开放章节的累计 PV（阅读次数）；UV 由后台统计但不展示为学习人数。统计失败不伪造为零。s01–s04 为正式文章；s05 上下文机制以草稿形式开放，介绍 Prompt、历史记录顺序及与真实 Codex 历史整理和压缩能力的边界。
 
 Dockerfile 构建静态前端，由 Nginx 提供 SPA 回退并将 /api/ 转发给后台。部署不使用 Vite preview；前后端离线包见 [部署说明](../../deploy/README.md)。
 
@@ -81,7 +81,7 @@ public/source/
 13. Self-Evolution · 自进化机制：待编写。
 14. Computer Use · 计算机操作：待编写。
 
-第一课包含手动复制流程演示，第二课已开放模型协议文章；第三课 Function Calling 已正式发布。第四课 `/lessons/function-call-source` 以草稿形式开放，讲解 tools 模块的需求，以及 `crates/tools/` 与 `crates/core/src/tools/` 的实现；正文中的 `crates/` 路径可打开本章源码预览。后续章节顺延。具体机制与支持范围在编写课程时对照 Codex 源码确认；目录不代表 mini-codex 已实现对应能力。旧 `/lessons/harness-overview` 地址重定向到 `/lessons/agent-loop`。
+第一课包含手动复制流程演示，第二课已开放模型协议文章；第三课 Function Calling 已正式发布。第四课 `/lessons/function-call-source` 已正式发布，讲解 tools 模块的需求，以及 `crates/tools/` 与 `crates/core/src/tools/` 的实现；正文中的 `crates/` 路径可打开本章源码预览。第五课 `/lessons/context` 以草稿开放，正文位于 `src/i18n/context.ts`，复用既有代码高亮与章节社区组件。后续章节顺延。具体机制与支持范围在编写课程时对照 Codex 源码确认；目录不代表 mini-codex 已实现对应能力。旧 `/lessons/harness-overview` 地址重定向到 `/lessons/agent-loop`。
 
 自动循环演示位于 `src/lessons/agent-loop/AutomatedLoopDemo.tsx`，`automatedTrace.ts` 保存四轮完整请求/响应与工具结果的独立快照。`CinematicLoopFilm.tsx` 在动画窗口中呈现请求、响应、工具执行和记录回传的简化 JSON，前后分镜平移缩放交接。按用户要求移除外围检查区和四节点流程图；历史在数据中完整保留，画面只展开最新结果，并明确标为简化字段示意。使用 DeepSeek Chat Completions 非思考模式的协议示意（官方参考：https://api-docs.deepseek.com/guides/tool_calls/），不是当前 Rust 客户端 `/responses` 请求的逐字复刻。工具使用项目已有 `exec_command` 职责，命令与结果均为静态模拟，不执行 shell、不访问文件、不发送 API 请求。此展示层协议差异不改变内核实现。
 
