@@ -1,6 +1,7 @@
 # Function Calling 发布记录 · 2026-09-29
 
-- 前端镜像：`learn-codex-frontend:function-call-20260929`（linux/amd64）。使用本次 `pnpm build` 产物叠加已在生产运行的 Nginx 镜像；旧静态资源保留，兼容尚未刷新的页面。
+- 前端镜像：`learn-codex-frontend:s04-article-20260929`（linux/amd64）。在 `function-call-20260929` 上叠加本次 `pnpm build` 产物和带 `/source/` 的 Nginx 配置；旧静态资源保留，兼容尚未刷新的页面。第四章正文为 tools 模块说明，`crates/` 路径可打开本章源码。
+- 上一版前端镜像 `learn-codex-frontend:function-call-20260929` 仍保留在服务器上。回退时把 `frontend.override.yaml` 的镜像改回该标签，再按下面的命令重建 frontend。
 - 第三章 `/lessons/function-call` 标记正式；第四章 `/lessons/function-call-source` 新增源码解析草稿，基于本地 Codex `53446f90a5`，目录后续序号顺延。
 - 发布目录：`/home/admin/learn-codex-releases/learn-codex-teach-copy-20260928-e2a5495`。
 - 在原 compose 文件及 `rust-sandbox.override.yaml` 基础上追加 `frontend.override.yaml`，只重建 frontend；API、数据库镜像和 worker 未替换。

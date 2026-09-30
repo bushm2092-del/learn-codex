@@ -39,7 +39,7 @@ hooks:
 
 install: hooks
 	cd frontends/teach && pnpm install
-	cd mini-codex-tui && pnpm install
+	cd frontends/tui && pnpm install
 
 teach-dev:
 	cd frontends/teach && pnpm snapshots && pnpm dev
@@ -63,10 +63,10 @@ app-server-build:
 	cd mini-codex-rs && cargo build -p mini-codex-app-server
 
 tui-install:
-	cd mini-codex-tui && pnpm install
+	cd frontends/tui && pnpm install
 
 tui: app-server-build tui-install
-	cd mini-codex-tui && pnpm dev "$(CURDIR)"
+	cd frontends/tui && pnpm dev "$(CURDIR)"
 
 tui-test: app-server-build
-	cd mini-codex-tui && pnpm check && pnpm build && pnpm test
+	cd frontends/tui && pnpm check && pnpm build && pnpm test

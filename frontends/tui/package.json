@@ -1,0 +1,30 @@
+{
+  "name": "mini-codex-tui",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "dev": "tsx src/main.tsx",
+    "start": "node dist/main.js",
+    "check": "tsc --noEmit",
+    "build": "tsc",
+    "test": "tsx --test tests/*.test.ts tests/*.test.tsx"
+  },
+  "dependencies": {
+    "chalk": "^5.6.2",
+    "ink": "7.1.1",
+    "marked": "^17.0.0",
+    "react": "^19.2.0",
+    "string-width": "^8.1.0",
+    "strip-ansi": "^7.1.2",
+    "wrap-ansi": "^9.0.2"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.2.0",
+    "ink-testing-library": "^4.0.0",
+    "tsx": "^4.20.0",
+    "typescript": "^5.9.3"
+  }
+}

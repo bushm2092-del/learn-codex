@@ -4,7 +4,7 @@ import { execFileSync } from "node:child_process";
 import { mkdtemp, mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { buildSourceSnapshots } from "../scripts/source-snapshots.mjs";
+import { buildSourceSnapshots, decodeScip } from "../scripts/source-snapshots.mjs";
 
 async function withRepo(run) {
   const dir = await mkdtemp(join(tmpdir(), "source-snapshots-"));
@@ -46,7 +46,7 @@ test("snapshots each local lesson branch and shares unchanged blobs", async () =
     const libV2 = git("rev-parse", "HEAD:mini-codex-rs/crates/core/src/lib.rs");
     await put("mini-codex-rs/crates/core/src/lib.rs", "uncommitted\n");
 
-    const result = await buildSourceSnapshots({ repoRoot: git("rev-parse", "--show-toplevel"), outDir: out, iconTheme: null });
+    const result = await buildSourceSnapshots({ repoRoot: git("rev-parse", "--show-toplevel"), outDir: out, iconTheme: null, indexer: null });
 
     assert.equal(result.blobs, 3);
     assert.deepEqual((await readJson(join(out, "index.json"))).snapshots, [
@@ -75,7 +75,7 @@ test("rejects lesson branches that are not lesson ids", async () => {
     git("add", "-A");
     git("commit", "-qm", "v1");
     git("branch", "lesson/Bad_Name");
-    await assert.rejects(buildSourceSnapshots({ repoRoot: git("rev-parse", "--show-toplevel"), outDir: out, iconTheme: null }), /Invalid lesson branch: lesson\/Bad_Name/);
+    await assert.rejects(buildSourceSnapshots({ repoRoot: git("rev-parse", "--show-toplevel"), outDir: out, iconTheme: null, indexer: null }), /Invalid lesson branch: lesson\/Bad_Name/);
   });
 });
 
@@ -102,7 +102,7 @@ test("maps icons by file name, extension and folder name and copies only used ic
       folderExpanded: "folder-open",
     };
 
-    const result = await buildSourceSnapshots({ repoRoot: git("rev-parse", "--show-toplevel"), outDir: out, iconTheme: { manifest, dir: themeDir } });
+    const result = await buildSourceSnapshots({ repoRoot: git("rev-parse", "--show-toplevel"), outDir: out, iconTheme: { manifest, dir: themeDir }, indexer: null });
 
     const snapshot = await readJson(join(out, "snapshots", "icons.json"));
     assert.deepEqual(snapshot.files.map(file => [file.path, file.icon]), [
@@ -118,5 +118,101 @@ test("maps icons by file name, extension and folder name and copies only used ic
     assert.equal(result.icons, 7);
     assert.deepEqual((await readdir(join(out, "icons"))).sort(), ["file.svg", "folder-open.svg", "folder-src-open.svg", "folder-src.svg", "folder.svg", "readme.svg", "rust-light.svg"]);
     assert.equal(await readFile(join(out, "icons", "rust-light.svg"), "utf8"), '<svg id="rust-light"/>');
+  });
+});
+
+const varint = value => {
+  const bytes = [];
+  do {
+    const low = value % 128;
+    value = Math.floor(value / 128);
+    bytes.push(value ? low | 0x80 : low);
+  } while (value);
+  return bytes;
+};
+const proto = (field, value) => typeof value === "number"
+  ? [...varint(field * 8), ...varint(value)]
+  : [...varint(field * 8 + 2), ...varint(value.length), ...value];
+const utf8 = text => [...Buffer.from(text)];
+
+test("decodes scip documents and skips fields it does not use", () => {
+  const occurrence = [...proto(1, [0, 4, 10].flatMap(varint)), ...proto(2, utf8("rust-analyzer cargo core 0.1.0 Router#")), ...proto(3, 1), ...proto(5, 7)];
+  const document = [...proto(1, utf8("crates/core/src/lib.rs")), ...proto(4, utf8("rust")), ...proto(2, occurrence), ...proto(6, 1)];
+  const index = Buffer.from([...proto(1, proto(3, utf8("file:///tmp/root"))), ...proto(2, document), ...proto(3, proto(1, utf8("external")))]);
+
+  assert.deepEqual(decodeScip(index), {
+    documents: [{
+      path: "crates/core/src/lib.rs",
+      encoding: 1,
+      occurrences: [{ range: [0, 4, 10], symbol: "rust-analyzer cargo core 0.1.0 Router#", roles: 1 }],
+    }],
+  });
+});
+
+test("writes definition links with utf-16 columns and reuses the per-commit cache", async () => {
+  await withRepo(async ({ dir, git, put, out }) => {
+    await put("mini-codex-rs/crates/core/src/lib.rs", "/* 路由 */ pub struct Router;\nfn a() { let x = 1; x; }\n");
+    await put("mini-codex-rs/crates/core/src/main.rs", "// 入口\nfn b() -> Router { let x = 2; x; String::new() }\n");
+    git("add", "-A");
+    git("commit", "-qm", "v1");
+    git("branch", "lesson/refs");
+    const router = "rust-analyzer cargo core 0.1.0 Router#";
+    const occurrence = (range, symbol, roles = 0) => ({ range, symbol, roles });
+    const index = {
+      documents: [
+        // rust-analyzer 的列为 UTF-8 字节："/* 路由 */ pub struct " 占 24 字节、20 个 UTF-16 单元。
+        { path: "crates/core/src/lib.rs", encoding: 1, occurrences: [
+          occurrence([0, 0, 2, 0], "rust-analyzer cargo core 0.1.0 lib/", 1),
+          occurrence([0, 24, 30], router, 1),
+          occurrence([1, 13, 14], "local 0", 1),
+          occurrence([1, 20, 21], "local 0"),
+        ] },
+        { path: "crates/core/src/main.rs", encoding: 1, occurrences: [
+          occurrence([1, 10, 16], router),
+          occurrence([1, 23, 24], "local 0", 1),
+          occurrence([1, 30, 31], "local 0"),
+          occurrence([1, 33, 39], "rust-analyzer cargo std 1.0.0 string/String#"),
+          occurrence([1, 10, 2, 0], router),
+        ] },
+        { path: "crates/core/src/missing.rs", encoding: 1, occurrences: [occurrence([0, 0, 6], router)] },
+      ],
+    };
+    let calls = 0;
+    const indexer = async () => { calls++; return index; };
+    const cacheDir = join(dir, "cache");
+    const build = () => buildSourceSnapshots({ repoRoot: git("rev-parse", "--show-toplevel"), outDir: out, iconTheme: null, indexer, cacheDir });
+
+    const result = await build();
+
+    const files = (await readJson(join(out, "snapshots", "refs.json"))).files;
+    const refsOf = path => readJson(join(out, "refs", `${files.find(file => file.path === path).refs}.json`));
+    assert.equal(result.refs, 2);
+    assert.deepEqual(await refsOf("crates/core/src/lib.rs"), {
+      targets: [["crates/core/src/lib.rs", 1, 13]],
+      refs: [[1, 20, 21, 0]],
+    });
+    assert.deepEqual(await refsOf("crates/core/src/main.rs"), {
+      targets: [["crates/core/src/lib.rs", 0, 20], ["crates/core/src/main.rs", 1, 23]],
+      refs: [[1, 10, 16, 0], [1, 30, 31, 1]],
+    });
+
+    await build();
+    assert.equal(calls, 1);
+    assert.deepEqual((await readJson(join(out, "snapshots", "refs.json"))).files, files);
+  });
+});
+
+test("keeps snapshots browsable when indexing fails", async () => {
+  await withRepo(async ({ git, put, out }) => {
+    await put("mini-codex-rs/crates/core/src/lib.rs", "pub fn f() {}\n");
+    git("add", "-A");
+    git("commit", "-qm", "v1");
+    git("branch", "lesson/broken");
+    const indexer = async () => { throw new Error("rust-analyzer not found"); };
+
+    const result = await buildSourceSnapshots({ repoRoot: git("rev-parse", "--show-toplevel"), outDir: out, iconTheme: null, indexer });
+
+    assert.equal(result.refs, 0);
+    assert.deepEqual((await readJson(join(out, "snapshots", "broken.json"))).files.map(file => file.refs), [undefined]);
   });
 });

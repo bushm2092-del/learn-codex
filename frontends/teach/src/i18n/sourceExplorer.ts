@@ -15,6 +15,9 @@ export const sourceExplorer = {
     githubTree: "在 GitHub 打开本章源码",
     resizePanel: "拖动调整源码面板宽度",
     resizeTree: "拖动调整文件树宽度",
+    definition: "跳转到定义",
+    back: "返回跳转前位置",
+    openFile: "打开源码",
   },
   en: {
     view: "View source",
@@ -32,6 +35,9 @@ export const sourceExplorer = {
     githubTree: "Open this chapter's source on GitHub",
     resizePanel: "Drag to resize the source panel",
     resizeTree: "Drag to resize the file tree",
+    definition: "Go to definition",
+    back: "Back to previous location",
+    openFile: "Open source",
   },
 };
 

@@ -26,6 +26,7 @@ mini-codex 是对 Codex Rust 核心进行简化的教学项目。**核心源码�
 | [`mini-codex-rs/crates/app-server/`](mini-codex-rs/crates/app-server/) | 服务入口和请求处理。 |
 | [`mini-codex-rs/crates/app-server-protocol/`](mini-codex-rs/crates/app-server-protocol/) | 服务对外使用的协议类型。 |
 | [`frontends/teach/src/`](frontends/teach/src/) | Learn Codex 课程页面、交互演示和通用界面。 |
+| [`frontends/tui/`](frontends/tui/) | Ink + React 终端前端，通过 stdio JSONL 使用 Rust app-server。 |
 | [`backend/`](backend/) | 教学站的账号、评论、学习进度和统计等业务 API；与 Rust 内核独立。 |
 | [`deploy/`](deploy/) | 教学站的部署配置与脚本。 |
 
@@ -33,6 +34,25 @@ Rust 目录与上游 Codex 的对应关系是 `codex-rs/<crate>/` → `mini-code
 
 `exec_command` 现在按源项目的 Unified Exec 路径工作：会话启动时检测默认 shell 并把 `cwd`/`shell` 放入模型可见的 `<environment_context>`；命令可以先等待后返回 `session_id`，再由 `write_stdin` 写入或轮询。完整调用链、跨平台规则和当前明确删减的生产分支见[教程：Unified Exec 与跨平台 shell](mini-codex-docs/docs/tutorial/07-unified-exec.md)。
 
+
+### 终端界面（Ink + React）
+
+需要 Node.js 22+、pnpm 和 Rust。配置 provider 的 `env_key`（默认 `DEEPSEEK_API_KEY`）后，在仓库根目录启动：
+
+```bash
+make tui
+```
+
+前端位于用户指定的 `frontends/tui/`，替代旧文档中的 `mini-codex-tui/`。对照本地 Codex TUI，实现全屏会话布局、流式 Markdown、工具结果、中文多行输入、`/` 补全、`/model`、`/new`、`/clear`、`/status`、`/pwd` 与退出。
+按 `?` 查看快捷键，`Ctrl+T` 查看完整记录；`Tab` 在运行中排队。`/new` 和 `/clear` 都创建新的后端会话，`/clear` 不是仅清除显示。
+布局按 Codex 参考截图校正为紧凑会话框、整宽灰色输入区及底部两行状态栏。
+
+本次范围为现有内核支持的交互子集，不是完整 Codex TUI：取消/steer、审批/sandbox、恢复会话、文件引用、图片与 reasoning effort 等尚未支持，界面明确提示。当前 core 工具仍直接在指定目录执行 shell。
+聊天记录区域支持鼠标滚轮，每次三行；阅读历史时保持位置，滚到底部恢复跟随。键盘上下键仍负责编辑和输入历史。
+
+Working 状态对照 `motion`、`shimmer` 与 `summary_shimmer` 源模块呈现扫光动画，与输入区留一行空隙；`MINI_CODEX_REDUCED_MOTION=1` 可关闭动画。
+
+运行 `make tui-test` 验证；配置、源码映射与明确偏离见 [TUI README](frontends/tui/README.md) 和[第六章](mini-codex-docs/docs/tutorial/06-app-server-ink.md)。
 
 ## English
 
@@ -55,6 +75,7 @@ mini-codex is a teaching project that simplifies the Codex Rust core. **The core
 | [`mini-codex-rs/crates/app-server/`](mini-codex-rs/crates/app-server/) | Service entry point and request handling. |
 | [`mini-codex-rs/crates/app-server-protocol/`](mini-codex-rs/crates/app-server-protocol/) | External service protocol types. |
 | [`frontends/teach/src/`](frontends/teach/src/) | Learn Codex lessons, interactive demonstrations, and shared UI. |
+| [`frontends/tui/`](frontends/tui/) | Ink + React terminal client for the Rust app-server over stdio JSONL. |
 | [`backend/`](backend/) | Site APIs for accounts, comments, learning progress, and statistics; separate from the Rust core. |
 | [`deploy/`](deploy/) | Deployment configuration and scripts for the learning site. |
 

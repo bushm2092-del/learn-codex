@@ -173,25 +173,34 @@ environment、network proxy、hook/telemetry、shell snapshot/zsh-fork、turn ca
 提交注释提示等全部中文书写
 ## App-server
 
-`cargo run -p mini-codex-app-server` 或 `cargo run -p mini-codex-cli -- app-server` 启动 stdio JSONL 服务。
+`cargo run -p mini-codex-app-server` 启动 stdio JSONL 服务。
 此入口与 CLI 共用同一条 `Config` 装配链，读取相同的 `config.toml` 和 `env_key` 环境变量。
 system prompt 由服务入口组装。
 
 调用链为 `MessageProcessor -> request_processors -> ThreadManager -> CodexThread`。
 外部 JSON-RPC 请求类型属于 `app-server-protocol`，内部 Op/Event 仍属于 `protocol`。
-独立的 Ink 前端在 `../mini-codex-tui/`；完整源路径映射、协议限制和传输层简化理由见
+独立的 Ink + React 前端在 `../frontends/tui/`；完整源路径映射、协议限制和传输层简化理由见
 [第六章](../mini-codex-docs/docs/tutorial/06-app-server-ink.md)。
 
-## TUI 外观与离线演示
+## Ink TUI
 
-Ink 界面采用顶部双栏欢迎区、中央对话视窗和底部固定输入栏。欢迎区使用用户提供的圆形蓝紫色 Codex 应用图标，以半格字符绘制。边框和标题使用
-与图标一致的浅蓝紫 → 紫罗兰 → 亮蓝渐变，保留等待动画、回合耗时、消息分层和工具输出折叠。
-助手消息按 Markdown 渲染（对应源项目 `tui/src/markdown_render.rs`，解析器用 marked 代替 pulldown-cmark）。
-对话视窗跟随最新消息，超出终端高度的旧内容会被裁切；完整上下文仍由 core 保留。
-窄终端会切换为紧凑布局。`Tab` 展开或收起工具输出；`/clear` 只清除界面记录，
-不会重置模型上下文；`/exit` 和 `Ctrl+C` 退出。
+在仓库根目录执行 `make tui`，构建 app-server、安装依赖并启动前端。现有 Rust 内核没有改动；UI 不直接执行工具、不实现 agent loop。
+前端采用 Codex 的会话头、`›` 输入、`•` 消息、命令菜单与模型选择器，全屏终端模式下随窗口尺寸重新折行。
+会话框按内容收窄，底部整宽灰色输入区和两行状态栏对照用户提供的 Codex 截图；底色探测的当前偏离见 TUI README。
+Markdown 解析器使用 marked，长工具输出在聊天中折叠，`Ctrl+T` 的 transcript 展示完整输出。
 
-在 `mini-codex-tui/` 中运行 `pnpm demo`，无需 API Key 即可预览模拟工具和流式回复。
-演示模式明确标注为 DEMO，不连接模型、不执行 shell；真实使用仍运行 `make tui`（仓库根目录）。
-设置 `MINI_CODEX_REDUCED_MOTION=1` 可关闭装饰动画。没有密钥时，真实模式会显示配置提示，
-不会自动切换到演示模式。
+`Enter` 发送，`Shift+Enter` / `Alt+Enter` / `Ctrl+J` 换行；终端不支持增强键盘协议时使用后两种。
+`Tab` 空闲时发送、运行中排队；方向键回忆本进程输入历史。`/model` 更新会话模型并写入用户配置。
+`/new` 与 `/clear` 都重新调用 `thread/start`，清空当前 transcript，旧上下文不会进入新请求。
+空闲且没有草稿时 `Ctrl+C` 退出；有草稿时先清空草稿并保留在输入历史。`Ctrl+D` 在空输入时退出。
+
+当前 app-server 不支持 `turn/interrupt`、`turn/steer`、rollout 恢复、审批、文件搜索、图片输入与推理档位。
+因此运行时 `Esc` / `Ctrl+C` 只显示“取消未支持”，不会假装已经停止工具；`/exit` 或空输入 `Ctrl+D` 等待当前回合结束后退出，不继续发送排队消息。
+聊天记录区域支持鼠标滚轮，每次三行；阅读历史时保持位置，滚到底部恢复跟随。键盘上下键仍负责编辑和输入历史。
+
+Working 状态对照 `motion`、`shimmer` 与 `summary_shimmer` 源模块呈现扫光动画，与输入区留一行空隙；`MINI_CODEX_REDUCED_MOTION=1` 可关闭动画。
+
+更多已支持交互、尚未移植的 UI 分支与源码依据见 [TUI README](../frontends/tui/README.md)。
+
+`make tui-test` 包含离线 Rust app-server 联调：临时配置与本地 SSE fixture 验证流式输出、工具执行、模型保存、新会话、失败恢复；不依赖真实密钥，也不改用户配置。
+没有运行时 demo 模式；未配置密钥时显示连接失败与配置提示。

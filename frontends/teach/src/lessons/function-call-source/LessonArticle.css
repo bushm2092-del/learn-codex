@@ -1,0 +1,33 @@
+.lesson-article { color: #3f3f46; font-size: 16px; line-height: 1.75; }
+.lesson-article h2, .lesson-article h3, .lesson-article h4, .lesson-article h5 { color: var(--ink); letter-spacing: -0.02em; line-height: 1.35; }
+.lesson-article h2 { margin: 40px 0 12px; font-size: 23px; letter-spacing: -0.025em; }
+.lesson-article h3 { margin: 32px 0 10px; font-size: 18px; }
+.lesson-article h4 { margin: 26px 0 8px; font-size: 16px; }
+.lesson-article h5 { margin: 20px 0 8px; font-size: 15px; }
+.lesson-article p { margin: 10px 0; }
+.lesson-article ul { margin: 10px 0 14px; padding-left: 1.25em; }
+.lesson-article li + li { margin-top: 6px; }
+.lesson-article code, .lesson-article__path {
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: #f4f4f5;
+  font: 13px/1.6 "SFMono-Regular", Consolas, monospace;
+  overflow-wrap: anywhere;
+}
+.lesson-article__path {
+  display: inline;
+  border: 0;
+  color: #1d4ed8;
+  text-align: inherit;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+.lesson-article__path:hover { background: var(--blue-soft); text-decoration-color: currentColor; }
+.lesson-article__path:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+.lesson-article__table { margin: 16px 0 20px; overflow-x: auto; }
+.lesson-article table { width: 100%; border-collapse: collapse; font-size: 14px; line-height: 1.55; }
+.lesson-article th, .lesson-article td { padding: 8px 10px; border: 1px solid var(--line); vertical-align: top; text-align: left; }
+.lesson-article th { background: var(--panel); color: var(--ink); font-weight: 600; white-space: nowrap; }
+.lesson-article .ui-code-block code { padding: 0; background: none; font: inherit; }

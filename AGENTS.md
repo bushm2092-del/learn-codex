@@ -17,7 +17,7 @@
 - 源项目根目录：`/Users/hfh/Desktop/github/codex`
 - 源 Rust workspace：`/Users/hfh/Desktop/github/codex/codex-rs`
 - 本项目 Rust workspace：`mini-codex-rs/`
-- 本项目 Ink TUI：`mini-codex-tui/`，独立 TypeScript 项目，按用户要求偏离源项目 Rust TUI。
+- 本项目 Ink TUI：`frontends/tui/`，独立 TypeScript 项目，按用户要求偏离源项目 Rust TUI；保留已支持交互的语义，未支持能力必须明确标注。
 - 模型服务商：按用户要求取消源项目的官方 `openai` provider 与 auth.json 登录流程；内建 provider 只有走 `env_key` 的 `deepseek`，模型目录为打包的 DeepSeek 静态 `models.json`。
 - 本项目文档站：`mini-codex-docs/`
 
@@ -75,7 +75,7 @@ codex/codex-rs/core/src/tools/router.rs
 - `format!` 能直接捕获变量时使用 `{name}`，不要写多余的位置参数。
 - `match` 尽量穷尽枚举分支，避免用 `_` 掩盖新状态。
 - 不要为仅有一个调用点的少量代码新建无语义辅助函数。
-- 用户可见文案和 system prompt 在 `mini-codex-rs/crates/cli/src/main.rs` 中定义；app-server 的 system prompt 在服务入口中定义；各入口通过 `ThreadManager` 将其传入核心，turn loop 不负责界面文案。Ink 展示文案留在 `mini-codex-tui/src/`。
+- 用户可见文案和 system prompt 在 `mini-codex-rs/crates/cli/src/main.rs` 中定义；app-server 的 system prompt 在服务入口中定义；各入口通过 `ThreadManager` 将其传入核心，turn loop 不负责界面文案。Ink 展示文案留在 `frontends/tui/src/`。
 - 注释用中文说明架构边界、生命周期和安全约束；Rust 标识符、JSON 字段、API 事件名保持英文并与源项目一致。
 - 新增特性应优先放入对应模块，不要继续膨胀中央调度文件。
 

@@ -1,9 +1,10 @@
 import { lazy, Suspense, useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
-import { loadSnapshot, loadSourceBlob, sourceFileUrl, sourceIconUrl, sourceTreeUrl, useLessonSnapshot } from "../course/sourceSnapshot";
+import { loadSnapshot, loadSourceBlob, loadSourceRefs, sourceFileUrl, sourceIconUrl, sourceTreeUrl, useLessonSnapshot } from "../course/sourceSnapshot";
 import { sourceExplorer } from "../i18n/sourceExplorer";
 import { useLocale } from "../i18n/useLocale";
+import { LESSON_SOURCE_OPEN, type LessonSourceOpen } from "./lessonSource";
 import "./LessonSourceButton.css";
 
 const SourceExplorer = lazy(() => import("./SourceExplorer").then(module => ({ default: module.SourceExplorer })));
@@ -17,6 +18,7 @@ export function LessonSourceButton({ lesson }: { lesson: string }) {
   const { locale } = useLocale();
   const snapshot = useLessonSnapshot(lesson);
   const [open, setOpen] = useState(false);
+  const [request, setRequest] = useState<{ path: string; seq: number }>();
   const [inlineVisible, setInlineVisible] = useState(true);
   const inline = useRef<HTMLButtonElement>(null);
   const floating = useRef<HTMLButtonElement>(null);
@@ -34,8 +36,21 @@ export function LessonSourceButton({ lesson }: { lesson: string }) {
   }, []);
   const show = (trigger: HTMLButtonElement) => {
     opener.current = trigger;
+    setRequest(undefined);
     setOpen(true);
   };
+
+  useEffect(() => {
+    const onOpen = (event: Event) => {
+      const detail = (event as CustomEvent<LessonSourceOpen>).detail;
+      if (detail?.lesson !== lesson) return;
+      opener.current = inline.current;
+      setRequest({ path: detail.path, seq: Date.now() });
+      setOpen(true);
+    };
+    window.addEventListener(LESSON_SOURCE_OPEN, onOpen);
+    return () => window.removeEventListener(LESSON_SOURCE_OPEN, onOpen);
+  }, [lesson]);
 
   useEffect(() => {
     if (!open) return;
@@ -64,8 +79,8 @@ export function LessonSourceButton({ lesson }: { lesson: string }) {
         {icon}{labels.view}
       </button>, document.body)}
     {open && <Suspense fallback={null}>
-      <SourceExplorer version={`${snapshot.branch} · ${snapshot.commit.slice(0, 7)}`} versionUrl={sourceTreeUrl(snapshot)} load={load} loadFile={loadSourceBlob}
-        fileUrl={fileUrl} iconUrl={sourceIconUrl} defaultExpanded={DEFAULT_EXPANDED} labels={labels} onClose={close} />
+      <SourceExplorer version={`${snapshot.branch} · ${snapshot.commit.slice(0, 7)}`} versionUrl={sourceTreeUrl(snapshot)} load={load} loadFile={loadSourceBlob} loadRefs={loadSourceRefs}
+        fileUrl={fileUrl} iconUrl={sourceIconUrl} defaultExpanded={DEFAULT_EXPANDED} request={request} labels={labels} onClose={close} />
     </Suspense>}
   </>;
 }

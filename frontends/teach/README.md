@@ -52,14 +52,17 @@ UI 职责：`DropdownMenu.tsx` 封装 Radix 菜单和主题样式，不依赖 i1
 ```text
 public/source/
 ├── index.json               # 已有快照：lesson、branch、commit
-├── snapshots/<lesson>.json  # 文件树：相对 mini-codex-rs 的路径、blob sha、字节数
+├── snapshots/<lesson>.json  # 文件树：相对 mini-codex-rs 的路径、blob sha、字节数、跳转表名
 ├── blobs/<blob-sha>.txt     # 文件内容，按 blob sha 去重
+├── refs/<sha1>.json         # 跳转到定义的数据，按内容 sha1 去重
 └── icons/<name>.svg         # 文件树用到的 Material Icon Theme 图标
 ```
 
 文件树图标在生成快照时按 `material-icon-theme` 的名称映射解析（与 VS Code 插件一致），写入快照的 `icon` 与 `dirs` 字段，只复制用到的 SVG；映射表约 450 KB，不进入浏览器包。未安装依赖时快照照常生成，只是不带图标。
 
-页面侧由 `course/sourceSnapshot.ts` 读取快照：章节标题行的 `ui/LessonSourceButton` 在对应快照存在时显示“查看源码”，打开 `ui/SourceExplorer` 浏览文件树与只读源码，文件内容按需加载。二进制文件和超过 512 KB 的文件只保留在文件树中，`blob` 为 `null` 并用 `skipped` 说明原因。仓库根目录的 `make teach-dev`、`make teach-build` 与 `make offline-pack` 会先生成快照。执行过 `make hooks`（`make install` 已包含）后，在 `lesson/*` 分支上提交、合并、`--amend`/rebase 或切换、新建该分支时，`.githooks/` 会自动刷新快照，开发服务器刷新页面即可看到。`git branch -f`、`git update-ref` 等不经过这些 hook 的操作仍需手动执行 `pnpm snapshots`。Docker 构建上下文没有 `.git`，镜像内的 `pnpm build` 使用构建前已生成的 `public/source/`。
+跳转到定义同样在生成快照时完成：脚本用 `git archive` 把每个 lesson 提交的 `mini-codex-rs` 解包到临时目录，运行 `rust-analyzer scip` 生成 SCIP 索引，解码后为每个文件写出 `{ targets: [路径, 行, 列][], refs: [行, 起始列, 结束列, target 下标][] }`（行列从 0 开始，列已从 rust-analyzer 的 UTF-8 字节换算为 UTF-16，与浏览器字符串一致），快照中的文件以 `refs` 字段指向它。只有定义位于本快照内的符号才生成链接，`std` 与第三方 crate 不可跳转。单个分支索引约 20 秒，结果按提交缓存在 `node_modules/.cache/source-refs/`，未变化的分支不会重复索引；构建机需安装 `rust-analyzer`（`rustup component add rust-analyzer`）并能解析 `Cargo.lock` 中的依赖，缺失或失败时只打印提示，源码照常浏览、只是没有跳转。
+
+页面侧由 `course/sourceSnapshot.ts` 读取快照：章节标题行的 `ui/LessonSourceButton` 在对应快照存在时显示“查看源码”，打开 `ui/SourceExplorer` 浏览文件树与只读源码，文件内容与跳转表按需加载；点击标识符跳转到定义所在文件与行，路径栏的返回按钮回到跳转前位置。二进制文件和超过 512 KB 的文件只保留在文件树中，`blob` 为 `null` 并用 `skipped` 说明原因。仓库根目录的 `make teach-dev`、`make teach-build` 与 `make offline-pack` 会先生成快照。执行过 `make hooks`（`make install` 已包含）后，在 `lesson/*` 分支上提交、合并、`--amend`/rebase 或切换、新建该分支时，`.githooks/` 会自动刷新快照，开发服务器刷新页面即可看到。`git branch -f`、`git update-ref` 等不经过这些 hook 的操作仍需手动执行 `pnpm snapshots`。Docker 构建上下文没有 `.git`，镜像内的 `pnpm build` 使用构建前已生成的 `public/source/`。
 
 ## 章节安排
 
@@ -78,7 +81,7 @@ public/source/
 13. Self-Evolution · 自进化机制：待编写。
 14. Computer Use · 计算机操作：待编写。
 
-第一课包含手动复制流程演示，第二课已开放模型协议文章；第三课 Function Calling 已正式发布。第四课 `/lessons/function-call-source` 以草稿形式开放，对照 Codex `53446f90a5` 梳理请求组装、调用转换、执行调度、工具结果与历史记录；后续章节顺延。具体机制与支持范围在编写课程时对照 Codex 源码确认；目录不代表 mini-codex 已实现对应能力。旧 `/lessons/harness-overview` 地址重定向到 `/lessons/agent-loop`。
+第一课包含手动复制流程演示，第二课已开放模型协议文章；第三课 Function Calling 已正式发布。第四课 `/lessons/function-call-source` 以草稿形式开放，讲解 tools 模块的需求，以及 `crates/tools/` 与 `crates/core/src/tools/` 的实现；正文中的 `crates/` 路径可打开本章源码预览。后续章节顺延。具体机制与支持范围在编写课程时对照 Codex 源码确认；目录不代表 mini-codex 已实现对应能力。旧 `/lessons/harness-overview` 地址重定向到 `/lessons/agent-loop`。
 
 自动循环演示位于 `src/lessons/agent-loop/AutomatedLoopDemo.tsx`，`automatedTrace.ts` 保存四轮完整请求/响应与工具结果的独立快照。`CinematicLoopFilm.tsx` 在动画窗口中呈现请求、响应、工具执行和记录回传的简化 JSON，前后分镜平移缩放交接。按用户要求移除外围检查区和四节点流程图；历史在数据中完整保留，画面只展开最新结果，并明确标为简化字段示意。使用 DeepSeek Chat Completions 非思考模式的协议示意（官方参考：https://api-docs.deepseek.com/guides/tool_calls/），不是当前 Rust 客户端 `/responses` 请求的逐字复刻。工具使用项目已有 `exec_command` 职责，命令与结果均为静态模拟，不执行 shell、不访问文件、不发送 API 请求。此展示层协议差异不改变内核实现。
 

@@ -5,7 +5,7 @@ target/
 dist-offline/
 .DS_Store
 node_modules/
-mini-codex-tui/dist/
+frontends/tui/dist/
 frontends/teach/dist/
 frontends/teach/public/source/
 *.tsbuildinfo

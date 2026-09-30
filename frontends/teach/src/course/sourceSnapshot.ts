@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 
 // 数据由 scripts/source-snapshots.mjs 按本地 lesson/<章节 id> 分支生成，随前端静态部署。
-export type SourceFile = { path: string; blob: string | null; size: number; skipped?: "binary" | "too_large"; icon?: string };
+// refs 为跳转表文件名；构建机缺少 rust-analyzer 或文件没有可跳转标识符时缺省。
+export type SourceFile = { path: string; blob: string | null; size: number; skipped?: "binary" | "too_large"; icon?: string; refs?: string };
+// targets 为 [路径, 行, 列]，refs 为 [行, 起始列, 结束列, target 下标]；行列从 0 开始，列按 UTF-16 计。
+export type SourceRefs = { targets: [string, number, number][]; refs: [number, number, number, number][] };
 export type SnapshotEntry = { lesson: string; branch: string; commit: string };
 // dirs 为目录路径到 [收起, 展开] 图标名的映射；构建机未安装图标主题时缺省。
 export type SourceSnapshot = SnapshotEntry & { root: string; files: SourceFile[]; dirs?: Record<string, [string, string]> };
@@ -20,6 +23,7 @@ export function sourceTreeUrl(entry: SnapshotEntry) {
 let index: Promise<SnapshotEntry[]> | undefined;
 const snapshots = new Map<string, Promise<SourceSnapshot>>();
 const blobs = new Map<string, Promise<string>>();
+const refTables = new Map<string, Promise<SourceRefs>>();
 
 // 开发服务器与 nginx 的 SPA 回退都可能以 200 返回 index.html，不能把它当作快照内容。
 async function fetchStatic(path: string) {
@@ -55,6 +59,10 @@ export function sourceIconUrl(icon: string) {
 
 export function loadSourceBlob(blob: string) {
   return cached(blobs, blob, () => fetchStatic(`blobs/${blob}.txt`).then(response => response.text()));
+}
+
+export function loadSourceRefs(refs: string) {
+  return cached(refTables, refs, () => fetchStatic(`refs/${refs}.json`).then(response => response.json() as Promise<SourceRefs>));
 }
 
 // 没有快照或清单不可用时返回 undefined，调用方据此不展示源码入口。

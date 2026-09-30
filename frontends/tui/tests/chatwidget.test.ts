@@ -1,0 +1,83 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {ChatWidget} from '../src/chatwidget.js';
+import {FakeSession, tick} from './helpers.js';
+
+test('stream deltas reconcile to final item without duplicates and stale events are ignored', async () => {
+  const session = new FakeSession();
+  const chat = new ChatWidget(session, '/tmp');
+  await chat.initialize(); await chat.submit('你好');
+  const params = {threadId: 'thread-1', turnId: 'turn-1'};
+  session.emit('item/started', {...params, item: {id: 'msg', type: 'agentMessage', text: ''}});
+  session.emit('item/agentMessage/delta', {...params, itemId: 'msg', delta: '你'});
+  session.emit('item/agentMessage/delta', {...params, itemId: 'msg', delta: '好'});
+  session.finish('你好！');
+  session.emit('item/agentMessage/delta', {...params, itemId: 'msg', delta: 'stale'});
+  assert.deepEqual(chat.getSnapshot().cells.map(({kind, text}) => ({kind, text})), [{kind: 'user', text: '你好'}, {kind: 'assistant', text: '你好！'}]);
+  assert.equal(chat.getSnapshot().busy, false);
+  await chat.close();
+});
+test('Tab queue is FIFO, Enter cannot silently steer, failures retain queued prompts', async () => {
+  const session = new FakeSession();
+  const chat = new ChatWidget(session, '/tmp');
+  await chat.initialize(); await chat.submit('one');
+  assert.equal(await chat.submit('unsupported steer'), false);
+  assert.equal(await chat.submit('two', true), true);
+  assert.equal(await chat.submit('three', true), true);
+  session.finish(); await tick();
+  assert.deepEqual(session.turns.map(turn => turn.text), ['one', 'two']);
+  session.finish('', 'failed'); await tick();
+  assert.deepEqual(chat.getSnapshot().queued, ['three']);
+  assert.equal(chat.takeQueued(), 'three');
+  await chat.close();
+});
+test('new and clear start fresh backend threads, selected model survives and save errors stay honest', async () => {
+  const session = new FakeSession();
+  const chat = new ChatWidget(session, '/tmp');
+  await chat.initialize(); await chat.submit('old context'); session.finish();
+  session.failSave = true;
+  await chat.selectModel('deepseek-v4-pro');
+  assert.match(chat.getSnapshot().notice!, /保存默认模型失败/);
+  await chat.newThread(true);
+  assert.equal(chat.getSnapshot().thread?.id, 'thread-2');
+  assert.deepEqual(chat.getSnapshot().cells, []);
+  assert.equal(session.settings.at(-1), 'deepseek-v4-pro');
+  await chat.submit('new context');
+  assert.equal(session.turns.at(-1)?.threadId, 'thread-2');
+  assert.equal(await chat.newThread(true), false);
+  await chat.close();
+});
+test('rejected submit restores UI readiness; disconnection blocks duplicate execution', async () => {
+  const session = new FakeSession();
+  const chat = new ChatWidget(session, '/tmp');
+  await chat.initialize(); session.failTurn = true;
+  assert.equal(await chat.submit('preserve me'), false);
+  assert.deepEqual(chat.getSnapshot().cells, []);
+  assert.equal(chat.getSnapshot().busy, false);
+  session.events.emit('disconnect', new Error('gone'));
+  assert.equal(await chat.submit('never executed'), false);
+  assert.equal(chat.getSnapshot().phase, 'disconnected');
+  await chat.close();
+});
+test('shutdown waits for the active turn without starting queued work', async () => {
+  const session = new FakeSession();
+  const chat = new ChatWidget(session, '/tmp');
+  await chat.initialize(); await chat.submit('one'); await chat.submit('two', true);
+  chat.waitForExit(); session.finish(); await tick();
+  assert.equal(chat.getSnapshot().busy, false);
+  assert.deepEqual(session.turns, [{threadId: 'thread-1', text: 'one'}]);
+  await chat.close();
+});
+test('a turn completing during model persistence resumes its queue after the settings operation', async () => {
+  const session = new FakeSession();
+  let release: () => void = () => {};
+  session.saveModel = async () => { await new Promise<void>(resolve => { release = resolve; }); };
+  const chat = new ChatWidget(session, '/tmp');
+  await chat.initialize(); await chat.submit('one'); await chat.submit('two', true);
+  const selecting = chat.selectModel('deepseek-v4-pro');
+  await tick(); session.finish();
+  assert.equal(session.turns.length, 1);
+  release(); await selecting; await tick();
+  assert.deepEqual(session.turns.map(turn => turn.text), ['one', 'two']);
+  await chat.close();
+});
