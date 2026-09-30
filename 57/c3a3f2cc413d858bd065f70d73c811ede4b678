@@ -1,0 +1,618 @@
+frontends/teach/src/course/sourceSnapshot.ts
+  acc370f9c4b0be1b 4-7,26,64-65
+docs/drafts/s04-function-call-source.md
+  ef95a437a859cdf5 2,4,10-16,18-20,22-24,26-34,36-40,46-50,52-56,59,61,63-64,66-69,71-72,74-75,77-83,85-97,101-106,108-112,114-137,139,141-196,198,200-244,246-247,250-264,266-317,319-321,323-360,362-366,368,370,372-395,397-416,418-428,430-432,445-851,864-1009
+frontends/teach/src/ui/LessonSourceButton.tsx
+  acc370f9c4b0be1b 4,82
+  ef95a437a859cdf5 7,21,39,43-53,83
+frontends/teach/src/lessons/function-call-source/article.ts
+  ef95a437a859cdf5 1-91
+frontends/teach/src/ui/SourceExplorer.tsx
+  ef95a437a859cdf5 19,30-31,91-97,129,144-146,179-182,185-188,216-230,339-346
+  acc370f9c4b0be1b 1,4,10-11,13-18,25,100-121,139-142,199-215,244,268,271-272,303-310,312,315-338,347-349,372-374,377,385-397
+frontends/teach/src/ui/SourceExplorer.css
+  acc370f9c4b0be1b 44,50-53,60-65
+frontends/teach/scripts/source-snapshots.mjs
+  acc370f9c4b0be1b 4-5,7,15-16,83-228,233,235,237,250,252-262,279,285-287
+frontends/teach/src/vite-env.d.ts
+  ef95a437a859cdf5 2-6
+frontends/teach/README.md
+  ef95a437a859cdf5 84
+  acc370f9c4b0be1b 55,57,63,65
+frontends/teach/DESIGN.md
+  ef95a437a859cdf5 314
+frontends/teach/nginx.conf
+  acc370f9c4b0be1b 24,30
+frontends/teach/src/lessons/function-call-source/FunctionCallSourcePage.tsx
+  ef95a437a859cdf5 9-10,25-26
+frontends/teach/tests/sourceSnapshots.test.mjs
+  acc370f9c4b0be1b 7,49,78,105,123-218
+frontends/teach/src/lessons/function-call-source/LessonArticle.css
+  ef95a437a859cdf5 1-33
+deploy/FUNCTION_CALL_RELEASE.md
+  ef95a437a859cdf5 3-4
+frontends/teach/src/i18n/sourceExplorer.ts
+  acc370f9c4b0be1b 18-19,38-39
+  ef95a437a859cdf5 20,40
+frontends/teach/src/lessons/function-call-source/LessonArticle.tsx
+  ef95a437a859cdf5 1-120
+frontends/teach/src/lessons/function-call-source/FunctionCallSourcePage.css
+  ef95a437a859cdf5 2
+frontends/teach/src/ui/lessonSource.ts
+  ef95a437a859cdf5 1-8
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.20",
+  "base_commit_sha": "57c3a3f2cc413d858bd065f70d73c811ede4b678",
+  "prompts": {
+    "acc370f9c4b0be1b": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "39b020d4-1117-4ab9-becc-111047d87c15",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "hufenghong <19103376390@163.com>",
+      "messages": [],
+      "total_additions": 447,
+      "total_deletions": 52,
+      "accepted_lines": 421,
+      "overriden_lines": 0
+    },
+    "ef95a437a859cdf5": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "f5dc41b6-63a2-478a-b313-eecf9de80e0c",
+        "model": "grok-4.7"
+      },
+      "human_author": "hufenghong <19103376390@163.com>",
+      "messages": [],
+      "total_additions": 1743,
+      "total_deletions": 441,
+      "accepted_lines": 1269,
+      "overriden_lines": 0
+    }
+  },
+  "commit_stats": {
+    "git_diff_added_lines": 4631,
+    "git_diff_deleted_lines": 83,
+    "ai_additions": 1676,
+    "ai_accepted": 1676,
+    "BYMC": 2946,
+    "mixed_additions": 0,
+    "BYAC": 1676,
+    "BYRC": 0,
+    "per_file": {
+      ".gitignore": {
+        "BYMC": [
+          "8"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "AGENTS.md": {
+        "BYMC": [
+          "20",
+          "78"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "Makefile": {
+        "BYMC": [
+          "42",
+          "66",
+          "69",
+          "72"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "README.md": {
+        "BYMC": [
+          "29",
+          "38-55",
+          "78"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "deploy/FUNCTION_CALL_RELEASE.md": {
+        "BYMC": [],
+        "BYAC": [
+          "3-4"
+        ],
+        "BYRC": []
+      },
+      "docs/drafts/s04-function-call-source.md": {
+        "BYMC": [
+          "1",
+          "3",
+          "5-9",
+          "17",
+          "21",
+          "25",
+          "35",
+          "41-45",
+          "51",
+          "57-58",
+          "60",
+          "62",
+          "65",
+          "70",
+          "73",
+          "76",
+          "84",
+          "98-100",
+          "107",
+          "113",
+          "138",
+          "140",
+          "197",
+          "199",
+          "245",
+          "248-249",
+          "265",
+          "318",
+          "322",
+          "361",
+          "367",
+          "369",
+          "371",
+          "396",
+          "417",
+          "429",
+          "433-444",
+          "852-863",
+          "1010"
+        ],
+        "BYAC": [
+          "2",
+          "4",
+          "10-16",
+          "18-20",
+          "22-24",
+          "26-34",
+          "36-40",
+          "46-50",
+          "52-56",
+          "59",
+          "61",
+          "63-64",
+          "66-69",
+          "71-72",
+          "74-75",
+          "77-83",
+          "85-97",
+          "101-106",
+          "108-112",
+          "114-137",
+          "139",
+          "141-196",
+          "198",
+          "200-244",
+          "246-247",
+          "250-264",
+          "266-317",
+          "319-321",
+          "323-360",
+          "362-366",
+          "368",
+          "370",
+          "372-395",
+          "397-416",
+          "418-428",
+          "430-432",
+          "445-851",
+          "864-1009"
+        ],
+        "BYRC": []
+      },
+      "frontends/teach/DESIGN.md": {
+        "BYMC": [],
+        "BYAC": [
+          "314"
+        ],
+        "BYRC": []
+      },
+      "frontends/teach/README.md": {
+        "BYMC": [
+          "64"
+        ],
+        "BYAC": [
+          "55",
+          "57",
+          "63",
+          "65",
+          "84"
+        ],
+        "BYRC": []
+      },
+      "frontends/teach/nginx.conf": {
+        "BYMC": [],
+        "BYAC": [
+          "24",
+          "30"
+        ],
+        "BYRC": []
+      },
+      "frontends/teach/scripts/source-snapshots.mjs": {
+        "BYMC": [],
+        "BYAC": [
+          "4-5",
+          "7",
+          "15-16",
+          "83-228",
+          "233",
+          "235",
+          "237",
+          "250",
+          "252-262",
+          "279",
+          "285-287"
+        ],
+        "BYRC": []
+      },
+      "frontends/teach/src/course/sourceSnapshot.ts": {
+        "BYMC": [],
+        "BYAC": [
+          "4-7",
+          "26",
+          "64-65"
+        ],
+        "BYRC": []
+      },
+      "frontends/teach/src/i18n/sourceExplorer.ts": {
+        "BYMC": [],
+        "BYAC": [
+          "18-20",
+          "38-40"
+        ],
+        "BYRC": []
+      },
+      "frontends/teach/src/lessons/function-call-source/FunctionCallSourcePage.css": {
+        "BYMC": [],
+        "BYAC": [
+          "2"
+        ],
+        "BYRC": []
+      },
+      "frontends/teach/src/lessons/function-call-source/FunctionCallSourcePage.tsx": {
+        "BYMC": [],
+        "BYAC": [
+          "9-10",
+          "25-26"
+        ],
+        "BYRC": []
+      },
+      "frontends/teach/src/lessons/function-call-source/LessonArticle.css": {
+        "BYMC": [],
+        "BYAC": [
+          "1-33"
+        ],
+        "BYRC": []
+      },
+      "frontends/teach/src/lessons/function-call-source/LessonArticle.tsx": {
+        "BYMC": [],
+        "BYAC": [
+          "1-120"
+        ],
+        "BYRC": []
+      },
+      "frontends/teach/src/lessons/function-call-source/article.md": {
+        "BYMC": [
+          "1-1010"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "frontends/teach/src/lessons/function-call-source/article.ts": {
+        "BYMC": [],
+        "BYAC": [
+          "1-91"
+        ],
+        "BYRC": []
+      },
+      "frontends/teach/src/ui/LessonSourceButton.tsx": {
+        "BYMC": [],
+        "BYAC": [
+          "4",
+          "7",
+          "21",
+          "39",
+          "43-53",
+          "82-83"
+        ],
+        "BYRC": []
+      },
+      "frontends/teach/src/ui/SourceExplorer.css": {
+        "BYMC": [],
+        "BYAC": [
+          "44",
+          "50-53",
+          "60-65"
+        ],
+        "BYRC": []
+      },
+      "frontends/teach/src/ui/SourceExplorer.tsx": {
+        "BYMC": [
+          "98-99"
+        ],
+        "BYAC": [
+          "1",
+          "4",
+          "10-11",
+          "13-19",
+          "25",
+          "30-31",
+          "91-97",
+          "100-121",
+          "129",
+          "139-142",
+          "144-146",
+          "179-182",
+          "185-188",
+          "199-230",
+          "244",
+          "268",
+          "271-272",
+          "303-310",
+          "312",
+          "315-349",
+          "372-374",
+          "377",
+          "385-397"
+        ],
+        "BYRC": []
+      },
+      "frontends/teach/src/ui/lessonSource.ts": {
+        "BYMC": [],
+        "BYAC": [
+          "1-8"
+        ],
+        "BYRC": []
+      },
+      "frontends/teach/src/vite-env.d.ts": {
+        "BYMC": [],
+        "BYAC": [
+          "2-6"
+        ],
+        "BYRC": []
+      },
+      "frontends/teach/tests/sourceSnapshots.test.mjs": {
+        "BYMC": [],
+        "BYAC": [
+          "7",
+          "49",
+          "78",
+          "105",
+          "123-218"
+        ],
+        "BYRC": []
+      },
+      "frontends/tui/DESIGN.md": {
+        "BYMC": [
+          "1-17"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "frontends/tui/PRODUCT.md": {
+        "BYMC": [
+          "1-28"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "frontends/tui/README.md": {
+        "BYMC": [
+          "1-106"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "frontends/tui/package.json": {
+        "BYMC": [
+          "1-30"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "frontends/tui/pnpm-workspace.yaml": {
+        "BYMC": [
+          "1-2"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "frontends/tui/src/app.tsx": {
+        "BYMC": [
+          "1-296"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "frontends/tui/src/app_server_session.ts": {
+        "BYMC": [
+          "1-162"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "frontends/tui/src/bottom_pane/chat_composer.ts": {
+        "BYMC": [
+          "1-20"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "frontends/tui/src/bottom_pane/chat_composer_history.ts": {
+        "BYMC": [
+          "1-31"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "frontends/tui/src/bottom_pane/footer.ts": {
+        "BYMC": [
+          "1-40"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "frontends/tui/src/bottom_pane/list_selection_view.ts": {
+        "BYMC": [
+          "1-19"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "frontends/tui/src/bottom_pane/textarea.ts": {
+        "BYMC": [
+          "1-82"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "frontends/tui/src/chatwidget.ts": {
+        "BYMC": [
+          "1-171"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "frontends/tui/src/history_cell.ts": {
+        "BYMC": [
+          "1-48"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "frontends/tui/src/main.tsx": {
+        "BYMC": [
+          "1-40"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "frontends/tui/src/markdown_render.ts": {
+        "BYMC": [
+          "1-45"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "frontends/tui/src/motion.ts": {
+        "BYMC": [
+          "1-9"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "frontends/tui/src/shimmer.ts": {
+        "BYMC": [
+          "1-15"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "frontends/tui/src/slash_command.ts": {
+        "BYMC": [
+          "1-31"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "frontends/tui/src/style.ts": {
+        "BYMC": [
+          "1-10"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "frontends/tui/src/summary_shimmer.ts": {
+        "BYMC": [
+          "1-23"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "frontends/tui/src/terminal.ts": {
+        "BYMC": [
+          "1-21"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "frontends/tui/tests/app.test.tsx": {
+        "BYMC": [
+          "1-117"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "frontends/tui/tests/app_server_session.test.ts": {
+        "BYMC": [
+          "1-83"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "frontends/tui/tests/chatwidget.test.ts": {
+        "BYMC": [
+          "1-83"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "frontends/tui/tests/cursor.test.tsx": {
+        "BYMC": [
+          "1-60"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "frontends/tui/tests/helpers.ts": {
+        "BYMC": [
+          "1-52"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "frontends/tui/tests/textarea.test.ts": {
+        "BYMC": [
+          "1-77"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "frontends/tui/tsconfig.json": {
+        "BYMC": [
+          "1-16"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-docs/docs/tutorial/06-app-server-ink.md": {
+        "BYMC": [
+          "1-77"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      },
+      "mini-codex-rs/README.md": {
+        "BYMC": [
+          "176",
+          "182",
+          "185",
+          "187-190",
+          "192-206"
+        ],
+        "BYAC": [],
+        "BYRC": []
+      }
+    }
+  },
+  "commit_timestamp": 1790733631,
+  "requirement_id": ""
+}
