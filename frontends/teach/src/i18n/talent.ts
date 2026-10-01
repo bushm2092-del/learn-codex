@@ -1,7 +1,7 @@
 export const talent = {
   zh: {
     authWelcome: "登录，开始挑战", authCreateAccount: "创建挑战账号", authNote: "记录成绩，挑战你的个人最佳。", authSubmitLogin: "登录并挑战", authSubmitRegister: "注册并挑战",
-    hall: "挑战大厅", boardNav: "排行榜", viewLeaderboard: "查看排行榜", navigation: "天赋测试导航", skip: "跳到挑战", play: "试一试", details: "看玩法", closeDetails: "收起玩法", previousChallenge: "上一个挑战", nextChallenge: "下一个挑战", currentChallenge: "当前选择", loginNote: "登录后才能挑战，成绩计入个人最佳和排行榜。", loginToPlay: "登录后挑战", backToHall: "返回大厅", footerNote: "来一场小挑战，记录你的个人最佳。", boardLogin: "登录后查看排行榜，和大家一起挑战。", focusWord: "红",
+    hall: "挑战大厅", boardNav: "排行榜", viewLeaderboard: "查看排行榜", navigation: "天赋测试导航", skip: "跳到挑战", play: "试一试", details: "看玩法", closeDetails: "收起玩法", previousChallenge: "上一个挑战", nextChallenge: "下一个挑战", loginNote: "登录后才能挑战，成绩计入个人最佳和排行榜。", loginToPlay: "登录后挑战", backToHall: "返回大厅", footerNote: "来一场小挑战，记录你的个人最佳。", boardLogin: "登录后查看排行榜，和大家一起挑战。", focusWord: "红",
     cards: {
       reaction: { description: "等变绿，立刻点击。", tags: ["5 轮", "毫秒"] },
       memory: { description: "看亮起的格子，按顺序点回来。", tags: ["九宫格", "顺序记忆"] },
@@ -18,7 +18,7 @@ export const talent = {
   },
   en: {
     authWelcome: "Sign in to play", authCreateAccount: "Create your player account", authNote: "Save your scores. Challenge your personal best.", authSubmitLogin: "Sign in and play", authSubmitRegister: "Register and play",
-    hall: "Challenges", boardNav: "Leaderboard", viewLeaderboard: "View leaderboard", navigation: "Talent test navigation", skip: "Skip to challenges", play: "Try it", details: "How to play", closeDetails: "Back to card", previousChallenge: "Previous challenge", nextChallenge: "Next challenge", currentChallenge: "Selected", loginNote: "Sign in to play and record your personal best on the leaderboard.", loginToPlay: "Sign in to play", backToHall: "Back to challenges", footerNote: "A little challenge. A new personal best.", boardLogin: "Sign in to see the leaderboard and join the challenge.", focusWord: "Red",
+    hall: "Challenges", boardNav: "Leaderboard", viewLeaderboard: "View leaderboard", navigation: "Talent test navigation", skip: "Skip to challenges", play: "Try it", details: "How to play", closeDetails: "Back to card", previousChallenge: "Previous challenge", nextChallenge: "Next challenge", loginNote: "Sign in to play and record your personal best on the leaderboard.", loginToPlay: "Sign in to play", backToHall: "Back to challenges", footerNote: "A little challenge. A new personal best.", boardLogin: "Sign in to see the leaderboard and join the challenge.", focusWord: "Red",
     cards: {
       reaction: { description: "Wait for green. Click right away.", tags: ["5 rounds", "Milliseconds"] },
       memory: { description: "Watch the cells. Repeat the sequence.", tags: ["3 × 3 grid", "Sequence memory"] },

@@ -52,8 +52,7 @@ export function TalentChallengeCards({ t }: { t: TalentCopy }) {
     if (rail && card) rail.scrollTo({ left: card.offsetLeft - (rail.clientWidth - card.offsetWidth) / 2, behavior: "instant" });
   }, [t]);
 
-  return <>
-    <section className="talent-deck-shell" aria-label={t.gamesLabel} onKeyDown={event => {
+  return <section className="talent-deck-shell" aria-label={t.gamesLabel} onKeyDown={event => {
       if (event.ctrlKey || event.metaKey || event.altKey) return;
       if (event.key === "ArrowLeft" || event.key === "ArrowRight") { event.preventDefault(); select(selected + (event.key === "ArrowLeft" ? -1 : 1), true, true); }
       if (event.key === "Escape" && flipped.has(selected)) { event.preventDefault(); flip(selected); }
@@ -75,7 +74,5 @@ export function TalentChallengeCards({ t }: { t: TalentCopy }) {
       </article>)}</div>
       <button className="talent-deck-arrow talent-deck-arrow--prev" disabled={selected === 0} aria-label={t.previousChallenge} onClick={() => select(selected - 1, true, true)}><Arrow previous /></button>
       <button className="talent-deck-arrow talent-deck-arrow--next" disabled={selected === talentGames.length - 1} aria-label={t.nextChallenge} onClick={() => select(selected + 1, true, true)}><Arrow /></button>
-    </section>
-    <div className="talent-deck-status"><span aria-live="polite">{t.currentChallenge} · {t.games[talentGames[selected]].name}</span><div className="talent-deck-dots" role="group" aria-label={t.gamesLabel}>{talentGames.map((game, index) => <button key={game} aria-label={t.games[game].name} aria-pressed={selected === index} onClick={() => select(index)} />)}</div></div>
-  </>;
+    </section>;
 }

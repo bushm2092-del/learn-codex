@@ -84,12 +84,6 @@
 .talent-deck-arrow svg { width: 18px; height: 18px; }
 .talent-deck-arrow--prev { left: calc(var(--talent-deck-inset) - 20px); }.talent-deck-arrow--next { right: calc(var(--talent-deck-inset) - 20px); }
 .talent-deck-arrow:not(:disabled):hover { border-color: var(--ink); }
-.talent-deck-status { position: relative; min-height: 44px; margin: -4px var(--talent-deck-inset) 0; display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 12px; }
-.talent-deck-status > span { position: absolute; left: 0; }
-.talent-deck-dots { display: flex; gap: 4px; }
-.talent-deck-dots button { display: grid; place-items: center; width: 32px; height: 32px; padding: 0; border: 0; background: transparent; }
-.talent-deck-dots button::before { content: ""; width: 7px; height: 7px; border: 1px solid var(--muted); border-radius: 50%; }
-.talent-deck-dots button[aria-pressed="true"]::before { background: var(--ink); border-color: var(--ink); }
 .talent-login-note { margin: 8px var(--talent-inset) 0; font-size: 12px; color: var(--muted); text-align: center; }
 .talent-page { width: min(960px, calc(100% - 2 * var(--talent-inset))); margin: 24px auto 48px; }
 .talent-game-page { --talent-stage-height: clamp(400px, min(62dvh, calc(100dvh - 400px)), 640px); width: min(1120px, calc(100% - 2 * var(--talent-inset))); margin: auto; padding: 20px 0; }
@@ -204,9 +198,8 @@
   .talent-card-face { padding: 18px; }.talent-card h2 { font-size: 20px; }.talent-card-description { font-size: 14px; }
   .talent-card-art { min-height: 108px; }
   .talent-card-color strong { font-size: 52px; }
-  .talent-deck-arrow { top: auto; bottom: -44px; width: 40px; height: 40px; }
+  .talent-deck-arrow { top: auto; bottom: 8px; width: 40px; height: 40px; }
   .talent-deck-arrow--prev { left: var(--talent-inset); }.talent-deck-arrow--next { right: var(--talent-inset); }
-  .talent-deck-status { min-height: 44px; margin-top: 0; }.talent-deck-status > span { display: none; }
   .talent-page { width: calc(100% - 2 * var(--talent-inset)); margin-top: 24px; }
   .talent-game-page { --talent-stage-height: clamp(400px, 62dvh, 480px); margin-block: auto; padding: 20px 0; }
   .talent-workspace-heading { gap: 16px; }

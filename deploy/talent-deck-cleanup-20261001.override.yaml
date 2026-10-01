@@ -1,0 +1,7 @@
+services:
+  api:
+    image: learn-codex-api:talent-login-20261001
+  migrate:
+    image: learn-codex-api:talent-login-20261001
+  frontend:
+    image: learn-codex-frontend:talent-deck-cleanup-20261001
