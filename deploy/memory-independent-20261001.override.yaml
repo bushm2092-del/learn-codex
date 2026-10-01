@@ -1,0 +1,7 @@
+services:
+  api:
+    image: learn-codex-api:memory-independent-20261001
+  migrate:
+    image: learn-codex-api:memory-independent-20261001
+  frontend:
+    image: learn-codex-frontend:memory-independent-20261001

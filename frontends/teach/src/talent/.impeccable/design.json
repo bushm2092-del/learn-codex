@@ -373,7 +373,7 @@
       "selectedCard": "color-mix(in oklch, var(--talent-card-edge), var(--ink) 18%)",
       "cardSides": "Same color/shape; hidden side is inert and aria-hidden; flip returns focus to visible side flip control. Hidden side is absolutely positioned; visible long rules expand the card naturally.",
       "reaction": "waiting Panel/Ink; green Talent Go/White; early and invalid Reaction Card/Talent Wait; sample Reaction Card/Ink",
-      "memory": "Lit and active cells Talent Go/White; disabled during playback.",
+      "memory": "Lit and active cells Talent Go/White; disabled during playback. Each level has an independent random sequence, increasing from 1 to 20 cells; score is the number of fully completed levels.",
       "timed": "Neutral answers; four stimulus inks; correct/wrong text signals.",
       "auth": "Public hall; games redirect to login with next; scores require login; loading/error use real state.",
       "results": "Local score while saving; server score after save; offline retry, expired/session text, disabled replay during save.",

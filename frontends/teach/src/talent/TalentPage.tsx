@@ -102,7 +102,7 @@ function TalentPanel({ game }: { game: TalentGame }) {
           <p className="talent-result__save" role={saveError ? "alert" : "status"}>{saving ? t.saving : saveError === "expired" ? t.expired : saveError === "session" ? t.sessionExpired : saveError ? t.saveError : t.saved}</p>
           <div className="talent-result__actions">{saveError === "offline" && <button className="talent-button talent-button--primary" onClick={() => void save(attempt!.id, submission)}>{t.retry}</button>}{saveError === "session" && <a className="talent-button" href={`/login?next=${encodeURIComponent(`/talent/${game}`)}`}>{t.signIn}</a>}<button className="talent-button" disabled={saving} onClick={() => void start()}>{t.again}</button></div>
         </div> : attempt ? <div className={`talent-stage talent-stage--${game}`}>
-          {game === "reaction" ? <ReactionTest t={t} onFinish={finish} /> : game === "memory" ? <MemoryTest t={t} sequence={attempt.challenge.sequence!} onFinish={finish} /> : <TimedTest t={t} game={game} questions={attempt.challenge.questions!} onFinish={finish} />}
+          {game === "reaction" ? <ReactionTest t={t} onFinish={finish} /> : game === "memory" ? <MemoryTest t={t} sequences={attempt.challenge.sequences!} onFinish={finish} /> : <TimedTest t={t} game={game} questions={attempt.challenge.questions!} onFinish={finish} />}
         </div> : <div className="talent-stage talent-intro">
           <TalentChallengeArt game={game} t={t} />
           <h2>{game === "reaction" ? t.reactionTitle : info.name}</h2><p>{game === "reaction" ? t.reactionHint : info.subtitle}</p>

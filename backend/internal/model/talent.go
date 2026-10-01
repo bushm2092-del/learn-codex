@@ -10,6 +10,8 @@ type TalentQuestion struct {
 }
 
 type TalentChallenge struct {
+	Sequences [][]int `json:"sequences,omitempty"`
+	// 仅用于读取升级前尚未结束的前缀记忆挑战。
 	Sequence  []int            `json:"sequence,omitempty"`
 	Questions []TalentQuestion `json:"questions,omitempty"`
 }

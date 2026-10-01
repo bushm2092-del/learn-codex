@@ -38,12 +38,16 @@ func talentRandom(n int) (int, error) {
 func newTalentChallenge(game string) (storedTalentChallenge, error) {
 	c := storedTalentChallenge{}
 	if game == "memory" {
-		for i := 0; i < 20; i++ {
-			cell, err := talentRandom(9)
-			if err != nil {
-				return c, err
+		for length := 1; length <= 20; length++ {
+			sequence := make([]int, length)
+			for i := range sequence {
+				cell, err := talentRandom(9)
+				if err != nil {
+					return c, err
+				}
+				sequence[i] = cell
 			}
-			c.Sequence = append(c.Sequence, cell)
+			c.Sequences = append(c.Sequences, sequence)
 		}
 	}
 	if game == "reasoning" || game == "focus" {
@@ -141,9 +145,16 @@ func scoreTalent(game string, c storedTalentChallenge, in TalentSubmission) (int
 		if len(in.Answers) > 210 {
 			return 0, 0, 0, ErrInvalid
 		}
+		sequences := c.Sequences
+		// 旧挑战按发出时的规则结算，避免升级中断正在进行的成绩提交。
+		if len(sequences) == 0 {
+			for length := 1; length <= len(c.Sequence); length++ {
+				sequences = append(sequences, c.Sequence[:length])
+			}
+		}
 		offset, level := 0, 0
-		for length := 1; length <= len(c.Sequence); length++ {
-			for j := 0; j < length; j++ {
+		for i, sequence := range sequences {
+			for _, expected := range sequence {
 				if offset == len(in.Answers) {
 					return level, level, 0, nil
 				}
@@ -152,14 +163,17 @@ func scoreTalent(game string, c storedTalentChallenge, in TalentSubmission) (int
 				if value < 0 || value > 8 {
 					return 0, 0, 0, ErrInvalid
 				}
-				if value != c.Sequence[j] {
+				if value != expected {
 					if offset != len(in.Answers) {
 						return 0, 0, 0, ErrInvalid
 					}
 					return level, level, 1, nil
 				}
 			}
-			level = length
+			level = i + 1
+		}
+		if offset != len(in.Answers) {
+			return 0, 0, 0, ErrInvalid
 		}
 		return level, level, 0, nil
 	}

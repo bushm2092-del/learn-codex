@@ -2,8 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import type { TalentCopy } from "../i18n/talent";
 import type { TalentSubmission } from "./types";
 
-export function MemoryTest({ t, sequence, onFinish }: { t: TalentCopy; sequence: number[]; onFinish: (submission: TalentSubmission, score: number) => void }) {
+export function MemoryTest({ t, sequences, onFinish }: { t: TalentCopy; sequences: number[][]; onFinish: (submission: TalentSubmission, score: number) => void }) {
   const [level, setLevel] = useState(1);
+  const sequence = sequences[level - 1];
   const [lit, setLit] = useState<number | null>(null);
   const [watching, setWatching] = useState(true);
   const [position, setPosition] = useState(0);
@@ -36,7 +37,7 @@ export function MemoryTest({ t, sequence, onFinish }: { t: TalentCopy; sequence:
     positionRef.current++; setPosition(positionRef.current);
     if (positionRef.current === level) {
       inputEnabled.current = false;
-      if (level === sequence.length) onFinish({ answers: answers.current }, level);
+      if (level === sequences.length) onFinish({ answers: answers.current }, level);
       else setLevel(value => value + 1);
     }
   }

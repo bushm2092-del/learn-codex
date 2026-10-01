@@ -7,6 +7,7 @@ import (
 )
 
 func TestTalentScoring(t *testing.T) {
+	memory := storedTalentChallenge{TalentChallenge: model.TalentChallenge{Sequences: [][]int{{2}, {4, 1}, {8, 3, 5}}}}
 	tests := []struct {
 		name, game            string
 		challenge             storedTalentChallenge
@@ -18,6 +19,16 @@ func TestTalentScoring(t *testing.T) {
 		{name: "reaction missing round", game: "reaction", in: TalentSubmission{SamplesMS: []int{200}}, invalid: true},
 		{name: "reaction lower boundary", game: "reaction", in: TalentSubmission{SamplesMS: []int{79, 200, 200, 200, 200}}, invalid: true},
 		{name: "reaction upper boundary", game: "reaction", in: TalentSubmission{SamplesMS: []int{5001, 200, 200, 200, 200}}, invalid: true},
+		{name: "memory new sequence each level", game: "memory", challenge: memory, in: TalentSubmission{Answers: []int{2, 4, 1, 8, 3, 5}}, score: 3, correct: 3},
+		{name: "memory previous prefix is wrong", game: "memory", challenge: memory, in: TalentSubmission{Answers: []int{2, 2}}, score: 1, correct: 1, wrong: 1},
+		{name: "memory independent failed third", game: "memory", challenge: memory, in: TalentSubmission{Answers: []int{2, 4, 1, 8, 0}}, score: 2, correct: 2, wrong: 1},
+		{name: "memory independent partial round", game: "memory", challenge: memory, in: TalentSubmission{Answers: []int{2, 4}}, score: 1, correct: 1},
+		{name: "memory first mistake", game: "memory", challenge: memory, in: TalentSubmission{Answers: []int{0}}, wrong: 1},
+		{name: "memory invalid cell", game: "memory", challenge: memory, in: TalentSubmission{Answers: []int{9}}, invalid: true},
+		{name: "memory independent trailing after error", game: "memory", challenge: memory, in: TalentSubmission{Answers: []int{2, 2, 4}}, invalid: true},
+		{name: "memory trailing after completion", game: "memory", challenge: memory, in: TalentSubmission{Answers: []int{2, 4, 1, 8, 3, 5, 0}}, invalid: true},
+		{name: "memory too many answers", game: "memory", challenge: memory, in: TalentSubmission{Answers: make([]int, 211)}, invalid: true},
+		{name: "memory repeated cells", game: "memory", challenge: storedTalentChallenge{TalentChallenge: model.TalentChallenge{Sequences: [][]int{{2}, {2, 2}}}}, in: TalentSubmission{Answers: []int{2, 2, 2}}, score: 2, correct: 2},
 		{name: "memory failed third", game: "memory", challenge: storedTalentChallenge{TalentChallenge: model.TalentChallenge{Sequence: []int{2, 4, 1}}}, in: TalentSubmission{Answers: []int{2, 2, 4, 2, 0}}, score: 2, correct: 2, wrong: 1},
 		{name: "memory partial round", game: "memory", challenge: storedTalentChallenge{TalentChallenge: model.TalentChallenge{Sequence: []int{2, 4, 1}}}, in: TalentSubmission{Answers: []int{2, 2}}, score: 1, correct: 1},
 		{name: "memory complete", game: "memory", challenge: storedTalentChallenge{TalentChallenge: model.TalentChallenge{Sequence: []int{2, 4, 1}}}, in: TalentSubmission{Answers: []int{2, 2, 4, 2, 4, 1}}, score: 3, correct: 3},
@@ -50,13 +61,23 @@ func TestGeneratedTalentChallenges(t *testing.T) {
 			t.Fatal(err)
 		}
 		if game == "memory" {
-			if len(c.Sequence) != 20 {
-				t.Fatal("expected 20 memory cells")
+			if len(c.Sequences) != 20 || len(c.Sequence) != 0 {
+				t.Fatal("expected 20 independent memory sequences")
 			}
-			for _, cell := range c.Sequence {
-				if cell < 0 || cell > 8 {
-					t.Fatal("invalid cell")
+			var answers []int
+			for i, sequence := range c.Sequences {
+				if len(sequence) != i+1 {
+					t.Fatalf("level %d has %d cells", i+1, len(sequence))
 				}
+				for _, cell := range sequence {
+					if cell < 0 || cell > 8 {
+						t.Fatal("invalid cell")
+					}
+				}
+				answers = append(answers, sequence...)
+			}
+			if score, correct, wrong, err := scoreTalent(game, c, TalentSubmission{Answers: answers}); err != nil || score != 20 || correct != 20 || wrong != 0 {
+				t.Fatalf("cannot complete 20 levels: (%d,%d,%d,%v)", score, correct, wrong, err)
 			}
 		}
 		if game == "reasoning" || game == "focus" {

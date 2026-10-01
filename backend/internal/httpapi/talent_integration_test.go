@@ -98,6 +98,20 @@ func TestTalentPostgresFlow(t *testing.T) {
 		if bytes.Contains(out.Challenge, []byte("answers")) {
 			t.Fatal("answer key exposed")
 		}
+		if game == "memory" {
+			var challenge model.TalentChallenge
+			if err := json.Unmarshal(out.Challenge, &challenge); err != nil {
+				t.Fatal(err)
+			}
+			if len(challenge.Sequences) != 20 || len(challenge.Sequence) != 0 {
+				t.Fatal("memory API must return independent sequences")
+			}
+			for i, sequence := range challenge.Sequences {
+				if len(sequence) != i+1 {
+					t.Fatalf("incorrect memory level %d length", i+1)
+				}
+			}
+		}
 		return out.ID
 	}
 	finish := func(game, id, body string, user int) model.TalentResult {
@@ -164,13 +178,14 @@ func TestTalentPostgresFlow(t *testing.T) {
 		var attempt model.TalentAttempt
 		db.First(&attempt, "id = ?", id)
 		var challenge struct {
-			Sequence []int `json:"sequence"`
-			Answers  []int `json:"answers"`
+			Sequences [][]int `json:"sequences"`
+			Answers   []int   `json:"answers"`
 		}
 		json.Unmarshal([]byte(attempt.Challenge), &challenge)
 		answers := challenge.Answers[:0]
 		if game == "memory" {
-			answers = []int{challenge.Sequence[0], challenge.Sequence[0], challenge.Sequence[1]}
+			answers = append(answers, challenge.Sequences[0]...)
+			answers = append(answers, challenge.Sequences[1]...)
 		} else {
 			answers = challenge.Answers[:3]
 			status(request("POST", "/api/v1/talent/"+game+"/attempts/"+id+"/result", `{"answers":[0]}`, 0), 400)

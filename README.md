@@ -91,4 +91,4 @@ Rust directories map to upstream Codex as `codex-rs/<crate>/` → `mini-codex-rs
 
 Context 的工作区源码面板与第四章共用文件树图标与 rust-analyzer SCIP 定义跳转，支持定位目标行和返回。教学站构建需可用的 `rust-analyzer`；源码与索引从同一白名单输入生成，按内容缓存，并在打开面板时加载源码正文。
 
-教学站新增登录后可玩的娱乐模块“天赋测试”，入口 `/talent` 为独立的彩色挑战卡大厅，支持错落卡片、翻面玩法与手机滑动，品牌采用 SVG 图标。反应力、顺序记忆、数字规律判断与颜色干扰四项测试各有独立排行榜，榜单入口 `/talent/leaderboard`，保存个人最佳，同分并列。业务代码位于 `frontends/teach/src/talent/` 与 `backend/internal/{httpapi,service,repository,model}/talent.go`，使用后台迁移 `004_talent_tests.sql`，不修改 Rust 内核或章节学习榜。玩法与本地验证见 [教学站说明](frontends/teach/README.md#天赋测试)，接口见 [后台说明](backend/README.md#天赋测试独立娱乐模块)。
+教学站新增登录后可玩的娱乐模块“天赋测试”，入口 `/talent` 为独立的彩色挑战卡大厅，支持错落卡片、翻面玩法与手机滑动，品牌采用 SVG 图标。反应力、顺序记忆、数字规律判断与颜色干扰四项测试各有独立排行榜，榜单入口 `/talent/leaderboard`，保存个人最佳，同分并列。顺序记忆每关使用独立随机的新顺序，长度从 1 格逐关增加到 20 格。业务代码位于 `frontends/teach/src/talent/` 与 `backend/internal/{httpapi,service,repository,model}/talent.go`，使用后台迁移 `004_talent_tests.sql`，不修改 Rust 内核或章节学习榜。玩法与本地验证见 [教学站说明](frontends/teach/README.md#天赋测试)，接口见 [后台说明](backend/README.md#天赋测试独立娱乐模块)。
