@@ -1,3 +1,7 @@
+[dependencies]
+mini-codex-api = { path = "../codex-api" }
+mini-codex-model-provider-info = { path = "../model-provider-info" }
+
 [package]
 name = "mini-codex-model-provider"
 edition.workspace = true

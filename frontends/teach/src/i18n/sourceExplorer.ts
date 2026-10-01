@@ -1,6 +1,7 @@
 export const sourceExplorer = {
   zh: {
     view: "查看源码",
+    buildSource: "本次构建源码",
     title: "本章源码",
     close: "关闭源码",
     files: "源码文件",
@@ -21,6 +22,7 @@ export const sourceExplorer = {
   },
   en: {
     view: "View source",
+    buildSource: "Source from this build",
     title: "Chapter source",
     close: "Close source",
     files: "Source files",

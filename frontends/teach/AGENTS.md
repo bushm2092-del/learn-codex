@@ -69,3 +69,7 @@
 - 设计文件变更验证 JSON；提交前执行 `git diff --check`。不要修改或提交 `node_modules/`、`dist/`、`*.tsbuildinfo` 等生成产物。
 - 新的目录职责与开发方式同步本目录 README；跨项目命令变化同步根 README 和 Makefile。纯前端变更无需改写 Rust 内核说明。
 - 只有用户要求时创建 Git 提交，采用 Conventional Commits；提交后报告提交号、验证结果和仍未提交的相关事项。
+
+## 文章型章节
+
+文章型章节统一使用 `src/ui/LessonPage.tsx` 与 `LessonArticle.tsx`，排版以第四章为基准。正文存为章节目录内 `.md`，支持 GFM 和显式注册组件 directive（如 `::ContextTrace{id="local"}`）；不要再为每章创建私有 Markdown 解析器、复制课头结构或将整篇正文写成 TS 段落数组。长代码通过共享 `CodeBlock` / `CodeBlockFrame` 展示，源码入口复用 `LessonSourceButton`。纯文字中英文保存在对应 Markdown 文件，其余界面文案仍位于 i18n。新增 Markdown 行为应运行 `pnpm test:articles`。

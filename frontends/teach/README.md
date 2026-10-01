@@ -1,6 +1,6 @@
 # Learn Codex
 
-首页课程卡和侧边章节目录通过 `ChapterTags` 展示正式／草稿状态与已开放章节的累计 PV（阅读次数）；UV 由后台统计但不展示为学习人数。统计失败不伪造为零。s01–s04 为正式文章；s05 上下文机制以草稿形式开放，介绍 Prompt、历史记录顺序及与真实 Codex 历史整理和压缩能力的边界。
+首页课程卡和侧边章节目录通过 `ChapterTags` 展示正式／草稿状态与已开放章节的累计 PV（阅读次数）；UV 由后台统计但不展示为学习人数。统计失败不伪造为零。s01–s04 为正式文章；s05 上下文机制以草稿形式开放，讲解 Prompt、协议历史、调用结果整理、截断与 token 粗估、本地摘要压缩和失败边界；对应 Rust 实现与源路径映射见 [Context 教程](../../mini-codex-docs/docs/tutorial/05-context.md)。
 
 Dockerfile 构建静态前端，由 Nginx 提供 SPA 回退并将 /api/ 转发给后台。部署不使用 Vite preview；前后端离线包见 [部署说明](../../deploy/README.md)。
 
@@ -8,7 +8,7 @@ Dockerfile 构建静态前端，由 Nginx 提供 SPA 回退并将 /api/ 转发�
 
 开发前阅读 [AGENTS.md](AGENTS.md) 中的组件职责和交互约定，以及 [DESIGN.md](DESIGN.md) 中的视觉规范。
 
-`Teach` 是品牌为 **Learn Codex** 的交互式源码教学前端。视觉采用白底、细边框、宽留白和代码实验区，当前阶段尚未写入 Harness 教学正文。
+`Teach` 是品牌为 **Learn Codex** 的交互式源码教学前端。视觉采用白底、细边框、宽留白和代码实验区，已提供 Agent Loop、模型协议、Function Calling 与 Context 教学正文。
 
 ## 目录职责
 
@@ -130,3 +130,47 @@ Agent Loop 自动循环动画前提供简短 Rust 伪代码，说明请求模型
 `ui/Select` 封装 Radix Select，接收 `value`、`options`、`onValueChange`、无障碍 `label` 及可选禁用/占位参数。Portal 菜单统一白底细边框，支持长标题换行、选中标记和键盘操作，不读取业务或语言状态。
 
 第二章和第三章复用 CodeMirror 6 Rust 编辑器（高亮、行号、撤销）、reqwest + tokio + serde_json 示例和异步任务结果。调用模型的示例在表头显示用户 Key 输入，并请求 DeepSeek Responses API 的 `POST /responses`；第三章的第一个示例发送 `tools` 定义并展示模型返回的 `function_call`。模型响应之前单独展示 `tools` 请求片段，并用双列字段指南解释工具类型、名称、描述及 JSON Schema 参数结构。响应讲解下方提供完整可运行的工具闭环：`while` 最多执行 3 轮真实模型请求，解析 `function_call`、按 `name` 调用沙箱内的工具实现、追加同 `call_id` 的 `function_call_output`，再请求模型直到得到最终回答；`get_weather` 使用固定教学数据，模型请求和回传链路是真实的。第三章继续用六步连续轨迹讲解 `function_call → ToolCall → ToolRouter → handler → function_call_output → 再次采样`，并逐项对应 Codex 的 `stream_events_utils.rs`、`tools/parallel.rs`、`tools/router.rs`、`tools/registry.rs`、`tools/context.rs` 与 `session/turn.rs`；协议示例按 DeepSeek 无状态 Responses 行为重放完整输入，不使用其不支持的 `previous_response_id`。文档截图由 `src/ui/ImageZoom` 承载：点击图片用原生 `<dialog>` 原位放大，Escape、遮罩或关闭按钮退出并归还焦点；原文链接位于截图下方图注，图片本身不跳转。依赖在镜像构建时锁定并预编译，不支持用户添加依赖。真实执行依赖后台独立 gVisor worker；默认执行入口关闭。Key 只放当前页面状态，提交后不自动清空，也不写浏览器持久化存储。运行输出使用默认收起的深色终端面板。网络示例只保留普通 HTTPS 调用，由执行镜像内部代理适配；代码不包含 cfg 或 Unix socket。标题旁问号使用 Radix Popover 展示环境限制，支持键盘、Escape 关闭与焦点返回。
+
+Context 章节 `/lessons/context` 同步讲解 Rust 的本地摘要与远程 V2：压缩方式按 provider 能力选择、使用当前配置模型、追加 `compaction_trigger`、校验加密输出后替换历史，并区分重试与失败保留历史。中英文正文位于 `src/lessons/context/article.zh.md` 与 `article.en.md`；课头文案位于 `src/i18n/context.ts`；源码对应与删减范围见 `mini-codex-docs/docs/tutorial/05-context.md`。
+
+Context 章节复用第四章的 `LessonSourceButton` / `SourceExplorer` 文件树、分屏、宽度调整与代码高亮。该章通过 `scripts/local-source.mjs` 的 Vite 虚拟模块打包本次构建的白名单 Rust 源码，标注“本次构建源码”；无对应提交时不展示 GitHub 跳转。其他章节继续使用 `lesson/*` 的提交快照。本地源码与第四章共用 Material Icon Theme 映射和 SCIP 引用解析，支持标识符定义跳转、目标行高亮与返回。构建前需安装 `rust-analyzer`（`rustup component add rust-analyzer`）；索引失败会使构建失败，不静默发布缺少跳转的章节。构建使用隔离输入生成索引，缓存放在忽略的 `.source-cache/`，按全部展示文件内容失效。开发时修改已有白名单文件会重新索引并刷新页面；新增或删除文件后重启开发服务器。白名单包含 Rust、Cargo 清单／锁文件、README、压缩模板及内嵌模型目录 JSON，排除环境文件和构建产物。部署的定义跳转在本章面板内部完成，无对应提交时不提供虚假的 GitHub 地址。
+
+Context 章节已补齐为 19 节双语 Markdown 源码文章，复盘实际学习链路；`i18n/contextAnimations.ts` 保存六组可重放轨迹，`lessons/context/ContextFilm.tsx` 只按 Remotion 当前帧渲染状态，`ui/ContextTracePlayer` 提供播放、暂停、重播、逐步跳转、进度滑块与完整文字步骤。窗口宽度变化保持文字原尺寸，减少动态效果时保留静态状态；离屏和页面隐藏时暂停。图中消息类型为显示简称，token 数为教学样例，不承诺线上测量。
+
+## 共享 Markdown 文章
+
+第四章与 Context 统一使用 `ui/LessonPage.tsx`：课程标题、状态、源码按钮／分屏、概述、正文、前章链接与讨论区由同一壳层组装。`ui/LessonArticle.tsx` 使用 react-markdown、remark-gfm 和 remark-directive 渲染 Markdown，复用第四章的排版，支持嵌套列表、表格、引用、链接和代码围栏；代码统一经过 `ui/CodeBlock.tsx` → `CodeBlockFrame`，支持 Rust、JSON/JSONC、TOML、Bash 高亮与长代码展开。未知语言显示原始代码。
+
+正文保存在 `lessons/<lesson>/article.md` 或 `article.zh.md` / `article.en.md`。页面只传入课程 ID、Markdown、概述和自定义组件注册表，不再把段落存成 TS 数组。已有第四章 Markdown 原文不变（目前正文为中文），迁移后继续使用其课头概述。Context 使用独立中英文文件。
+
+Markdown 中插入已注册组件：
+
+```md
+## 本地压缩 {#context-local}
+
+解释内容，可以使用 **强调**、`代码`、表格和普通链接。
+
+::ContextTrace{id="local"}
+```
+
+页面向 `LessonPage` 传入 `components={{ ContextTrace }}`；组件接收字符串参数 `id="local"`。当前不执行 Markdown 中的 JSX、脚本或任意 import，也不渲染原始 HTML。组件只能来自显式注册表；拼错名称会显示未注册组件提示，而不是静默消失。新增组件可以使用单行 leaf directive 或 container directive（当前作为无 children 的组件插槽使用）。
+
+标题自动生成 GitHub 风格锚点，重复标题追加后缀；可用 `{#id}` 显式指定跨语言稳定锚点。`showContents` 自动生成二级标题目录。行内 `crates/...` 路径仅在当前章节快照／本地源码清单中真实存在时变成可点击按钮，调用同一个 `LessonSourceButton` 的打开事件；不能为未存在的源码制造链接。Context 的动画注册表和 Markdown 渲染函数保持稳定身份，中英文切换不重置播放器进度。
+
+验证共享解析行为：`pnpm test:articles`（Node 22.6+，使用内建 TypeScript stripping）。常规验证仍为 `pnpm check` 与 `pnpm build`。后续文字型章节沿用这套组件；已有一至三章的专用交互舞台不在本次迁移范围内。
+
+源码元数据回归：`node --test tests/sourceSnapshots.test.mjs tests/localSource.test.mjs`。测试图标映射一致性、跨文件定义与行列、工作区内容变化后的缓存失效，以及环境文件／符号链接排除。
+
+## 天赋测试
+
+独立娱乐入口 `/talent` 展示四项挑战卡片，使用自己的 `TalentShell`，不套课程导航或大标题。薄荷绿、奶油黄、淡紫和浅蓝卡片高低错落，支持左右选择、手机横向滑动、翻面看玩法及 Escape 返回正面。品牌图标为可独立复用的 `src/ui/talent-mark.svg`；卡片与游戏示意分别由 `TalentChallengeCards`、`TalentChallengeArt` 提供。课程顶栏与页脚仍提供模块入口。
+
+测试路由为 `/talent/reaction`、`/talent/memory`、`/talent/reasoning`、`/talent/focus`；大厅可匿名查看，测试必须登录，未登录跳转 `/login?next=...`，用户名密码登录或注册后回到所选测试。独立榜单为 `/talent/leaderboard?game=...`，登录后加载所选项目的真实成绩；GitHub OAuth 仍沿用后台现有的首页回跳行为。挑战进行、准备与保存期间模块导航暂停，避免误离开；语言切换和结束本次挑战仍可操作。
+
+`src/talent/` 管测试页面和游戏生命周期：`ReactionTest` 随机等待 2–5 秒，变绿后点击或按空格 / Enter，抢点重试当前轮，5 轮平均耗时上榜；`MemoryTest` 用九宫格逐关复现闪烁顺序，支持点击及数字键 1–9；`TimedTest` 承载 60 秒数字规律与颜色干扰，支持点击及数字键 1–4。顺序记忆最多 20 关；两项限时测试答对 +1、答错 −1、最低 0 分。
+
+`src/i18n/talent.ts` 保存全部中英文文案，语言切换不重置挑战。颜色信号和记忆闪烁是测试本身，反应力变色不加过渡动画。卸载会清理计时器；页面隐藏或窗口失焦中断挑战，需要重新开始；结束本次挑战不会保存部分成绩。双击与按键长按不会连续计入多次操作。
+
+题目由后台生成，完成后自动提交原始点击、选项或毫秒样本。服务端计算成绩，每项各取个人最佳，同分并列。提交失败时保留当前结果并显示“重试保存”，使用原挑战 ID 避免重复成绩；刷新会清空尚未保存的临时结果。共享榜单展示位于 `src/ui/TalentLeaderboard.tsx`，舞台和榜单样式位于 `src/ui/TalentTests.css`。
+
+后台迁移、接口、计分与娱乐榜边界见 [后台说明](../../backend/README.md#天赋测试独立娱乐模块)。验证命令：`pnpm check`、`pnpm build`、`node --experimental-strip-types --test tests/talent.test.mjs`。

@@ -225,7 +225,7 @@ pub fn default_user_shell_from_path(user_shell_path: Option<PathBuf>) -> Detecte
     if cfg!(windows) {
         get_shell(ShellType::PowerShell).unwrap_or_else(ultimate_fallback_shell)
     } else {
-        let user_default_shell = user_shell_path
+        let user_default_shell: Option<DetectedShell> = user_shell_path
             .and_then(|shell| detect_shell_type(&shell))
             .and_then(get_shell);
         let shell_with_fallback = if cfg!(target_os = "macos") {

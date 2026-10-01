@@ -1,0 +1,12 @@
+[package]
+name = "mini-codex-utils-output-truncation"
+edition.workspace = true
+license.workspace = true
+version.workspace = true
+
+[dev-dependencies]
+pretty_assertions.workspace = true
+
+[dependencies]
+mini-codex-protocol = { path = "../../protocol" }
+mini-codex-utils-string = { path = "../string" }

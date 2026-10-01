@@ -13,7 +13,7 @@ export const SOURCE_ROOT = "mini-codex-rs";
 export const BRANCH_REFS = "refs/heads/lesson/";
 export const MAX_FILE_BYTES = 512 * 1024;
 // 跳转表格式变化时递增，使旧的按提交缓存失效。
-const REFS_CACHE_VERSION = 1;
+const REFS_CACHE_VERSION = 2;
 const LESSON_ID = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 function git(repoRoot, args, encoding = "utf8") {
@@ -44,7 +44,7 @@ function listSourceFiles(repoRoot, commit) {
 
 // 文件树图标沿用 Material Icon Theme 的名称映射（light 变体优先）。映射表约 450 KB，
 // 只在生成快照时解析，并仅复制用到的 SVG；未安装该包时不生成图标，前端退回无图标样式。
-function loadIconTheme() {
+export function loadIconTheme() {
   const require = createRequire(import.meta.url);
   try {
     const manifestPath = require.resolve("material-icon-theme/dist/material-icons.json");
@@ -58,7 +58,7 @@ function themeLookup(manifest, table, key) {
   return manifest.light?.[table]?.[key] ?? manifest[table][key];
 }
 
-function fileIcon(manifest, path) {
+export function fileIcon(manifest, path) {
   const name = path.slice(path.lastIndexOf("/") + 1).toLowerCase();
   const parts = name.split(".");
   let icon = themeLookup(manifest, "fileNames", name);
@@ -66,7 +66,7 @@ function fileIcon(manifest, path) {
   return icon ?? manifest.file;
 }
 
-function dirIcons(manifest, path) {
+export function dirIcons(manifest, path) {
   const name = path.slice(path.lastIndexOf("/") + 1).toLowerCase();
   return [themeLookup(manifest, "folderNames", name) ?? manifest.folder, themeLookup(manifest, "folderNamesExpanded", name) ?? manifest.folderExpanded];
 }
@@ -182,7 +182,10 @@ export function buildRefs(index, texts) {
         targets.push(target);
       }
       const [line, start] = position(document, range[0], range[1]);
-      refs.push([line, start, position(document, range[0], range.at(-1))[1], targetIndex.get(id)]);
+      const end = position(document, range[0], range.at(-1))[1];
+      // crate / super 是路径关键字；SCIP 根模块符号可能跨测试 crate 重名，不把它们链接到任意根文件。
+      if (["crate", "super"].includes(lines.get(document.path)[line]?.slice(start, end))) continue;
+      refs.push([line, start, end, targetIndex.get(id)]);
     }
     refs.sort((a, b) => a[0] - b[0] || a[1] - b[1]);
     // 宏展开可能产生重叠区间，前端要求同一行的链接互不重叠。

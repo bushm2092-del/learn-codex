@@ -14,6 +14,7 @@ fn proxy_provider() -> ModelProviderInfo {
         env_key: Some("PROXY_API_KEY".into()),
         env_key_instructions: None,
         wire_api: WireApi::Responses,
+        stream_max_retries: None,
     }
 }
 
@@ -39,6 +40,8 @@ env_key = "PROXY_API_KEY"
     assert_eq!(
         cfg,
         ConfigToml {
+            model_context_window: None,
+            model_auto_compact_token_limit: None,
             model: Some("deepseek-v4-pro".into()),
             model_provider: Some("proxy".into()),
             features: None,
@@ -74,6 +77,8 @@ fn defaults_to_deepseek_provider_and_resolves_cwd() {
     assert_eq!(
         config,
         Config {
+            model_context_window: None,
+            model_auto_compact_token_limit: None,
             model: None,
             model_provider_id: DEEPSEEK_PROVIDER_ID.into(),
             model_provider: ModelProviderInfo::create_deepseek_provider(),
@@ -81,6 +86,7 @@ fn defaults_to_deepseek_provider_and_resolves_cwd() {
             codex_home: codex_home.path().to_path_buf(),
             model_providers: built_in_model_providers(),
             features: Features::default(),
+            token_budget: None,
         }
     );
 }
@@ -90,6 +96,8 @@ fn overrides_take_precedence_over_config_toml() {
     let codex_home = TempDir::new().expect("temp home");
     let cwd = TempDir::new().expect("cwd");
     let cfg = ConfigToml {
+        model_context_window: None,
+        model_auto_compact_token_limit: None,
         model: Some("from-toml".into()),
         model_provider: Some("deepseek".into()),
         features: None,
@@ -112,6 +120,8 @@ fn overrides_take_precedence_over_config_toml() {
     assert_eq!(
         config,
         Config {
+            model_context_window: None,
+            model_auto_compact_token_limit: None,
             model: Some("from-override".into()),
             model_provider_id: "proxy".into(),
             model_provider: proxy_provider(),
@@ -119,6 +129,7 @@ fn overrides_take_precedence_over_config_toml() {
             codex_home: codex_home.path().to_path_buf(),
             model_providers: expected_providers,
             features: Features::default(),
+            token_budget: None,
         }
     );
 }
@@ -128,9 +139,12 @@ fn loads_unified_exec_feature_flags() {
     let codex_home = TempDir::new().expect("temp home");
     let config = Config::load_from_base_config_with_overrides(
         ConfigToml {
+            model_context_window: None,
+            model_auto_compact_token_limit: None,
             features: Some(FeaturesToml {
                 unified_exec: Some(false),
                 unified_exec_tty: Some(false),
+                ..Default::default()
             }),
             ..Default::default()
         },
@@ -146,6 +160,8 @@ fn loads_unified_exec_feature_flags() {
 fn unknown_model_provider_is_not_found() {
     let codex_home = TempDir::new().expect("temp home");
     let cfg = ConfigToml {
+        model_context_window: None,
+        model_auto_compact_token_limit: None,
         model_provider: Some("missing".into()),
         ..Default::default()
     };
@@ -159,4 +175,72 @@ fn unknown_model_provider_is_not_found() {
 
     assert_eq!(err.kind(), ErrorKind::NotFound);
     assert_eq!(err.to_string(), "Model provider `missing` not found");
+}
+
+#[test]
+fn context_limits_survive_config_assembly() {
+    let cfg: ConfigToml =
+        toml::from_str("model_context_window = 16000\nmodel_auto_compact_token_limit = 12000\n")
+            .unwrap();
+    let config = Config::load_from_base_config_with_overrides(
+        cfg,
+        ConfigOverrides::default(),
+        std::env::temp_dir(),
+    )
+    .unwrap();
+    assert_eq!(
+        (
+            config.model_context_window,
+            config.model_auto_compact_token_limit
+        ),
+        (Some(16000), Some(12000))
+    );
+}
+
+#[test]
+fn token_budget_accepts_boolean_and_table_and_validates_settings() {
+    for raw in [
+        "[features]\ntoken_budget = true",
+        "[features.token_budget]\nenabled = true\nreminder_threshold_tokens = 10000\nguidance_message = '准备收尾'",
+    ] {
+        let cfg: ConfigToml = toml::from_str(raw).unwrap();
+        let config = Config::load_from_base_config_with_overrides(
+            cfg,
+            ConfigOverrides::default(),
+            std::env::temp_dir(),
+        )
+        .unwrap();
+        assert!(config.features.enabled(Feature::TokenBudget));
+        assert!(config.token_budget.is_some());
+    }
+    for settings in [
+        "reminder_threshold_tokens = 0",
+        "reminder_message_template = ''",
+        "auto_compact_fallback_prompt = '收尾'",
+        "auto_compact_fallback_buffer_tokens = -1",
+        "use_history_notes_extension = true",
+    ] {
+        let cfg = toml::from_str(&format!(
+            "[features.token_budget]\nenabled = true\n{settings}"
+        ))
+        .unwrap();
+        assert!(
+            Config::load_from_base_config_with_overrides(
+                cfg,
+                ConfigOverrides::default(),
+                std::env::temp_dir()
+            )
+            .is_err()
+        );
+    }
+    let cfg =
+        toml::from_str("[features.token_budget]\nenabled = false\nreminder_threshold_tokens = 0")
+            .unwrap();
+    let config = Config::load_from_base_config_with_overrides(
+        cfg,
+        ConfigOverrides::default(),
+        std::env::temp_dir(),
+    )
+    .unwrap();
+    assert_eq!(config.token_budget, None);
 }

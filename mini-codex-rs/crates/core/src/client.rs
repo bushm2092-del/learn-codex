@@ -4,6 +4,7 @@ use anyhow::Context;
 use anyhow::Result;
 use eventsource_stream::Eventsource;
 use futures::StreamExt;
+use mini_codex_protocol::TokenUsage;
 use mini_codex_protocol::models::ResponseItem;
 use serde::Deserialize;
 use serde_json::Value;
@@ -98,6 +99,7 @@ impl ModelClient for OpenAiResponsesClient {
 
             // bytes_stream() 提供原始响应字节流，eventsource() 再按照 SSE 协议
             // 将字节解析成一帧一帧的事件。
+            let reasoning_included = response.headers().contains_key("x-reasoning-included");
             let stream = response
                 .bytes_stream()
                 .eventsource()
@@ -116,7 +118,10 @@ impl ModelClient for OpenAiResponsesClient {
                         Err(error) => Some(Err(error)),
                     }
                 });
-            Ok(Box::pin(stream) as ResponseStream)
+            let prefix = futures::stream::iter(
+                reasoning_included.then_some(Ok(ResponseEvent::ServerReasoningIncluded(true))),
+            );
+            Ok(Box::pin(prefix.chain(stream)) as ResponseStream)
         })
     }
 }
@@ -141,9 +146,51 @@ struct WireEvent {
 #[derive(Deserialize)]
 struct WireResponse {
     #[serde(default)]
+    id: String,
+    #[serde(default)]
+    usage: Option<Value>,
+    #[serde(default)]
     error: Option<WireError>,
     #[serde(default)]
     incomplete_details: Option<Value>,
+}
+
+#[derive(Debug, Deserialize)]
+struct ResponseCompletedUsage {
+    input_tokens: i64,
+    input_tokens_details: Option<ResponseCompletedInputTokensDetails>,
+    output_tokens: i64,
+    output_tokens_details: Option<ResponseCompletedOutputTokensDetails>,
+    total_tokens: i64,
+}
+
+impl From<ResponseCompletedUsage> for TokenUsage {
+    fn from(val: ResponseCompletedUsage) -> Self {
+        let input_tokens_details = val.input_tokens_details.unwrap_or_default();
+        TokenUsage {
+            input_tokens: val.input_tokens,
+            cached_input_tokens: input_tokens_details.cached_tokens,
+            cache_write_input_tokens: input_tokens_details.cache_write_tokens,
+            output_tokens: val.output_tokens,
+            reasoning_output_tokens: val
+                .output_tokens_details
+                .map(|d| d.reasoning_tokens)
+                .unwrap_or(0),
+            total_tokens: val.total_tokens,
+        }
+    }
+}
+
+#[derive(Debug, Default, Deserialize)]
+struct ResponseCompletedInputTokensDetails {
+    cached_tokens: i64,
+    #[serde(default)]
+    cache_write_tokens: i64,
+}
+
+#[derive(Debug, Deserialize)]
+struct ResponseCompletedOutputTokensDetails {
+    reasoning_tokens: i64,
 }
 
 /// 服务端失败事件中的错误信息。
@@ -171,7 +218,24 @@ fn normalize_event(data: &str) -> Result<Option<ResponseEvent>> {
         // 一个完整输出项结束，例如最终完成的工具调用项。
         "response.output_item.done" => event.item.map(ResponseEvent::OutputItemDone),
         // 整个 response 正常结束。
-        "response.completed" => Some(ResponseEvent::Completed),
+        "response.completed" => {
+            let response = event.response;
+            let response_id = response.as_ref().map(|r| r.id.clone()).unwrap_or_default();
+            let token_usage = response
+                .and_then(|r| r.usage)
+                .map(serde_json::from_value::<ResponseCompletedUsage>)
+                .transpose()
+                .map_err(|err| {
+                    mini_codex_protocol::error::CodexErr::Stream(format!(
+                        "failed to parse ResponseCompleted: {err}"
+                    ))
+                })?
+                .map(Into::into);
+            Some(ResponseEvent::Completed {
+                response_id,
+                token_usage,
+            })
+        }
         // 服务端明确判定请求失败，将错误消息转成 anyhow::Error。
         "response.failed" => {
             let message = event

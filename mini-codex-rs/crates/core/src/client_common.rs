@@ -18,7 +18,11 @@ pub struct Prompt {
 pub enum ResponseEvent {
     OutputTextDelta(String),
     OutputItemDone(ResponseItem),
-    Completed,
+    Completed {
+        response_id: String,
+        token_usage: Option<mini_codex_protocol::TokenUsage>,
+    },
+    ServerReasoningIncluded(bool),
 }
 
 pub type ResponseStream = Pin<Box<dyn Stream<Item = Result<ResponseEvent>> + Send>>;

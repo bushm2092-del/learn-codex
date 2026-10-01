@@ -1,0 +1,220 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-01T05:35:51.473685+00:00",
+  "title": "Design System: 天赋测试 · 卡片交互预览",
+  "extensions": {
+    "colorMeta": {
+      "paper": {
+        "role": "neutral",
+        "displayName": "页面纸灰"
+      },
+      "raised": {
+        "role": "neutral",
+        "displayName": "浅抬起面"
+      },
+      "gray": {
+        "role": "neutral",
+        "displayName": "卡片灰"
+      },
+      "gray-2": {
+        "role": "neutral",
+        "displayName": "待机灰"
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "深墨"
+      },
+      "text": {
+        "role": "neutral",
+        "displayName": "正文墨"
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "说明灰"
+      },
+      "rule": {
+        "role": "neutral",
+        "displayName": "常态细线"
+      },
+      "edge": {
+        "role": "neutral",
+        "displayName": "强调描边"
+      },
+      "green": {
+        "role": "primary",
+        "displayName": "绿色信号"
+      },
+      "red": {
+        "role": "primary",
+        "displayName": "红色题面"
+      },
+      "blue": {
+        "role": "primary",
+        "displayName": "蓝色题面"
+      },
+      "yellow": {
+        "role": "primary",
+        "displayName": "黄色题面"
+      },
+      "signal-text": {
+        "role": "neutral",
+        "displayName": "信号白字"
+      }
+    },
+    "typographyMeta": {
+      "headline": {
+        "displayName": "大厅标题",
+        "purpose": "适中的首屏标题。"
+      },
+      "title": {
+        "displayName": "挑战标题",
+        "purpose": "卡面项目名称。"
+      },
+      "body": {
+        "displayName": "正文",
+        "purpose": "规则与说明。"
+      },
+      "label": {
+        "displayName": "标签",
+        "purpose": "轻量元信息。"
+      },
+      "button": {
+        "displayName": "行动",
+        "purpose": "描边与实心行动。"
+      },
+      "result": {
+        "displayName": "本轮结果",
+        "purpose": "成绩数值，使用 tabular-nums。"
+      }
+    },
+    "shadows": [
+      {
+        "name": "lift",
+        "value": "0 1px 1px oklch(13% 0 0 / .05), 0 2px 3px oklch(13% 0 0 / .04), 0 6px 12px oklch(13% 0 0 / .05)",
+        "purpose": "挑战卡与试玩面。"
+      },
+      {
+        "name": "cap",
+        "value": "inset 0 1px 0 oklch(100% 0 0 / .9), 0 1px 0 oklch(13% 0 0 / .14), 0 2px 3px oklch(13% 0 0 / .08)",
+        "purpose": "圆形切换键。"
+      },
+      {
+        "name": "button-pressed",
+        "value": "inset 0 1px 2px oklch(13% 0 0 / .14)",
+        "purpose": "普通按钮按下反馈。"
+      }
+    ],
+    "motion": [
+      {
+        "name": "card-straighten",
+        "value": "transform 260ms cubic-bezier(.16,1,.3,1)",
+        "purpose": "选中、悬停与聚焦归正并上移4px。"
+      },
+      {
+        "name": "card-flip",
+        "value": "transform 650ms cubic-bezier(.16,1,.3,1)",
+        "purpose": "1400px透视下绕Y轴翻面180°。"
+      },
+      {
+        "name": "reduced-motion",
+        "value": "transition: none !important; scroll-behavior: auto !important; transform: none !important",
+        "purpose": "减少动态时取消过渡、平滑滚动与卡片倾斜。"
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "compact",
+        "value": "760px"
+      },
+      {
+        "name": "narrow",
+        "value": "380px"
+      },
+      {
+        "name": "wide",
+        "value": "1700px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "描边行动",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "大厅试玩与返回的中性行动。",
+      "html": "<button class=\"ds-button\">试一试<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" width=\"16\" height=\"16\" aria-hidden=\"true\"><path d=\"M5 12h14m-6-6 6 6-6 6\"/></svg></button>",
+      "css": ".ds-button { min-height:44px;display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:10px 18px;border-radius:6px;border:1px solid var(--rule, oklch(13% 0 0 / .16));background:transparent;color:var(--text, oklch(22% 0 0));text-decoration:none;font:14px/1.6 system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;font-weight:570;cursor:pointer; } .ds-button:hover { background:var(--gray-2, oklch(88% 0 0));border-color:var(--edge, oklch(13% 0 0 / .48)); } .ds-button:active { box-shadow:inset 0 1px 2px oklch(13% 0 0 / .14); } .ds-button:disabled { opacity:.35;cursor:default; } .ds-button:focus-visible,.ds-card:focus-visible,.ds-pager:focus-visible,.ds-nav a:focus-visible { outline:2px solid var(--ink, oklch(13% 0 0));outline-offset:4px; }"
+    },
+    {
+      "name": "实心行动",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "开始与再试一次。",
+      "html": "<button class=\"ds-button ds-primary\">开始挑战</button>",
+      "css": ".ds-button { min-height:44px;display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:10px 18px;border-radius:6px;border:1px solid var(--rule, oklch(13% 0 0 / .16));background:transparent;color:var(--text, oklch(22% 0 0));text-decoration:none;font:14px/1.6 system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;font-weight:570;cursor:pointer; } .ds-button:hover { background:var(--gray-2, oklch(88% 0 0));border-color:var(--edge, oklch(13% 0 0 / .48)); } .ds-button:active { box-shadow:inset 0 1px 2px oklch(13% 0 0 / .14); } .ds-button:disabled { opacity:.35;cursor:default; } .ds-button:focus-visible,.ds-card:focus-visible,.ds-pager:focus-visible,.ds-nav a:focus-visible { outline:2px solid var(--ink, oklch(13% 0 0));outline-offset:4px; }.ds-primary { background:var(--text, oklch(22% 0 0));color:var(--raised, oklch(99.5% 0 0));border-color:var(--text, oklch(22% 0 0)); } .ds-primary:hover { background:var(--ink, oklch(13% 0 0)); }"
+    },
+    {
+      "name": "规则标签",
+      "kind": "chip",
+      "refersTo": "tag",
+      "description": "说明轮数、计分单位或挑战类型。",
+      "html": "<span class=\"ds-tag\">5 轮</span>",
+      "css": ".ds-tag { display:inline-flex;padding:3px 8px;border:1px solid var(--rule, oklch(13% 0 0 / .16));border-radius:4px;font:12px/1.6 system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;color:var(--muted, oklch(46% 0 0)); }"
+    },
+    {
+      "name": "圆形切换键",
+      "kind": "button",
+      "refersTo": "pager",
+      "description": "卡组左右切换，边界禁用。",
+      "html": "<button class=\"ds-pager\" aria-label=\"下一个挑战\"><svg viewBox=\"0 0 20 20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" width=\"17\" height=\"17\" aria-hidden=\"true\"><path d=\"m7 4 6 6-6 6\"/></svg></button>",
+      "css": ".ds-pager { width:44px;height:44px;display:grid;place-items:center;border:1px solid var(--edge, oklch(13% 0 0 / .48));border-radius:50%;background:var(--raised, oklch(99.5% 0 0));color:var(--text, oklch(22% 0 0));box-shadow:var(--cap, inset 0 1px 0 oklch(100% 0 0 / .9), 0 1px 0 oklch(13% 0 0 / .14), 0 2px 3px oklch(13% 0 0 / .08));cursor:pointer; } .ds-pager:hover:not(:disabled) { border-color:var(--ink, oklch(13% 0 0)); } .ds-pager:disabled { opacity:.35;cursor:default; } .ds-button:focus-visible,.ds-card:focus-visible,.ds-pager:focus-visible,.ds-nav a:focus-visible { outline:2px solid var(--ink, oklch(13% 0 0));outline-offset:4px; }"
+    },
+    {
+      "name": "模块导航",
+      "kind": "nav",
+      "description": "当前入口使用文字与下划线双重标识。",
+      "html": "<nav class=\"ds-nav\" aria-label=\"天赋测试\"><a href=\"#hall\" aria-current=\"page\">挑战大厅</a><a href=\"#board\">排行榜</a></nav>",
+      "css": ".ds-nav { display:flex;align-items:center;gap:28px;font:14px/1.6 system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif; } .ds-nav a { min-height:44px;display:inline-flex;align-items:center;text-decoration:none;color:var(--muted, oklch(46% 0 0)); } .ds-nav a[aria-current=\"page\"] { color:var(--ink, oklch(13% 0 0));text-decoration:underline;text-underline-offset:8px; } .ds-button:focus-visible,.ds-card:focus-visible,.ds-pager:focus-visible,.ds-nav a:focus-visible { outline:2px solid var(--ink, oklch(13% 0 0));outline-offset:4px; }"
+    },
+    {
+      "name": "灰色挑战卡",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "轻倾斜，悬停或聚焦归正，细描边加强状态。",
+      "html": "<article class=\"ds-card\" tabindex=\"0\"><div class=\"ds-face\"><h2>反应力</h2><p>等待一个信号，抓住变绿的瞬间。</p><button class=\"ds-button\">试一试<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" width=\"16\" height=\"16\" aria-hidden=\"true\"><path d=\"M5 12h14m-6-6 6 6-6 6\"/></svg></button></div></article>",
+      "css": ".ds-card { width:clamp(284px,22vw,342px);perspective:1400px;transform:rotate(-.65deg);transition:transform 260ms cubic-bezier(.16,1,.3,1);font:16px/1.6 system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;color:var(--text, oklch(22% 0 0)); } .ds-card:hover,.ds-card:focus-within,.ds-card.ds-selected { transform:rotate(0deg) translateY(-4px); } .ds-face { min-height:454px;background:var(--gray, oklch(92% 0 0));border:1px solid var(--rule, oklch(13% 0 0 / .16));border-radius:9px;box-shadow:var(--lift, 0 1px 1px oklch(13% 0 0 / .05), 0 2px 3px oklch(13% 0 0 / .04), 0 6px 12px oklch(13% 0 0 / .05));padding:24px;display:flex;flex-direction:column; } .ds-card:is(.ds-selected,:hover,:focus-within) .ds-face { border-color:var(--edge, oklch(13% 0 0 / .48)); } .ds-card h2 { font-size:23px;font-weight:650;line-height:1.25;margin:0 0 10px;letter-spacing:-.02em;color:var(--ink, oklch(13% 0 0)); } .ds-card p { margin:0 0 18px;font-size:17px;line-height:1.5; } .ds-card .ds-button { margin-top:auto;align-self:start; } .ds-button { min-height:44px;display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:10px 18px;border-radius:6px;border:1px solid var(--rule, oklch(13% 0 0 / .16));background:transparent;color:var(--text, oklch(22% 0 0));text-decoration:none;font:14px/1.6 system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;font-weight:570;cursor:pointer; } .ds-button:hover { background:var(--gray-2, oklch(88% 0 0));border-color:var(--edge, oklch(13% 0 0 / .48)); } .ds-button:active { box-shadow:inset 0 1px 2px oklch(13% 0 0 / .14); } .ds-button:disabled { opacity:.35;cursor:default; } .ds-button:focus-visible,.ds-card:focus-visible,.ds-pager:focus-visible,.ds-nav a:focus-visible { outline:2px solid var(--ink, oklch(13% 0 0));outline-offset:4px; } @media (prefers-reduced-motion:reduce) { .ds-card { transform:none!important;transition:none!important; } }"
+    }
+  ],
+  "narrative": {
+    "northStar": "灰纸挑战卡",
+    "overview": "轻微倾斜的灰卡像一组可以拿起、归正、翻看的挑战卡。系统字体、细描边与软阴影保持安静，题目和操作承担主要注意力；彩色只服务游戏信号。\n\n本文件只约束 `frontends/teach/.impeccable/previews/talent-deck/` 的独立静态预览。数值从 `styles.css` 提取；前置 token 是规范，阴影、动态和断点保存在 `.impeccable/design.json`。不改写教学站或正式 `/talent` 的设计体系。",
+    "keyCharacteristics": [
+      "中性灰卡、细边框和轻软阴影。",
+      "选中、悬停或聚焦时卡片归正；翻面展示玩法。",
+      "描边行动、圆形切换键、可见项目指示。",
+      "中英文可操作，移动端保留原生横向滑动。"
+    ],
+    "rules": [
+      {
+        "name": "The Game Signal Rule",
+        "body": "游戏色只表达真实信号或题目，不成为导航、挑战卡或排行榜的装饰底色。",
+        "section": "colors"
+      },
+      {
+        "name": "The Controlled Motion Rule",
+        "body": "归正使用（260ms），翻面使用（650ms）与同一缓出曲线。减少动态时取消过渡、平滑滚动和卡片倾斜；游戏信号直接切换颜色。",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do 保留灰卡、细边框、软阴影与描边行动的组合。",
+      "Do 同时提供可见焦点、当前项标记、键盘操作与减少动态支持。",
+      "Do 用真实中英文内容检验卡面、答案和移动端换行。"
+    ],
+    "donts": [
+      "Don't 将游戏色扩散成大厅或导航的装饰配色。",
+      "Don't 把预览成绩或空排行榜描述为已保存的账号数据。",
+      "Don't 将本预览的设计记录推广为课程或正式模块的全站规则。"
+    ]
+  }
+}

@@ -13,7 +13,7 @@ export function LoginPage() {
   const { user, refresh } = useAuth();
   const [params] = useSearchParams();
   const next = params.get("next");
-  const destination = next === "/leaderboard" || next === "/lessons/agent-loop" ? next : "/";
+  const destination = next === "/leaderboard" || next === "/lessons/agent-loop" || next === "/talent" || /^\/talent\/(reaction|memory|reasoning|focus)$/.test(next ?? "") || /^\/talent\/leaderboard(?:\?game=(reaction|memory|reasoning|focus))?$/.test(next ?? "") ? next! : "/";
   const [register, setRegister] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");

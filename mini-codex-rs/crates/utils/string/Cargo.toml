@@ -1,0 +1,8 @@
+[package]
+name = "mini-codex-utils-string"
+edition.workspace = true
+license.workspace = true
+version.workspace = true
+
+[dev-dependencies]
+pretty_assertions.workspace = true

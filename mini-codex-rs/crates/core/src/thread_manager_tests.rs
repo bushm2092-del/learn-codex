@@ -29,6 +29,7 @@ fn manager_with_unified_exec(enabled: bool) -> ThreadManager {
             features: Some(FeaturesToml {
                 unified_exec: Some(enabled),
                 unified_exec_tty: Some(true),
+                ..Default::default()
             }),
             ..Default::default()
         },

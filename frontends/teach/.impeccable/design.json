@@ -474,7 +474,53 @@
         "name": "single-column",
         "value": "900px"
       }
-    ]
+    ],
+    "contextTraces": {
+      "surface": "Read: Context article",
+      "messageColors": {
+        "user": [
+          "#245fc7",
+          "#ffffff"
+        ],
+        "assistant": [
+          "#52525b",
+          "#ffffff"
+        ],
+        "toolCall": [
+          "#fff1d6",
+          "#783b08"
+        ],
+        "toolResult": [
+          "#dcfce7",
+          "#14532d"
+        ],
+        "context": [
+          "#e9f1ff",
+          "#244a7c"
+        ]
+      },
+      "motion": "Remotion 30fps, 6 seconds per step, 22-frame clip/opacity entrance; paused by default; offscreen pause; static reduced-motion states",
+      "controls": "Play/pause, replay, previous/next, keyboard range input, complete text transcript",
+      "responsive": "Canvas uses container width without scaling text; wrapped message rows and long identifiers"
+    },
+    "markdownArticles": {
+      "shell": "Shared LessonPage: title/index, description, status/source actions, overview, Markdown body, back link and community",
+      "renderer": "LessonArticle with react-markdown + GFM + registered component directives",
+      "typography": "Chapter-four baseline: 16px / 1.75; h2 23px; h3 18px",
+      "code": "Shared CodeBlock/CodeBlockFrame, source links only to real snapshot paths",
+      "content": "Per-lesson Markdown; bilingual files share explicit heading IDs; embedded component identity stays stable"
+    },
+    "talentTests": {
+      "scope": "Independent Talent world only; global course rules do not apply.",
+      "design": "src/talent/DESIGN.md",
+      "sidecar": "src/talent/.impeccable/design.json"
+    },
+    "navigationMenu": {
+      "source": "src/ui/NavigationMenu.tsx; src/ui/NavigationMenu.css",
+      "scope": "Shared mobile navigation below 680px, assembled by AppShell from entry props.",
+      "appearance": "Neutral 36px-wide, 44px-minimum-height hamburger trigger; existing Radix white, fine-border menu with 44px-minimum-height rows.",
+      "behavior": "Course, talent-test and learning-leaderboard links; current route has a check and aria-current; keyboard arrows, Escape close and focus return; language and account controls remain available."
+    }
   },
   "components": [
     {
@@ -548,6 +594,14 @@
       "description": "Current teaching operation with a text marker and subtle enlargement.",
       "html": "<section class=\"ds-focus-panel\" data-active=\"true\"><div class=\"ds-focus-panel__label\"><span>README.md</span><strong>看这里</strong></div><p>当前操作的文件内容</p></section>",
       "css": ".ds-focus-panel {\n  position: relative;\n  min-width: 0;\n  border: 1px solid var(--line);\n  border-radius: 8px;\n  background: #fff;\n  transform-origin: center top;\n  transition: transform 200ms ease-out, border-color 200ms ease-out;\n}\n.ds-focus-panel[data-active=\"true\"] {\n  border-color: var(--blue);\n  outline: 1px solid var(--blue);\n  transform: scale(1.015);\n  z-index: 1;\n}\n.ds-focus-panel__label {\n  display: flex;\n  justify-content: space-between;\n  gap: 8px;\n  padding: 8px 12px;\n  min-height: 34px;\n  border-bottom: 1px solid var(--line-soft);\n  color: var(--muted);\n  font-size: 11px;\n}\n.ds-focus-panel__label strong { color: var(--ink); font-weight: 600; }\n.ds-focus-panel[data-active=\"true\"] > .ds-focus-panel__label { background: var(--blue-soft); color: var(--ink); }\n@media (prefers-reduced-motion: reduce) {\n  .ds-focus-panel { transition: none; }\n  .ds-focus-panel[data-active=\"true\"] { transform: none; }\n}\n"
+    },
+    {
+      "name": "Mobile Navigation Menu",
+      "kind": "nav",
+      "refersTo": "navigation-menu-trigger",
+      "description": "Compact Radix mobile entry menu; the static snippet displays its open appearance.",
+      "html": "<nav class=\"ds-mobile-navigation\"><button aria-label=\"站点导航\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M4 6h16M4 12h16M4 18h16\" /></svg></button><div class=\"ds-mobile-navigation-panel\"><a href=\"#\">课程</a><a href=\"#\" aria-current=\"page\">天赋测试<svg viewBox=\"0 0 16 16\" aria-hidden=\"true\"><path d=\"m3 8 3 3 7-7\" /></svg></a><a href=\"#\">学习排行榜</a></div></nav>",
+      "css": ".ds-mobile-navigation { color:var(--ink,#111113); font-family:ui-sans-serif,system-ui,sans-serif; } .ds-mobile-navigation>button { display:flex; align-items:center; justify-content:center; width:36px; min-height:44px; padding:8px; border:0; border-radius:6px; background:transparent; color:var(--muted,#71717a); cursor:pointer; } .ds-mobile-navigation>button:hover { background:var(--panel,#fafafa); color:var(--ink,#111113); } .ds-mobile-navigation svg { fill:none; stroke:currentColor; stroke-width:1.5; } .ds-mobile-navigation>button svg { width:20px; height:20px; } .ds-mobile-navigation>button:focus-visible { outline:2px solid var(--blue,#3b82f6); outline-offset:3px; } .ds-mobile-navigation-panel { min-width:132px; padding:4px; border:1px solid var(--line,#e4e4e7); border-radius:6px; background:#fff; box-shadow:0 2px 6px rgba(24,24,27,.04); } .ds-mobile-navigation-panel a { display:grid; grid-template-columns:1fr 14px; align-items:center; gap:16px; min-height:44px; padding:6px 10px; border-radius:3px; color:var(--muted,#71717a); font-size:14px; line-height:1.5; text-decoration:none; } .ds-mobile-navigation-panel a[aria-current=\"page\"] { color:var(--ink,#111113); } .ds-mobile-navigation-panel a:hover { color:var(--ink,#111113); background:var(--panel,#fafafa); } .ds-mobile-navigation-panel a:focus-visible { outline:2px solid var(--blue,#3b82f6); outline-offset:-2px; } .ds-mobile-navigation-panel a svg { width:14px; height:14px; }"
     }
   ],
   "narrative": {
@@ -589,6 +643,7 @@
       "登录注册页使用 400px 单列表单、46px 输入框、黑色主按钮和次级 GitHub 按钮，错误仅在表单内显示。",
       "学习社区沿用白底细线与黑色操作按钮；评论、打卡和统计展示真实接口状态，移动端保留排行榜入口。",
       "课程伪代码使用 Shiki / GitHub Light，白底细边框、9px 圆角、14px 等宽字体与 1.8 行高；窄屏仅代码区横向滚动。",
+      "Do 工作区源码与提交章节共用文件树图标、定义跳转、目标行高亮和返回。",
       "Do 用排版、留白和一像素边框先解决信息层级。",
       "Do 把蓝色留给焦点、章节节点、主题标签和运行信号。",
       "Do 让课程动画具备播放、暂停、重播和 reduced-motion 降级。",

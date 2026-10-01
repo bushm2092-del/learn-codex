@@ -3,10 +3,14 @@
 mod client;
 mod client_common;
 mod codex_thread;
+mod compact;
+mod compact_remote_history;
+mod compact_remote_v2;
 pub mod config;
 mod context;
 mod context_manager;
 mod function_tool;
+mod responses_retry;
 mod session;
 mod shell;
 mod thread_manager;
@@ -20,3 +24,6 @@ pub use client_common::ResponseEvent;
 pub use client_common::ResponseStream;
 pub use codex_thread::CodexThread;
 pub use thread_manager::ThreadManager;
+
+mod compact_token_budget;
+mod state;

@@ -1,0 +1,8 @@
+[package]
+name = "mini-codex-async-utils"
+edition.workspace = true
+license.workspace = true
+version.workspace = true
+
+[dependencies]
+rand.workspace = true

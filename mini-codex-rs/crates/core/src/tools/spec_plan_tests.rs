@@ -84,7 +84,10 @@ fn exposure_filters_specs_and_search_requires_both_capabilities() {
             model.supports_search_tool = supports_search;
             let router = finalize_tool_router(
                 &model,
-                &ProviderCapabilities { namespace_tools },
+                &ProviderCapabilities {
+                    namespace_tools,
+                    ..ProviderCapabilities::default()
+                },
                 registry(),
                 &ToolSearchHandlerCache::default(),
             );
@@ -112,6 +115,7 @@ fn exposure_filters_specs_and_search_requires_both_capabilities() {
         &model_info(),
         &ProviderCapabilities {
             namespace_tools: true,
+            ..ProviderCapabilities::default()
         },
         only_direct,
         &ToolSearchHandlerCache::default(),
@@ -173,6 +177,7 @@ async fn run_script(responses: Vec<Vec<ResponseEvent>>) -> Vec<Prompt> {
         &model_info(),
         &ProviderCapabilities {
             namespace_tools: true,
+            ..ProviderCapabilities::default()
         },
         registry(),
         &ToolSearchHandlerCache::default(),
@@ -183,6 +188,14 @@ async fn run_script(responses: Vec<Vec<ResponseEvent>>) -> Vec<Prompt> {
         String::new(),
         std::env::temp_dir(),
         "test".to_string(),
+        Arc::new(
+            crate::config::Config::load_from_base_config_with_overrides(
+                mini_codex_config::ConfigToml::default(),
+                crate::config::ConfigOverrides::default(),
+                std::env::temp_dir(),
+            )
+            .unwrap(),
+        ),
     );
     thread
         .start_turn("Find my calendar appointments".to_string())
@@ -207,9 +220,9 @@ async fn run_script(responses: Vec<Vec<ResponseEvent>>) -> Vec<Prompt> {
 #[tokio::test]
 async fn deferred_search_definitions_enter_history_then_tool_executes() {
     let prompts = run_script(vec![
-        vec![item(json!({"type":"tool_search_call", "call_id":"search-1", "execution":"client", "arguments":{"query":"calendar", "limit":8}})), ResponseEvent::Completed],
-        vec![item(json!({"type":"function_call", "call_id":"call-1", "namespace":"functions", "name":"calendar_lookup", "arguments":"{}"})), ResponseEvent::Completed],
-        vec![ResponseEvent::Completed],
+        vec![item(json!({"type":"tool_search_call", "call_id":"search-1", "execution":"client", "arguments":{"query":"calendar", "limit":8}})), ResponseEvent::Completed { response_id: "response-test".into() , token_usage: None}],
+        vec![item(json!({"type":"function_call", "call_id":"call-1", "namespace":"functions", "name":"calendar_lookup", "arguments":"{}"})), ResponseEvent::Completed { response_id: "response-test".into() , token_usage: None}],
+        vec![ResponseEvent::Completed { response_id: "response-test".into() , token_usage: None}],
     ]).await;
     assert_eq!(prompts.len(), 3);
     assert!(
@@ -254,8 +267,8 @@ async fn empty_queries_zero_limit_and_no_matches_return_empty_search_output() {
         json!({"query":"zzzzunmatchedtoken"}),
     ] {
         let prompts = run_script(vec![
-            vec![item(json!({"type":"tool_search_call","call_id":"search-empty","execution":"client","arguments":args})), ResponseEvent::Completed],
-            vec![ResponseEvent::Completed],
+            vec![item(json!({"type":"tool_search_call","call_id":"search-empty","execution":"client","arguments":args})), ResponseEvent::Completed { response_id: "response-test".into() , token_usage: None}],
+            vec![ResponseEvent::Completed { response_id: "response-test".into() , token_usage: None}],
         ]).await;
         let output = prompts[1]
             .input

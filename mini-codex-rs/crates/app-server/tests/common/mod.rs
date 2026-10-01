@@ -44,7 +44,7 @@ pub fn text_reply(text: &str) -> Vec<ResponseEvent> {
         ResponseEvent::OutputItemDone(
             serde_json::from_value(json!({"type": "message", "role": "assistant", "content": [{"type": "output_text", "text": text}]})).unwrap(),
         ),
-        ResponseEvent::Completed,
+        ResponseEvent::Completed { response_id: "response-test".into() , token_usage: None},
     ]
 }
 

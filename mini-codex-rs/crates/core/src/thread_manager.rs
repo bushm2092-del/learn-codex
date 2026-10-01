@@ -62,6 +62,7 @@ impl ThreadManager {
             model_info,
             &mini_codex_model_provider::ProviderCapabilities {
                 namespace_tools: false,
+                ..mini_codex_model_provider::ProviderCapabilities::default()
             },
             tool_registry,
             &crate::tools::handlers::tool_search::ToolSearchHandlerCache::default(),
@@ -99,6 +100,7 @@ impl ThreadManager {
             self.instructions.clone(),
             cwd,
             self.default_model(),
+            Arc::clone(&self.config),
         )
     }
 }

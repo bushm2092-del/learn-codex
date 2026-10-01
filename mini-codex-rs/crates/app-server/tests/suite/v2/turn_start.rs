@@ -13,7 +13,10 @@ fn script(index: usize) -> Result<Vec<ResponseEvent>> {
             ResponseEvent::OutputItemDone(serde_json::from_value(
                 json!({"type": "function_call", "call_id": "call-1", "name": "exec_command", "arguments": "{\"cmd\":\"printf tool-ok\"}"}),
             )?),
-            ResponseEvent::Completed,
+            ResponseEvent::Completed {
+                response_id: "response-test".into(),
+                token_usage: None,
+            },
         ]);
     }
     Ok(text_reply("你好"))

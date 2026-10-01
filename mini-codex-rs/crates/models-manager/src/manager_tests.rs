@@ -35,6 +35,11 @@ fn list_models_sorts_by_priority_and_drops_unavailable_entries() {
     let manager = ModelsManager::new(ModelsResponse {
         models: vec![
             ModelInfo {
+                context_window: None,
+                max_context_window: None,
+                auto_compact_token_limit: None,
+                effective_context_window_percent: 95,
+                truncation_policy: mini_codex_protocol::TruncationPolicy::Bytes(10_000),
                 supports_search_tool: false,
                 slug: "second".into(),
                 display_name: "Second".into(),
@@ -44,6 +49,11 @@ fn list_models_sorts_by_priority_and_drops_unavailable_entries() {
                 priority: 2,
             },
             ModelInfo {
+                context_window: None,
+                max_context_window: None,
+                auto_compact_token_limit: None,
+                effective_context_window_percent: 95,
+                truncation_policy: mini_codex_protocol::TruncationPolicy::Bytes(10_000),
                 supports_search_tool: false,
                 slug: "gone".into(),
                 display_name: "Gone".into(),
@@ -53,6 +63,11 @@ fn list_models_sorts_by_priority_and_drops_unavailable_entries() {
                 priority: 0,
             },
             ModelInfo {
+                context_window: None,
+                max_context_window: None,
+                auto_compact_token_limit: None,
+                effective_context_window_percent: 95,
+                truncation_policy: mini_codex_protocol::TruncationPolicy::Bytes(10_000),
                 supports_search_tool: false,
                 slug: "first".into(),
                 display_name: "First".into(),
@@ -86,4 +101,31 @@ fn list_models_sorts_by_priority_and_drops_unavailable_entries() {
         ]
     );
     assert_eq!(manager.get_default_model(), "second");
+}
+
+#[test]
+fn model_context_window_caps_auto_compact_limit_and_uses_max_window_fallback() {
+    let mut model = bundled_models_response().unwrap().models.remove(0);
+    model.context_window = Some(16_000);
+    model.max_context_window = Some(20_000);
+    model.auto_compact_token_limit = Some(18_000);
+    assert_eq!(
+        (
+            model.resolved_context_window(),
+            model.auto_compact_token_limit()
+        ),
+        (Some(16_000), Some(14_400))
+    );
+    model.context_window = None;
+    assert_eq!(
+        (
+            model.resolved_context_window(),
+            model.auto_compact_token_limit()
+        ),
+        (Some(20_000), Some(18_000))
+    );
+    model.auto_compact_token_limit = Some(12_000);
+    assert_eq!(model.auto_compact_token_limit(), Some(12_000));
+    model.max_context_window = None;
+    assert_eq!(model.auto_compact_token_limit(), Some(12_000));
 }

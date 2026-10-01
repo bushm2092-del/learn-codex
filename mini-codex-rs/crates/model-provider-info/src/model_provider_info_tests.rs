@@ -14,6 +14,7 @@ env_key = "API_KEY"
         env_key: Some("API_KEY".into()),
         env_key_instructions: None,
         wire_api: WireApi::Responses,
+        stream_max_retries: None,
     };
 
     let provider: ModelProviderInfo = toml::from_str(example_provider_toml).unwrap();
@@ -41,6 +42,7 @@ fn test_api_key_reports_missing_env_var_with_instructions() {
         env_key: Some("MINI_CODEX_TEST_MISSING_API_KEY".into()),
         env_key_instructions: Some("Create a key at https://example.com/keys".into()),
         wire_api: WireApi::Responses,
+        stream_max_retries: None,
     };
 
     let err = provider.api_key().unwrap_err();
@@ -65,6 +67,7 @@ fn test_api_key_is_none_without_env_key() {
         env_key: None,
         env_key_instructions: None,
         wire_api: WireApi::Responses,
+        stream_max_retries: None,
     };
     assert_eq!(provider.api_key(), Ok(None));
 }
@@ -82,6 +85,7 @@ fn test_built_in_provider_is_deepseek_with_env_key() {
                 env_key: Some("DEEPSEEK_API_KEY".into()),
                 env_key_instructions: Some(DEEPSEEK_ENV_KEY_INSTRUCTIONS.into()),
                 wire_api: WireApi::Responses,
+                stream_max_retries: None,
             }
         )])
     );
@@ -95,6 +99,7 @@ fn test_merge_configured_model_providers_overrides_built_in() {
         env_key: Some("DEEPSEEK_API_KEY".into()),
         env_key_instructions: None,
         wire_api: WireApi::Responses,
+        stream_max_retries: None,
     };
     let merged = merge_configured_model_providers(
         built_in_model_providers(),

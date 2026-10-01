@@ -1,3 +1,3 @@
 mod provider;
 
-pub use provider::ProviderCapabilities;
+pub use provider::{ConfiguredModelProvider, ProviderCapabilities, RemoteCompactionSupport};

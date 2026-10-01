@@ -6,6 +6,8 @@
 
 工具内核已移植 `Direct / Deferred / Hidden` 曝光策略与原生 `tool_search` 延迟发现子集：BM25 检索、namespace 规格回传、历史重放及后续调用都有离线闭环测试。DeepSeek 的原生搜索/namespace 能力尚未确认，默认入口保持直接工具、不启用搜索；这不是通过普通 function 模拟的兼容层。源码映射、边界与验证方式见[工具曝光与延迟发现](mini-codex-docs/docs/tutorial/08-tool-discovery.md)。
 
+Context 章节与 Rust 子集实现见[第五课：Context](mini-codex-docs/docs/tutorial/05-context.md)：历史模块按上游迁入 `context_manager/{mod,history,normalize}.rs`，支持文本工具输出截断、调用结果整理、服务端 usage 加新增内容估算、token 粗估和可配置的本地摘要压缩、远程 V2 加密压缩及 TokenBudget 新窗口切换。本地摘要指令按用户要求采用中文。开启 `[features] token_budget = true` 时优先切换新窗口；否则压缩方式按上游 provider 能力选择，请求使用当前配置模型；默认未声明 DeepSeek 窗口，未配置阈值时不自动压缩。取消与 rollout 恢复尚未移植。
+
 mini-codex 是对 Codex Rust 核心进行简化的教学项目。**核心源码在 [`mini-codex-rs/crates/`](mini-codex-rs/crates/)**；交互式教学站的前端源码在 [`frontends/teach/src/`](frontends/teach/src/)，业务后台在 [`backend/`](backend/)。
 ![Codex 与 mini-codex 的源码目录和文件 1:1 对照示意](docs/images/codex-source-comparison.png)
 | 目录 | 主要职责 |
@@ -82,3 +84,11 @@ mini-codex is a teaching project that simplifies the Codex Rust core. **The core
 Rust directories map to upstream Codex as `codex-rs/<crate>/` → `mini-codex-rs/crates/<crate>/`. To follow the main execution path, start with [`thread_manager.rs`](mini-codex-rs/crates/core/src/thread_manager.rs), [`session/turn.rs`](mini-codex-rs/crates/core/src/session/turn.rs), and [`tools/router.rs`](mini-codex-rs/crates/core/src/tools/router.rs).
 
 `exec_command` now follows the upstream Unified Exec lifecycle: the session detects its default shell, exposes `cwd` and `shell` through `<environment_context>`, yields long-running commands with a `session_id`, and resumes them through `write_stdin`. See the [Unified Exec tutorial](mini-codex-docs/docs/tutorial/07-unified-exec.md) for the call path and documented omissions.
+
+教学站 Context 章节已按实际学习过程补齐 19 节双语文章，并提供六段可暂停、步进与重播的消息条带动画：对话追加、配对修复、usage 校准、本地摘要、Remote V2 与 TokenBudget。入口为 `/lessons/context`，正文对应 [Context 教程](mini-codex-docs/docs/tutorial/05-context.md)。
+
+第四章与 Context 已统一为共享 Markdown 文章架构：`LessonPage` 负责课头和页面结构，`LessonArticle` 渲染 GFM 正文，`CodeBlock` / `CodeBlockFrame` 与 `LessonSourceButton` 统一代码展示和源码分屏。Markdown 可用注册组件 directive 穿插交互动画，后续章节复用同一排版。详见 [教学站文章约定](frontends/teach/README.md)。
+
+Context 的工作区源码面板与第四章共用文件树图标与 rust-analyzer SCIP 定义跳转，支持定位目标行和返回。教学站构建需可用的 `rust-analyzer`；源码与索引从同一白名单输入生成，按内容缓存，并在打开面板时加载源码正文。
+
+教学站新增登录后可玩的娱乐模块“天赋测试”，入口 `/talent` 为独立的彩色挑战卡大厅，支持错落卡片、翻面玩法与手机滑动，品牌采用 SVG 图标。反应力、顺序记忆、数字规律判断与颜色干扰四项测试各有独立排行榜，榜单入口 `/talent/leaderboard`，保存个人最佳，同分并列。业务代码位于 `frontends/teach/src/talent/` 与 `backend/internal/{httpapi,service,repository,model}/talent.go`，使用后台迁移 `004_talent_tests.sql`，不修改 Rust 内核或章节学习榜。玩法与本地验证见 [教学站说明](frontends/teach/README.md#天赋测试)，接口见 [后台说明](backend/README.md#天赋测试独立娱乐模块)。

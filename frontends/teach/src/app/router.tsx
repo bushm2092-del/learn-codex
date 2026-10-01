@@ -5,6 +5,15 @@ import { AppShell } from "../ui/AppShell";
 
 export const router = createBrowserRouter([
   {
+    path: "/talent",
+    lazy: async () => ({ Component: (await import("../ui/TalentShell")).TalentShell }),
+    children: [
+      { index: true, lazy: async () => ({ Component: (await import("../talent/TalentHomePage")).TalentHomePage }) },
+      { path: "leaderboard", lazy: async () => ({ Component: (await import("../talent/TalentLeaderboardPage")).TalentLeaderboardPage }) },
+      { path: ":game", lazy: async () => ({ Component: (await import("../talent/TalentPage")).TalentPage }) },
+    ],
+  },
+  {
     path: "/",
     element: <AppShell />,
     children: [

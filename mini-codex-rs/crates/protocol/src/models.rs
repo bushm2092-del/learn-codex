@@ -36,6 +36,12 @@ pub enum ContentItem {
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type", rename_all = "snake_case")]
 pub enum ResponseItem {
+    CompactionTrigger {},
+    Compaction {
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        id: Option<String>,
+        encrypted_content: String,
+    },
     ToolSearchCall {
         #[serde(default, skip_serializing_if = "Option::is_none")]
         id: Option<String>,

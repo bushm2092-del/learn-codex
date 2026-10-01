@@ -19,11 +19,11 @@ type Focus = { line: number; seq: number };
 type SourceRequest = { path: string; seq: number };
 type Props = {
   version: string;
-  versionUrl: string;
+  versionUrl?: string;
   load: () => Promise<{ files: SourceFile[]; dirs?: Record<string, [string, string]> }>;
   loadFile: (blob: string) => Promise<string>;
   loadRefs: (refs: string) => Promise<SourceRefs>;
-  fileUrl: (path: string) => string;
+  fileUrl: (path: string) => string | undefined;
   iconUrl: (icon: string) => string;
   // 打开时展开的目录路径；默认选中文件的上级目录总会展开。
   defaultExpanded: readonly string[];
@@ -253,11 +253,11 @@ export function SourceExplorer({ version, versionUrl, load, loadFile, loadRefs, 
     <section className="source-explorer" id={id} aria-label={labels.title}>
     <header className="source-explorer__header">
       <h2>{labels.title}</h2>
-      <a className="source-explorer__version" href={versionUrl} target="_blank" rel="noopener noreferrer" title={labels.githubTree}>
+      {versionUrl ? <a className="source-explorer__version" href={versionUrl} target="_blank" rel="noopener noreferrer" title={labels.githubTree}>
         <GitHubIcon />
         <span>{version}</span>
         <svg className="source-explorer__external" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 15 15 5M7 5h8v8" /></svg>
-      </a>
+      </a> : <span className="source-explorer__version">{version}</span>}
       <button ref={closeButton} type="button" className="source-explorer__close" aria-label={labels.close} title={labels.close} onClick={onClose}>
         <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15" /></svg>
       </button>
@@ -374,10 +374,10 @@ function SourceCode({ file, loadFile, loadRefs, fileUrl, focus, onNavigate, onBa
       </button>}
       <span>{file.path}</span>
       {lines && <span>{lines.length} {labels.lines}</span>}
-      <a href={fileUrl(file.path)} target="_blank" rel="noopener noreferrer">
+      {fileUrl(file.path) && <a href={fileUrl(file.path)} target="_blank" rel="noopener noreferrer">
         {labels.github}
         <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 15 15 5M7 5h8v8" /></svg>
-      </a>
+      </a>}
     </div>
     {skipped ? <SourceMessage text={skipped} />
       : failed ? <SourceMessage text={labels.error} retry={labels.retry} onRetry={() => setAttempt(value => value + 1)} />
@@ -388,9 +388,9 @@ function SourceCode({ file, loadFile, loadRefs, fileUrl, focus, onNavigate, onBa
             if (!link) return <Fragment key={i}>{renderTokens(tokens)}</Fragment>;
             const { target } = link;
             // href 指向 GitHub 同一位置，修饰键点击或中键可在新标签页打开；普通点击在面板内跳转。
-            return <a key={i} className="source-explorer__ref" href={`${fileUrl(target.path)}#L${target.line + 1}`} title={`${labels.definition}: ${target.path}:${target.line + 1}`}
+            return <a key={i} className="source-explorer__ref" href={fileUrl(target.path) ? `${fileUrl(target.path)}#L${target.line + 1}` : `#source-${encodeURIComponent(target.path)}-L${target.line + 1}`} title={`${labels.definition}: ${target.path}:${target.line + 1}`}
               onClick={event => {
-                if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+                if (fileUrl(target.path) && (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey)) return;
                 event.preventDefault();
                 onNavigate(target, { path: file.path, line: index, column: link.start });
               }}>{renderTokens(tokens)}</a>;

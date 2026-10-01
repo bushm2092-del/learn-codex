@@ -1,0 +1,543 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-01T06:43:11.125402Z",
+  "title": "Design System: 天赋测试 · 彩色挑战卡",
+  "extensions": {
+    "scope": {
+      "projectRoot": "frontends/teach",
+      "design": "src/talent/DESIGN.md",
+      "routes": [
+        "/talent",
+        "/talent/reaction",
+        "/talent/memory",
+        "/talent/reasoning",
+        "/talent/focus",
+        "/talent/leaderboard?game=..."
+      ],
+      "sourceFiles": [
+        "src/talent/TalentHomePage.tsx",
+        "src/talent/TalentPage.tsx",
+        "src/talent/TalentLeaderboardPage.tsx",
+        "src/talent/ReactionTest.tsx",
+        "src/talent/MemoryTest.tsx",
+        "src/talent/TimedTest.tsx",
+        "src/ui/TalentTests.css",
+        "src/ui/TalentShell.tsx",
+        "src/ui/TalentChallengeCards.tsx",
+        "src/ui/TalentChallengeArt.tsx",
+        "src/ui/TalentArrow.tsx",
+        "src/ui/TalentLeaderboard.tsx",
+        "src/ui/talent-mark.svg"
+      ],
+      "excludes": [
+        "course pages",
+        "shared NavigationMenu",
+        "Context article and animations",
+        "login/register page"
+      ],
+      "authority": "User-approved independent Talent world; global course design does not apply to these files/routes."
+    },
+    "colorMeta": {
+      "canvas": {
+        "role": "neutral",
+        "displayName": "Canvas"
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink"
+      },
+      "ink-strong": {
+        "role": "neutral",
+        "displayName": "Ink Strong"
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted"
+      },
+      "subtle": {
+        "role": "neutral",
+        "displayName": "Subtle"
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Line"
+      },
+      "line-soft": {
+        "role": "neutral",
+        "displayName": "Line Soft"
+      },
+      "panel": {
+        "role": "neutral",
+        "displayName": "Panel"
+      },
+      "action": {
+        "role": "neutral",
+        "displayName": "Action"
+      },
+      "card-edge": {
+        "role": "neutral",
+        "displayName": "Card Edge"
+      },
+      "white": {
+        "role": "neutral",
+        "displayName": "White"
+      },
+      "reaction-card": {
+        "role": "primary",
+        "displayName": "Reaction Card"
+      },
+      "reaction-edge": {
+        "role": "primary",
+        "displayName": "Reaction Edge"
+      },
+      "memory-card": {
+        "role": "primary",
+        "displayName": "Memory Card"
+      },
+      "memory-edge": {
+        "role": "primary",
+        "displayName": "Memory Edge"
+      },
+      "reasoning-card": {
+        "role": "primary",
+        "displayName": "Reasoning Card"
+      },
+      "reasoning-edge": {
+        "role": "primary",
+        "displayName": "Reasoning Edge"
+      },
+      "focus-card": {
+        "role": "primary",
+        "displayName": "Focus Card"
+      },
+      "focus-edge": {
+        "role": "primary",
+        "displayName": "Focus Edge"
+      },
+      "talent-blue": {
+        "role": "secondary",
+        "displayName": "Talent Blue"
+      },
+      "talent-wait": {
+        "role": "secondary",
+        "displayName": "Talent Wait"
+      },
+      "talent-go": {
+        "role": "secondary",
+        "displayName": "Talent Go"
+      },
+      "talent-yellow-ink": {
+        "role": "secondary",
+        "displayName": "Talent Yellow Ink"
+      },
+      "art-purple": {
+        "role": "secondary",
+        "displayName": "Art Purple"
+      },
+      "art-green": {
+        "role": "secondary",
+        "displayName": "Art Green"
+      },
+      "art-red": {
+        "role": "secondary",
+        "displayName": "Art Red"
+      },
+      "art-yellow": {
+        "role": "secondary",
+        "displayName": "Art Yellow"
+      },
+      "grid-lit": {
+        "role": "secondary",
+        "displayName": "Grid Lit"
+      },
+      "grid-lit-edge": {
+        "role": "primary",
+        "displayName": "Grid Lit Edge"
+      },
+      "grid-paper": {
+        "role": "neutral",
+        "displayName": "Grid Paper"
+      },
+      "sequence-paper": {
+        "role": "neutral",
+        "displayName": "Sequence Paper"
+      },
+      "button-hover": {
+        "role": "neutral",
+        "displayName": "Button Hover"
+      },
+      "mark-ink": {
+        "role": "neutral",
+        "displayName": "Mark Ink"
+      }
+    },
+    "typographyMeta": {
+      "brand": {
+        "displayName": "Brand",
+        "purpose": "紧凑独立品牌。"
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "卡片与游戏工作区标题。"
+      },
+      "intro-title": {
+        "displayName": "Intro Title",
+        "purpose": "游戏引导标题。"
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "规则与正文。"
+      },
+      "card-description": {
+        "displayName": "Card Description",
+        "purpose": "卡片短说明。"
+      },
+      "supporting": {
+        "displayName": "Supporting",
+        "purpose": "导航、规则辅助与表格。"
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "标签、回合与表头。"
+      },
+      "button": {
+        "displayName": "Button",
+        "purpose": "44px 最小高操作。"
+      },
+      "text-button": {
+        "displayName": "Text Button",
+        "purpose": "翻面与次级文字链接。"
+      },
+      "result": {
+        "displayName": "Result",
+        "purpose": "真实分数，tabular-nums。"
+      },
+      "reaction-signal": {
+        "displayName": "Reaction Signal",
+        "purpose": "反应文字状态。"
+      },
+      "color-word": {
+        "displayName": "Color Word",
+        "purpose": "Stroop 的题目墨色。"
+      },
+      "answer": {
+        "displayName": "Answer",
+        "purpose": "答案与表格分数，tabular-nums。"
+      },
+      "key": {
+        "displayName": "Key",
+        "purpose": "1–4 按键提示。"
+      },
+      "navigation": {
+        "displayName": "Navigation",
+        "purpose": "细长 header 的 13px 导航与语言控件。"
+      }
+    },
+    "shadows": [
+      {
+        "name": "talent-card",
+        "value": "0 1px 2px oklch(20% .012 250 / .04), 0 6px 12px oklch(20% .012 250 / .06)",
+        "purpose": "彩色卡片与游戏面短软抬升。"
+      },
+      {
+        "name": "deck-arrow",
+        "value": "0 1px 3px oklch(20% .012 250 / .06)",
+        "purpose": "前后方向按钮。"
+      },
+      {
+        "name": "button-pressed",
+        "value": "inset 0 1px 2px oklch(20% .012 250 / .12)",
+        "purpose": "按钮按下反馈。"
+      }
+    ],
+    "motion": [
+      {
+        "name": "talent-ease",
+        "value": "cubic-bezier(.16,1,.3,1)",
+        "purpose": "卡片归正和翻面。"
+      },
+      {
+        "name": "card-straighten",
+        "value": "transform 260ms cubic-bezier(.16,1,.3,1)",
+        "purpose": "归正并上移 4px，保留错落。"
+      },
+      {
+        "name": "card-flip",
+        "value": "transform 650ms cubic-bezier(.16,1,.3,1)",
+        "purpose": "rotateY(180deg)，1400px perspective。"
+      },
+      {
+        "name": "gameplay-signal",
+        "value": "Immediate CSS state change; no color transition",
+        "purpose": "反应变绿与记忆亮格。"
+      },
+      {
+        "name": "reduced-motion",
+        "value": "transition:none !important; scroll-behavior:auto !important",
+        "purpose": "移除卡片倾斜和动画，保留 translateY(stagger)，背面切换与键盘仍可操作。"
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "compact-desktop",
+        "value": "1000px"
+      },
+      {
+        "name": "mobile",
+        "value": "760px"
+      },
+      {
+        "name": "narrow-mobile",
+        "value": "380px"
+      }
+    ],
+    "layout": {
+      "inset": "max(24px, calc((100vw - 1120px) / 2))",
+      "pageWidth": "min(960px, calc(100% - 2 * var(--talent-inset)))",
+      "topbarMinHeight": "56px",
+      "deckGap": "22px",
+      "cardBasis": "max(216px, calc((100% - 66px) / 4))",
+      "gameColumns": "minmax(0, 1fr)",
+      "gameGap": "28px",
+      "mobile": {
+        "inset": "24px",
+        "cardBasis": "min(232px, calc(100vw - 72px))",
+        "deckPadding": "20px max(36px, calc((100vw - 232px) / 2)) 56px",
+        "stageMinHeight": "clamp(400px, 62dvh, 480px)",
+        "headerRowGap": "2px",
+        "headerPaddingBlock": "4px",
+        "navigationMinHeight": "36px",
+        "scrollPaddingInline": "max(36px, calc((100vw - 232px) / 2))",
+        "supportColumns": "minmax(0, 1fr)",
+        "supportGap": "20px",
+        "supportDivider": "1px top border; 20px top padding",
+        "gameHeadingTitle": "20px with 16px left padding"
+      },
+      "narrowMobile": {
+        "inset": "18px",
+        "cardBasis": "min(232px, calc(100vw - 72px))",
+        "deckGap": "22px",
+        "deckPaddingInline": "max(36px, calc((100vw - 232px) / 2))"
+      },
+      "topbarPadding": "4px var(--talent-inset)",
+      "deckPadding": "20px 12px 60px",
+      "stageMinHeight": "clamp(400px, min(62dvh, calc(100dvh - 400px)), 640px)",
+      "deckInset": "max(var(--talent-inset), calc((100vw - 1000px) / 2))",
+      "deckMaxWidth": "1000px",
+      "hallPadding": "8px 0",
+      "hallAlignment": "margin-block: auto inside the column flex content",
+      "loginNoteMarginTop": "8px",
+      "shellFlow": "min-height: 100dvh; header/footer do not shrink; natural scrolling for short viewports or long card backs",
+      "gamePageAlignment": "margin: auto; padding: 20px 0",
+      "gameHeadingTitle": "24px with 1px left divider and 24px padding",
+      "supportColumns": "minmax(0, 1.6fr) minmax(0, 1fr)",
+      "supportGap": "32px",
+      "supportPadding": "4px 16px 0",
+      "supportDivider": "1px left border; 32px left padding on the best section",
+      "gameLayoutReference": ".impeccable/mocks/decision/talent-game-layout/a-centered-stage.png",
+      "gamePageWidth": "min(1120px, calc(100% - 2 * var(--talent-inset)))"
+    },
+    "cardGeometry": {
+      "reaction": {
+        "height": "418px",
+        "stagger": "32px",
+        "tilt": "-2.5deg",
+        "mobileHeight": "404px",
+        "mobileStagger": "24px"
+      },
+      "memory": {
+        "height": "446px",
+        "stagger": "0px",
+        "tilt": "1.8deg",
+        "mobileHeight": "430px",
+        "mobileStagger": "0px"
+      },
+      "reasoning": {
+        "height": "412px",
+        "stagger": "44px",
+        "tilt": "-1.4deg",
+        "mobileHeight": "396px",
+        "mobileStagger": "32px"
+      },
+      "focus": {
+        "height": "430px",
+        "stagger": "16px",
+        "tilt": "2.2deg",
+        "mobileHeight": "416px",
+        "mobileStagger": "10px"
+      }
+    },
+    "componentStates": {
+      "focus": "2px Ink outline, offset 4px; reaction 3px currentColor outline, offset -8px",
+      "disabled": "Buttons opacity .4; default cursor. aria-disabled links keep readable foreground.",
+      "selectedCard": "color-mix(in oklch, var(--talent-card-edge), var(--ink) 18%)",
+      "cardSides": "Same color/shape; hidden side is inert and aria-hidden; flip returns focus to visible side flip control. Hidden side is absolutely positioned; visible long rules expand the card naturally.",
+      "reaction": "waiting Panel/Ink; green Talent Go/White; early and invalid Reaction Card/Talent Wait; sample Reaction Card/Ink",
+      "memory": "Lit and active cells Talent Go/White; disabled during playback.",
+      "timed": "Neutral answers; four stimulus inks; correct/wrong text signals.",
+      "auth": "Public hall; games redirect to login with next; scores require login; loading/error use real state.",
+      "results": "Local score while saving; server score after save; offline retry, expired/session text, disabled replay during save.",
+      "leaderboard": "Identity-color selected tab plus underline; own row Panel plus text; real loading/error/empty/refresh states."
+    },
+    "icons": {
+      "brand": {
+        "source": "src/ui/talent-mark.svg",
+        "viewBox": "0 0 36 36",
+        "displaySize": "24px at all breakpoints",
+        "outline": "31px square; rx7; stroke #202326 1.8",
+        "rays": "2.4 round stroke in #287548, #806100, #7652a4, #315eb4",
+        "center": "#202326 diamond"
+      },
+      "actionArrow": {
+        "source": "src/ui/TalentArrow.tsx",
+        "viewBox": "0 0 24 24",
+        "size": "16px",
+        "stroke": "1.5 currentColor",
+        "paths": {
+          "right": "M5 12h14m-6-6 6 6-6 6",
+          "left": "M19 12H5m6-6-6 6 6 6",
+          "upRight": "M6 18 18 6M7 6h11v11"
+        },
+        "uses": "Card front/back, return, leaderboard and footer; aria-hidden."
+      },
+      "deckArrow": {
+        "source": "src/ui/TalentChallengeCards.tsx",
+        "viewBox": "0 0 20 20",
+        "size": "18px",
+        "stroke": "1.5 currentColor"
+      }
+    },
+    "rasterAssets": "No shipping raster assets; semantic HTML/CSS/SVG. Approved comp is directional evidence only."
+  },
+  "components": [
+    {
+      "name": "Primary action",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "开始、重启或保存重试的深色主行动。",
+      "html": "<button class=\"ds-talent-primary\">开始测试</button>",
+      "css": ".ds-talent-primary {display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:44px;padding:10px 18px;border:1px solid oklch(20% .012 250 / .16);border-radius:6px;font:570 14px/1.6 system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;cursor:pointer;text-decoration:none;background:oklch(22% .012 250);color:oklch(98.5% .004 85);border-color:oklch(22% .012 250);} .ds-talent-primary:hover {background:oklch(14% .012 250);} .ds-talent-primary:active {box-shadow:inset 0 1px 2px oklch(20% .012 250 / .12);} .ds-talent-primary:focus-visible {outline:2px solid oklch(20% .012 250);outline-offset:4px;} .ds-talent-primary:disabled {opacity:.4;cursor:default;}"
+    },
+    {
+      "name": "Outline action",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "卡片开始、重新游玩与刷新使用描边操作。",
+      "html": "<button class=\"ds-talent-outline\">开始挑战<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" aria-hidden=\"true\"><path d=\"M5 12h14m-6-6 6 6-6 6\"/></svg></button>",
+      "css": ".ds-talent-outline {display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:44px;padding:10px 18px;border:1px solid oklch(20% .012 250 / .16);border-radius:6px;font:570 14px/1.6 system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;cursor:pointer;text-decoration:none;background:transparent;color:oklch(20% .012 250);} .ds-talent-outline:hover {background:oklch(100% 0 0 / .35);border-color:oklch(20% .012 250);} .ds-talent-outline:active {box-shadow:inset 0 1px 2px oklch(20% .012 250 / .12);} .ds-talent-outline:focus-visible {outline:2px solid oklch(20% .012 250);outline-offset:4px;} .ds-talent-outline:disabled {opacity:.4;cursor:default;}"
+    },
+    {
+      "name": "Text action",
+      "kind": "button",
+      "refersTo": "button-text",
+      "description": "翻面、排行榜及纯文字次级操作。",
+      "html": "<button class=\"ds-talent-text\">查看玩法<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" aria-hidden=\"true\"><path d=\"M5 12h14m-6-6 6 6-6 6\"/></svg></button>",
+      "css": ".ds-talent-text {display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:8px 0;border:0;background:transparent;color:oklch(46% .012 250);font:13px/1.6 system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;text-decoration:underline;text-underline-offset:4px;white-space:nowrap;cursor:pointer;} .ds-talent-text:hover {color:oklch(20% .012 250);} .ds-talent-text:focus-visible {outline:2px solid oklch(20% .012 250);outline-offset:4px;}"
+    },
+    {
+      "name": "Talent navigation and mark",
+      "kind": "nav",
+      "refersTo": "shell-navigation",
+      "description": "独立小号品牌与两项导航；SVG 为装饰，文字提供名称。",
+      "html": "<nav class=\"ds-talent-nav\"><a class=\"ds-talent-brand\" href=\"#\"><svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 36 36\" fill=\"none\">\n  <rect x=\"2.5\" y=\"2.5\" width=\"31\" height=\"31\" rx=\"7\" stroke=\"#202326\" stroke-width=\"1.8\"/>\n  <g stroke-width=\"2.4\" stroke-linecap=\"round\">\n    <path d=\"M18 8.5v4M18 23.5v4\" stroke=\"#287548\"/>\n    <path d=\"m24.7 11.3-2.8 2.8m-7.8 7.8-2.8 2.8\" stroke=\"#806100\"/>\n    <path d=\"M27.5 18h-4M12.5 18h-4\" stroke=\"#7652a4\"/>\n    <path d=\"m24.7 24.7-2.8-2.8m-7.8-7.8-2.8-2.8\" stroke=\"#315eb4\"/>\n  </g>\n  <path d=\"m18 15 3 3-3 3-3-3z\" fill=\"#202326\"/>\n</svg><span>天赋测试</span></a><div><a href=\"#\" aria-current=\"page\">挑战大厅</a><a href=\"#\">排行榜</a></div></nav>",
+      "css": ".ds-talent-nav {display:flex;align-items:center;gap:24px;min-height:56px;padding:4px 24px;background:oklch(98.5% .004 85);color:oklch(20% .012 250);border-bottom:1px solid oklch(20% .012 250 / .16);font-family:system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;} .ds-talent-brand {display:inline-flex;align-items:center;gap:8px;color:oklch(20% .012 250);font-size:16px;font-weight:650;letter-spacing:-.025em;white-space:nowrap;text-decoration:none;} .ds-talent-brand svg {width:24px;height:24px;flex-shrink:0;} .ds-talent-nav>div {display:flex;gap:24px;margin-left:auto;} .ds-talent-nav>div a {display:inline-flex;align-items:center;min-height:44px;color:oklch(46% .012 250);font-size:13px;text-decoration:none;} .ds-talent-nav>div a[aria-current] {color:oklch(20% .012 250);text-decoration:underline;text-underline-offset:6px;} .ds-talent-nav a:focus-visible {outline:2px solid oklch(20% .012 250);outline-offset:4px;} @media(max-width:760px) {.ds-talent-nav {flex-wrap:wrap;padding:4px 24px;gap:2px 20px;} .ds-talent-brand {font-size:16px;gap:8px;} .ds-talent-brand svg {width:24px;height:24px;} .ds-talent-nav>div {width:100%;margin-left:0;gap:24px;}} @media(max-width:760px) {.ds-talent-nav>div a {min-height:36px;}}"
+    },
+    {
+      "name": "Two-sided challenge card",
+      "kind": "card",
+      "refersTo": "card-memory",
+      "description": "同色正反面、独立轻倾角、示意九宫格与描边标签；data-flipped=true 显示背面。",
+      "html": "<article class=\"ds-talent-card\" tabindex=\"0\"><div class=\"ds-talent-card-inner\"><section class=\"ds-talent-card-front\"><h2>记忆力</h2><p>记住亮起的顺序，再依次复现。</p><div class=\"ds-talent-art-grid\" aria-hidden=\"true\"><i data-lit=\"true\"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i data-lit=\"true\"></i></div><div class=\"ds-talent-tags\"><span>九宫格</span><span>顺序记忆</span></div><div class=\"ds-talent-card-actions\"><a href=\"#\">开始挑战<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" aria-hidden=\"true\"><path d=\"M5 12h14m-6-6 6 6-6 6\"/></svg></a><button>查看玩法</button></div></section><section class=\"ds-talent-card-back\" aria-hidden=\"true\"><h2>记忆力</h2><p>观察闪烁顺序，再按相同顺序选择格子。</p><p>通过关数 · 1–9 数字键</p></section></div></article>",
+      "css": ".ds-talent-card {width:228px;perspective:1400px;transform:rotate(1.8deg);transition:transform 260ms cubic-bezier(.16,1,.3,1);font:14px/1.6 system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;color:oklch(20% .012 250);} .ds-talent-card:hover,.ds-talent-card:focus-within {transform:translateY(-4px) rotate(0);} .ds-talent-card:focus-visible {outline:2px solid oklch(20% .012 250);outline-offset:4px;} .ds-talent-card-inner {display:grid;position:relative;min-height:446px;transform-style:preserve-3d;transition:transform 650ms cubic-bezier(.16,1,.3,1);} .ds-talent-card[data-flipped=\"true\"] .ds-talent-card-inner {transform:rotateY(180deg);} .ds-talent-card-front,.ds-talent-card-back {grid-area:1/1;display:flex;flex-direction:column;min-height:446px;padding:20px;background:oklch(97% .065 96);border:1px solid oklch(72% .14 96 / .8);border-radius:9px;box-shadow:0 1px 2px oklch(20% .012 250 / .04), 0 6px 12px oklch(20% .012 250 / .06);backface-visibility:hidden;} .ds-talent-card-back {transform:rotateY(180deg);} .ds-talent-card h2 {margin:0 0 8px;font-size:20px;font-weight:650;line-height:1.25;letter-spacing:-.025em;} .ds-talent-card p {margin:0;line-height:1.5;} .ds-talent-art-grid {display:grid;grid-template-columns:repeat(3,30px);gap:5px;justify-content:center;align-content:center;flex:1;min-height:112px;margin:8px 0;} .ds-talent-art-grid i {width:30px;height:30px;border:1px solid oklch(20% .012 250 / .16);border-radius:6px;background:oklch(99% .005 85 / .6);} .ds-talent-art-grid i[data-lit] {background:#68bf86;border-color:#439c63;} .ds-talent-tags {display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;} .ds-talent-tags span {padding:3px 8px;border:1px solid oklch(20% .012 250 / .16);border-radius:4px;color:oklch(46% .012 250);font-size:12px;} .ds-talent-card-actions {display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:auto;} .ds-talent-card-actions a {display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:44px;padding:8px 14px;border:1px solid oklch(20% .012 250 / .16);border-radius:6px;font:570 13px/1.6 system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;cursor:pointer;text-decoration:none;background:transparent;color:oklch(20% .012 250);} .ds-talent-card-actions a:hover {background:oklch(100% 0 0 / .35);border-color:oklch(20% .012 250);} .ds-talent-card-actions button {min-height:44px;padding:8px 0;border:0;background:transparent;color:oklch(46% .012 250);font:13px/1.6 system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;text-decoration:underline;text-underline-offset:4px;cursor:pointer;} .ds-talent-card-actions button:hover {color:oklch(20% .012 250);} .ds-talent-card-actions :is(a,button):focus-visible {outline:2px solid oklch(20% .012 250);outline-offset:4px;} @media(prefers-reduced-motion:reduce) {.ds-talent-card,.ds-talent-card:hover,.ds-talent-card:focus-within {transform:none;transition:none;} .ds-talent-card-inner {transition:none;}} .ds-talent-card:not([data-flipped=\"true\"]) .ds-talent-card-back,.ds-talent-card[data-flipped=\"true\"] .ds-talent-card-front {position:absolute;inset:0;height:100%;overflow:hidden;}"
+    },
+    {
+      "name": "Deck selectors",
+      "kind": "custom",
+      "refersTo": "deck-arrow",
+      "description": "圆形前后选择与四个项目点；边界箭头真实禁用。",
+      "html": "<div class=\"ds-talent-selectors\"><button class=\"ds-talent-deck-arrow\" aria-label=\"上一项\" disabled><svg viewBox=\"0 0 20 20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" aria-hidden=\"true\"><path d=\"m12 4-6 6 6 6\"/></svg></button><div class=\"ds-talent-dots\" role=\"group\" aria-label=\"挑战\"><button aria-label=\"挑战 1\" aria-pressed=\"true\"></button><button aria-label=\"挑战 2\" aria-pressed=\"false\"></button><button aria-label=\"挑战 3\" aria-pressed=\"false\"></button><button aria-label=\"挑战 4\" aria-pressed=\"false\"></button></div><button class=\"ds-talent-deck-arrow\" aria-label=\"下一项\"><svg viewBox=\"0 0 20 20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" aria-hidden=\"true\"><path d=\"m8 4 6 6-6 6\"/></svg></button></div>",
+      "css": ".ds-talent-selectors {display:flex;align-items:center;justify-content:space-between;gap:24px;color:oklch(20% .012 250);} .ds-talent-deck-arrow {display:grid;place-items:center;width:44px;height:44px;padding:0;border:1px solid oklch(20% .012 250 / .16);border-radius:50%;background:oklch(98.5% .004 85);color:oklch(20% .012 250);box-shadow:0 1px 3px oklch(20% .012 250 / .06);cursor:pointer;} .ds-talent-deck-arrow svg {width:18px;height:18px;} .ds-talent-deck-arrow:not(:disabled):hover {border-color:oklch(20% .012 250);} .ds-talent-deck-arrow:disabled {opacity:.4;cursor:default;} .ds-talent-dots {display:flex;gap:4px;} .ds-talent-dots button {display:grid;place-items:center;width:32px;height:32px;padding:0;border:0;background:transparent;cursor:pointer;} .ds-talent-dots button::before {content:\"\";width:7px;height:7px;border:1px solid oklch(46% .012 250);border-radius:50%;} .ds-talent-dots button[aria-pressed=\"true\"]::before {background:oklch(20% .012 250);border-color:oklch(20% .012 250);} .ds-talent-selectors button:focus-visible {outline:2px solid oklch(20% .012 250);outline-offset:4px;} @media(max-width:760px) {.ds-talent-deck-arrow {width:40px;height:40px;}}"
+    },
+    {
+      "name": "Reaction signal",
+      "kind": "custom",
+      "refersTo": "reaction-go",
+      "description": "整面点击区、符号、明文状态和五轮样本；data-state 支持 waiting、green、early、invalid、sample。",
+      "html": "<div class=\"ds-talent-reaction\"><button class=\"ds-talent-reaction-surface\" data-state=\"green\"><svg viewBox=\"0 0 100 100\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"7\" aria-hidden=\"true\"><path d=\"M50 5v20m0 50v20M5 50h20m50 0h20M18 18l14 14m36 36 14 14M82 18 68 32M32 68 10 90\"/></svg><strong>点击！</strong><span>背景变绿后点击</span></button><div class=\"ds-talent-rounds\"><span>第 1 轮</span><span>第 2 轮</span><span>第 3 轮</span><span>第 4 轮</span><span>第 5 轮</span></div></div>",
+      "css": ".ds-talent-reaction {overflow:hidden;border:1px solid oklch(60% .12 153 / .65);border-radius:9px;box-shadow:0 1px 2px oklch(20% .012 250 / .04), 0 6px 12px oklch(20% .012 250 / .06);font:14px/1.6 system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;} .ds-talent-reaction-surface {width:100%;min-height:calc(clamp(400px,min(62dvh,calc(100dvh - 400px)),640px) - 52px);padding:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:0;color:oklch(20% .012 250);background:oklch(95% .043 153);touch-action:manipulation;user-select:none;cursor:pointer;font:inherit;} .ds-talent-reaction-surface[data-state=\"waiting\"] {background:oklch(96% .006 85);} .ds-talent-reaction-surface[data-state=\"green\"] {background:#287548;color:#fff;} .ds-talent-reaction-surface[data-state=\"early\"],.ds-talent-reaction-surface[data-state=\"invalid\"] {color:#9d3434;} .ds-talent-reaction-surface svg {width:54px;height:54px;margin-bottom:20px;} .ds-talent-reaction-surface strong {font-size:clamp(26px,3vw,36px);line-height:1.2;letter-spacing:-.025em;} .ds-talent-reaction-surface span {margin-top:14px;max-width:38ch;font-size:14px;line-height:1.6;text-align:center;} .ds-talent-reaction-surface:focus-visible {outline:3px solid currentColor;outline-offset:-8px;} .ds-talent-rounds {display:grid;grid-template-columns:repeat(5,minmax(0,1fr));padding:16px 12px;gap:6px;background:oklch(98.5% .004 85);} .ds-talent-rounds span {color:oklch(46% .012 250);font-size:12px;text-align:center;font-variant-numeric:tabular-nums;}"
+    },
+    {
+      "name": "Memory grid",
+      "kind": "custom",
+      "refersTo": "memory-cell-lit",
+      "description": "编号 3×3 实际游戏网格；展示时禁用并沿用 .4 透明度，输入时恢复。",
+      "html": "<section class=\"ds-talent-memory\"><div class=\"ds-talent-memory-bar\"><strong>第 1 关</strong><span>观察顺序</span></div><div class=\"ds-talent-memory-grid\" role=\"group\" aria-label=\"观察顺序\"><button disabled>1</button><button disabled>2</button><button disabled>3</button><button disabled>4</button><button disabled data-lit=\"true\">5</button><button disabled>6</button><button disabled>7</button><button disabled>8</button><button disabled>9</button></div><p>按数字键 1–9 或点击格子</p></section>",
+      "css": ".ds-talent-memory {padding:20px;background:oklch(97% .065 96);color:oklch(20% .012 250);font:14px/1.6 system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;} .ds-talent-memory-bar {display:flex;justify-content:space-between;gap:12px;min-height:32px;font-size:14px;font-variant-numeric:tabular-nums;} .ds-talent-memory-bar strong {font-weight:600;} .ds-talent-memory-bar span {color:oklch(46% .012 250);font-size:13px;} .ds-talent-memory-grid {display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:260px;margin:24px auto;} .ds-talent-memory-grid button {aspect-ratio:1;border:1px solid oklch(20% .012 250 / .16);border-radius:6px;background:oklch(98.5% .004 85);color:oklch(46% .012 250);font:15px system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;cursor:pointer;} .ds-talent-memory-grid button:disabled {opacity:.4;cursor:default;} .ds-talent-memory-grid button:not(:disabled):hover {border-color:oklch(20% .012 250);} .ds-talent-memory-grid button[data-lit],.ds-talent-memory-grid button:not(:disabled):active {background:#287548;border-color:#287548;color:#fff;} .ds-talent-memory-grid button:focus-visible {outline:2px solid oklch(20% .012 250);outline-offset:4px;} .ds-talent-memory p {margin:0;color:oklch(46% .012 250);font-size:13px;line-height:1.6;text-align:center;}"
+    },
+    {
+      "name": "Timed answers",
+      "kind": "custom",
+      "refersTo": "timed-choice",
+      "description": "60 秒数字规律 / Stroop 共用中性答案网格；题目颜色单独承载信号。",
+      "html": "<section class=\"ds-talent-timed\"><header><strong><b>60</b> 秒</strong><span>正确 0 · 错误 0</span></header><div class=\"ds-talent-question\"><p>请选择文字的颜色</p><strong data-ink=\"blue\">红色</strong></div><div class=\"ds-talent-choices\"><button><kbd>1</kbd><strong>红色</strong></button><button><kbd>2</kbd><strong>蓝色</strong></button><button><kbd>3</kbd><strong>绿色</strong></button><button><kbd>4</kbd><strong>黄色</strong></button></div><p class=\"ds-talent-feedback\">按数字键 1–4 或点击答案</p></section>",
+      "css": ".ds-talent-timed {padding:20px;background:oklch(94% .045 237);color:oklch(20% .012 250);font:14px/1.6 system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;font-variant-numeric:tabular-nums;} .ds-talent-timed header {display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:32px;font-size:14px;} .ds-talent-timed header strong {font-weight:600;} .ds-talent-timed header b {font-size:20px;margin-inline:4px;} .ds-talent-timed header span {font-size:13px;color:oklch(46% .012 250);} .ds-talent-question {display:flex;align-items:center;justify-content:center;flex-direction:column;min-height:180px;} .ds-talent-question p {margin:0 0 24px;color:oklch(46% .012 250);font-size:14px;} .ds-talent-question>strong {font-size:clamp(40px,5vw,56px);font-weight:700;line-height:1.2;letter-spacing:-.025em;} .ds-talent-question [data-ink=\"blue\"] {color:#315eb4;} .ds-talent-question [data-ink=\"red\"] {color:#9d3434;} .ds-talent-question [data-ink=\"green\"] {color:#287548;} .ds-talent-question [data-ink=\"yellow\"] {color:#806100;} .ds-talent-choices {display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;} .ds-talent-choices button {display:flex;align-items:center;justify-content:center;gap:12px;min-height:56px;padding:10px 8px;border:1px solid oklch(20% .012 250 / .16);border-radius:6px;background:oklch(98.5% .004 85);color:oklch(20% .012 250);cursor:pointer;} .ds-talent-choices button:hover {border-color:oklch(20% .012 250);} .ds-talent-choices button:active {background:oklch(96% .006 85);} .ds-talent-choices button:focus-visible {outline:2px solid oklch(20% .012 250);outline-offset:4px;} .ds-talent-choices strong {font:600 18px system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;} .ds-talent-choices kbd {font:12px ui-monospace,monospace;color:oklch(46% .012 250);} .ds-talent-feedback {margin:18px 0 0;min-height:20px;text-align:center;color:oklch(46% .012 250);font-size:13px;} @media(max-width:1000px) {.ds-talent-choices {grid-template-columns:repeat(2,minmax(0,1fr));}} @media(max-width:760px) {.ds-talent-timed {padding:18px 14px;} .ds-talent-question {min-height:164px;}}"
+    },
+    {
+      "name": "Per-test leaderboard",
+      "kind": "custom",
+      "refersTo": "leaderboard",
+      "description": "身份色选中标签与真实成绩三列表格；样例只渲染表头，避免虚构玩家成绩。",
+      "html": "<section class=\"ds-talent-leaderboard\"><nav class=\"ds-talent-board-tabs\" aria-label=\"挑战\"><button data-game=\"reaction\" aria-pressed=\"true\">反应力</button><button data-game=\"memory\" aria-pressed=\"false\">记忆力</button><button data-game=\"reasoning\" aria-pressed=\"false\">思考速度</button><button data-game=\"focus\" aria-pressed=\"false\">专注度</button></nav><table><thead><tr><th scope=\"col\">名次</th><th scope=\"col\">玩家</th><th scope=\"col\">成绩</th></tr></thead></table></section>",
+      "css": ".ds-talent-leaderboard {background:oklch(98.5% .004 85);color:oklch(20% .012 250);font:14px/1.6 system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;font-variant-numeric:tabular-nums;} .ds-talent-board-tabs {display:flex;flex-wrap:wrap;gap:10px;margin:28px 0 20px;} .ds-talent-board-tabs button {min-height:44px;padding:8px 16px;border:1px solid oklch(20% .012 250 / .16);border-radius:6px;background:transparent;color:oklch(20% .012 250);font:14px system-ui, -apple-system, BlinkMacSystemFont, \"Segoe UI\", sans-serif;cursor:pointer;} .ds-talent-board-tabs button[data-game=\"reaction\"][aria-pressed=\"true\"] {background:oklch(95% .043 153);border-color:oklch(60% .12 153 / .65);} .ds-talent-board-tabs button[data-game=\"memory\"][aria-pressed=\"true\"] {background:oklch(97% .065 96);border-color:oklch(72% .14 96 / .8);} .ds-talent-board-tabs button[data-game=\"reasoning\"][aria-pressed=\"true\"] {background:oklch(94% .041 303);border-color:oklch(65% .12 303 / .65);} .ds-talent-board-tabs button[data-game=\"focus\"][aria-pressed=\"true\"] {background:oklch(94% .045 237);border-color:oklch(65% .12 237 / .65);} .ds-talent-board-tabs button[aria-pressed=\"true\"] {text-decoration:underline;text-underline-offset:4px;} .ds-talent-board-tabs button:focus-visible {outline:2px solid oklch(20% .012 250);outline-offset:4px;} .ds-talent-leaderboard table {width:100%;border-collapse:collapse;} .ds-talent-leaderboard th {padding:12px;border-bottom:1px solid oklch(20% .012 250 / .16);color:oklch(46% .012 250);font-size:12px;font-weight:500;text-align:left;} .ds-talent-leaderboard td {padding:16px 12px;border-bottom:1px solid oklch(20% .012 250 / .09);} .ds-talent-leaderboard th:first-child {width:80px;} .ds-talent-leaderboard :is(th,td):last-child {text-align:right;white-space:nowrap;} .ds-talent-leaderboard tr[data-own=\"true\"] {background:oklch(96% .006 85);} @media(max-width:760px) {.ds-talent-leaderboard th:first-child {width:44px;} .ds-talent-leaderboard :is(th,td) {padding-inline:6px;}}"
+    }
+  ],
+  "narrative": {
+    "northStar": "彩色挑战卡",
+    "overview": "天赋测试是一组可以拿起、翻面和开始挑战的彩色卡片。暖白页面、深色文字、四块柔和色面与短软阴影构成独立于课程的界面；系统字型和清晰描边保留轻量、直接的操作感。\n\n色面标识挑战身份，深色按钮标识主要行动，游戏信号只表达当前状态。大厅保持小号品牌与简短提示，游戏页把题目、计时和答案放在主要视线中；所有成绩、错误和登录状态来自真实业务。",
+    "keyCharacteristics": [
+      "薄荷绿、奶油黄、淡紫、浅蓝分别对应四种挑战。",
+      "四卡高低错落、轻微倾斜；悬停归正，翻面查看规则。",
+      "暖白底、深色文字、细着色边框与短软阴影。",
+      "系统无衬线与 tabular-nums 保持阅读、计时和成绩清楚。",
+      "手机保留横向选择、翻面、语言与账号入口，减少动态时仍可操作。",
+      "用户要求整体约缩小两成：1000px 卡组、412–446px 窄长桌面卡高与 56px 细长 header。"
+    ],
+    "rules": [
+      {
+        "name": "The Challenge Identity Rule",
+        "body": "柔和卡面表示挑战身份；可点击绿色、错误红色与颜色干扰文字表示游戏状态。两者不可互换。",
+        "section": "colors"
+      },
+      {
+        "name": "The Immediate Signal Rule",
+        "body": "反应变绿和记忆亮格直接切换，不加入颜色过渡；翻面与选择动画不进入玩法计时。",
+        "section": "colors"
+      },
+      {
+        "name": "The Small Brand Rule",
+        "body": "品牌使用紧凑文字与四颜色 SVG；大厅大标题保留为辅助技术可读的隐藏 h1。",
+        "section": "typography"
+      },
+      {
+        "name": "The Retained Stagger Rule",
+        "body": "悬停或键盘聚焦时归正并上移 4px，保留每项卡片的高低差；减少动态时去掉倾斜、保留静态错落。",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do 在天赋路由及其专属 UI 文件中使用本设计，课程继续读取全局设计。",
+      "Do 保留四项卡片的身份色、错落、倾角和翻面后的同色背面。",
+      "Do 用深色实心按钮表达开始或重试，用描边或下划线操作表达次级行动。",
+      "Do 为信号保留文字、符号或数字，为选择保留 aria-pressed、下划线和键盘焦点。",
+      "Do 在中英文与手机宽度下保留箭头、横向滑动、语言入口和三列表格。",
+      "Do 用真实加载、错误、空榜、个人最佳及保存状态反馈业务。"
+    ],
+    "donts": [
+      "Don't 把旧蓝色待机、红色等待或黄色开始按钮带回新卡片世界。",
+      "Don't 把四卡排成同高、完全平齐的静态矩阵，或恢复大厅巨型标题。",
+      "Don't 为信号添加渐变、淡入或颜色缓动。",
+      "Don't 把示例排名、占位分数或娱乐成绩当作真实测评或能力认证。",
+      "Don't 将本模块的彩色卡面和阴影推广到课程或 Context 页面。"
+    ]
+  }
+}

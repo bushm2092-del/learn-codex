@@ -68,9 +68,17 @@ pub struct ModelProviderInfo {
     /// 该 provider 期望的线协议。
     #[serde(default)]
     pub wire_api: WireApi,
+    #[serde(default)]
+    pub stream_max_retries: Option<u64>,
 }
 
 impl ModelProviderInfo {
+    pub fn stream_max_retries(&self) -> u64 {
+        self.stream_max_retries.unwrap_or(5).min(100)
+    }
+    pub fn is_openai(&self) -> bool {
+        self.name == "OpenAI"
+    }
     /// 若配置了 `env_key`，读取对应环境变量作为 API key；变量缺失或为空时返回错误。
     /// 未配置 `env_key` 时返回 `None`，表示该 provider 不通过环境变量取 key。
     pub fn api_key(&self) -> Result<Option<String>, EnvVarError> {
@@ -98,6 +106,7 @@ impl ModelProviderInfo {
             env_key: Some(DEEPSEEK_ENV_KEY.into()),
             env_key_instructions: Some(DEEPSEEK_ENV_KEY_INSTRUCTIONS.into()),
             wire_api: WireApi::Responses,
+            stream_max_retries: None,
         }
     }
 }

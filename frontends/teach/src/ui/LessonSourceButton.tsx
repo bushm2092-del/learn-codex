@@ -1,7 +1,7 @@
 import { lazy, Suspense, useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
-import { loadSnapshot, loadSourceBlob, loadSourceRefs, sourceFileUrl, sourceIconUrl, sourceTreeUrl, useLessonSnapshot } from "../course/sourceSnapshot";
+import { loadSnapshot, loadSourceBlob, loadSourceRefs, sourceFileUrl, sourceIconUrl, sourceTreeUrl, useLessonSnapshot, type SourceSnapshot, type SourceRefs } from "../course/sourceSnapshot";
 import { sourceExplorer } from "../i18n/sourceExplorer";
 import { useLocale } from "../i18n/useLocale";
 import { LESSON_SOURCE_OPEN, type LessonSourceOpen } from "./lessonSource";
@@ -12,11 +12,14 @@ const SourceExplorer = lazy(() => import("./SourceExplorer").then(module => ({ d
 const SOURCE_EXPLORER_ID = "source-explorer";
 const DEFAULT_EXPANDED = ["crates"];
 
-// 章节标题行的源码入口与面板；本章没有快照时不渲染。
+// 章节标题行的源码入口与面板；没有提交快照或本地构建源码时不渲染。
 // 标题行按钮滚出视口后，右下角显示同功能的悬浮按钮；面板打开期间由面板自身的关闭按钮接管。
-export function LessonSourceButton({ lesson }: { lesson: string }) {
+export type LocalLessonSource = { snapshot: SourceSnapshot; loadFile: (blob: string) => Promise<string>; loadRefs?: (refs: string) => Promise<SourceRefs>; iconUrl?: (icon: string) => string };
+
+export function LessonSourceButton({ lesson, localSource }: { lesson: string; localSource?: LocalLessonSource }) {
   const { locale } = useLocale();
-  const snapshot = useLessonSnapshot(lesson);
+  const savedSnapshot = useLessonSnapshot(lesson);
+  const snapshot = localSource?.snapshot ?? savedSnapshot;
   const [open, setOpen] = useState(false);
   const [request, setRequest] = useState<{ path: string; seq: number }>();
   const [inlineVisible, setInlineVisible] = useState(true);
@@ -24,8 +27,8 @@ export function LessonSourceButton({ lesson }: { lesson: string }) {
   const floating = useRef<HTMLButtonElement>(null);
   const opener = useRef<HTMLButtonElement | null>(null);
   const labels = sourceExplorer[locale];
-  const load = useCallback(() => loadSnapshot(lesson), [lesson]);
-  const fileUrl = useCallback((path: string) => sourceFileUrl(snapshot!, path), [snapshot]);
+  const load = useCallback(() => localSource ? Promise.resolve(localSource.snapshot) : loadSnapshot(lesson), [lesson, localSource]);
+  const fileUrl = useCallback((path: string) => localSource ? undefined : sourceFileUrl(snapshot!, path), [snapshot, localSource]);
   const close = useCallback(() => {
     setOpen(false);
     requestAnimationFrame(() => {
@@ -79,8 +82,8 @@ export function LessonSourceButton({ lesson }: { lesson: string }) {
         {icon}{labels.view}
       </button>, document.body)}
     {open && <Suspense fallback={null}>
-      <SourceExplorer version={`${snapshot.branch} · ${snapshot.commit.slice(0, 7)}`} versionUrl={sourceTreeUrl(snapshot)} load={load} loadFile={loadSourceBlob} loadRefs={loadSourceRefs}
-        fileUrl={fileUrl} iconUrl={sourceIconUrl} defaultExpanded={DEFAULT_EXPANDED} request={request} labels={labels} onClose={close} />
+      <SourceExplorer version={localSource ? labels.buildSource : `${snapshot.branch} · ${snapshot.commit.slice(0, 7)}`} versionUrl={localSource ? undefined : sourceTreeUrl(snapshot)} load={load} loadFile={localSource?.loadFile ?? loadSourceBlob} loadRefs={localSource?.loadRefs ?? loadSourceRefs}
+        fileUrl={fileUrl} iconUrl={localSource?.iconUrl ?? sourceIconUrl} defaultExpanded={DEFAULT_EXPANDED} request={request} labels={labels} onClose={close} />
     </Suspense>}
   </>;
 }

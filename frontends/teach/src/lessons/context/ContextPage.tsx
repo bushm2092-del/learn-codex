@@ -1,31 +1,26 @@
-import { Link } from "react-router-dom";
-import { lessons } from "../../course/catalog";
 import { contextLesson } from "../../i18n/context";
 import { useLocale } from "../../i18n/useLocale";
-import { CourseSidebar } from "../../ui/CourseSidebar";
-import { CodeBlock } from "../../ui/CodeBlock";
-import { LessonRepositoryNote } from "../../ui/LessonRepositoryNote";
-import { ChapterCommunity } from "../../community/ChapterCommunity";
+import { LessonPage } from "../../ui/LessonPage";
+import { ContextTracePlayer } from "../../ui/ContextTracePlayer";
+import type { ArticleComponents } from "../../ui/LessonArticle";
+import { contextAnimations } from "../../i18n/contextAnimations";
+import { contextSource } from "./source";
+import zh from "./article.zh.md?raw";
+import en from "./article.en.md?raw";
+
+function ContextTrace({ id }: Record<string, string>) {
+  const { locale } = useLocale();
+  const trace = contextAnimations[id];
+  if (!trace) throw new Error(`Unknown context trace: ${id}`);
+  return <ContextTracePlayer trace={trace} locale={locale} />;
+}
+// 注册表定义在模块级，语言切换只更新 props，不卸载播放器或重置进度。
+const components: ArticleComponents = { ContextTrace };
 
 export function ContextPage() {
-  const { locale, copy } = useLocale();
-  const lesson = lessons.find(item => item.id === "context")!;
+  const { locale } = useLocale();
   const content = contextLesson[locale];
-  return <main className="lesson-layout">
-    <CourseSidebar />
-    <article className="lesson-page">
-      <header className="lesson-heading">
-        <div className="lesson-title-row"><span className="lesson-index">s05</span><h1>{lesson.title[locale]}</h1><span className="lesson-status-badge" data-status={lesson.status}>{copy.home.draft}</span></div>
-        <p className="lesson-kicker">{lesson.description[locale]}</p>
-        <p className="lesson-summary">{content.summary}</p>
-      </header>
-      {content.sections.map(section => <section className="lesson-section" key={section.title}>
-        <h2>{section.title}</h2>
-        {section.paragraphs.map(text => <p key={text}>{text}</p>)}
-        {section.code && section.label && <CodeBlock code={section.code} label={section.label} />}
-      </section>)}
-      <p><Link to="/lessons/function-call-source">{content.back}</Link></p>
-      <LessonRepositoryNote /><ChapterCommunity chapter={lesson.id} />
-    </article>
-  </main>;
+  return <LessonPage lesson="context" summary={content.summary} markdown={locale === "zh" ? zh : en}
+    localSource={contextSource} components={components} showContents
+    previous={{ to: "/lessons/function-call-source", label: content.back }} />;
 }

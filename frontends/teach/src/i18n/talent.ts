@@ -1,0 +1,35 @@
+export const talent = {
+  zh: {
+    hall: "挑战大厅", boardNav: "排行榜", viewLeaderboard: "查看排行榜", navigation: "天赋测试导航", skip: "跳到挑战", play: "试一试", details: "看玩法", closeDetails: "收起玩法", previousChallenge: "上一个挑战", nextChallenge: "下一个挑战", currentChallenge: "当前选择", loginNote: "登录后才能挑战，成绩计入个人最佳和排行榜。", loginToPlay: "登录后挑战", backToHall: "返回大厅", footerNote: "来一场小挑战，记录你的个人最佳。", boardLogin: "登录后查看排行榜，和大家一起挑战。", focusWord: "红",
+    cards: {
+      reaction: { description: "等变绿，立刻点击。", tags: ["5 轮", "毫秒"] },
+      memory: { description: "看亮起的格子，按顺序点回来。", tags: ["九宫格", "顺序记忆"] },
+      reasoning: { description: "从数字之间，找到下一步。", tags: ["60 秒", "数字规律"] },
+      focus: { description: "看颜色，别被文字带走。", tags: ["60 秒", "颜色干扰"] },
+    },
+    title: "天赋测试", intro: "学习间隙，来一场小挑战。", home: "返回课程", gamesLabel: "选择测试", start: "开始", again: "再测一次", restart: "重新开始", cancel: "结束本次挑战", loading: "正在准备挑战…", saving: "正在保存成绩…", saved: "成绩已保存", saveError: "成绩暂未保存，请重试。", retry: "重试保存", startError: "挑战加载失败，请重试。", expired: "这次挑战已过期，请重新开始。", sessionExpired: "登录已过期，请重新登录。", signIn: "重新登录", interrupted: "挑战已中断，请重新开始。切到其他页面或窗口会中断计时。", finish: "挑战完成", rules: "玩法", personalBest: "个人最佳", noBest: "完成一次挑战，留下你的第一份成绩。", leaderboard: "天赋排行榜", rankingNote: "每项只取个人最佳，同分并列。展示前 100 位。", leaderboardError: "排行榜加载失败。", reload: "重新加载", empty: "还没有成绩，来创造第一条记录。", rank: "名次", player: "玩家", score: "成绩", you: "你", yourRank: "你的排名", points: "分", levels: "关", round: "轮", level: "关卡", remaining: "剩余", seconds: "秒", correct: "答对", wrong: "答错", complete: "全部通过", feedbackCorrect: "正确", feedbackWrong: "答错了", next: "下一轮", watch: "记住顺序", repeat: "按刚才的顺序点击", cell: "格子", memoryFail: "顺序不对，挑战结束", memoryHint: "可以用数字键 1–9，对应从左到右、从上到下的格子。", choiceHint: "点击答案，或按数字键 1–4。", reactionTitle: "反应测试", reactionHint: "当背景变为绿色时，立即点击", wait: "等待变绿…", clickNow: "点击！", tooSoon: "太早了！", tooSoonHint: "绿色出现前请不要点击，再试这一轮。", invalidTime: "这一轮计时无效，请再试一次。", reactionKeys: "也可以用空格或 Enter。", average: "平均反应时间", sequencePrompt: "下一个数字是？", inkPrompt: "选择文字显示的颜色", colors: ["红色", "蓝色", "绿色", "黄色"],
+    games: {
+      reaction: { name: "反应力", subtitle: "等它变绿，再点击。", rules: "随机等待 2–5 秒。变绿后点击，完成 5 个有效轮次，取平均耗时；抢点重试当前轮。", measure: "5 轮平均 · 越短越好" },
+      memory: { name: "记忆力", subtitle: "记住闪烁，复现顺序。", rules: "九宫格依次亮起，照着顺序点击。每关增加一格，点错结束，最多 20 关。", measure: "通过关数 · 越多越好" },
+      reasoning: { name: "思考速度", subtitle: "找出规律，选下一项。", rules: "60 秒内判断数字规律，从四个答案里选下一项。题目涵盖等差、倍增、递增差值与相邻项求和。答对 +1，答错 −1，最低 0 分。", measure: "60 秒得分 · 越高越好" },
+      focus: { name: "专注度", subtitle: "忽略文字，只看颜色。", rules: "60 秒内选择文字实际显示的颜色，而不是它的含义。例如蓝色的“红色”，应选蓝色。答对 +1，答错 −1，最低 0 分。", measure: "60 秒得分 · 越高越好" },
+    },
+  },
+  en: {
+    hall: "Challenges", boardNav: "Leaderboard", viewLeaderboard: "View leaderboard", navigation: "Talent test navigation", skip: "Skip to challenges", play: "Try it", details: "How to play", closeDetails: "Back to card", previousChallenge: "Previous challenge", nextChallenge: "Next challenge", currentChallenge: "Selected", loginNote: "Sign in to play and record your personal best on the leaderboard.", loginToPlay: "Sign in to play", backToHall: "Back to challenges", footerNote: "A little challenge. A new personal best.", boardLogin: "Sign in to see the leaderboard and join the challenge.", focusWord: "Red",
+    cards: {
+      reaction: { description: "Wait for green. Click right away.", tags: ["5 rounds", "Milliseconds"] },
+      memory: { description: "Watch the cells. Repeat the sequence.", tags: ["3 × 3 grid", "Sequence memory"] },
+      reasoning: { description: "Find the pattern between the numbers.", tags: ["60 seconds", "Number patterns"] },
+      focus: { description: "Read the ink, not the word.", tags: ["60 seconds", "Color interference"] },
+    },
+    title: "Talent tests", intro: "A little challenge between lessons.", home: "Back to lessons", gamesLabel: "Choose a test", start: "Start", again: "Try again", restart: "Restart", cancel: "End this attempt", loading: "Preparing your challenge…", saving: "Saving your result…", saved: "Result saved", saveError: "Your result has not been saved. Please retry.", retry: "Retry saving", startError: "Could not load the challenge. Please retry.", expired: "This attempt has expired. Start a new one.", sessionExpired: "Your session expired. Sign in again.", signIn: "Sign in again", interrupted: "Challenge interrupted. Start again. Switching tabs or windows interrupts timing.", finish: "Challenge complete", rules: "How to play", personalBest: "Personal best", noBest: "Complete a challenge to set your first score.", leaderboard: "Talent leaderboard", rankingNote: "Personal best per test. Ties share a rank. Top 100 players.", leaderboardError: "Could not load the leaderboard.", reload: "Reload", empty: "No scores yet. Set the first one.", rank: "Rank", player: "Player", score: "Score", you: "You", yourRank: "Your rank", points: "pts", levels: "levels", round: "Round", level: "Level", remaining: "Remaining", seconds: "s", correct: "Correct", wrong: "Wrong", complete: "All levels complete", feedbackCorrect: "Correct", feedbackWrong: "Wrong answer", next: "Next round", watch: "Remember the sequence", repeat: "Repeat the sequence", cell: "Cell", memoryFail: "Wrong sequence. Challenge over", memoryHint: "Keys 1–9 map left to right, top to bottom.", choiceHint: "Click an answer, or use keys 1–4.", reactionTitle: "Reaction test", reactionHint: "When the background turns green, click immediately", wait: "Wait for green…", clickNow: "Click!", tooSoon: "Too soon!", tooSoonHint: "Wait until green appears. Retry this round.", invalidTime: "This round could not be timed. Please retry.", reactionKeys: "Space and Enter work too.", average: "Average reaction time", sequencePrompt: "What comes next?", inkPrompt: "Choose the displayed ink color", colors: ["Red", "Blue", "Green", "Yellow"],
+    games: {
+      reaction: { name: "Reaction", subtitle: "Wait for green. Then click.", rules: "Wait a random 2–5 seconds. Click on green. Complete 5 valid rounds; your score is the average time. Early clicks repeat the round.", measure: "5-round average · Lower is better" },
+      memory: { name: "Memory", subtitle: "Watch the flashes. Repeat the sequence.", rules: "Cells flash in order. Repeat the sequence. Each level adds one cell. A mistake ends the test, up to 20 levels.", measure: "Levels completed · Higher is better" },
+      reasoning: { name: "Thinking speed", subtitle: "Find the pattern. Pick the next number.", rules: "Choose the next number from four options in 60 seconds. Patterns include constant steps, doubling, increasing steps, and sums of adjacent terms. +1 for correct, −1 for wrong, minimum 0.", measure: "60-second score · Higher is better" },
+      focus: { name: "Focus", subtitle: "Ignore the word. Read the color.", rules: "In 60 seconds, choose the color of the ink, not what the word says. If “Red” appears in blue ink, choose Blue. +1 for correct, −1 for wrong, minimum 0.", measure: "60-second score · Higher is better" },
+    },
+  },
+};
+export type TalentCopy = typeof talent.zh | typeof talent.en;

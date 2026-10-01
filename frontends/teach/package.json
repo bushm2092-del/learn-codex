@@ -11,7 +11,8 @@
     "build": "tsc -b && vite build",
     "check": "tsc -b --pretty false",
     "preview": "vite preview",
-    "snapshots": "node scripts/source-snapshots.mjs"
+    "snapshots": "node scripts/source-snapshots.mjs",
+    "test:articles": "node --experimental-strip-types --test tests/lesson-markdown.test.mjs"
   },
   "dependencies": {
     "@codemirror/lang-rust": "^6.0.2",
@@ -25,12 +26,18 @@
     "@radix-ui/react-select": "^2.3.7",
     "@remotion/player": "^4.0.529",
     "codemirror": "^6.0.2",
+    "github-slugger": "^2.0.0",
     "gsap": "^3.15.0",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
+    "react-markdown": "^10.1.0",
     "react-router-dom": "^7.18.4",
+    "remark-directive": "^4.0.0",
+    "remark-gfm": "^4.0.1",
+    "remark-parse": "^11.0.0",
     "remotion": "^4.0.529",
-    "shiki": "^4.4.3"
+    "shiki": "^4.4.3",
+    "unified": "^11.0.5"
   },
   "devDependencies": {
     "@types/react": "^19.3.0",

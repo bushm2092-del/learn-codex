@@ -68,7 +68,7 @@ export const lessons: readonly LessonDefinition[] = [
       "zh": "上下文组成、历史消息、窗口限制与压缩机制。",
       "en": "Context composition, message history, window limits, and compaction."
     },
-    "status": "draft"
+    "status": "ready"
   },
   {
     "id": "session-storage",

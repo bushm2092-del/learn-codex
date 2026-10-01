@@ -178,6 +178,12 @@ components:
     textColor: "{colors.ink}"
     rounded: "{rounded.control}"
     padding: "4px"
+  navigation-menu-trigger:
+    backgroundColor: "transparent"
+    textColor: "{colors.muted}"
+    rounded: "{rounded.control}"
+    padding: "8px"
+    width: "36px"
 ---
 
 # Design System: Learn Codex
@@ -286,6 +292,14 @@ Rust 实验区在 1100px 及以上提供“双屏：边读边写”。文档默�
 形状语言以小半径矩形和一像素细边框为主。控制项使用 `6px`，主按钮使用 `8px`，教学面与舞台卡使用 `9–11px`；只有标签、状态点与进度轨道使用完全胶囊或圆形。课程目录网格保持直角，以连续边框强调它是一张结构表，而非营销卡片集合。
 
 ## Components
+
+### Talent Tests
+
+天赋测试是独立视觉世界；其路由与专属 UI 以 [`src/talent/DESIGN.md`](src/talent/DESIGN.md) 和 [`src/talent/.impeccable/design.json`](src/talent/.impeccable/design.json) 为准。本文件的课程配色、布局、组件及动效规则不约束该模块。
+
+### Mobile Navigation Menu
+
+`NavigationMenu` 在 `680px` 以下提供课程、天赋测试与学习排行榜入口；触发器为中性汉堡图标、`36px` 宽、至少 `44px` 高。复用现有 Radix DropdownMenu 白色细边框浮层，菜单行至少 `44px` 高，当前路由用勾号与 `aria-current` 同时标记。方向键、Escape 关闭与焦点返回由共享菜单处理，语言和账号入口继续可见。组件仅接收入口数据，由 AppShell 装配路由和双语文案。
 
 ### Learning Community
 
@@ -403,3 +417,13 @@ Agent Loop 自动演示现在采用固定调试器布局：左侧 Rust 伪代码
 - **Don't** 使用超大圆角、玻璃卡片堆叠或胶囊形主按钮改变编辑式气质。
 - **Don't** 用持续循环或无法暂停的动画干扰阅读。
 - **Don't** 把营销文案的视觉优先级置于真实源码调用链和教学状态之上。
+
+## Context 消息条带
+
+Context 文章沿用白底编辑式布局，以细边框的消息序列展示协议项与前后历史。user 使用 #245fc7/白字；assistant 使用 #52525b/白字；工具调用使用 #fff1d6/#783b08；工具结果使用 #dcfce7/#14532d；摘要、加密项与 developer 使用已有蓝色浅底/#244a7c。角色文字始终可见，不能只靠颜色区分。Remotion 控制所有动态帧，追加项以短 clip-path/opacity 进入，减少动态时直接显示；暂停后画面不继续移动。六段动画默认停止，不循环，离屏暂停；每段有步进、滑块与可展开文字版本。画布随容器计算真实尺寸，保持字号，移动端消息自动换行。
+
+## 文章共享排版
+
+第四章与 Context 共用 LessonPage 课头和 LessonArticle Markdown 正文。正文使用第四章的 16px/1.75 基线；h2 为 23px，h3 为 18px；表格、行内代码、可点击源码路径和代码围栏使用同一组件样式。段落样式仅作用于正文，不能覆盖嵌入动画的说明与控制。课头依次显示标题／章节序号、描述、状态与源码／可选外部操作、概述；目录可选显示，由 Markdown 二级标题生成。第四章旧私有样式与简化解析器已移除，后续文章不得创建同类副本。
+
+源码面板的工作区章节和提交章节使用同一文件树、Material Icon Theme 图标与定义链接样式。点击源码标识符在面板内定位定义，保留返回历史和目标行高亮；工作区源码不生成没有对应提交的 GitHub 地址。

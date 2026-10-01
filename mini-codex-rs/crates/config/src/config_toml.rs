@@ -15,10 +15,13 @@ pub struct ConfigToml {
     /// 可选的模型选择覆盖。
     pub model: Option<String>,
 
+    pub model_context_window: Option<i64>,
+    pub model_auto_compact_token_limit: Option<i64>,
+
     /// 从 `model_providers` 表中选用的 provider。
     pub model_provider: Option<String>,
 
-    /// 集中式 feature flags；当前只识别 unified exec 相关键。
+    /// 集中式 feature flags；当前识别 unified exec 与 TokenBudget 相关键。
     #[serde(default)]
     pub features: Option<FeaturesToml>,
 

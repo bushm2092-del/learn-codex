@@ -10,3 +10,6 @@ frontends/teach/dist/
 frontends/teach/public/source/
 *.tsbuildinfo
 .agents/skills/impeccable/scripts/bin/
+
+# Local lesson semantic source cache
+frontends/teach/.source-cache/

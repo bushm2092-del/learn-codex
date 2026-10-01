@@ -118,6 +118,10 @@ func (s *Store) Cleanup(ctx context.Context) error {
 		if err := tx.Exec("DELETE FROM sessions WHERE expires_at < now()").Error; err != nil {
 			return err
 		}
-		return tx.Exec("DELETE FROM oauth_states WHERE expires_at < now()").Error
+		if err := tx.Exec("DELETE FROM oauth_states WHERE expires_at < now()").Error; err != nil {
+			return err
+		}
+		// 保留有成绩的挑战用于幂等重试，只清理一天前未完成的娱乐挑战。
+		return tx.Exec("DELETE FROM talent_attempts a WHERE created_at < now() - interval '24 hours' AND NOT EXISTS (SELECT 1 FROM talent_results r WHERE r.attempt_id = a.id)").Error
 	})
 }

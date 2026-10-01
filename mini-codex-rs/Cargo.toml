@@ -3,7 +3,9 @@ members = [
     "crates/app-server",
     "crates/app-server-protocol",
     "crates/arg0",
+    "crates/async-utils",
     "crates/config",
+    "crates/codex-api",
     "crates/core",
     "crates/features",
     "crates/model-provider-info",
@@ -14,6 +16,9 @@ members = [
     "crates/tools",
     "crates/utils/home-dir",
     "crates/utils/pty",
+    "crates/utils/string",
+    "crates/utils/output-truncation",
+    "crates/prompts",
 ]
 resolver = "2"
 

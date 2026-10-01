@@ -1,14 +1,17 @@
-import { Link, NavLink, Outlet } from "react-router-dom";
+import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
 
 import { useLocale } from "../i18n/useLocale";
+import { NavigationMenu } from "./NavigationMenu";
 import { LanguageMenu } from "./LanguageMenu";
 import { AccountControl } from "../auth/AccountControl";
 import { PageViews } from "../community/PageViews";
 import { SiteStats } from "../community/SiteStats";
+import { talent } from "../i18n/talent";
 import { community } from "../i18n/community";
 
 export function AppShell() {
   const { copy, locale } = useLocale();
+  const { pathname } = useLocation();
 
   return (
     <div className="app-shell">
@@ -19,6 +22,12 @@ export function AppShell() {
         </Link>
         <nav className="topnav" aria-label={copy.navigation.mainNav}>
           <NavLink className="course-nav" to="/lessons/agent-loop">{copy.navigation.lessons}</NavLink>
+          <NavLink className="talent-topnav" to="/talent">{talent[locale].title}</NavLink>
+          <NavigationMenu label={copy.navigation.mainNav} items={[
+            { to: "/lessons/agent-loop", label: copy.navigation.lessons, active: pathname.startsWith("/lessons/") },
+            { to: "/talent", label: talent[locale].title, active: pathname.startsWith("/talent") },
+            { to: "/leaderboard", label: community[locale].leaderboard, active: pathname === "/leaderboard" },
+          ]} />
           <LanguageMenu />
           <NavLink className="community-nav" to="/leaderboard">{community[locale].leaderboard}</NavLink>
           <AccountControl />

@@ -1,0 +1,5 @@
+[package]
+name = "mini-codex-api"
+edition.workspace = true
+license.workspace = true
+version.workspace = true

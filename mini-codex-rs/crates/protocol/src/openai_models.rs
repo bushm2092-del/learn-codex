@@ -22,6 +22,16 @@ pub enum ModelVisibility {
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct ModelInfo {
     #[serde(default)]
+    pub context_window: Option<i64>,
+    #[serde(default)]
+    pub max_context_window: Option<i64>,
+    #[serde(default)]
+    pub auto_compact_token_limit: Option<i64>,
+    #[serde(default = "default_effective_context_window_percent")]
+    pub effective_context_window_percent: i64,
+    #[serde(default = "default_truncation_policy")]
+    pub truncation_policy: crate::TruncationPolicy,
+    #[serde(default)]
     pub supports_search_tool: bool,
     pub slug: String,
     pub display_name: String,
@@ -79,5 +89,34 @@ impl ModelPreset {
         } else if let Some(default) = models.first_mut() {
             default.is_default = true;
         }
+    }
+}
+
+fn default_effective_context_window_percent() -> i64 {
+    95
+}
+fn default_truncation_policy() -> crate::TruncationPolicy {
+    crate::TruncationPolicy::Bytes(10_000)
+}
+impl ModelInfo {
+    pub fn resolved_context_window(&self) -> Option<i64> {
+        self.context_window.or(self.max_context_window)
+    }
+    pub fn usable_context_window(&self) -> Option<i64> {
+        self.resolved_context_window().map(|context_window| {
+            context_window.saturating_mul(self.effective_context_window_percent) / 100
+        })
+    }
+    pub fn auto_compact_token_limit(&self) -> Option<i64> {
+        let context_limit = self
+            .resolved_context_window()
+            .map(|context_window| (context_window * 9) / 10);
+        let config_limit = self.auto_compact_token_limit;
+        if let Some(context_limit) = context_limit {
+            return Some(
+                config_limit.map_or(context_limit, |limit| std::cmp::min(limit, context_limit)),
+            );
+        }
+        config_limit
     }
 }

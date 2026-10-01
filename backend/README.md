@@ -155,3 +155,25 @@ TEST_DATABASE_URL='postgres://user:password@localhost:5432/test?sslmode=disable'
 实际编译由独立 `cmd/rust-worker` 在 gVisor 容器执行，API 不拥有 Docker 权限。安装、安全边界及验收见 [沙箱说明](../deploy/rust-sandbox/README.md)。
 
 执行镜像 `learn-rust-sandbox:deps-v2` 预编译锁定的 reqwest、tokio、serde_json；任务继续使用固定 rustc 命令，不允许 Cargo 配置或下载依赖。容器内部受限代理适配标准 HTTPS 示例，不改写源码；真实 Key 仍只由宿主 relay 添加。relay 只接受 DeepSeek Responses API 的 `POST /responses`，不维护模型协议字段白名单，会透传 `tools` 等请求字段；每个任务最多允许 3 次 `deepseek-flash` 非流式请求，以支持一次有界的工具调用闭环，并对每次请求继续强制请求大小、输入项数量和输出 token 预算。工具仍由沙箱中的用户程序执行，不由 relay 执行。升级需先导入镜像再替换 worker，网络隔离与 Key 转发边界保持不变。
+
+## 天赋测试（独立娱乐模块）
+
+先执行 `go run ./cmd/server migrate`，迁移 `004_talent_tests.sql` 新建 `talent_attempts` 与 `talent_results`；不修改章节打卡数据。前端入口为 `/talent`，所有测试与榜单接口都要求现有登录 Cookie，写请求继续验证 Origin。
+
+| 方法与路径 | 请求或响应 |
+| --- | --- |
+| `POST /api/v1/talent/:game/attempts` | 请求 `{}`，返回 `{id, game, challenge}`；只返回展示题目，不返回独立答案数组 |
+| `POST /api/v1/talent/:game/attempts/:id/result` | 反应力提交 `{samples_ms:[...]}`，其余提交 `{answers:[...]}`；返回 `{id, attempt_id, game, score, correct, wrong, created_at}` |
+| `GET /api/v1/talent/:game/leaderboard` | 返回 `{items:[...], own:...}`；本人未上榜时 `own:null`，超出前 100 位也返回个人名次 |
+
+`:game` 只接受 `reaction`、`memory`、`reasoning`、`focus`。挑战归当前账号所有，跨账号或跨项目提交返回 404；未登录返回 401。未完成挑战在 10 分钟后返回 410 `attempt_expired`，一天前仍未完成的挑战由每小时清理任务删除，之后返回 404。每个挑战最多保存一份不可变结果，同 ID 的网络重试或并发提交均返回首次保存的成绩，完成后的重试不受挑战过期影响。
+
+- 反应力：5 个整数毫秒样本，范围 80–5000 ms，服务器计算四舍五入的平均耗时；个人最佳取最小值。
+- 顺序记忆：20 个九宫格位置，逐关复现越来越长的前缀，提交各轮点击拼接后的原始位置数组。服务端逐项验证，通过关数为成绩；错误或未完成的关卡不加分。
+- 思考速度：256 道数字序列题，四选一，覆盖等差、倍增、差值每次 +1、相邻两项求和。提交顺序对应的选项索引（0–3）。
+- 专注度：256 道颜色文字干扰题，选显示颜色；索引顺序为红、蓝、绿、黄。文字与显示颜色分别随机。
+- 两项限时测试：60 秒，答对 +1、答错 −1、最低 0；除答完全部题目外，服务端拒绝 60 秒前提交。每项独立取个人最高分，同分并列（dense rank），同分按账号 ID 稳定展示。
+
+耗时由浏览器测量，后台校验挑战、样本与答案并计算分数；未实现严格反脚本作弊，设备与输入方式也会影响耗时。排行榜属于娱乐记录，不作为医学测评、智力或能力认证。学习排行榜继续只统计章节打卡。
+
+验证：`TEST_DATABASE_URL=... go test -race ./...`，`TestTalentPostgresFlow` 覆盖迁移、登录拦截、挑战归属、服务端计分、同分排名、各榜隔离、重复提交与过期重试。

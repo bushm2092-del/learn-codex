@@ -1,0 +1,7 @@
+services:
+  api:
+    image: learn-codex-api:talent-context-20261001
+  migrate:
+    image: learn-codex-api:talent-context-20261001
+  frontend:
+    image: learn-codex-frontend:talent-context-20261001

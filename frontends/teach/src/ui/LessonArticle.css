@@ -5,10 +5,10 @@
 .lesson-article h4 { margin: 26px 0 8px; font-size: 16px; }
 .lesson-article h5 { margin: 20px 0 8px; font-size: 15px; }
 .lesson-heading + .lesson-article > :first-child { margin-top: 16px; }
-.lesson-article p { margin: 10px 0; }
-.lesson-article ul { margin: 10px 0 14px; padding-left: 1.25em; }
+.lesson-article > p, .lesson-article > blockquote p, .lesson-article > ul p, .lesson-article > ol p { margin: 10px 0; }
+.lesson-article ul, .lesson-article ol { margin: 10px 0 14px; padding-left: 1.25em; }
 .lesson-article li + li { margin-top: 6px; }
-.lesson-article code, .lesson-article__path {
+.lesson-article :where(p, li, td, th, h2, h3, h4, h5, h6, blockquote) > code, .lesson-article__path {
   padding: 1px 5px;
   border-radius: 4px;
   background: #f4f4f5;
@@ -32,3 +32,17 @@
 .lesson-article th, .lesson-article td { padding: 8px 10px; border: 1px solid var(--line); vertical-align: top; text-align: left; }
 .lesson-article th { background: var(--panel); color: var(--ink); font-weight: 600; white-space: nowrap; }
 .lesson-article .ui-code-block code { padding: 0; background: none; font: inherit; }
+
+.lesson-article { overflow-wrap: anywhere; }
+.lesson-article :is(h2,h3,h4,h5,h6) { scroll-margin-top: 82px; }
+.lesson-article blockquote { margin: 18px 0; padding-left: 16px; border-left: 1px solid var(--line); color: var(--muted); }
+.lesson-article a { color: #1d4ed8; text-underline-offset: 3px; }
+.lesson-article img { max-width: 100%; height: auto; }
+.lesson-article input[type="checkbox"] { margin-right: 8px; accent-color: var(--blue); }
+.lesson-article__contents { padding: 18px 0; border-block: 1px solid var(--line); margin: 26px 0; font-size: 13px; }
+.lesson-article__contents summary { color: var(--ink); font-weight: 600; cursor: pointer; }
+.lesson-article__contents ol { columns: 2; column-gap: 28px; }
+.lesson-article__contents li { break-inside: avoid; margin-bottom: 8px; }
+.lesson-article__contents a { color: var(--ink); text-decoration-color: var(--line); }
+.lesson-article__missing { padding: 16px; border: 1px solid var(--line); color: var(--ink); }
+@media (max-width: 680px) { .lesson-article__contents ol { columns: 1; } }

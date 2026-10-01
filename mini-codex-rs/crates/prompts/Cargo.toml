@@ -1,0 +1,5 @@
+[package]
+name = "mini-codex-prompts"
+edition.workspace = true
+license.workspace = true
+version.workspace = true

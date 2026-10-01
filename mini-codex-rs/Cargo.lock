@@ -819,6 +819,10 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "cf8baf1c55e62ffcace7a9f06f4bd9cd3f0c4beb022d3b367256b91b87513d98"
 
 [[package]]
+name = "mini-codex-api"
+version = "0.1.0"
+
+[[package]]
 name = "mini-codex-app-server"
 version = "0.1.0"
 dependencies = [
@@ -857,6 +861,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "mini-codex-async-utils"
+version = "0.1.0"
+dependencies = [
+ "rand 0.9.5",
+]
+
+[[package]]
 name = "mini-codex-config"
 version = "0.1.0"
 dependencies = [
@@ -879,15 +890,18 @@ dependencies = [
  "eventsource-stream",
  "futures",
  "indexmap",
+ "mini-codex-async-utils",
  "mini-codex-config",
  "mini-codex-features",
  "mini-codex-model-provider",
  "mini-codex-model-provider-info",
  "mini-codex-models-manager",
+ "mini-codex-prompts",
  "mini-codex-protocol",
  "mini-codex-shell-command",
  "mini-codex-tools",
  "mini-codex-utils-home-dir",
+ "mini-codex-utils-output-truncation",
  "mini-codex-utils-pty",
  "pretty_assertions",
  "rand 0.9.5",
@@ -899,6 +913,7 @@ dependencies = [
  "tokio",
  "toml",
  "toml_edit",
+ "uuid",
 ]
 
 [[package]]
@@ -911,6 +926,10 @@ dependencies = [
 [[package]]
 name = "mini-codex-model-provider"
 version = "0.1.0"
+dependencies = [
+ "mini-codex-api",
+ "mini-codex-model-provider-info",
+]
 
 [[package]]
 name = "mini-codex-model-provider-info"
@@ -930,6 +949,10 @@ dependencies = [
  "pretty_assertions",
  "serde_json",
 ]
+
+[[package]]
+name = "mini-codex-prompts"
+version = "0.1.0"
 
 [[package]]
 name = "mini-codex-protocol"
@@ -970,10 +993,26 @@ dependencies = [
 ]
 
 [[package]]
+name = "mini-codex-utils-output-truncation"
+version = "0.1.0"
+dependencies = [
+ "mini-codex-protocol",
+ "mini-codex-utils-string",
+ "pretty_assertions",
+]
+
+[[package]]
 name = "mini-codex-utils-pty"
 version = "0.1.0"
 dependencies = [
  "portable-pty",
+ "pretty_assertions",
+]
+
+[[package]]
+name = "mini-codex-utils-string"
+version = "0.1.0"
+dependencies = [
  "pretty_assertions",
 ]
 
@@ -1447,6 +1486,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "sha1_smol"
+version = "1.0.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "bbfa15b3dddfee50a0fff136974b3e1bde555604ba463834a7eb7deb6417705d"
+
+[[package]]
 name = "sha2"
 version = "0.10.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1871,6 +1916,18 @@ name = "utf8_iter"
 version = "1.0.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b6c140620e7ffbb22c2dee59cafe6084a59b5ffc27a8859a5f0d494b5d52b6be"
+
+[[package]]
+name = "uuid"
+version = "1.26.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2ef6dac1e96601b4fb3acccccff2139741fcb757cb9a36089bf5be91cfb285ce"
+dependencies = [
+ "getrandom 0.4.3",
+ "js-sys",
+ "sha1_smol",
+ "wasm-bindgen",
+]
 
 [[package]]
 name = "version_check"

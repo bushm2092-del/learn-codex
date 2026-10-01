@@ -20,7 +20,13 @@ namespace_tools=false，没有新增 TOML 开关或伪造模型兼容性。新�
 
 这是 Rust 执行内核，使用 Cargo workspace 管理 `protocol`、`config`、`features`、
 `model-provider-info`、`model-provider`、`models-manager`、`shell-command`、`utils/home-dir`、`utils/pty`、
-`arg0`、`tools`、`core`、`app-server` 和 `app-server-protocol` 十四个 crate。
+`arg0`、`tools`、`prompts`、`utils/string`、`utils/output-truncation`、`async-utils`、`codex-api`、`core`、`app-server` 和 `app-server-protocol` 等 crate。
+
+## Context 机制
+
+历史按上游路径拆为 `core/src/context_manager/{mod,history,normalize}.rs`：写入过滤和工具输出预算、在副本上补齐缺失结果并清理孤立输出、按模型可见内容估算 token。`core/src/compact.rs` 使用 `prompts/templates/compact/` 的模板实现本地非 post-turn 摘要路径（摘要指令按用户要求翻译为中文）；近期真实用户消息与摘要替换活动历史，按采样前或工具后时机恢复环境。
+
+`model_context_window` 与 `model_auto_compact_token_limit` 从用户配置传入 Session。打包模型未确认窗口时不提供阈值，默认不自动压缩。全文、源码映射、删减分支与离线验证见[Context 教程](../mini-codex-docs/docs/tutorial/05-context.md)。远程 V2 保留 `compact_remote_v2.rs`、`compact_remote_v2_attempt.rs` 与 `compact_remote_history.rs` 边界，通过当前 `/responses` 流请求追加 `compaction_trigger`，校验完成事件与唯一加密 `compaction` 后替换历史。新增默认关闭的 `[features] token_budget = true`，开启后优先清空旧历史并安装新窗口，不请求摘要；支持详细配置表的预算提醒与收尾缓冲，缓冲不会扩展完整窗口上限。未实现 history/notes 持久化与主动切换工具。未开启时，按上游 OpenAI/Azure provider 判定启用，与模型名称无关；其他 provider 使用本地摘要。Stream 错误最多重试两次，Fatal 不重试。已接入 response.completed 的服务端 usage，窗口计数使用最近响应用量加尾部新增项估算；本地摘要与 V2 替换历史后重算基线。未移植 usage 展示事件、完整错误分类、取消、生命周期事件与持久化检查点。
 
 ## 源码结构
 
@@ -55,7 +61,9 @@ mini-codex-rs/
     │   ├── codex_thread.rs
     │   ├── client_common.rs                       # ModelClient::stream(prompt, model)
     │   ├── client.rs
-    │   ├── context_manager.rs
+    │   ├── context_manager/{mod,history,normalize}.rs
+    │   ├── compact.rs                            # 本地摘要请求与历史替换
+    │   ├── session/context_window.rs             # FullContext 服务端用量加尾部估算
     │   ├── context/world_state/environment.rs     # 模型可见的 cwd / shell
     │   ├── shell.rs                               # shell 类型到 argv 的转换
     │   ├── unified_exec/                          # 长进程、输出缓冲、会话续写

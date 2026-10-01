@@ -5,6 +5,10 @@ license.workspace = true
 version.workspace = true
 
 [dependencies]
+mini-codex-async-utils = { path = "../async-utils" }
+uuid = { version = "1", features = ["v5", "v7"] }
+mini-codex-utils-output-truncation = { path = "../utils/output-truncation" }
+mini-codex-prompts = { path = "../prompts" }
 anyhow.workspace = true
 bm25.workspace = true
 indexmap.workspace = true
