@@ -250,7 +250,7 @@ components:
 
 色面标识挑战身份，深色按钮标识主要行动，游戏信号只表达当前状态。大厅保持小号品牌与简短提示，游戏页把题目、计时和答案放在主要视线中；所有成绩、错误和登录状态来自真实业务。
 
-**Scope:** 本文只约束 `/talent`、`/talent/reaction`、`/talent/memory`、`/talent/reasoning`、`/talent/focus`、`/talent/leaderboard?game=...`。源文件包括本目录的页面与游戏，以及 `../ui/TalentTests.css`、`TalentShell.tsx`、`TalentChallengeCards.tsx`、`TalentChallengeArt.tsx`、`TalentArrow.tsx`、`TalentLeaderboard.tsx`、`talent-mark.svg`。UI 文件位于 `src/ui/` 仍属于此独立世界。课程、全局移动 NavigationMenu、账号登录页和 Context 使用 [`../../DESIGN.md`](../../DESIGN.md)。
+**Scope:** 本文只约束 `/talent`、`/talent/reaction`、`/talent/memory`、`/talent/reasoning`、`/talent/focus`、`/talent/leaderboard?game=...`，以及 `next` 指向上述路由的 `/login`。源文件包括本目录的页面与游戏，以及 `../ui/TalentTests.css`、`TalentShell.tsx`、`TalentChallengeCards.tsx`、`TalentChallengeArt.tsx`、`TalentArrow.tsx`、`TalentLeaderboard.tsx`、`talent-mark.svg`。UI 文件位于 `src/ui/` 仍属于此独立世界。课程、全局移动 NavigationMenu、课程来源的账号登录页和 Context 使用 [`../../DESIGN.md`](../../DESIGN.md)。
 
 用户确认的方向与首屏构图见 [surface contract](../../.impeccable/surfaces/talent-color-cards.md)。前置产品约束见 [PRODUCT.md](../../PRODUCT.md)。
 
@@ -261,6 +261,10 @@ components:
 - 暖白底、深色文字、细着色边框与短软阴影。
 - 系统无衬线与 tabular-nums 保持阅读、计时和成绩清楚。
 - 手机保留横向选择、翻面、语言与账号入口，减少动态时仍可操作。
+
+## 登录与账号
+
+`LoginShell` 根据白名单校验后的 `next` 选择壳层。天赋来源使用 360px 紧凑单列表单、44px 输入框和深色主按钮，沿用暖白底、天赋 SVG 标识与 56px 导航；标题为“登录，开始挑战”或“创建挑战账号”，字号 24px / 650，说明 13px。提交按钮为“登录并挑战”或“注册并挑战”，明确使用 Canvas 文字和随文字颜色变化的箭头，防止壳层通用按钮颜色覆盖；两种登录按钮均至少 44px 高。只提供挑战大厅、天赋排行榜、语言切换与返回大厅，不展示课程文案、课程页脚链接和重复登录入口。表单上下留白为 24px，标题区下方 20px，模式切换、分隔线与返回入口间距为 16px，字段提示下方 14px；小屏可自然纵向滚动。密码注册/登录与 GitHub 登录都回到原挑战或带 game 的榜单。游戏内账号菜单也只链接天赋排行榜。
 
 ## Colors
 

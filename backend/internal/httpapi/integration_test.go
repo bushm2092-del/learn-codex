@@ -112,6 +112,47 @@ func TestPostgresFlow(t *testing.T) {
 	if user.ID == 0 || user.Login != "test-learner" {
 		t.Fatal("bad identity", me.Body.String())
 	}
+	for _, tc := range []struct {
+		name, next, tampered, want string
+	}{
+		{"default home", "", "", "/"},
+		{"reaction", "/talent/reaction", "", "/talent/reaction"},
+		{"memory", "/talent/memory", "", "/talent/memory"},
+		{"leaderboard game", "/talent/leaderboard?game=focus", "", "/talent/leaderboard?game=focus"},
+		{"reject external request", "https://evil.example", "", "/"},
+		{"reject tampered cookie", "/talent/reaction", "//evil.example", "/"},
+	} {
+		t.Run("OAuth return "+tc.name, func(t *testing.T) {
+			start := request("GET", "/api/v1/auth/github?next="+url.QueryEscape(tc.next), "")
+			requireStatus(start, 302)
+			cookies := start.Result().Cookies()
+			var oauthState string
+			for _, cookie := range cookies {
+				if cookie.Name == "learn_oauth" {
+					oauthState = cookie.Value
+				}
+				if cookie.Name == "learn_oauth_next" {
+					if !cookie.HttpOnly || cookie.SameSite != http.SameSiteLaxMode || cookie.Path != "/api/v1/auth/github" || cookie.MaxAge != 600 || cookie.Value != loginDestination(tc.next) {
+						t.Fatalf("unexpected OAuth destination cookie: %+v", cookie)
+					}
+					if tc.tampered != "" {
+						cookie.Value = tc.tampered
+					}
+				}
+			}
+			finish := request("GET", "/api/v1/auth/github/callback?state="+oauthState+"&code=code", "", cookies...)
+			requireStatus(finish, 302)
+			if got := finish.Header().Get("Location"); got != cfg.FrontendOrigin+tc.want {
+				t.Fatalf("OAuth redirect = %q, want %q", got, cfg.FrontendOrigin+tc.want)
+			}
+			for _, cookie := range finish.Result().Cookies() {
+				if (cookie.Name == "learn_oauth" || cookie.Name == "learn_oauth_next") && cookie.MaxAge != -1 {
+					t.Fatal("OAuth cookie not cleared")
+				}
+			}
+			requireStatus(request("GET", "/api/v1/auth/github/callback?state="+oauthState+"&code=code", "", cookies...), 400)
+		})
+	}
 	updated := model.User{GitHubID: 123, Login: "renamed-learner"}
 	if err = store.UpsertUser(context.Background(), &updated); err != nil || updated.ID != user.ID {
 		t.Fatalf("login created a duplicate identity: %+v %v", updated, err)

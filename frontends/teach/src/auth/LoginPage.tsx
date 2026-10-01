@@ -4,16 +4,19 @@ import { api, ApiError, loginURL } from "../api/client";
 import { useAuth } from "./context";
 import { useLocale } from "../i18n/useLocale";
 import { community } from "../i18n/community";
+import { talent } from "../i18n/talent";
+import { isTalentDestination, loginDestination } from "./destination";
 import "../ui/AuthPage.css";
 import { GitHubIcon } from "../ui/GitHubIcon";
 
 export function LoginPage() {
   const { locale } = useLocale();
   const t = community[locale];
+  const talentCopy = talent[locale];
   const { user, refresh } = useAuth();
   const [params] = useSearchParams();
-  const next = params.get("next");
-  const destination = next === "/leaderboard" || next === "/lessons/agent-loop" || next === "/talent" || /^\/talent\/(reaction|memory|reasoning|focus)$/.test(next ?? "") || /^\/talent\/leaderboard(?:\?game=(reaction|memory|reasoning|focus))?$/.test(next ?? "") ? next! : "/";
+  const destination = loginDestination(params.get("next"));
+  const fromTalent = isTalentDestination(destination);
   const [register, setRegister] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -39,12 +42,12 @@ export function LoginPage() {
     try {
       const config = await api<{ github_enabled: boolean }>("/auth/config");
       if (!config.github_enabled) setError("unconfigured");
-      else window.location.assign(loginURL);
+      else window.location.assign(`${loginURL}?next=${encodeURIComponent(destination)}`);
     } catch { setError("offline"); }
     finally { setBusy(false); }
   }
-  return <main className="auth-page">
-    <header className="auth-page__heading"><h1>{register ? t.createAccount : t.welcome}</h1><p>{t.accountNote}</p></header>
+  return <main className={`auth-page${fromTalent ? " auth-page--talent" : ""}`}>
+    <header className="auth-page__heading"><h1>{fromTalent ? register ? talentCopy.authCreateAccount : talentCopy.authWelcome : register ? t.createAccount : t.welcome}</h1><p>{fromTalent ? talentCopy.authNote : t.accountNote}</p></header>
     <div className="auth-page__modes" role="group" aria-label={t.signIn + " / " + t.register}>
       {[false, true].map((mode) => <button key={String(mode)} type="button" aria-pressed={register === mode} disabled={busy} onClick={() => { setRegister(mode); setError(null); setPassword(""); setConfirmation(""); }}>{mode ? t.register : t.signIn}</button>)}
     </div>
@@ -57,11 +60,11 @@ export function LoginPage() {
       <p id="password-hint" className="auth-page__hint">{t.passwordHint}</p>
       {register && <><label htmlFor="confirmation">{t.confirmPassword}</label><input id="confirmation" name="confirmation" type={show ? "text" : "password"} autoComplete="new-password" value={confirmation} onChange={(e) => setConfirmation(e.target.value)} required disabled={busy} /></>}
       {error && <p className="auth-page__error" role="alert">{t[error]}</p>}
-      <button className="auth-page__submit" disabled={busy}>{busy ? t.loading : register ? t.submitRegister : t.submitLogin}<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" /></svg></button>
+      <button className="auth-page__submit" disabled={busy}>{busy ? t.loading : fromTalent ? register ? talentCopy.authSubmitRegister : talentCopy.authSubmitLogin : register ? t.submitRegister : t.submitLogin}<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" /></svg></button>
     </form>
     <div className="auth-page__divider">{t.alternate}</div>
     <button type="button" className="auth-page__github" disabled={busy} onClick={() => void github()}><GitHubIcon />{t.login}</button>
-    <p className="auth-page__guest">{t.guestAccess}</p>
-    <Link className="auth-page__browse" to="/">{t.browse}</Link>
+    {!fromTalent && <p className="auth-page__guest">{t.guestAccess}</p>}
+    <Link className="auth-page__browse" to={fromTalent ? "/talent" : "/"}>{fromTalent ? talentCopy.backToHall : t.browse}</Link>
   </main>;
 }

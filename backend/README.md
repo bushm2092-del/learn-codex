@@ -111,7 +111,7 @@ fetch('http://localhost:8080/api/v1/chapters/agent-loop/check-in', {
 });
 ```
 
-所有写请求必须携带与配置一致的 `Origin`，浏览器会自动发送；跨域 fetch 必须使用 `credentials: 'include'`。生产建议前端和 API 同站点并由反向代理代理 `/api`；当前 SameSite=Lax 不支持任意跨站第三方 Cookie 部署。Origin 验证用于 CSRF 防护，不是机器人防护。OAuth 回调是 GET，以一次性 state 和绑定浏览器的 Cookie 校验。
+所有写请求必须携带与配置一致的 `Origin`，浏览器会自动发送；跨域 fetch 必须使用 `credentials: 'include'`。生产建议前端和 API 同站点并由反向代理代理 `/api`；当前 SameSite=Lax 不支持任意跨站第三方 Cookie 部署。Origin 验证用于 CSRF 防护，不是机器人防护。OAuth 回调是 GET，以一次性 state 和绑定浏览器的 Cookie 校验。`GET /api/v1/auth/github?next=...` 可指定允许的站内登录回跳：首页、学习排行榜、Agent Loop 课程、天赋大厅、四项挑战及天赋排行榜（可带一个有效 `game` 参数）。路径以 10 分钟 HttpOnly、SameSite=Lax Cookie 暂存，生产启用 Secure；开始授权和回调各检查一次白名单，无效路径回首页，回调清除临时 Cookie。无需数据库迁移。
 
 评论是纯文本（1–2000 Unicode 字符），前端必须用文本节点渲染，禁止直接插入 HTML。前端路由发生有效访问时上报一次 PV；不要在重渲染或请求重试时重复上报。
 

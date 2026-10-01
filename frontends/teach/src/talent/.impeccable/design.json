@@ -12,7 +12,8 @@
         "/talent/memory",
         "/talent/reasoning",
         "/talent/focus",
-        "/talent/leaderboard?game=..."
+        "/talent/leaderboard?game=...",
+        "/login?next=<allowlisted talent route>"
       ],
       "sourceFiles": [
         "src/talent/TalentHomePage.tsx",
@@ -27,13 +28,16 @@
         "src/ui/TalentChallengeArt.tsx",
         "src/ui/TalentArrow.tsx",
         "src/ui/TalentLeaderboard.tsx",
-        "src/ui/talent-mark.svg"
+        "src/ui/talent-mark.svg",
+        "src/ui/LoginShell.tsx",
+        "src/auth/LoginPage.tsx (Talent variant)",
+        "src/ui/AuthPage.css (Talent variant)"
       ],
       "excludes": [
         "course pages",
         "shared NavigationMenu",
         "Context article and animations",
-        "login/register page"
+        "course-origin login/register page"
       ],
       "authority": "User-approved independent Talent world; global course design does not apply to these files/routes."
     },
@@ -407,7 +411,15 @@
         "stroke": "1.5 currentColor"
       }
     },
-    "rasterAssets": "No shipping raster assets; semantic HTML/CSS/SVG. Approved comp is directional evidence only."
+    "rasterAssets": "No shipping raster assets; semantic HTML/CSS/SVG. Approved comp is directional evidence only.",
+    "authentication": {
+      "shell": "TalentShell loginPage variant; no lesson links or duplicate login control",
+      "form": "360px column; 44px controls; 24px vertical margin; 24px/650 title; 13px supporting copy; 20px heading gap; 16px mode/divider/back-link gaps; 14px field-hint gap; warm canvas and existing input focus",
+      "primaryAction": "Explicit Canvas foreground with currentColor arrow on Action background; .auth-page .auth-page__submit outranks the shell button foreground regardless of CSS load order",
+      "copy": "Challenge sign-in/register in Chinese and English",
+      "return": "Allowlisted next preserved by password/register and GitHub; guest links return to /talent",
+      "accountMenu": "/talent/leaderboard"
+    }
   },
   "components": [
     {

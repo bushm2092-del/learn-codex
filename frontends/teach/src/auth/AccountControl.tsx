@@ -7,11 +7,11 @@ import { community } from "../i18n/community";
 import "../ui/Community.css";
 import { UserAvatar } from "../ui/UserAvatar";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "../ui/DropdownMenu";
-export function AccountControl() {
+export function AccountControl({ leaderboardPath = "/leaderboard", leaderboardLabel }: { leaderboardPath?: string; leaderboardLabel?: string }) {
   const { locale } = useLocale(); const t = community[locale]; const { user, status, refresh } = useAuth();
   const [busy, setBusy] = useState(false); const [error, setError] = useState<"offline" | "unconfigured" | null>(null);
   const location = useLocation();
-  if (!user) return <Link className="community-button" to={location.pathname === "/login" ? location.pathname + location.search : `/login?next=${encodeURIComponent(location.pathname)}`}>{t.signIn}</Link>;
+  if (!user) return <Link className="community-button" to={location.pathname === "/login" ? location.pathname + location.search : `/login?next=${encodeURIComponent(location.pathname + location.search)}`}>{t.signIn}</Link>;
   async function act() {
     setBusy(true); setError(null);
     try {
@@ -29,7 +29,7 @@ export function AccountControl() {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="account-control__menu">
         <div className="account-control__identity">{user.login}</div>
-        <DropdownMenuItem asChild><Link to="/leaderboard">{t.leaderboard}</Link></DropdownMenuItem>
+        <DropdownMenuItem asChild><Link to={leaderboardPath}>{leaderboardLabel ?? t.leaderboard}</Link></DropdownMenuItem>
         <DropdownMenuItem disabled={busy || status === "loading"} onSelect={() => void act()}>{busy ? t.loading : t.logout}</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

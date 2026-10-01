@@ -5,6 +5,11 @@ import { AppShell } from "../ui/AppShell";
 
 export const router = createBrowserRouter([
   {
+    path: "/login",
+    lazy: async () => ({ Component: (await import("../ui/LoginShell")).LoginShell }),
+    children: [{ index: true, lazy: async () => ({ Component: (await import("../auth/LoginPage")).LoginPage }) }],
+  },
+  {
     path: "/talent",
     lazy: async () => ({ Component: (await import("../ui/TalentShell")).TalentShell }),
     children: [
@@ -17,7 +22,6 @@ export const router = createBrowserRouter([
     path: "/",
     element: <AppShell />,
     children: [
-      { path: "login", lazy: async () => ({ Component: (await import("../auth/LoginPage")).LoginPage }) },
       { index: true, element: <CourseHomePage /> },
       { path: "leaderboard", lazy: async () => ({ Component: (await import("../community/LeaderboardPage")).LeaderboardPage }) },
       { path: "lessons/agent-loop", lazy: async () => ({ Component: (await import("../lessons/agent-loop/AgentLoopPage")).AgentLoopPage }) },

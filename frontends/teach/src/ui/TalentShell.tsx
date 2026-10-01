@@ -11,7 +11,7 @@ import "./TalentTests.css";
 
 export type TalentShellContext = { setBusy: (busy: boolean) => void };
 
-export function TalentShell() {
+export function TalentShell({ loginPage = false }: { loginPage?: boolean }) {
   const { locale } = useLocale();
   const t = talent[locale];
   const [busy, setBusy] = useState(false);
@@ -25,9 +25,9 @@ export function TalentShell() {
         <NavLink end to="/talent" onClick={event => { if (busy) event.preventDefault(); }} aria-disabled={busy || undefined}>{t.hall}</NavLink>
         <NavLink to="/talent/leaderboard" onClick={event => { if (busy) event.preventDefault(); }} aria-disabled={busy || undefined}>{t.boardNav}</NavLink>
       </nav>
-      <div className="talent-account"><LanguageMenu /><AccountControl /></div>
+      <div className="talent-account"><LanguageMenu />{!loginPage && <AccountControl leaderboardPath="/talent/leaderboard" leaderboardLabel={t.boardNav} />}</div>
     </header>
     <div id="talent-content" className="talent-content"><Outlet context={{ setBusy } satisfies TalentShellContext} /></div>
-    <footer className="talent-footer"><p>{t.footerNote}</p><Link to="/" onClick={event => { if (busy) event.preventDefault(); }} aria-disabled={busy || undefined}>{t.home}<TalentArrow direction="up-right" /></Link></footer>
+    <footer className="talent-footer"><p>{t.footerNote}</p><Link to={loginPage ? "/talent" : "/"} onClick={event => { if (busy) event.preventDefault(); }} aria-disabled={busy || undefined}>{loginPage ? t.backToHall : t.home}<TalentArrow direction="up-right" /></Link></footer>
   </div>;
 }

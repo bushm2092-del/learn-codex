@@ -6,7 +6,8 @@
     "communityInteraction": {
       "account": "Real avatar with initial fallback, Radix dropdown and 180ms entrance",
       "commentFocus": "White background with 2px ink inset outline",
-      "checkIn": "Reversible progress, 2.6s pointer-transparent fullscreen confetti, reduced-motion static feedback, completed-user avatar row"
+      "checkIn": "Reversible progress, 2.6s pointer-transparent fullscreen confetti, reduced-motion static feedback, completed-user avatar row",
+      "login": "LoginShell selects the course or Talent shell by an allowlisted next destination. Talent login uses challenge copy and no course links; password/register and GitHub return to the originating challenge or leaderboard."
     },
     "colorMeta": {
       "ink": {
